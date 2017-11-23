@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <data-sources />
+  <form-beans>
+		<form-bean name="ProjectBaseInfoForm" type="com.tianjian.pm.struts.form.ProjectBaseInfoForm" />
+		<form-bean name="ProjectFinanceRecordForm" type="com.tianjian.pm.struts.form.ProjectFinanceRecordForm" />
+		<form-bean name="ProjectWorkTimeRecordForm" type="com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm" />
+  </form-beans>
+  <global-exceptions />
+  <global-forwards />
+  <action-mappings >  
+	  <action path="/pm/projectbaseinfo" name="ProjectBaseInfoForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/pm/add.jsp" />
+			<forward name="query" path="/pm/pm/list.jsp" />
+			<forward name="update" path="/pm/pm/update.jsp" />
+			<forward name="detail" path="/pm/pm/detail.jsp" />
+		</action>
+	  <action path="/pm/projectfinancerecord" name="ProjectFinanceRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/charge/add.jsp" />
+			<forward name="query" path="/pm/charge/list.jsp" />
+			<forward name="update" path="/pm/charge/update.jsp" />
+			<forward name="detail" path="/pm/charge/detail.jsp" />
+		</action>
+	  <action path="/pm/projectworktime" name="ProjectWorkTimeRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/worktime/add.jsp" />
+			<forward name="query" path="/pm/worktime/list.jsp" />
+			<forward name="update" path="/pm/worktime/update.jsp" />
+			<forward name="detail" path="/pm/worktime/detail.jsp" />
+		</action>
+  </action-mappings>
+</struts-config>
+

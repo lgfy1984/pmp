@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!--***********************projectbaseinfo *******************************************-->
+	<bean name="/pm/projectbaseinfo" class="com.tianjian.pm.struts.action.ProjectBaseInfoAction" singleton="false">
+		<property name="projectBaseinfoService">
+			<ref bean="projectBaseinfoService" />
+		</property>
+	</bean>
+	<bean id="projectBaseinfoService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectBaseinfoServiceImpl">
+				<property name="projectBaseInfoDAO">
+					<ref bean="projectBaseInfoDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="projectBaseInfoDAO" class="com.tianjian.pm.dao.hibernate.ProjectBaseInfoDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!--***********************projectworktime*******************************************-->
+	<bean name="/pm/projectworktime" class="com.tianjian.pm.struts.action.ProjectWorkTimeRecordAction" singleton="false">
+		<property name="projectWorkTimeRecordService">
+			<ref bean="projectWorkTimeRecordService" />
+		</property>
+	</bean>
+	<bean id="projectWorkTimeRecordService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectWorkTimeRecordServiceImpl">
+				<property name="projectWorkTimeRecordDAO">
+					<ref bean="projectWorkTimeRecordDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="projectWorkTimeRecordDAO" class="com.tianjian.pm.dao.hibernate.ProjectWorkTimeRecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!--***********************projectfinancerecord*******************************************-->
+	<bean name="/pm/projectfinancerecord" class="com.tianjian.pm.struts.action.ProjectFinanceRecordAction" singleton="false">
+		<property name="projectFinanceRecordService">
+			<ref bean="projectFinanceRecordService" />
+		</property>
+	</bean>
+	<bean id="projectFinanceRecordService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectFinanceRecordServiceImpl">
+				<property name="projectFinanceRecordDAO">
+					<ref bean="projectFinanceRecordDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="projectFinanceRecordDAO" class="com.tianjian.pm.dao.hibernate.ProjectFinanceRecordDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+</beans>
