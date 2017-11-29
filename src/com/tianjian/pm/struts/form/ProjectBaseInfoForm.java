@@ -8,10 +8,9 @@
 package com.tianjian.pm.struts.form;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
-
-import com.tianjian.pm.bean.ProjectBaseinfo;
 
 /**
  * TODO
@@ -34,7 +33,8 @@ public class ProjectBaseInfoForm extends ActionForm {
     private String id="";
 	private String projectCode="" ;
 	private String projectName="" ;
-	private String projectClass="" ;
+	private String projectClassCode="" ;
+	private String projectClassName="" ;
 	private String staffCode="" ;
 	private String staffName="" ;
 	private String startTime="" ;
@@ -51,15 +51,18 @@ public class ProjectBaseInfoForm extends ActionForm {
 	private String sort = "";
 	private String idHidden="";
 	private String message="";
+	private String page_index="";
+	private String page_count="";
+	private String count="";
+	private String page_size="";
+	private String projectClassCodeHidden="" ;
+	private String onlineTimeHidden="" ;
+	private String startTimeHidden="";
+	private String endTimeHidden="";
+	private String projectNameHidden="";
+
+	private Map<String , String> projectClass;
 	
-	private String[] idList;
-	private String[] projectCodeList ;
-	private String[] projectNameList ;
-	private String[] projectClassList ;
-	private String[] staffCodeList ;
-	private String[] staffNameList ;
-	private String[] onlineTimeList ;
-	private String[] endTimeList ;
 
 	List<ProjectBaseInfoVo> pbi;
 	
@@ -68,12 +71,6 @@ public class ProjectBaseInfoForm extends ActionForm {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String[] getIdList() {
-		return idList;
-	}
-	public void setIdList(String[] idList) {
-		this.idList = idList;
 	}
 	public String getProjectCode() {
 		return projectCode;
@@ -87,11 +84,22 @@ public class ProjectBaseInfoForm extends ActionForm {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public String getProjectClass() {
-		return projectClass;
+	
+	
+	public String getProjectClassCode() {
+		return projectClassCode;
 	}
-	public void setProjectClass(String projectClass) {
-		this.projectClass = projectClass;
+	public void setProjectClassCode(String projectClassCode) {
+		this.projectClassCode = projectClassCode;
+	}
+	public String getProjectClassName() {
+		return projectClassName;
+	}
+	public void setProjectClassName(String projectClassName) {
+		this.projectClassName = projectClassName;
+	}
+	public Map<String, String> getProjectClass() {
+		return projectClass;
 	}
 	public String getStaffCode() {
 		return staffCode;
@@ -129,48 +137,7 @@ public class ProjectBaseInfoForm extends ActionForm {
 	public void setSeqNo(String seqNo) {
 		this.seqNo = seqNo;
 	}
-	public String[] getProjectCodeList() {
-		return projectCodeList;
-	}
-	public void setProjectCodeList(String[] projectCodeList) {
-		this.projectCodeList = projectCodeList;
-	}
-	public String[] getProjectNameList() {
-		return projectNameList;
-	}
-	public void setProjectNameList(String[] projectNameList) {
-		this.projectNameList = projectNameList;
-	}
-	public String[] getProjectClassList() {
-		return projectClassList;
-	}
-	public void setProjectClassList(String[] projectClassList) {
-		this.projectClassList = projectClassList;
-	}
-	public String[] getStaffCodeList() {
-		return staffCodeList;
-	}
-	public void setStaffCodeList(String[] staffCodeList) {
-		this.staffCodeList = staffCodeList;
-	}
-	public String[] getStaffNameList() {
-		return staffNameList;
-	}
-	public void setStaffNameList(String[] staffNameList) {
-		this.staffNameList = staffNameList;
-	}
-	public String[] getOnlineTimeList() {
-		return onlineTimeList;
-	}
-	public void setOnlineTimeList(String[] onlineTimeList) {
-		this.onlineTimeList = onlineTimeList;
-	}
-	public String[] getEndTimeList() {
-		return endTimeList;
-	}
-	public void setEndTimeList(String[] endTimeList) {
-		this.endTimeList = endTimeList;
-	}
+	
 	public String getCreateDate() {
 		return createDate;
 	}
@@ -231,6 +198,63 @@ public class ProjectBaseInfoForm extends ActionForm {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	public void setProjectClass(Map<String, String> projectClass) {
+		this.projectClass = projectClass;
+	}
+	public String getPage_index() {
+		return page_index;
+	}
+	public void setPage_index(String page_index) {
+		this.page_index = page_index;
+	}
+	public String getPage_count() {
+		return page_count;
+	}
+	public void setPage_count(String page_count) {
+		this.page_count = page_count;
+	}
+	public String getCount() {
+		return count;
+	}
+	public void setCount(String count) {
+		this.count = count;
+	}
+	public String getPage_size() {
+		return page_size;
+	}
+	public void setPage_size(String page_size) {
+		this.page_size = page_size;
+	}
+	public String getStartTimeHidden() {
+		return startTimeHidden;
+	}
+	public void setStartTimeHidden(String startTimeHidden) {
+		this.startTimeHidden = startTimeHidden;
+	}
+	public String getEndTimeHidden() {
+		return endTimeHidden;
+	}
+	public void setEndTimeHidden(String endTimeHidden) {
+		this.endTimeHidden = endTimeHidden;
+	}
+	public String getProjectClassCodeHidden() {
+		return projectClassCodeHidden;
+	}
+	public void setProjectClassCodeHidden(String projectClassCodeHidden) {
+		this.projectClassCodeHidden = projectClassCodeHidden;
+	}
+	public String getOnlineTimeHidden() {
+		return onlineTimeHidden;
+	}
+	public void setOnlineTimeHidden(String onlineTimeHidden) {
+		this.onlineTimeHidden = onlineTimeHidden;
+	}
+	public String getProjectNameHidden() {
+		return projectNameHidden;
+	}
+	public void setProjectNameHidden(String projectNameHidden) {
+		this.projectNameHidden = projectNameHidden;
 	}
 	
 }

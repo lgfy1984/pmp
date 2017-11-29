@@ -98,18 +98,6 @@ public interface IProjectBaseInfoDAO {
 	    public int getProjectBaseinfoCount(String projectClass, String classId,
 				String onlineTime, String startTime, String endTime, String userId);
 	  
-	    /**
-	    *TODO
-	    * @Title: getData
-	    * @param keyWord
-	    * @param curCount
-	    * @param pageSize
-	    * @return
-	    * @return List<?>
-	    * @throws
-	    * @author LengJiong
-	    */
-	    public List<?> getData(String keyWord, int curCount, int pageSize);
 	    
 	    
 	    /**
@@ -133,10 +121,27 @@ public interface IProjectBaseInfoDAO {
 				String onlineTime, String startTime, String endTime, int curCount,
 				int pageSize,  String userId,String order);
 	   
+	    /**
+	    *TODO
+	    * @Title: getProjectClassDict
+	    * @return
+	    * @return List<?>
+	    * @throws
+	    * @author LengJiong
+	    */
+	    public List<?> getProjectClassDict() ;
 	    
-	    /**根据电话号码查询患者*/
-	    public String getPatientIdByPhoneNo(String phoneNo,String tenantId);
-	    /**根据userId查询咨询信息*/
-	    public List<?> getDataByPatientId(String pid, String tenantId);
-	    
+
+	   
+		/**
+		*TODO
+		* @Title: getSequenceNo
+		* @param tableName
+		* @param filedName
+		* @return
+		* @return String
+		* @throws
+		* @author LengJiong
+		*/
+		public String getSequenceNo(String tableName, String filedName);
 }

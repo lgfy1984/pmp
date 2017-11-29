@@ -15,11 +15,11 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	private Timestamp workDate;
 
-	private String taskId;
+	private String taskCode;
 
-	private Timestamp longTime;
+	private Integer longTime;
 
-	private Byte seqNo;
+	private Integer seqNo;
 
 	private Boolean status;
 
@@ -35,13 +35,13 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	/** full constructor */
 	public ProjectWorktimeRecord(String projectBaseinfoId, String staffCode,
-			Timestamp workDate, String taskId, Timestamp longTime, Byte seqNo,
-			Boolean status, Timestamp createDate, String createUserId,
-			String createUserName) {
+			Timestamp workDate, String taskCode, Integer longTime,
+			Integer seqNo, Boolean status, Timestamp createDate,
+			String createUserId, String createUserName) {
 		this.projectBaseinfoId = projectBaseinfoId;
 		this.staffCode = staffCode;
 		this.workDate = workDate;
-		this.taskId = taskId;
+		this.taskCode = taskCode;
 		this.longTime = longTime;
 		this.seqNo = seqNo;
 		this.status = status;
@@ -83,27 +83,27 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 		this.workDate = workDate;
 	}
 
-	public String getTaskId() {
-		return this.taskId;
+	public String getTaskCode() {
+		return this.taskCode;
 	}
 
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
 	}
 
-	public Timestamp getLongTime() {
+	public Integer getLongTime() {
 		return this.longTime;
 	}
 
-	public void setLongTime(Timestamp longTime) {
+	public void setLongTime(Integer longTime) {
 		this.longTime = longTime;
 	}
 
-	public Byte getSeqNo() {
+	public Integer getSeqNo() {
 		return this.seqNo;
 	}
 
-	public void setSeqNo(Byte seqNo) {
+	public void setSeqNo(Integer seqNo) {
 		this.seqNo = seqNo;
 	}
 

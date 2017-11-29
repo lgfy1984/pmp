@@ -1,0 +1,174 @@
+#title{
+	font-size:26px;
+	text-align: center;
+}
+
+#more{
+	color:  #0099FF;
+	font-size:12px;
+	float:right;
+	cursor:pointer;
+	margin-right: 10px;
+	border: 1px #ECECEC solid;
+}
+.stat_text{
+	width:175px;
+	height:22px;
+	line-height:22px;
+	padding-left:5px;
+	padding-right:5px;
+	border:0 none;
+	font-size:12px;
+}
+.crm_write_table_more{
+	border-collapse: collapse;
+	width: 80%;
+	font-size: 14px;
+	border: 1px solid #ECECEC;
+	position:float;
+	margin-left: 110px;
+	display: none;
+}
+.crm_searchKnowledge_div{
+	display:block;
+	float:right;
+}
+.text {
+	width: 99%;
+	border-style: none;
+	font-size:16px;
+	}
+.crm_write_div {
+	display:block;
+	text-align:center;
+}
+.crm_write_table{
+	border-collapse: collapse;
+	width: 80%;
+	font-size: 14px;
+	border: 1px solid #ECECEC;
+	position:float;
+	margin-left: 110px;
+	margin-top: 33px;
+}
+.showText{
+	background-color: #FBFBFB;
+	width:20%;
+	height:30px;
+	text-align: right;
+	font-weight: bold;
+	color: #404040;
+}
+.inputText input{
+	width:96%;
+	height:20px;
+}
+.redlable{
+	color:#FF0000;
+	font-size:16px;
+}
+.textArea textarea{
+	width:99%;
+}
+
+td {
+	width:20%;
+	align:right;
+}
+.crm_button_sub{
+	text-align: center;
+	margin-top: 10px;
+}
+.crm_button_back{
+	margin-top: 0px;
+	float:right;
+}
+.buttonClass {
+	width: 95px;
+	height: 27px;
+	border-style: none;
+	background-color: #0DB09B;
+	color: #FFFFFF;
+	font-size:16px;
+	text-align: center;
+}
+.buttonClass_1 {
+	width: 95px;
+	height: 27px;
+	border-style: none;
+	background-color: #2DA83E;
+	color: #FFFFFF;
+	font-size:16px;
+	text-align: center;
+}
+.buttonClass_2 {
+	width: 95px;
+	height: 27px;
+	border-style: none;
+	background-color: #E98815;
+	color: #FFFFFF;
+	font-size:16px;
+	text-align: center;
+}
+.crm_table_content tbody tr{
+	cursor:pointer;
+}
+.crm_search_position{
+	width: 80%;
+	position:float;
+	margin-left: 110px;
+}
+.crm_title{
+	font-size: 16px;
+	font-weight: bold;
+	color: #3E8ACD;
+}
+.crm_title_div{
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+.crm_link_button_span{
+	display:inline-block;
+	text-align:center;
+	height:23px;
+	width:45px;
+	background-color:#13C1AA;
+	color:white;
+}
+.crm_link_button_span:hover{
+	background-color:#33CCFF;
+	color:white;
+}
+.crm_input_border_style{
+	height:26px;
+	line-height:26px;
+	vertical-align:top;
+	border:1px #E0E0E0 solid;
+}
+.crm_select_border_style{
+	width:185px;
+	border:1px #E0E0E0 solid;
+	background:#F5F5F5 url(../style/easyui/themes/default/images/combo_arrow.png) no-repeat right 16px;
+	display:block;
+	opacity: 0.5;
+  	filter: alpha(opacity=50);
+}
+.crm_textarea_style{
+	width:99%;
+	height:80px;
+	border:1px solid #dedede;
+	overflow-y:hidden;
+	color:#333333;
+}
+.inputText {
+	background-color: #FBFBFB;
+}
+.crm_detail_show_style{
+	text-align: left;
+	background-color: #FBFBFB;
+}
+.crm_statistic_search_img{
+	margin-left:2px;
+	margin-top:2px;
+	cursor: pointer;
+}

@@ -8,7 +8,9 @@
 package com.tianjian.pm.dao.hibernate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -36,13 +38,11 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 			.getLogger(ProjectBaseInfoDAO.class);
 	
 	
-	public List<?> getProjectBaseinfoData(String projectClass, String classId,
+	public List<?> getProjectBaseinfoData(String projectClass, String projectName,
 			String onlineTime, String startTime, String endTime, int curCount,
 			int pageSize,  String userId,String order) {
 		List<Object> params = new ArrayList<Object>();
-		StringBuffer sql = new StringBuffer(
-				" select a.id,a.projectCode,a.projectName,a.projectClass,a.seqNo ");
-		sql.append(" from ProjectBaseinfo a");
+		StringBuffer sql = new StringBuffer("  from ProjectBaseinfo a");
 		
 		if (userId.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.createUserId = ? ");
@@ -53,7 +53,12 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 					+ " a.projectClass = ? ");
 			params.add(projectClass.trim());
 		}
-		
+
+		if (projectName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.projectName = ? ");
+			params.add(projectClass.trim());
+		}
 		if (onlineTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.onlineTime,'yyyy-MM-dd') >= ? ");
@@ -134,24 +139,12 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 
 	@Override
 	public ProjectBaseinfo findById(String id) {
-		List<Object> params = new ArrayList<Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id.trim());
 		// TODO Auto-generated method stub
 		ProjectBaseinfo fac = null;
-		StringBuffer sql = new StringBuffer(" select a.id,a.projectCode,a.projectName,a.projectClass,a.seqNo ");
-
-		sql.append(" from ProjectBaseinfo a  where a.id=?  order by a.starTime desc ");
-
-		params.add(id.trim());
-		Query q = getSessionFactory().getCurrentSession().createQuery(sql.toString());
-		for (int i = 0; i < params.size(); i++) {
-			q.setParameter(i, params.get(i));
-		}
-		q.setFirstResult(0);
-		q.setMaxResults(10);
-		List<?> ls = q.list();
-		if (ls != null && ls.size() > 0) {
-			fac = (ProjectBaseinfo) ls.get(0);
-		}
+		StringBuffer sql = new StringBuffer(" from ProjectBaseinfo a  where a.id=:id  order by a.startTime desc ");
+		fac = (ProjectBaseinfo)findObjByHql(sql.toString(),map);
 		log.debug("findById success!");
 		return fac;
 	}
@@ -186,7 +179,7 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 		}
 		if (startTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " to_char(a.startTime,'yyyy-MM-dd') <= ? ");
+					+ " to_char(a.startTime,'yyyy-MM-dd') >= ? ");
 			params.add(startTime.trim());
 		}
 		if (endTime.trim().length() > 0) {
@@ -203,24 +196,20 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 		int count = 0;
 		List<?> list = q.list();
 		if (list != null && list.size() > 0) {
-			count = Integer.valueOf(String.valueOf(list.get(0))).intValue();
+			count = Integer.valueOf(list.size()).intValue();
 		}
 		log.debug("getCount success!");
 		return count;
 	}
-
-
-	@Override
-	public List<?> getData(String keyWord, int curCount, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public List<?> getProjectClassDict() {
+		String hql = "select a.itemCode,a.itemName from ProjectClassDict a";
+		List<?> list = findObjectByHql(hql);
+		if (list == null) {
+			return null;
+		} else
+			return list;
 	}
 
 
-
-	@Override
-	public String getPatientIdByPhoneNo(String phoneNo, String tenantId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

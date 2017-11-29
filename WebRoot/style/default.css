@@ -561,6 +561,11 @@ background-color:#FFFFFF;
 	background-image:url(../include/images/button_green2_s3.png);
 	color:white;
 }
+
+.crm_button_sub{
+	text-align: center;
+	margin-top: 10px;
+}
 .button_blue1_s0{
 	width:70px;
 	height:26px;

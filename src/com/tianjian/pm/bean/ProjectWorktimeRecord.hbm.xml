@@ -19,14 +19,14 @@
         <property name="workDate" type="java.sql.Timestamp">
             <column name="WORK_DATE" length="7" />
         </property>
-        <property name="taskId" type="java.lang.String">
-            <column name="TASK_ID" length="100" />
+        <property name="taskCode" type="java.lang.String">
+            <column name="TASK_CODE" length="100" />
         </property>
-        <property name="longTime" type="java.sql.Timestamp">
-            <column name="LONG_TIME" length="7" />
+        <property name="longTime" type="java.lang.Integer">
+            <column name="LONG_TIME" precision="6" scale="0" />
         </property>
-        <property name="seqNo" type="java.lang.Byte">
-            <column name="SEQ_NO" precision="2" scale="0" />
+        <property name="seqNo" type="java.lang.Integer">
+            <column name="SEQ_NO" precision="6" scale="0" />
         </property>
         <property name="status" type="java.lang.Boolean">
             <column name="STATUS" precision="1" scale="0" />

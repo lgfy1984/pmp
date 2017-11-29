@@ -1,20 +1,56 @@
 body{
 	margin: 0;
 }
-.multi_pages{
+/*下方弹出框*/
+ #footer table{
+	 padding-top:5px;
+	 }
+	 #footer table td{
+	   color:black;
+	   padding:0px;
+	   height:20px;
+	   margin:0px;
+	}
+	#footer table td div{
+	   margin-left:10px;
+	   position:relative;
+	   background-color:#fafafa;
+	   border:1px solid #dedede;
+	   width:100%;
+	   padding-left:10px;
+	   margin-left:-10px;
+	   line-height:20px;
+	}
+	#footer #jbxx .tab_table {
+		width:90%;
+		border:none;
+		margin-top:10px;
+		margin-left:20px;
+	}
+	#footer #jbxx .tab_table td{
+	   text-align:right;
+	}
+	#footer .tab_table{
+		border-collapse:collapse;
+		margin-top:10px;
+		margin-left:90px;
+		float:left;
+		margin-right:30px;
+	}
+	#footer .tab_table td{
+	   padding-right:10px;
+	   text-align:left;
+	}
+	#footer #tj .tab_table td{
+	   width:auto;
+	}
+.iframe_div iframe{
 	width: 100%;
-	height: 500px;
-	position: relative;
-	background:url(../images/default.jpg) bottom right no-repeat #e9f0f8;
+	border: 0;
+	background: transparent;	
 }
-.tabs{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	height: 25px;
-	width: 100%;
- 	white-space: nowrap;
-}
+
+/*左右滑动按钮*/
 .tabs_tool_btn{
 	display:none;
 	position: absolute;
@@ -39,25 +75,56 @@ body{
 	float: right;
 	background-position: 0 -25px;
 }
+
+
+.page_container{
+	position: relative;
+}
+.one_page{
+	position: absolute;
+	height:1000px;
+	top: 0px;
+	left: 0px;
+	background-color: #ffffff;
+	/* border-top: 1px solid rgb(210,210,210); */
+	width: 100%;
+}
+.one_page .leader{
+	/* color: #0683CB; */
+	color: #999;
+	font-size: 12px;
+	height: 20px;
+	line-height: 20px;
+	padding: 2px;
+}
+/* .tabs{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: 32px;
+	width: 100%;
+ 	white-space: nowrap;
+ 	background-color:rgb(253,253,253);
+ 	background: url(../images/tab_bg.jpg) repeat-x 0 0;
+ 	padding-left: 0px;
+ 	border:1px red solid;
+} 
 .tab{
 	display:inline-block; 
-	height: 25px;
-	line-height: 25px;
+	height: 30px;
+	line-height: 30px;
 	width: 120px;
-	background: url(../images/tab_bg1.jpg) repeat-x 0 0;
 	position: relative;
-	border: 1px solid #AAACBB;
+	background-color:rgb(249,249,249);
+	border-right: 1px red solid;
+	color:rgb(44,154,239);
 	border-bottom: 0px;
 	z-index: 50;
 }
-.tab_active{
-	background: url(../images/tab_bg1.jpg) repeat-x 0 -25px;
-	brder-bottom: 1px solid #fff;
-}
 .tab .page_name{
 	width: 95px;
-	height: 25px;
-	line-height: 25px;
+	height: 30px;
+	line-height: 30px;
 	font-size: 12px;
 	float: left;
 	padding-left: 5px;
@@ -65,34 +132,89 @@ body{
 	overflow:hidden;
 	text-overflow:ellipsis;
 }
+
 .tab .close{
 	width: 15px;
 	height: 15px;
 	position: absolute;
-	top: 5px;
+	top: 9px;
 	right: 5px;
 	background: url(../images/page_close.png) no-repeat center;
 	cursor: pointer;
 }
-.page_container{
+.tab_active .close{
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	top: 9px;
+	right: 5px;
+	background: url(../images/page_active_close.png) no-repeat center;
+	cursor: pointer;
+}
+.tab_active{
+	background-color:rgb(44,154,239);
+	border:none;
+	color:white;
+}
+*/
+
+
+.multi_pages{
+	width: 100%;
 	position: relative;
 }
-.one_page{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	background-color: #ffffff;
-	border-top: 1px solid #AAACBB;
+.multi_pages .tabs{
+	background: url(../images/tab_background.jpg) repeat-x 0 0;
+	height: 30px;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 	width: 100%;
-}
-.one_page .leader{
-	color: #0683CB;
+ 	white-space: nowrap;
+ 	border-bottom: 1px solid #cfcfcf;
+	}
+	.multi_pages .tabs li{
+	margin-right: 0px;
+	}
+	.multi_pages .tabs .tab{
+	background: url(../images/tab_background.jpg) repeat-x 0 0;
+	color: #666;
+	border:0;
+	border-right: 1px solid #cfcfcf;
+	display:inline-block; 
+	height: 30px;
+	line-height: 30px;
+	width: 118px;
+	position: relative;
+	border-bottom: 0px;
+	z-index: 50;
+	}
+	.multi_pages .tabs .tab .page_name{
+	text-align: center;
+	width: 95px;
+	height: 30px;
+	line-height: 30px;
 	font-size: 12px;
-	height: 20px;
-	line-height: 20px;
-}
-.iframe_div iframe{
-	width: 100%;
-	border: 0;
-	background: transparent;	
-}
+	float: left;
+	padding-left: 5px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	}
+	.multi_pages .tabs .tab  .close{
+	background: url(../images/close_normal.gif) no-repeat center;
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	top: 9px;
+	right: 5px;
+	cursor: pointer;
+	}
+	.multi_pages .tabs  .tab_active{
+	background: url(../images/tab_select.jpg) repeat-x 0 0;
+	color: #1687e6;
+	background-color:rgb(44,154,239);
+	}
+	.multi_pages .tabs .tab_active  .close{
+	background: url(../images/close_select.gif) no-repeat center;
+	}

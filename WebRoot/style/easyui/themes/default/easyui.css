@@ -128,9 +128,11 @@
 .panel-title {
   font-size: 12px;
   font-weight: bold;
-  color: #0E2D5F;
-  height: 16px;
-  line-height: 16px;
+  color: white;
+  background-color: #1ca4e6;
+  height: 32px;
+  line-height: 32px;
+  padding-left: 5px;
 }
 .panel-footer {
   border: 1px solid #CFCFCF;
@@ -180,6 +182,7 @@
 }
 .accordion .accordion-header-selected .panel-title {
   color: #000000;
+
 }
 .window {
   overflow: hidden;
@@ -189,7 +192,7 @@
 }
 .window .window-header {
   background: transparent;
-  padding: 0px 0px 6px 0px;
+  padding: 0px 0px 0px 0px;
 }
 .window .window-body {
   border-width: 1px;
@@ -651,7 +654,7 @@
   overflow: auto;
 }
 .combo-arrow {
-  background: url('images/combo_arrow.png') no-repeat center center;
+  background: url('images/button_grey_down.gif') no-repeat center center;
 }
 .combo-panel {
   background-color: #ffffff;
@@ -661,7 +664,7 @@
   background-color: #fff;
 }
 .combo-arrow {
-  background-color: #e0e0e0;
+  background-color:white;
 }
 .combo-arrow-hover {
   background-color: #efefef;
@@ -1288,7 +1291,6 @@
 .datagrid-body td,
 .datagrid-footer td {
   border-width: 0 1px 1px 0;
-  border-style: dotted;
   margin: 0;
   padding: 0;
 }
@@ -1455,12 +1457,7 @@
 .datagrid-row-alt {
   background: #fafafa;
 }
-.datagrid-row-over,
-.datagrid-header td.datagrid-header-over {
-  background: #eaf2ff;
-  color: #000000;
-  cursor: default;
-}
+
 .datagrid-row-selected {
   background: #ffe48d;
   color: #000000;
@@ -2492,16 +2489,16 @@
   overflow: hidden;
 }
 .tree-expanded {
-  background: url('images/tree_icons.png') no-repeat -18px 0px;
+  background: url('images/tree_icons.png') no-repeat -112px 0px;
 }
 .tree-expanded-hover {
-  background: url('images/tree_icons.png') no-repeat -50px 0px;
+  background: url('images/tree_icons.png') no-repeat -112px 0px;
 }
 .tree-collapsed {
-  background: url('images/tree_icons.png') no-repeat 0px 0px;
+  background: url('images/tree_icons.png') no-repeat -96px 0px;
 }
 .tree-collapsed-hover {
-  background: url('images/tree_icons.png') no-repeat -32px 0px;
+  background: url('images/tree_icons.png') no-repeat -96px 0px;
 }
 .tree-lines .tree-expanded,
 .tree-lines .tree-root-first .tree-expanded {

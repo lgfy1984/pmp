@@ -2,10 +2,10 @@
 	background:url('icons/blank.gif') no-repeat center center;
 }
 .icon-add{
-	background:url('icons/edit_add.png') no-repeat center center;
+	background:url('icons/message_add.png') no-repeat center center;
 }
 .icon-edit{
-	background:url('icons/pencil.png') no-repeat center center;
+	background:url('icons/mseeage_update.png') no-repeat center center;
 }
 .icon-clear{
 	background:url('icons/clear.png') no-repeat center center;
@@ -26,7 +26,7 @@
 	background:url('icons/no.png') no-repeat center center;
 }
 .icon-cancel{
-	background:url('icons/cancel.png') no-repeat center center;
+	background:url('icons/message_delete.png') no-repeat center center;
 }
 .icon-reload{
 	background:url('icons/reload.png') no-repeat center center;

@@ -11,7 +11,10 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.business.IProjectBaseinfoService;
@@ -33,7 +36,7 @@ import com.tianjian.util.Converter;
  */
 public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 
-	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private IProjectBaseInfoDAO projectBaseInfoDAO;
 	
@@ -53,7 +56,18 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public void initForm(ProjectBaseInfoForm form){
-		
+
+		List<?> list1 = projectBaseInfoDAO.getProjectClassDict();
+		if (list1 != null && list1.size() > 0) {
+			Map<String, String> temp = new LinkedHashMap<String, String>();
+
+			for (int i = 0; i < list1.size(); i++) {
+				temp.put(String.valueOf(Converter.toBlank(((Object[]) list1
+						.get(i))[0])), String.valueOf(Converter
+						.toBlank(((Object[]) list1.get(i))[1])));
+			}
+			form.setProjectClass(temp);
+		}
 	}
 	/**
 	 * 保存
@@ -65,7 +79,10 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public void save(ProjectBaseInfoForm form){
-		
+		ProjectBaseinfo data = new ProjectBaseinfo();
+		data.setSeqNo(Converter.toInteger(projectBaseInfoDAO.getSequenceNo("PM.PROJECT_BASEINFO", "SEQ_NO")));
+		setData(form, data);
+		projectBaseInfoDAO.save(data);
 	}
 	/**
 	 * 修改
@@ -78,6 +95,11 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	 */
 	public void update(ProjectBaseInfoForm form){
 		
+		ProjectBaseinfo data = projectBaseInfoDAO.findById(form.getIdHidden());
+
+		data.setSeqNo(Converter.toInteger(form.getSeqNo()));
+		this.setData(form, data);
+		projectBaseInfoDAO.update(data);
 	}
 	/**
 	 * 保存知识库
@@ -115,7 +137,9 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public void delete(ProjectBaseInfoForm form){
-		
+		  
+		ProjectBaseinfo data = projectBaseInfoDAO.findById(form.getIdHidden());
+		projectBaseInfoDAO.delete(data);// 删除数据库记录
 
 	}
 	/**
@@ -149,7 +173,10 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public void updateInit(ProjectBaseInfoForm form){
-		
+
+		ProjectBaseinfo data = projectBaseInfoDAO.findById(form.getIdHidden());
+		this.initForm(form);
+		this.setForm(form, data);
 	}
 	/**
 	 * 新增初始化
@@ -162,6 +189,10 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	 */
 	public void addInit(ProjectBaseInfoForm form){
 		
+		initForm(form);
+		form.setOnlineTime(sdf.format(new Date()));
+		form.setStartTime(sdf.format(new Date()));
+		form.setEndTime(sdf.format(new Date()));
 	}
 	/**
 	 * 知识库列表
@@ -192,26 +223,26 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 		
 			String order ="";
 
-//			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
-//				if (hosform.getOrderNo().equals("0")) {
-//					order += " a.consultationTime";
-//				} else if (hosform.getOrderNo().equals("1")) {
-//					order += " a.name";
-//				} else if (hosform.getOrderNo().equals("2")) {
-//					order += " a.consultationComments";
-//				}
-//				else if (hosform.getOrderNo().equals("3")) {
-//					order += "  a.consultationById";
-//				} 
-//				else if (hosform.getOrderNo().equals("4")) {
-//					order += "  a.consultationClassId";
-//				} 
-//				else if (hosform.getOrderNo().equals("5")) {
-//					order += "  a.executedFlagId";
-//				} 
-//			} else {
-//				order += "  a.consultationTime";
-//			}
+			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
+				if (hosform.getOrderNo().equals("0")) {
+					order += " a.seqNo";
+				} else if (hosform.getOrderNo().equals("1")) {
+					order += " a.projectName";
+				} else if (hosform.getOrderNo().equals("2")) {
+					order += " a.projectClass";
+				}
+				else if (hosform.getOrderNo().equals("3")) {
+					order += "  a.startTime";
+				} 
+				else if (hosform.getOrderNo().equals("4")) {
+					order += "  a.onlineTime";
+				} 
+				else if (hosform.getOrderNo().equals("5")) {
+					order += "  a.endTime";
+				} 
+			} else {
+				order += "  a.startTime";
+			}
 			
 			if(hosform.getSort() == null || hosform.getSort().trim().equals("0")){
 				  order +=" ASC";
@@ -222,18 +253,23 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 			hosform.setOrder(order);
 			
 			List<?> list = projectBaseInfoDAO
-					.getProjectBaseinfoData(hosform.getProjectClass(), hosform.getProjectClass(), hosform.getOnlineTime(), hosform.getStartTime(), hosform.getEndTime(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
+					.getProjectBaseinfoData(hosform.getProjectClassCodeHidden(), hosform.getProjectNameHidden(), hosform.getOnlineTimeHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
 			if (list != null && list.size() > 0) {
-				List<ProjectBaseInfoVo> crd = new ArrayList<ProjectBaseInfoVo>(
-						list.size());
+				List<ProjectBaseInfoVo> crd = new ArrayList<ProjectBaseInfoVo>(list.size());
 
 				for (int i = 0; i < list.size(); i++) {
 					ProjectBaseInfoVo temp = new ProjectBaseInfoVo();
-					Object[] obs = (Object[]) list.get(i);
-					temp.setId(Converter.toBlank(obs[0]));
-					temp.setProjectName(Converter.toBlank(obs[1]));
-					temp.setProjectClass(Converter.toBlank(obs[2]));
-					temp.setSeqNo(Converter.toBlank(obs[3]));
+					ProjectBaseinfo obs = (ProjectBaseinfo) list.get(i);
+					temp.setId(Converter.toBlank(obs.getId()));
+					temp.setProjectName(Converter.toBlank(obs.getProjectName()));
+					temp.setProjectCode(Converter.toBlank(obs.getProjectCode()));
+					temp.setProjectClass(this.changeClassId(obs.getProjectClass(), hosform));
+					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
+					temp.setStartTime(sdf.format(obs.getStartTime()));
+					temp.setOnlineTime(sdf.format(obs.getOnlineTime()));
+					temp.setEndTime(sdf.format(obs.getEndTime()));
+					temp.setCreateUserId(Converter.toBlank(obs.getCreateUserId()));
+					temp.setCreateUserName(Converter.toBlank(obs.getCreateUserName()));
 					crd.add(temp);
 				}
 				hosform.setPbi(crd);
@@ -241,34 +277,52 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 
 		
 	}
-	/**根据患者id查询最近的10条咨询记录*/
-	public void getRecentTenProjectBaseInfo(ProjectBaseInfoForm hosform,String pid, String tenantId){
-		
-	}
-	/**根据电话号码查询最近的10条咨询记录*/
-	public void getRecentByTel(ProjectBaseInfoForm hosform,String tel, String tenantId){
-		
-	}
-	/** 根据电话查询 域id pid*/
-	public void qurayPidByTel(ProjectBaseInfoForm form, String telphone, String tenantId){
-		
-	}
 	
 	
 	/** 构造data */
 	private void setData(ProjectBaseInfoForm form,
 			ProjectBaseinfo data) {
+		data.setProjectCode(Converter.toBlank(form.getProjectCode()));
 		data.setProjectName(Converter.toBlank(form.getProjectName()));
+		data.setProjectClass(Converter.toBlank(form.getProjectClassCode()));
 		
-		
-		if ("add".equals(form.getVerbId())) {
-			Date date = new Date();
-		} else if ("update".equals(form.getVerbId())) {
-			Date date = new Date();
-			String newDate = sdf.format(date);
+			String newDate = sdf.format( new Date());
+			data.setStartTime(new Timestamp(Converter.toDate(form.getStartTime()).getTime()));
+			data.setOnlineTime(new Timestamp(Converter.toDate(form.getOnlineTime()).getTime()));
+			data.setEndTime(new Timestamp(Converter.toDate(form.getEndTime()).getTime()));
 			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
+		
+	}
+	/** 构造data */
+	private void setForm(ProjectBaseInfoForm form,
+			ProjectBaseinfo data) {
+			form.setId(Converter.toBlank(data.getId()));
+		    form.setProjectCode(Converter.toBlank(data.getProjectCode()));
+		    form.setProjectName(Converter.toBlank(data.getProjectName()));
+		    form.setProjectClassCode(Converter.toBlank(data.getProjectClass()));
+		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
+			form.setProjectClassName(this.changeClassId(Converter.toBlank(data.getProjectClass()), form));
+		    form.setStartTime(sdf.format(data.getStartTime()));
+		    form.setOnlineTime(sdf.format(data.getOnlineTime()));
+		    form.setEndTime(sdf.format(data.getEndTime()));
+			form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
+		
+	}
+	
+	private String changeClassId(String id, ProjectBaseInfoForm form) {
+		Map<String, String> temp = form.getProjectClass();
+		if (temp != null) {
+			Iterator<String> iter = temp.keySet().iterator();
+			while (iter.hasNext()) {
+				String key = iter.next();
+				String value = temp.get(key);
+				if (key.equals(id)) {
+					return value;
+				}
+			}
 		}
+		return "";
 	}
 }

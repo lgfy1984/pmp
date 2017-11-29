@@ -25,7 +25,7 @@ public class ProjectBaseinfo implements java.io.Serializable {
 
 	private Timestamp endTime;
 
-	private String seqNo;
+	private Integer seqNo;
 
 	private Timestamp createDate;
 
@@ -41,7 +41,7 @@ public class ProjectBaseinfo implements java.io.Serializable {
 	public ProjectBaseinfo(String projectCode, String projectName,
 			String projectClass, String staffCode, String staffName,
 			Timestamp startTime, Timestamp onlineTime, Timestamp endTime,
-			String seqNo, Timestamp createDate, String createUserId,
+			Integer seqNo, Timestamp createDate, String createUserId,
 			String createUserName) {
 		this.projectCode = projectCode;
 		this.projectName = projectName;
@@ -130,11 +130,11 @@ public class ProjectBaseinfo implements java.io.Serializable {
 		this.endTime = endTime;
 	}
 
-	public String getSeqNo() {
+	public Integer getSeqNo() {
 		return this.seqNo;
 	}
 
-	public void setSeqNo(String seqNo) {
+	public void setSeqNo(Integer seqNo) {
 		this.seqNo = seqNo;
 	}
 

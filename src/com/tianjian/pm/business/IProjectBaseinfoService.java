@@ -54,16 +54,6 @@ public interface IProjectBaseinfoService  {
 	 */
 	public void update(ProjectBaseInfoForm form);
 	/**
-	 * 保存知识库
-	*
-	* @Title: saveKnowledge
-	* @param form
-	* @return void
-	* @throws
-	* @author zhoum
-	 */
-	public void saveKnowledge(ProjectBaseInfoForm form);
-	/**
 	 * 根据id查找咨询信息
 	*
 	* @Title: findDetailById
@@ -147,10 +137,4 @@ public interface IProjectBaseinfoService  {
 	* @author lengj
 	 */
 	public void getProjectBaseInfoSearch(ProjectBaseInfoForm hosform, int curCount,int pageSize);
-	/**根据患者id查询最近的10条咨询记录*/
-	public void getRecentTenProjectBaseInfo(ProjectBaseInfoForm hosform,String pid, String tenantId);
-	/**根据电话号码查询最近的10条咨询记录*/
-	public void getRecentByTel(ProjectBaseInfoForm hosform,String tel, String tenantId);
-	/** 根据电话查询 域id pid*/
-	public void qurayPidByTel(ProjectBaseInfoForm form, String telphone, String tenantId);
 }

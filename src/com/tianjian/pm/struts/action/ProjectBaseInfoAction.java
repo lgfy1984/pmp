@@ -61,13 +61,10 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	 */
 	public ActionForward addInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		SessionForm staff=(SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="添加咨询初始化界面";
 		try {
 			
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
-			String incomingTelegramNo = request.getParameter("incomingTelegramNo");//获得来电号码
-			String message=request.getParameter("msg");
-			
+			hosform.setCreateUserName(staff.getStaffName());
 			projectBaseinfoService.addInit(hosform);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("add");
@@ -91,8 +88,6 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	* @author lengj
 	 */
 	public ActionForward updateInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		SessionForm staff=(SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="修改患者咨询信息初始化界面";
 		try {
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
 			projectBaseinfoService.updateInit(hosform);
@@ -119,16 +114,15 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	 */
 	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="修改患者咨询信息";
 		try {
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
 			
 			String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
-			String hspId =staff.getStaffHospitalId();
-			String tenantId =  TenantIdHolder.get();
 			hosform.setCreateUserId(createUserId);
 			hosform.setCreateUserName(createUserName);
+			String message ="修改成功!";
+			hosform.setMessage(message);
 			projectBaseinfoService.update(hosform);
 			return this.queryProjectBaseinfo(mapping, hosform, request, response);
 		}
@@ -151,14 +145,12 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	* @author lengj
 	 */
 	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="删除患者咨询信息";
 		try {
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
 			projectBaseinfoService.delete(hosform);
 			String message ="删除成功!";
 			
-			//hosform.setMessage(message);
+			hosform.setMessage(message);
 			return this.queryProjectBaseinfo(mapping, hosform, request, response);
 		}
 		catch (Exception e) {
@@ -179,8 +171,6 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	* @author lengj
 	 */
 	public ActionForward detail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="查看咨询详细信息";
 		try {
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
 			String type=request.getParameter("type");
@@ -219,23 +209,18 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 			String createUserName  =   staff.getStaffName();
 			hosform.setCreateUserId(createUserId);
 			hosform.setCreateUserName(createUserName);
-			String flog = request.getParameter("toFlog");
 			//
 			
 			projectBaseinfoService.save(hosform);
-			if("toadd".equals(flog)){
-				String msg="保存成功！";
-				msg=java.net.URLEncoder.encode(msg, "UTF-8");
-				StringBuffer url = request.getRequestURL();
-				url.append("?verbId=addInit&msg="+msg);
-				response.sendRedirect(url.toString());//从定向
-				return null;
-			}else{
-				projectBaseinfoService.addInit(hosform);
-				//hosform.setMessage("咨询已保存,录入常见咨询信息！");
-				request.setAttribute("data", hosform);
-				return mapping.findForward("tooffen");
-			}
+			String msg="保存成功！";
+//			msg=java.net.URLEncoder.encode(msg, "GB2312");
+//			StringBuffer url = request.getRequestURL();
+//			url.append("?verbId=addInit&message="+msg);
+//			response.sendRedirect(url.toString());//从定向
+			projectBaseinfoService.addInit(hosform);
+			hosform.setMessage(msg);
+			request.setAttribute("data", hosform);
+			return mapping.findForward("add");	
 			
 		}
 		catch (Exception e) {
@@ -259,16 +244,9 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 	 */
 	public ActionForward queryProjectBaseinfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
-		String comments="查看咨询列表信息";
 		try {
 			ProjectBaseInfoForm hosform =(ProjectBaseInfoForm) form;
 			String statues =request.getParameter("executedFlag");
-			String flog = request.getParameter("toFlog");
-			String orderNo = request.getParameter("orderNo");
-			String sort = request.getParameter("sort");
-			if(statues!=null&&statues.equals("1")){
-				//hosform.setExecutedFlagIdHidden("1");
-			}
 			String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
 			hosform.setCreateUserId(createUserId);
@@ -277,8 +255,8 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectBaseinfoService.getProjectBaseInfoCount(hosform.getProjectClass(), hosform.getProjectName(),
-					hosform.getOnlineTime(), hosform.getStartTime(), hosform.getEndTime(),hosform.getCreateUserId());
+			int recordCount = projectBaseinfoService.getProjectBaseInfoCount(hosform.getProjectClassCodeHidden(), hosform.getProjectNameHidden(),
+					hosform.getOnlineTimeHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
 			int pageSize = 10;
@@ -297,13 +275,6 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 			projectBaseinfoService.initForm(hosform);
 			projectBaseinfoService.getProjectBaseInfoSearch(hosform, count, pageSize);
 			request.setAttribute("data", hosform);
-//			if(statues!=null&&statues.equals("1")&&"tooffen".equals(flog)){
-//				return mapping.findForward("tooffen");
-//			}else if(statues!=null&&statues.equals("1")){
-//				return mapping.findForward("undolist");	
-//			}else{
-//				return mapping.findForward("query");			
-//			}
 			return mapping.findForward("query");	
 		}
 		catch (Exception e) {

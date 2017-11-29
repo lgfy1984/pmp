@@ -7,36 +7,24 @@
 		<meta http-equiv="keywords" content="" />
 		<meta http-equiv="description" content="" />
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<title>添加咨询信息</title>
-		<link rel="stylesheet" type="text/css"
-			href="${path}/style/easyui/themes/default/easyui.css" />
-		<link type="text/css" rel="stylesheet"
-			href="${path}/style/default.css" />
-		<link type="text/css" rel="stylesheet"
-			href="${path}/style/consultion.css" />
-		<link type="text/css" rel="stylesheet"
-			href="${path}/include/css/searchsuggest.css" />
-
-		<link rel="stylesheet" type="text/css"
-			href="${path}/style/easyui/themes/icon.css" />
-		<link rel="stylesheet" type="text/css"
-			href="${path}/style/easyuiUpdate.css">
-		<script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript"
-			src="${path}/style/easyui/jquery.min.js"></script>
-		<script type="text/javascript"
-			src="${path}/style/easyui/jquery.easyui.min.js"></script>
-		<script type="text/javascript"
-			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
-		<script type="text/javascript" src="${path}/js/default.js"></script>
-		<script type="text/javascript" src="${path}/js/consultion.js"></script>
-		<script type="text/javascript"
-			src="${path}/include/javascript/searchsuggest.js"></script>
-		<script type="text/javascript" src="${path}/js/enter_next.js"></script>
-		<link rel="stylesheet" type="text/css"
-			href="${path}/style/voicewo.css">
-		<script src="${path}/js/jquery.voicewo.js" type="text/javascript"></script>
-		<style type="text/css">
+		<title>添加信息</title>
+<link type="text/css" rel="stylesheet" href="${path}/style/default.css" />
+<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css" />
+<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css" />
+<link type="text/css" rel="stylesheet"	href="${path}/include/css/searchsuggest.css" />
+<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css"	href="${path}/style/easyuiUpdate.css">
+<script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+<script type="text/javascript"	src="${path}/style/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${path}/js/default.js"></script>
+<script type="text/javascript" src="${path}/js/pm.js"></script>
+<script type="text/javascript"	src="${path}/include/javascript/searchsuggest.js"></script>
+<script type="text/javascript" src="${path}/js/enter_next.js"></script>
+<script type="text/javascript" src="${path}/js/jscal2.js"></script>
+<script type="text/javascript" src="${path}/js/lang/cn.js"></script>
+<style type="text/css">
 .voice_button {
 	position: relative;
 	float: right;
@@ -92,33 +80,11 @@
 	</head>
 
 	<body onload="showHspMessage('${data.message}')">
-		<form name="form" id="form" method="post" action="crmConsultation.do"
-			enctype="multipart/form-data">
-			<input type="hidden" name="verbId" value="add" />
+		<form name="form" id="form" method="post" action="projectbaseinfo.do">
+			<input type="hidden" name="verbId" id="verbId" value="add" />
 			<input type="hidden" name="toFlog" value="" />
 			<input type="hidden" name="fileFlog" value="" />
 
-			<div class='crm_search_position'
-				style='width: 870px; margin-left: 172px;'>
-				<div class="crm_search_bar">
-					<span style="color: #666666;">咨询知识库</span>
-					<input type="text" class="search_text"
-						style="width: 194px; height: 26px;" onblur="fEvent('blur',this)"
-						onmouseover="fEvent('mouseover',this)"
-						onfocus="fEvent('focus',this)"
-						onmouseout="fEvent('mouseout',this)" name="keywordHidden"
-						id="searchContent"
-						onkeyup="GiveOptions(event, '${path}/searchSuggest.do', 'crmConsultationKnowledge_00000000001', 'keyWord')"
-						onkeydown="huanhang(event);" />
-					<input type="hidden" id="keyWord" name="keyWord"
-						onkeydown="huanhang(event)" style="width: 206px;" />
-					<span id="spanOutput" class="spanTextDropdown"
-						style="display: none;" onclick="openWin();"></span>
-					<input type="button" value="查询" class="button_grey1_s0"
-						onmousedown="this.className='button_grey1_s1'"
-						onmouseout="this.className='button_grey1_s0'" onclick="openWin();">
-				</div>
-			</div>
 			<div class="clear"></div>
 			<div style="height: 20px;"></div>
 			<div class='crm_edit_panel'>
@@ -132,7 +98,7 @@
 						</td>
 
 						<td colspan="3" class='crm_edit_item_content'>
-							<input type="text" name="project" id="name" class="text"
+							<input type="text" name="projectCode" id="projectCode" class="text"
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -142,13 +108,14 @@
 						</td>
 					</tr>
 					<tr>
-
-
 						<td class='crm_edit_item_name'>
+							<label class="redlable">
+								*
+							</label>
 							项目名称
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
+							<input type="text" name="projectName" id="projectName" class="text"
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -164,12 +131,16 @@
 							项目类别
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
-								onblur="fEvent('blur',this)"
-								onmouseover="fEvent('mouseover',this)"
-								onfocus="fEvent('focus',this)" required="true"
-								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
-								invalidMessage="有效长度1-25" />
+							<select name="projectClassCode" id="projectClassCode"
+								class="easyui-combobox" editable="false"
+								style="width: 206px; height: 30px;" required="true"
+								panelHeight="100">
+								<c:forEach items="${data.projectClass}" var="kd">
+									<option value="${kd.key}" ${data.projectClassCode==kd.key?"selected":""}>
+										${kd.value}
+									</option>
+								</c:forEach>
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -177,7 +148,8 @@
 							 项目经理
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
+							<input type="text" name="staffName" id="staffName" class="text"
+							    value='${data.createUserName}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -190,12 +162,16 @@
 							项目开始日期
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
+							<input type="text" name="startTime" id="startTime" class="text"
+							    value='${data.startTime}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+								
+		  			<span  class="calendarspan">
+		  			<img id="date_input1" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 						</td>
 					</tr>
 					<tr>
@@ -203,12 +179,16 @@
 							项目上线日期
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
+							<input type="text" name="onlineTime" id="onlineTime" class="text"
+							    value='${data.onlineTime}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+								
+		  			<span  class="calendarspan">
+		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 						</td>
 					</tr>
 					<tr>
@@ -216,12 +196,16 @@
 							 项目结束日期
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="name" id="name" class="text"
+							<input type="text" name="endTime" id="endTime" class="text"
+							    value='${data.endTime}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+								
+		  			<span  class="calendarspan">
+		  			<img id="date_input3" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 						</td>
 					</tr>
 				</table>
@@ -234,9 +218,15 @@
 			</div>
 		</form>
 		<script type="text/javascript">
-  	   if($('#tel').val()!=''){
-  		 findHistory();
-  	   }
+		var cal = Calendar.setup({            //日期控件
+		onSelect : function(cal) {
+			cal.hide()
+		},
+		showTime : true
+	});
+	cal.manageFields("date_input1", "startTime", "%Y-%m-%d");
+	cal.manageFields("date_input2", "onlineTime", "%Y-%m-%d");
+	cal.manageFields("date_input3", "endTime", "%Y-%m-%d");
   </script>
 	</body>
 </html>

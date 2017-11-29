@@ -6,6 +6,14 @@
  * license agreement you entered into with Tianjian.
  */
 package com.tianjian.pm.business;
+
+import java.util.List;
+
+import com.tianjian.pm.bean.ProjectWorktimeRecord;
+import com.tianjian.pm.struts.form.PageForm;
+import com.tianjian.pm.struts.form.ProjectBaseInfoVo;
+import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
+
 /**
  * TODO
  * <p>Title: IProjectWorkTimeRecordService.java</p>
@@ -17,4 +25,133 @@ package com.tianjian.pm.business;
  * @version 1.0
  * 
  */
-public interface IProjectWorkTimeRecordService  {}
+public interface IProjectWorkTimeRecordService  {
+	/**
+	 * 初始化form
+	*
+	* @Title: initForm
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void initForm(ProjectWorkTimeRecordForm form);
+	/**
+	 * 保存
+	*
+	* @Title: save
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void save(ProjectWorkTimeRecordForm form);
+	/**
+	 * 修改
+	*
+	* @Title: update
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void update(ProjectWorkTimeRecordForm form);
+	/**
+	 * 审核
+	*
+	* @Title: update
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void check(ProjectWorkTimeRecordForm form);
+	/**
+	 * 根据id查找咨询信息
+	*
+	* @Title: findDetailById
+	* @param id
+	* @return
+	* @return ProjectBaseInfo
+	* @throws
+	* @author zhoum
+	 */
+	public ProjectWorktimeRecord findDetailById(String id);
+	/**
+	 * 删除
+	*
+	* @Title: delete
+	* @param form
+	* @return void
+	* @throws
+	* @author zhoum
+	 */
+	public void delete(ProjectWorkTimeRecordForm form);
+	/**
+	 * 条件查询咨询信息条数
+	*
+	* @Title: getProjectBaseInfoCount
+	* @param way
+	* @param classId
+	* @param statues
+	* @param b_time
+	* @param e_time
+	* @param hspId
+	* @param userId
+	* @param tenantId
+	* @return
+	* @return int
+	* @throws
+	* @author lengj
+	 */
+	public int getProjectWorkTimeRecordCount(String projectClass, String classId,
+			String onlineTime, String startTime, String endTime, String userId,String statusCase);
+	/**
+	 * 修改初始化
+	*
+	* @Title: updateInit
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void updateInit(ProjectWorkTimeRecordForm form);
+	/**
+	 * 新增初始化
+	*
+	* @Title: addInit
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void addInit(ProjectWorkTimeRecordForm form);
+	/**
+	 * 知识库列表
+	*
+	* @Title: getSearch
+	* @param hosform
+	* @param curCount
+	* @param pageSize
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void getSearch(ProjectWorkTimeRecordForm hosform, int curCount, int pageSize);
+	/**
+	 * 咨询信息列表
+	*
+	* @Title: getProjectBaseInfoSearch
+	* @param hosform
+	* @param curCount
+	* @param pageSize
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void getProjectWorkTimeRecordSearch(ProjectWorkTimeRecordForm hosform, int curCount,int pageSize);
+	
+	public List<ProjectBaseInfoVo> findProjectList(ProjectWorkTimeRecordForm smForm, PageForm page);
+
+	public int findProjectCount(ProjectWorkTimeRecordForm smForm, PageForm page);
+}
