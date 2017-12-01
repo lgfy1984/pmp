@@ -53,5 +53,5 @@ public interface ICommConfigHospitalTypeDAO {
 	/**
 	 * 通过上一级分类得到对应的类
 	 * */
-	public List<?> getByParentItemCode(String parentItemCode,HttpServletRequest request);
+	public List<CommConfigHospitalType> getByParentItemCode(String parentItemCode,HttpServletRequest request);
 }

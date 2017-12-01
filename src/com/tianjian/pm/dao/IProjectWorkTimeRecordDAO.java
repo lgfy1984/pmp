@@ -8,6 +8,7 @@
 package com.tianjian.pm.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.bean.ProjectWorktimeRecord;
@@ -120,7 +121,7 @@ public interface IProjectWorkTimeRecordDAO  {
     * @throws
     * @author LengJiong
     */
-    public List<?> getTaskClassDict() ;
+    public List<?> getTaskClassDict(String projectClassCode) ;
     public List<?> getProjectClassDict() ;
     
     
@@ -177,4 +178,15 @@ public interface IProjectWorkTimeRecordDAO  {
 	 * 保存一个对象
 	 */
 	public Object save(Object t);
+	
+	/**
+	 * 根据hql查询一个对象
+	 * 
+	 * @param hql
+	 *            hql语句
+	 * @param map
+	 * 
+	 * @return 返回一个对象
+	 */
+	public Object findObjByHql(String hql, Map<String, Object> map);
 }

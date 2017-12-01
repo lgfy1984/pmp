@@ -19,6 +19,7 @@
 <script type="text/javascript"	src="${path}/style/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${path}/js/default.js"></script>
+  <script type="text/javascript" src="${path}/js/pager.js"></script>
 <script type="text/javascript" src="${path}/js/pm.js"></script>
 <script type="text/javascript"	src="${path}/include/javascript/searchsuggest.js"></script>
 <script type="text/javascript" src="${path}/js/enter_next.js"></script>
@@ -36,52 +37,120 @@
 </style>
 		<script type="text/javascript">
   	/**查找电话号码历史 */
-  	function findHistory(){
-  		$.ajax({
-  	        type: "post",
-  	        url: "crmConsultation.do?verbId=queryRecentByTel",
-  	        data: {"telphone":$('#tel').val()},
-  	        dataType: "JSON",
-  	        success: function(data){
-  	        	var json =eval(data); 
-  	        	if(json!=null&&json.length>0){
-  	        		$("#name").val(json[0].name);
-  	        		$('#sexId').combobox('setValue',json[0].sexId);
-  	        		if(json[0].id.length>0)
-  	        		parent.window.getHistoryConsultation(json,"0");
-  	        	}else{
-  	        		parent.window.clearnHistorydate();
-  	        		parent.window.hideHistoryData();
-  	        	}
-  	           }
-  	    });
-  	}
-  	/**转投诉 */
-  	function toComplaints(){
-  		var name=$("#name").val();
-  		var tel=$("#tel").val();
-  		window.parent.openOtherWindow('asd1234asd566543','投诉登记','complaints.do?verbId=add&name='+name+'&incomingTelegramNo='+tel);
-  	  	}
-  	  	
-  	/**转预约 */
-  	function  goReservationRegister(){
-  		var authorityId='';
-  	  	var pid='';
-  	  if($('#tel').val()==""){
-			$.messager.alert('提示','电话不能为空！','info');
-			return;
-		}
-  	window.parent.openOtherWindow('sda1234sda566543','预约挂号','reservation/phoneUser.do?verbId=phoneUserList&phoneNo='+$('#tel').val());
+  	var selectUsersData = new Array(); 	 
+function findStaffList(page){// open a window  	
+	$win = $('#win').window({
+	    title: '选择项目经理',
+	    width: 820,
+	    height: 450,
+	    top: ($(window).height()-700) * 0.5,
+	    left: ($(window).width()-800) * 0.5,
+	    shadow: true,
+	    modal: true,
+	    closed: true,
+	    minimizable: false,
+	    maximizable: false,
+	    collapsible: false
+	});
+
+	$('#win').window('open'); 
 	
-  	  	
-  	}
-  	 
+	var staffCodeCase=$('#staffCodeCase').val();
+	var staffNameCase=$('#staffNameCase').val();
+	var pageIndex = page;
+	var path = '${path}/pm/projectbaseinfo.do?verbId=findStaffList&&pageIndex='
+			+ pageIndex + '&staffCode='+ staffCodeCase + '&staffName=' + staffNameCase;
+	$.ajax({
+		type : "post",
+		url : '${path}/pm/projectbaseinfo.do?verbId=findStaffPage',
+		data : {
+			pageIndex:pageIndex,
+			staffCode:staffCodeCase,
+			staffName:staffNameCase
+		},
+		dataType : "text",
+		success : function(data) {
+			getPageSuccess(data);
+		}
+	});
+	$('#dg').datagrid( {
+		url : encodeURI(encodeURI(path)),
+		nowrap : false,
+		striped : true,
+		remoteSort : false,
+		fitColumns:true,
+		height:300,
+		columns : [ [ {
+			idField : 'id',
+			hidden : true
+		}, {
+			field : 'staffCode',
+			title : '员工代码',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'staffName',
+			title : '姓名',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'sexName',
+			title : '性别',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'staffClass',
+			title : '人员类别',
+			align : 'center',
+			width : $(this).width()*0.15
+		}] ],
+		onDblClickRow:function(rowIndex,rowData){
+	        //alert(rowData.projectCode);
+	        $('#staffId').val(rowData.id);
+	        $('#staffCode').val(rowData.staffCode);
+	        $('#staffName').val(rowData.staffName);
+	        
+	        $('#win').window('close');  
+	    }		
+	});
+}
+
+
+function getPageSuccess(data) {
+	eval("var json = " + data + ";");
+	var count = json.count;
+	var pageIndex = json.pageIndex;
+	var pageCount = json.pageCount;
+	var pageSize = json.pageSize;
+	$('#count').val(count);
+	$('#page_index').val(pageIndex);
+	$('#page_count').val(pageCount);
+	$('#page_size').val(pageSize);
+	updatePager();
+	$('#pageshow').show();
+	activePage="pageshow";
+}
+function paging(page) {
+	$("#cur_page").val(page);
+	if(activePage=="pageshow"){
+		findStaffList(page);
+	}else	if(activePage=="grouppageshow"){
+		getPreview(selectNode,page);
+	}else	if(activePage=="pageTempletShow"){
+		getTempletContent(selectNode.id,page);
+	}
+}
+
+function selectStaffUser() {
+
+}  	 
   	</script>
 	</head>
 
 	<body onload="showHspMessage('${data.message}')">
 		<form name="form" id="form" method="post" action="projectbaseinfo.do">
 			<input type="hidden" name="verbId" id="verbId" value="add" />
+			<input type="hidden" name="staffCode" id="staffCode" value="" />
 			<input type="hidden" name="toFlog" value="" />
 			<input type="hidden" name="fileFlog" value="" />
 
@@ -149,12 +218,17 @@
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" name="staffName" id="staffName" class="text"
-							    value='${data.createUserName}'
+							    value='${data.staffName}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+						    <input type="button" value="选择项目经理" class="button_grey1_s0"
+							style="vertical-align: top;"
+							onmousedown="this.className='button_grey1_s1'"
+							onmouseout="this.className='button_grey1_s0'"
+							onclick="findStaffList('1')" />
 						</td>
 					</tr>
 					<tr>
@@ -215,6 +289,56 @@
 					onmousedown="this.className='button_blue1_s1'"
 					onmouseout="this.className='button_blue1_s0'"
 					onclick="saveForm('0');" />
+			</div>
+			<div id="win" class="easyui-window" closed="true" title=""
+				style="overflow: hidden;">
+				<div class='crm_search_div' align="center">
+					<div style="height: 10px; widows: 100%" id="firstCondition"></div>
+					<div class="crm_input_item">
+						<span style="margin-left: 3px;">员工代码：</span>
+						<input id="staffCodeCase" type="text" class="crm_input_text crm_width_3"
+							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+							value="" style="width:80px;height:22px;line-height: 22px;">
+					</div>
+					<div class="crm_input_item">
+						<span>员工姓名：</span>
+						<input id="staffNameCase" type="text" class="crm_input_text crm_width_3"
+							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+							value=""style="width:80px;height:22px;line-height: 22px;">
+					</div>
+					<div class="crm_input_item">
+						<input type="button" value="查询" class="button_blue1_s0" 
+							onmousedown="this.className='button_blue1_s1'"
+							onmouseout="this.className='button_blue1_s0'"
+							onclick="findStaffList('1')" />
+					</div>
+					<div class="crm_input_item">
+						<input type="button" value="确定" class="button_green1_s0" 
+							onmousedown="this.className='button_green1_s1'"
+							onmouseout="this.className='button_green1_s0'"
+							onclick="selectStaffUser()" />
+					</div>
+					<div style="clear: both"></div>
+					<div style="height: 10px; widows: 100%"></div>
+					
+				<table id="dg"></table>
+				<tfoot>
+					<div id="pageshow" style="display: none;">
+						<input type="hidden" title="当前第几页" name="page_index"
+							id="page_index" value="" />
+						<input type="hidden" title="一共多少页" name="page_count"
+							id="page_count" value="" />
+						<input type="hidden" title="一共多少条记录" name="count" id="count"
+							value="" />
+						<input type="hidden" title="每页显示多少条记录" name="page_size"
+							id="page_size" value="" />
+						<div class="pager_num"></div>
+						<div class="pager_text"></div>
+					</div>
+				</tfoot>
+				</div>
 			</div>
 		</form>
 		<script type="text/javascript">

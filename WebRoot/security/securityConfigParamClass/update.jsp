@@ -26,26 +26,36 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="${path}/js/pager.js"></script>
+		<script type="text/javascript" src="${path}/js/default.js"></script>
 		<script language="javascript" src="<bean:message key="include.js.TJMessage.path" bundle="security" />"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript" src="<bean:message key="security.js.gettext_staff.path" bundle="security" />"></script>
-		<script type="text/javascript" src="security/include/javascript/jianbian.js"></script>
+		<!-- <script type="text/javascript" src="security/include/javascript/jianbian.js"></script> -->
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
 		<link rel="stylesheet" href="include/css/open.css" />
+		<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+ 		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/border-radius.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/steel/steel.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 		<script language="javascript">
 			function saveForm(){
 				if(!Validator.Validate(document.forms.form,3)){
      			 return ;
    				}
 				if(checkspace(document.form.className.value)){
-					alert({message:'<bean:message key="security.jsp.securityConfigParamClassM.add.warn" bundle="security"/>'});
+					$.messager.alert('提示','<bean:message key="security.jsp.securityConfigParamClassM.add.warn" bundle="security"/>');
 				 	return ;
 				}
-				if (confirmMessage("<bean:message key='security.jsp.commom.update' bundle='security'/>")){     
+				     
 				    document.form.verbId.value = "update";    
 				    document.form.submit(); 
-				    }   
+				      
 			}
 			function checkspace(checkstr) {
 					var str = '';
@@ -65,11 +75,29 @@
 			}
 			function showMessage(message){
 				if(message != ''&& message != null){
-					alert(message);
+					$.messager.alert('提示',message);
 					return;
 				}
 			}
 </script>
+<style type="text/css">
+		.redlable {
+			color: #FF0000;
+			font-size: 16px;
+		}
+		
+		.crm_button_sub {
+			margin-top: 10px;
+			
+		}
+		
+		.crm_textarea_style {
+			width: 87%;
+			height: 80px;
+			border: 1px #E0E0E0 solid;
+			overflow-y: hidden;
+		}
+		</style>
 	</head>
 
 	<body onload="showMessage('<%=data.getMessage()%>')">
@@ -79,32 +107,27 @@
 			<input type="hidden" name="classCode"
 				value="<%=data.getClassCode()%>" />
 			<input type="hidden" name="page" value="<%=data.getPageNow()%>" />
-			<table  border="0" cellpadding="0" cellspacing="0" class="tblFill" align="center">
+			<div class='crm_edit_panel'>
+				<table class='crm_panel_table' cellspacing=1>
 				<tr>
-					<td class="tblTitle" colspan="4"><span>※</span>
-						<bean:message
-							key="security.jsp.securityConfigParamClassM.update.title"
-							bundle="security" />
-						<span>※</span></td>
-				</tr>
-				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						程序包代码：
 					</td>
-					<td>
-						<input type="text" class="kuandu" id="classCode" name="classCode"
-							style="width: 200px;" maxlength="32" readonly
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" id="classCode" name="classCode"
+							style="width: 200px;" maxlength="32"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="32" dataType="LimitB" msg="程序包代码输入过长"
 							onkeypress="eventOnKeyPress('projectName')"
 							value="<%=data.getClassCode()%>" />
 					</td>
-					<td class="tblLable">
-						<span>*</span>
+					<td class="crm_edit_item_name">
+						<span class="redlable">*</span>
 						工程名称:
 					</td>
-					<td>
-						<input type="text" class="input" id="displayInputId_1"
-							name="projectName" style="font-size: 12px; width: 180px"
+					<td class="crm_edit_item_content">
+						<input type="text"  id="displayInputId_1"class="text"
+							name="projectName" disabled="disabled"
 							onkeydown="huiche()" value="<%=data.getProjectName()%>"
 							readonly="readonly" onkeypress="eventOnKeyPress('className')" />
 						<input type="hidden" id="hiddenInputId_1"
@@ -115,53 +138,63 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<span>*</span>
+					<td class="crm_edit_item_name">
+						<span class="redlable">*</span>
 						<bean:message key="security.jsp.securityConfigParamClass1.commom2"
 							bundle="security" />
 						:
 					</td>
-					<td>
-						<input type="text" class="kuandu" name="className"
-							style="width: 200px;" maxlength="40"
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" name="className"
+							style="width: 200px;" maxlength="40" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="40" dataType="LimitB" msg="程序包名称输入过长"
 							onkeypress="eventOnKeyPress('functionDescription')"
 							value="<%=data.getClassName()%>" />
 					</td>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<bean:message key="security.jsp.securityConfigParamClass1.commom4"
 							bundle="security" />
 						:
 					</td>
-					<td>
-						<input type="text" class="kuandu" name="functionDescription" id="functionDescription"
-							style="width: 200px;" maxlength="40"
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" name="functionDescription" id="functionDescription"
+							style="width: 200px;" maxlength="40" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="40" dataType="LimitB" msg="功能描述输入过长"
 							onkeypress="eventOnKeyPress('comments')"
 							value="<%=data.getFunctionDescription()%>" />
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<bean:message key="security.jsp.securityConfigParamClass1.commom5"
 							bundle="security" />
 						:
 					</td>
-					<td colspan="3">
-						<input type="text" class="kuandu" id="comments" name="comments"
-							maxlength="40" max="40" dataType="LimitB" msg="备注输入过长"
-							onkeypress="eventOnKeyPress('btnSaveForm')"
+					<td colspan="3" class="crm_edit_item_content">
+						<input type="text"  id="comments" name="comments" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							maxlength="40" max="40" dataType="LimitB" msg="备注输入过长" style="width: 200px;"
+							onkeypress="eventOnKeyPress('btnSaveForm')"class="text"
 							value="<%=data.getComments()%>" />
 					</td>
 				</tr>
 			</table>
-
-
-			<!-- Sheet operation button area -->
-			<div class="btnSave">
-				<input type="button" name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>" onClick="saveForm()" />
-				<input type="button" name="btnBack" 	value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1)" />
 			</div>
+			<!-- Sheet operation button area -->
+			<div class="horizontal_line_10"></div>
+			<div class="crm_button_sub" id="btnSave" align="center">
+				<input type="button" name="btnSaveForm" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"
+					value="修改"
+					onclick="saveForm();" />&nbsp;&nbsp;
+				<input type="button" name="btnBack" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
+					value="<bean:message key="security.jsp.commom.button2" bundle="security"/>"
+					onclick="history.go(-1);" />
+			</div>
+			<div class="horizontal_line_10"></div>
+
+
 		</form>
 
 	</body>

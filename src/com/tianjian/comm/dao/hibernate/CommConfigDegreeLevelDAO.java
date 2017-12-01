@@ -316,4 +316,26 @@ public class CommConfigDegreeLevelDAO extends HibernateDaoSupport implements ICo
 			return null;
 		}
 	}
+	
+	public int getMaxSeqNo(){
+		int temp = 1;
+		try {
+			List<?> l = getHibernateTemplate().find(" select max(aa.seqNo) from CommConfigDegreeLevel aa ");
+			if(l != null && l.size() > 0){
+				Object o = l.get(0);
+				if(o==null){
+					return temp;
+				}else{
+					temp = Integer.valueOf(String.valueOf(l.get(0))).intValue()+1;
+				}
+				
+			}
+			log.debug("getMaxSeqNo success!");
+			return temp;
+        } catch (Exception re) {
+        	log.error("getMaxSeqNo fail!",re);
+        	re.printStackTrace();
+			return new Integer("1"); 
+        }
+	}   
 }

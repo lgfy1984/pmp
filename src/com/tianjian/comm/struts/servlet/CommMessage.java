@@ -10,8 +10,16 @@ public class CommMessage {
 	
 	private static HashMap<String, String> tjMsg;
 	
+	public static HashMap<String, String> getTjMsg() {
+		return tjMsg;
+	}
+
+	public static void setTjMsg(HashMap<String, String> tjMsg) {
+		CommMessage.tjMsg = tjMsg;
+	}
+
 	public CommMessage() {
-		tjMsg = new HashMap<String, String>();
+		setTjMsg(tjMsg);
 	}
 	
 	static {

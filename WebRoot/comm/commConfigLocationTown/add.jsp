@@ -19,6 +19,12 @@
 		<script language="javascript" src="<bean:message key="comm.js.comm.message" bundle="conf.comm.Comm"/>"></script>
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script language="javascript" src="include/javascript/TJMessage.js"></script>
+		<script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
+  		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+  		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
 		<script language="javascript">
 		function trim(str){  //删除左右两端的空格
 			return str.replace(/(^\s*)|(\s*$)/g, "");
@@ -34,26 +40,26 @@
 					arg1 = array[0];
 					arg2 = array[1];										
 					if(arg1.length > integer){
-						alert("\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm2" bundle="conf.comm.Comm"/>！"+integer+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);
+						$.messager.alert('提示',"\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm2" bundle="conf.comm.Comm"/>！"+integer+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);
 
 						return false;
 					}
 					if(arg2.length > decimal){
 
-						alert("\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm1" bundle="conf.comm.Comm"/>！"+decimal+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);
+						$.messager.alert('提示',"\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm1" bundle="conf.comm.Comm"/>！"+decimal+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);
 
 						return false;
 					}				
 				}else{
 					if(inputvalue.length > integer){
 
-						alert("\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm3" bundle="conf.comm.Comm"/>！"+integer+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);						
+						$.messager.alert('提示',"\""+itermname+"\""+"<bean:message key="comm.jsp.common.warm3" bundle="conf.comm.Comm"/>！"+integer+<bean:message key="comm.jsp.common.weishu" bundle="conf.comm.Comm"/>);						
 
 						return false;
 					}
 				}			
 			}else{
-				alert("\""+itermname+"\"<bean:message key="comm.jsp.common.musthavenumber" bundle="conf.comm.Comm"/>！");
+				$.messager.alert('提示',"\""+itermname+"\"<bean:message key="comm.jsp.common.musthavenumber" bundle="conf.comm.Comm"/>！");
 				return false;
 				}
 			}		
@@ -62,45 +68,47 @@
 			    if(!Validator.Validate(document.forms.form,3)){
 				      return ;
 				   }
-				if(document.form.commConfigLocationId1.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectProvince" bundle="conf.comm.Comm"/>");
+				if($('#commConfigLocationId1').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectProvince" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
-				if(document.form.commConfigLocationId2.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectCity" bundle="conf.comm.Comm"/>");
+				if($('#commConfigLocationId2').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectCity" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
-				if(document.form.commConfigLocationId3.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectTown" bundle="conf.comm.Comm"/>");
+				if($('#commConfigLocationId3').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectTown" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(document.form.seqNo.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.alert11" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.alert11" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(isNaN(document.form.seqNo.value)){
-			       alert("<bean:message key="comm.jsp.common.alert1" bundle="conf.comm.Comm"/>"); 
+			       $.messager.alert('提示',"<bean:message key="comm.jsp.common.alert1" bundle="conf.comm.Comm"/>"); 
 			       return true;
 			    }
 			    if(document.form.itemCode.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.alert13" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.alert13" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(isNaN(document.form.itemCode.value)){
-			       alert("<bean:message key="comm.jsp.common.alert16" bundle="conf.comm.Comm"/>"); 
+			       $.messager.alert('提示',"<bean:message key="comm.jsp.common.alert16" bundle="conf.comm.Comm"/>"); 
 			       return true;
 			    }
 			    if(document.form.itemCode.value.length !=8){
-				 	alert("<bean:message key="comm.jsp.common.alert15" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.alert15" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(document.form.itemName.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectVillageName" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectVillageName" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				 
-				document.form.verbId.value = "add";
-				document.form.submit();
+				     
+			    document.form.verbId.value = "add";    
+			    document.form.submit(); 
+		    	 
 			}
 			function newXMLHttpRequest() {
 				var xmlreq = false;
@@ -123,10 +131,10 @@
 				return function () {
 					if (req.readyState == 4) {
 			      		if (req.status == 200) {
-			      			//alert(req.responseText); 
+			      			//$.messager.alert('提示',req.responseText); 
 						    responseXmlHandler(req.responseXML);
 						} else {
-						    alert("HTTP error: " + req.status);
+						    $.messager.alert('提示',"HTTP error: " + req.status);
 			      		}
 			    	}
 			  	}
@@ -205,17 +213,17 @@
 				}
 			}
 			function updateItemCode(countyXML){
-				//alert("countyXML" + countyXML);
+				//$.messager.alert('提示',"countyXML" + countyXML);
 				var code=countyXML.getElementsByTagName("country")[0].childNodes[0].nodeValue;
 				var itemCode=countyXML.getElementsByTagName("itemCode")[0].childNodes[0].nodeValue;
-				//alert("code" + code + "itemCode" + itemCode);
+				//$.messager.alert('提示',"code" + code + "itemCode" + itemCode);
 				//document.getElementById("sasa").innerHTML = code;
 				//document.all('cmi').value=cmi;
 				document.form.itemCode.value = itemCode;
 			}
 			function setItemCode(){
 				var country=document.getElementById("commConfigLocationId3").value;
-				//alert("country" + country);
+				//$.messager.alert('提示',"country" + country);
 				var xmlHttp = newXMLHttpRequest();
 				var url = "<%=request.getContextPath()%>/comm/commConfigLocationTown.do?verbId=setItemCode&country="+country;
 				xmlHttp.open("GET", url, true);
@@ -224,14 +232,174 @@
 				xmlHttp.send(null);
 			}
 		</script>
-		<link rel="stylesheet" rev="stylesheet" href="comm/include/css/comm_add.css" />
+		<%--<link rel="stylesheet" rev="stylesheet" href="comm/include/css/comm_add.css" />--%>
+    <link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css"/>
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>	
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+<style type="text/css">
+.redlable{
+	color:#FF0000;
+	font-size:16px;
+}
+.crm_button_sub{
+	margin-top: 10px;
+	margin-left: 40%;
+}
+.crm_textarea_style{
+	width:87%;
+	height:80px;
+	border:1px #E0E0E0 solid;
+	overflow-y:hidden;
+}
+</style>
 	</head>
 	
 	<body onload="showCommMessage('','<%=data.getMessage()%>','1');document.form.commConfigLocationId1.focus();">
 		<form name="form" method="post" action="comm/commConfigLocationTown.do">
 			<input type="hidden" name="verbId" value="add" />
 			<input type="hidden" name="id" value="<%=data.getId()%>" />
-			<table border="0" cellspacing="1" cellpadding="0" class="table" align="center">
+<!--zyc--add--b-->
+	  <div style="height:4px;"></div>
+      <div class='crm_edit_panel'>
+      	  <table class='crm_panel_table'>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属省</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" name="commConfigLocationId1"
+      	  					id="commConfigLocationId1" style="width: 206px;height:30px;"
+							onkeypress="eventOnKeyPress('commConfigLocationId2')" data-options="    
+        valueField: 'id',    
+        textField: 'text',    
+        url: 'get_data1.php',    
+        onSelect: function(rec){    
+            var url = 'comm/commConfigLocationGroup.do?verbId=setCity&province='+rec.id;  
+            $('#commConfigLocationId2').combobox('clear');     
+            $('#commConfigLocationId2').combobox('reload', url);    
+        }"   
+							 >
+							<%
+								if (data.getCommConfigLocationIds1() != null && data.getCommConfigLocationIds1().length > 0) {
+									for (int i = 0; i < data.getCommConfigLocationIds1().length; i++) {
+										String tempId = data.getCommConfigLocationIds1()[i];
+										String tempName = data.getCommConfigLocationNames1()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data
+											.getCommConfigLocationId1()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属市</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" name="commConfigLocationId2"
+							id="commConfigLocationId2" style="width: 206px;height:30px;"
+							onkeypress="eventOnKeyPress('commConfigLocationId3')" data-options="valueField:'id',textField:'itemName', url: 'get_data2.php',    
+        onSelect: function(rec){    
+            var url = 'comm/commConfigLocationGroup.do?verbId=setCounty&city='+rec.id;  
+            $('#commConfigLocationId3').combobox('clear');     
+            $('#commConfigLocationId3').combobox('reload', url);    
+        }"
+							 >
+							<%
+								if (data.getCommConfigLocationIds2() != null && data.getCommConfigLocationIds2().length > 0) {
+									for (int i = 0; i < data.getCommConfigLocationIds2().length; i++) {
+										String tempId = data.getCommConfigLocationIds2()[i];
+										String tempName = data.getCommConfigLocationNames2()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data
+											.getCommConfigLocationId2()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属县</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" name="commConfigLocationId3"
+							id="commConfigLocationId3" style="width: 206px;height:30px;"
+							onkeypress="eventOnKeyPress('seqNo')" data-options="valueField:'id',textField:'itemName',url: 'get_data3.php',    
+        onSelect:function(){
+        	setItemCode();
+        }">
+							<%
+								if (data.getCommConfigLocationIds3() != null && data.getCommConfigLocationIds3().length > 0) {
+									for (int i = 0; i < data.getCommConfigLocationIds3().length; i++) {
+										String tempId = data.getCommConfigLocationIds3()[i];
+										String tempName = data.getCommConfigLocationNames3()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data
+											.getCommConfigLocationId3()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>序号</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input class="text" type="text" class="kuandu" name="seqNo"  id="seqNo" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							maxlength="9" onkeypress="eventOnKeyPress('itemCode')"  max="11" dataType="LimitB" msg="序号输入过长"
+							value="<%=data.getSeqNo()%>"/>
+      	  		</td>     	  	
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>代码</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input class="text" type="text" class="kuandu" name="itemCode" id="itemCode" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							maxlength="32" onkeypress="eventOnKeyPress('itemName')"  max="40" dataType="LimitB" msg="代码输入过长"
+							value="<%=data.getItemCode()%>"/>
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>名称</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input class="text" type="text" class="kuandu" name="itemName" size="20" maxlength="9" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							onkeypress="eventOnKeyPress('comments')"  max="100" dataType="LimitB" msg="名称输入过长"
+							value="<%=data.getItemName()%>" />
+      	  		</td>     	  	
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'>备注</td>
+      	  		<td class='crm_edit_item_content' colspan="3">
+      	  			<input class="text" type="text" class="kuandu" name="comments" id="comments" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							size="20" maxlength="20" value="<%=data.getComments()%>"  max="40" dataType="LimitB" msg="备注输入过长"
+							onkeypress="eventOnKeyPress('btnSaveForm')"/> 
+      	  		</td>
+      	  	</tr>     	  	
+      	  </table>
+      </div>
+      <br/>
+      <div class='crm_button_sub'>
+		<input type="button" name="btnSaveForm" value="保存" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();"/>
+		<input type="button" name="btnBack" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" onclick="history.go(-1);"/>
+	  </div>
+	 <!--zyc--add--e-->			
+			
+			
+			<%--<table border="0" cellspacing="1" cellpadding="0" class="table" align="center">
 				<tr>
 					<td height="30px" class="biaoti" colspan="4">
 						<font color="red">※</font>&nbsp;&nbsp;<bean:message key="comm.jsp.common.addVillage" bundle="conf.comm.Comm"/>&nbsp;&nbsp;
@@ -369,7 +537,7 @@
 					</td>
 				</tr>
 			</table>
-		</form>
+		--%></form>
 
 	</body>
 </html>

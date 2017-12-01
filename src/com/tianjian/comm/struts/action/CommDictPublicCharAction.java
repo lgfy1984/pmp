@@ -66,9 +66,9 @@ public class CommDictPublicCharAction extends BaseAction {
 		} else if(verbId.equals("getClass")){
 			return this.getClass(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);	
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -91,7 +91,7 @@ public class CommDictPublicCharAction extends BaseAction {
 			commDictPublicCharService.save(hosform);
 			CommDictPublicCharForm hosformNew = new CommDictPublicCharForm();
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.dataSaveSuccess", request) + "!";
-			hosformNew.setMessage(message);
+			//hosformNew.setMessage(message);
 			return this.query(mapping, hosformNew, request, response);
 		}
 		catch (Exception e) {
@@ -154,7 +154,7 @@ public class CommDictPublicCharAction extends BaseAction {
 			commDictPublicCharService.getSearch(hosform, count, pageSize);
 			commDictPublicCharService.serchInit(hosform);
 			request.setAttribute("commDictPublicChar", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

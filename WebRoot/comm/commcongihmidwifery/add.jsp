@@ -24,6 +24,8 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/hsp/include/javascript/jianbian.js" defer="defer"></script>
 		<script language="javascript" src="<%=request.getContextPath()%>/hsp/include/javascript/gettext_staff.js" defer="defer"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/hsp/include/css/open.css" />
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
 function saveForm(){
 if (confirmMessage("0-000003")){ 

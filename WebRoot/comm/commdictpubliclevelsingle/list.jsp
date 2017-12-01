@@ -2,6 +2,8 @@
 <%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <jsp:useBean id="commDictPublicLevel" scope="request" type="com.tianjian.comm.struts.form.CommDictPublicLevelForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
@@ -131,7 +133,7 @@ function isMadeOf(val,str)
 					</td>
 					<td id="list_C"></td>
 					<td class="list_cc">
-						<bean:message key="Comm.jsp.commom.ParentItem" bundle="conf.comm.CommMessage"/>：
+						<bean:message key="Comm.jsp.commom.ParentItem" bundle="conf.comm.CommMessage"/>
 						<select name="parentItemCode" id="parentItemCode" style="width: 80px;" onkeypress="eventOnKeyPress('classLevel')">
 							<%
 									if (commDictPublicLevel.getParentItemCodes() != null && commDictPublicLevel.getParentItemCodes().length > 0) {
@@ -149,11 +151,11 @@ function isMadeOf(val,str)
 						</select>
 					</td>
 					<td class="list_cc">
-						<bean:message key="jsp.dictValue" bundle="conf.Init"/>：
+						<bean:message key="jsp.dictValue" bundle="conf.Init"/>
 						<input name="itemName" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=commDictPublicLevel.getItemName()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="jsp.inputNo" bundle="conf.Init"/>：
+						<bean:message key="jsp.inputNo" bundle="conf.Init"/>
 						<input name="inputCode" type="text" onkeypress="eventOnKeyPress('<bean:message key="jsp.btnsubmit" bundle="conf.Init"/>')" value="<%=commDictPublicLevel.getInputCode()%>">
 					</td>
 					<td id="list_R"></td>
@@ -265,6 +267,16 @@ function isMadeOf(val,str)
 					</td>
 				</tr>
 				<tbody id="interval_row_id">
+				   <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="8">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (commDictPublicLevel.getItemCodeList() != null && commDictPublicLevel.getItemCodeList().length > 0) {
 							for (int i = 0; i < commDictPublicLevel.getItemCodeList().length; i++) {
@@ -297,7 +309,7 @@ function isMadeOf(val,str)
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

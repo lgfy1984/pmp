@@ -19,30 +19,41 @@
 		%>
 		<title><bean:message key="security.jsp.securitystaffpasswordchange.init.title" bundle="security"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="${path }/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript" src="${path}/js/default.js"></script>
+		<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+ 		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/border-radius.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/steel/steel.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+
 		<script language="javascript">
 function submitQueryForm() { 
 	if(document.form.passwd.value == ""){
-		alert('<bean:message key="security.jsp.commom.warn18" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.commom.warn18" bundle="security"/>');
   		return;
 	 }
   if(document.form.newPasswd.value == ""){
-		alert('<bean:message key="security.jsp.commom.warn19" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.commom.warn19" bundle="security"/>');
 	  	return;
   }
   if(document.form.confirmPassword.value == ""){
-		alert('<bean:message key="security.jsp.commom.warn20" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.commom.warn20" bundle="security"/>');
 	  	return;
   }
   if(document.form.newPasswd.value != document.form.confirmPassword.value){
-		alert('<bean:message key="security.jsp.commom.warn21" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.commom.warn21" bundle="security"/>');
 	  	return;
   }
-  if (confirm("<bean:message key='security.jsp.securitystaffpasswordchange.init.config' bundle='security'/>")){     
+     
     document.form.method = "POST"
     document.form.verbId.value = "update";    
     document.form.submit(); 
-   }   
+      
   
 }
 function back(){
@@ -50,7 +61,7 @@ function back(){
 }
 function showInitMessage(message){
 	if(message != ""){
-	 	alert(message);
+	 	$.messager.alert('提示',message);
 	 	return ;
 	}	
 	
@@ -65,46 +76,59 @@ function showInitMessage(message){
 			<!-- Head line -->
 			<input type="hidden" name="verbId" value="update">
 			<input type="hidden" name="staffId" value="<%=securityStaffPasswordChange.getStaffId()%>">
-			<table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" >
-				<tr>
-					<td class="tblTitle" colspan="2">
-						<span>※</span><bean:message key="security.jsp.securitystaffpasswordchange.init.title" bundle="security"/><span>※</span></td>
+			<div class='crm_edit_panel'>
+			<table class='crm_panel_table' cellspacing=1 align="center">
+				<tr align="center">
+					<td class="crm_edit_item_name">
+						<span>*</span><bean:message key="security.jsp.commom.passwd" bundle="security"/>
+					</td>
+					<td class="crm_edit_item_content">
+
+						<input name="passwd" type="password" class="text" maxlength="15" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('newPasswd')" value="<%=securityStaffPasswordChange.getPasswd()%>" />
+
+						<span class="tip"></span>
+					</td>
 				</tr>
 				
-				<TR>
-					<td class="tblLable">
-						<span>*</span> <bean:message key="security.jsp.commom.passwd" bundle="security"/>：
-					</TD>
-					<TD >
-						<input name="passwd" type="password" maxlength="15"  onkeypress="eventOnKeyPress('newPasswd')" value="<%=securityStaffPasswordChange.getPasswd()%>" />
+				<tr>
+					<td class="crm_edit_item_name">
+						<span>*</span> <bean:message key="security.jsp.commom.newPasswd" bundle="security"/>
+					</td>
+					<td class="crm_edit_item_content">
+
+						<input name="newPasswd" type="password" class="text" maxlength="15" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('confirmPassword')" value="<%=securityStaffPasswordChange.getNewPasswd()%>" />
+
 						<span class="tip"></span>
-					</TD>
-				</TR>
+					</td>
+				</tr>
 				
-				<TR>
-					<td class="tblLable" >
-						<span>*</span> <bean:message key="security.jsp.commom.newPasswd" bundle="security"/>：
-					</TD>
-					<TD >
-						<input name="newPasswd" type="password" maxlength="15" onkeypress="eventOnKeyPress('confirmPassword')" value="<%=securityStaffPasswordChange.getNewPasswd()%>" />
-						<span class="tip"></span>
-					</TD>
-				</TR>
-				
-				<TR>
-					<td class="tblLable" >
-						<span>*</span> <bean:message key="security.jsp.commom.item11" bundle="security"/>：
-					</TD>
-					<TD >
-						<input name="confirmPassword" type="password" maxlength="15 onkeypress="eventOnKeyPress('tijiao')" value="<%=securityStaffPasswordChange.getNewPasswd()%>" />
+				<tr>
+					<td class="crm_edit_item_name">
+						<span>*</span> <bean:message key="security.jsp.commom.item11" bundle="security"/>
+					</td>
+					<td class="crm_edit_item_content">
+
+						<input name="confirmPassword" type="password" class="text" maxlength="15" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('tijiao')" value="<%=securityStaffPasswordChange.getNewPasswd()%>" />
+
 					    <span class="tip"></span>
-					</TD>
-				</TR>
-				</TABLE>
-				<div class="btnSave">
-						<input type="button" style="font-family:Arial;font-size:12px;"  name="tijiao" value="提交" onClick="submitQueryForm();" />
-						<input type="button" style="font-family:Arial;font-size:12px;" name="btnBack" value="<bean:message key='security.jsp.commom.button11' bundle='security'/>" onClick="back();;" />
+					</td>
+				</tr>
+				</table>
 				</div>
+				<!-- Sheet operation button area -->
+				<div class="horizontal_line_10"></div>
+					<div class="crm_button_sub" id="btnSave" align="center">
+
+					<input type="button" name="btnSaveForm"class="button_green1_s1" onmouseout="this.className='button_green1_s0'" onmousedown="this.className='button_green1_s1'"
+						value="保存"
+						onclick="submitQueryForm();" />
+					&nbsp;&nbsp;
+
+				</div>
+				<div class="horizontal_line_10"></div>
 		</form>
 	</body>
 </html>

@@ -14,11 +14,15 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
+<script type="text/javascript" src="${path }/style/easyui/jquery.min.js"></script>
+<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
 <script language="javascript" src='<bean:message key="comm.js.commMessageguoh" bundle="conf.comm.CommMessageguoh"/>'></script>
 <script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 <script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 <script language="javascript" src='<bean:message key="comm.js.TJMessage" bundle="conf.comm.CommMessageguoh"/>'></script>
-<script language="javascript">
+<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script language="javascript">
 function trim(str){  //删除左右两端的空格
 			return str.replace(/(^\s*)|(\s*$)/g, "");
 		}
@@ -32,21 +36,21 @@ function yznumber(id,itermname,integer,decimal){
 					arg1 = array[0];
 					arg2 = array[1];										
 					if(arg1.length > integer){
-						alert("\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber1" bundle="conf.comm.CommMessageguoh"/>'+integer+'<bean:message key="comm.jsp.commconfigrh.add.yznumber2" bundle="conf.comm.CommMessageguoh"/>');
+						$.messager.alert('提示',"\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber1" bundle="conf.comm.CommMessageguoh"/>'+integer+'<bean:message key="comm.jsp.commconfigrh.add.yznumber2" bundle="conf.comm.CommMessageguoh"/>');
 						return false;
 					}
 					if(arg2.length > decimal){
-						alert("\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber3" bundle="conf.comm.CommMessageguoh"/>'+decimal+'<bean:message key="comm.jsp.commconfigrh.add.yznumber4" bundle="conf.comm.CommMessageguoh"/>');
+						$.messager.alert('提示',"\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber3" bundle="conf.comm.CommMessageguoh"/>'+decimal+'<bean:message key="comm.jsp.commconfigrh.add.yznumber4" bundle="conf.comm.CommMessageguoh"/>');
 						return false;
 					}				
 				}else{
 					if(inputvalue.length > integer){
-						alert("\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber5" bundle="conf.comm.CommMessageguoh"/>'+integer+'<bean:message key="comm.jsp.commconfigrh.add.yznumber6" bundle="conf.comm.CommMessageguoh"/>');					
+						$.messager.alert('提示',"\""+itermname+"\""+'<bean:message key="comm.jsp.commconfigrh.add.yznumber5" bundle="conf.comm.CommMessageguoh"/>'+integer+'<bean:message key="comm.jsp.commconfigrh.add.yznumber6" bundle="conf.comm.CommMessageguoh"/>');					
 						return false;
 					}
 				}			
 			}else{
-				alert("\""+itermname+'\"<bean:message key="comm.jsp.commconfigrh.add.yznumber7" bundle="conf.comm.CommMessageguoh"/>');
+				$.messager.alert('提示',"\""+itermname+'\"<bean:message key="comm.jsp.commconfigrh.add.yznumber7" bundle="conf.comm.CommMessageguoh"/>');
 				return false;
 				}
 			}		
@@ -55,36 +59,95 @@ function yznumber(id,itermname,integer,decimal){
 	    if(!Validator.Validate(document.forms.form,3)){
         return ;
          }
-		if(document.form.principal_phone.value !== null){ 
-			if(yznumber('principal_phone','<bean:message key="comm.jsp.commconfigrh.add.saveForm" bundle="conf.comm.CommMessageguoh"/>','6','2')==false){
-				return;
-			}
-		}
+		//if(document.form.principal_phone.value !== null){ 
+			//if(yznumber('principal_phone','<bean:message key="comm.jsp.commconfigrh.add.saveForm" bundle="conf.comm.CommMessageguoh"/>','6','2')==false){
+				//return;
+			//}
+		//}
 		if(document.form.itemCode.value == ""){
-		 	alertMessage("0-000001");
+	 	$.messager.alert('提示',"<bean:message bundle='comm.commLocale' key='comm.jsp.CodeText'/>");
 		 	return ;
 		}
 		if(document.form.itemName.value == ""){
-		 	alert('<bean:message key="comm.jsp.commconfigvocation.add.saveForm1" bundle="conf.comm.CommMessageguoh"/>');
+		 	$.messager.alert('提示','<bean:message key="comm.jsp.commconfigvocation.add.saveForm1" bundle="conf.comm.CommMessageguoh"/>');
 		 	return ;
 		}
 		
 		
-	if (confirmMessage("0-000003")){ 
+	
 		document.form.verbId.value = "add";
 		document.form.submit();
-		}
+		
 	}
 
 </script>
-<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+<script type="text/javascript" src="${path}/js/default.js"></script>
+<%--<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />--%>
+    <link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css"/>
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>	
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+<style type="text/css">
+.redlable{
+	color:#FF0000;
+	font-size:16px;
+}
+.crm_button_sub{
+	margin-top: 10px;
+	margin-left: 40%;
+}
+.crm_textarea_style{
+	width:87%;
+	height:80px;
+	border:1px #E0E0E0 solid;
+	overflow-y:hidden;
+}
+</style>
 </head>
 
 <body onload="showCommMessage('','<%=commConfigVocation.getMessage() %>','1')" >
 <form name="form" method="post" action= "comm/commConfigVocation.do" >
 
 <input type="hidden" name="verbId" value="add" />
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
+<!--zyc--add--b-->
+	  <div style="height:4px;"></div>
+      <div class='crm_edit_panel'>
+      	  <table class='crm_panel_table'>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>代码</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" class="text" name="itemCode" size="20" maxlength="8" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('itemName')" max="32" dataType="LimitB" msg="代码输入过长"  value="<%=commConfigVocation.getItemCode()%>" />
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>名称</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" class="text" name="itemName" size="50" maxlength="50" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('seqNo')"  max="40" dataType="LimitB" msg="名称输入过长" value="<%=commConfigVocation.getItemName()%>" />
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>序号</td>
+      	  		<td class='crm_edit_item_content'>
+					<input type="text" class="text" name="seqNo"  id="seqNo" size="30" maxlength="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('comments')"  max="11" dataType="LimitB" msg="序号输入过长" value="<%=commConfigVocation.getSeqNo()%>" />
+      	  		</td>      	  	
+      	  		<td class='crm_edit_item_name'>备注</td>
+      	  		<td class='crm_edit_item_content'>
+					<input type="text" class="text" name="comments" id="comments" size="30" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" maxlength="50" value="<%=commConfigVocation.getComments()%>" max="40" dataType="LimitB" msg="备注输入过长"  onkeypress="eventOnKeyPress('btnSave')"/>
+      	  		</td>
+      	  	</tr>      	  	
+      	  </table>
+      </div>
+      <div class='crm_button_sub'>
+		<input type="button" name="btnSave" id="btnSave" value="保存" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();"/>
+		<input type="button" name="btnHistory" id="btnHistory" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" onclick="history.go(-1);"/>
+	  </div>
+	 <!--zyc--add--e-->
+	 
+<%--<table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
     <tr>
         <td class="tblTitle" colspan="4"><span>※</span><bean:message key="comm.jsp.commconfigvocation.add.td1" bundle="conf.comm.CommMessageguoh"/><span>※</span></td>
     </tr>
@@ -129,6 +192,6 @@ function yznumber(id,itermname,integer,decimal){
 		<input type="button"  id="btnSave" name="btnSave" value='<bean:message key="comm.jsp.commconfigrh.add.td6" bundle="conf.comm.CommMessageguoh"/>' onclick="saveForm()" />
         <input type="button"  id="btnHistory" name="btnHistory" value='<bean:message key="comm.jsp.commconfigrh.add.td7" bundle="conf.comm.CommMessageguoh"/>' onclick="history.go(-1);" />  
 	</div>
-</form>
+--%></form>
 </body>
 </html>

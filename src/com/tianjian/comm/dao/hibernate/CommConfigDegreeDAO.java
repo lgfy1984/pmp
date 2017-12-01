@@ -1,6 +1,7 @@
 package com.tianjian.comm.dao.hibernate;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.hibernate.Query;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.tianjian.comm.bean.CommConfigDegree;
 import com.tianjian.comm.dao.ICommConfigDegreeDAO;
+import com.tianjian.util.HqlUtil;
  
 
 
@@ -94,27 +96,34 @@ public class CommConfigDegreeDAO extends HibernateDaoSupport implements  ICommCo
     
     public List<?> getData(String itemCode, String itemName, String inputCode, String seqNo, String orderNo, int curCount,int pageSize){
     	try {
-    		String sql = " select a.itemCode, a.itemName,a.inputCode,a.comments,a.seqNo  ";
-	    	sql += " from CommConfigDegree a  where 1=1 ";
-	       
-	    
+    		List<Object> params = new ArrayList<Object>();
+    		StringBuffer sql = new StringBuffer(" select a.itemCode, a.itemName,a.inputCode,a.comments,a.seqNo  ");
+	    	sql .append( " from CommConfigDegree a");
 	    	if(itemCode.trim().length() > 0){
-	    		sql += " and a.itemCode = '" + itemCode.trim() + "' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)
+						+ " a.itemCode = ? ");
+				params.add(itemCode.trim());
 	    	}
 	    	if(itemName.trim().length() > 0){
-	    		sql += " and lower(a.itemName) like '%" + itemName.trim().toLowerCase() + "%' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " lower(a.itemName) like ? ");
+	    		params.add("%" + itemName.trim().toLowerCase() + "%");
 	    	}
 	    	if(inputCode.trim().length() > 0){
-	    		sql += " and a.inputCode like '" + inputCode.trim().toUpperCase() + "%' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " a.inputCode like ? ");
+	    		params.add("%" + inputCode.trim().toUpperCase() + "%");
 	    	}
 	    	if(seqNo.trim().length() > 0){
-	    		sql += " and a.seqNo = '" + seqNo.trim() + "' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " a.seqNo = ?");
+	    		params.add(seqNo.trim());
 	    	}
 	    	if(orderNo.trim().length() > 0){
-	    		sql += " order by " + orderNo;
+	    		sql .append(" order by " + orderNo);
 	    	}
 	    	
-	    	Query q = getSession().createQuery(sql);
+	    	Query q = getSession().createQuery(sql.toString());
+	    	for (int i = 0; i < params.size(); i++) {
+				q.setParameter(i, params.get(i));
+			}
 			q.setFirstResult(curCount); 
 			q.setMaxResults(pageSize); 
 			List<?> l=q.list();
@@ -130,23 +139,33 @@ public class CommConfigDegreeDAO extends HibernateDaoSupport implements  ICommCo
     public int getCount( String itemCode, String itemName, String inputCode,String seqNo){
     	try {
     		int count = 0;
-	    	String sql = "select count(*) ";
-	    	sql += " from CommConfigDegree a  where 1=1  ";
-	    	
+    		List<Object> params = new ArrayList<Object>();
+    		StringBuffer sql = new StringBuffer("select count(*) ");
+	    	sql .append(" from CommConfigDegree a");
 	    	if(itemCode.trim().length() > 0){
-	    		sql += " and a.itemCode = '" + itemCode.trim() + "' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)
+						+ " a.itemCode = ? ");
+				params.add(itemCode.trim());
 	    	}
 	    	if(itemName.trim().length() > 0){
-	    		sql += " and a.itemName like '%" + itemName.trim() + "%' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " lower(a.itemName) like ? ");
+	    		params.add("%" + itemName.trim().toLowerCase() + "%");
 	    	}
 	    	if(inputCode.trim().length() > 0){
-	    		sql += " and a.inputCode like '" + inputCode.trim().toUpperCase() + "%' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " a.inputCode like ? ");
+	    		params.add("%" + inputCode.trim().toUpperCase() + "%");
 	    	}
 	    	if(seqNo.trim().length() > 0){
-	    		sql += " and a.seqNo = '" + seqNo.trim() + "' ";
+	    		sql .append(" " + HqlUtil.whereOrAnd(params)+ " a.seqNo = ?");
+	    		params.add(seqNo.trim());
 	    	}
 	    	
-	    	List<?> list = getHibernateTemplate().find(sql);
+	    	Query q = getSession().createQuery(sql.toString());
+	    	for (int i = 0; i < params.size(); i++) {
+				q.setParameter(i, params.get(i));
+			}
+			
+			List<?> list =q.list();
 	    	if(list != null && list.size() > 0){
 	    		count = Integer.valueOf(String.valueOf(list.get(0))).intValue();
 	    	}

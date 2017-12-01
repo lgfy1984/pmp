@@ -24,4 +24,6 @@ public interface ICommConfigStafftypeDAO {
     public int getCount(String itemCode, String itemName, String inputCode, String seqNo);
     
     public int getMaxSeqNo();    
+    
+	 public Long seqNoMaker(String nameOfTable);
 }

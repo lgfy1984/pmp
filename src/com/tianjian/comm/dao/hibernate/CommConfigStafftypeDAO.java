@@ -196,4 +196,23 @@ public class CommConfigStafftypeDAO extends HibernateDaoSupport implements  ICom
 			return new Integer("1"); 
         }
 	} 
+    
+	/**
+     * 自动获取序号
+     * @param commConfigYes
+     */
+	public Long seqNoMaker(String nameOfTable) {
+		try {
+			Long temp = (Long)this.getSession().createQuery(" select max(a.seqNo) from " + nameOfTable + " a ").uniqueResult();
+			if(temp==null)
+				return 1L;
+			else
+				return temp+1;
+		}
+		catch (Exception re) {
+			log.error("seqNoMaker error!", re);
+			return 1L;
+		}
+
+	}
 }

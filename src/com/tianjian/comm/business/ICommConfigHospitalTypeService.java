@@ -1,6 +1,8 @@
 package com.tianjian.comm.business;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.tianjian.comm.bean.CommConfigHospitalType;
@@ -28,6 +30,6 @@ public interface ICommConfigHospitalTypeService {
 	public String getXml(String flag,String input,String hspTypeLevel,HttpServletRequest request);
 	/**查找itemcode是否已经存在*/
 	public  CommConfigHospitalType findByItemCode(String itemCode);
-	/**set 中类*/
-	public void setLevel2(CommConfigHospitalTypeForm form,HttpServletRequest request);
+	/**get 中类*/
+	public List<CommConfigHospitalType> getLevel2(CommConfigHospitalTypeForm form,HttpServletRequest request);
 }

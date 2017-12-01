@@ -23,6 +23,8 @@
 		<meta http-equiv="expires" content="0">
 		<script language="javascript" src="<bean:message key="comm.js.comm.tjme" bundle="conf.comm.Comm"/>"></script>		
         <script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript">
 		function trim(str){  //删除左右两端的空格

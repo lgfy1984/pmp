@@ -20,33 +20,38 @@
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript" src="include/javascript/utrim.js"></script>
+		<script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
+  		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+  		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
 			function saveForm(){
 			    if(!Validator.Validate(document.forms.form,3)){
 				      return ;
 				   }
-				if(document.form.commProvinceId.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectProvince" bundle="conf.comm.Comm"/>");
+				if($('#commProvinceId').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectProvince" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
-				if(document.form.commCityId.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectCity" bundle="conf.comm.Comm"/>");
+				if($('#commCityId').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectCity" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
-				if(document.form.commCountyId.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.selectTown" bundle="conf.comm.Comm"/>");
+				if($('#commCountyId').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectTown" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
-				if(document.form.commCltId.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.alert14" bundle="conf.comm.Comm"/>");
+				if($('#commCltId').combobox('getValue')== ""){
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.selectCt" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(document.form.seqNo.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.notnullsqlno" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.notnullsqlno" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(isNaN(document.form.seqNo.value)){
-			       alert("<bean:message key="comm.jsp.common.alert1" bundle="conf.comm.Comm"/>"); 
+			       $.messager.alert('提示',"<bean:message key="comm.jsp.common.alert1" bundle="conf.comm.Comm"/>"); 
 			       return true;
 			    }
 				   var num=document.form.villagerNum.value;
@@ -54,29 +59,29 @@
 				   var familyNum=document.form.familyNum.value ;
 				if(num!=""){
 					if(!dataViladate(num)){
-				  		alert(" <bean:message key="comm.jsp.common.alert4" bundle="conf.comm.Comm"/>！");
+				  		$.messager.alert('提示'," <bean:message key="comm.jsp.common.alert4" bundle="conf.comm.Comm"/>！");
 				  		return;
 					}
 				
 					if(!dataViladate(familyNum)){
-				    	alertCommMessage(" <bean:message key="comm.jsp.common.alert3" bundle="conf.comm.Comm"/>！");
+				    	$.messager.alert('提示'," <bean:message key="comm.jsp.common.alert3" bundle="conf.comm.Comm"/>！");
 				     	return;
 				    }
 				}
 			    if(document.form.itemCode.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.writeVillageName" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.writeVillageName" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(isNaN(document.form.itemCode.value)){
-			       alert("<bean:message key="comm.jsp.common.alert6" bundle="conf.comm.Comm"/>"); 
+			       $.messager.alert('提示',"<bean:message key="comm.jsp.common.alert6" bundle="conf.comm.Comm"/>"); 
 			       return true;
 			    }
 			    if(document.form.itemCode.value.length !=10){
-				 	alert("<bean:message key="comm.jsp.common.alert5" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.alert5" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				if(document.form.itemName.value == ""){
-				 	alertCommMessage("<bean:message key="comm.jsp.common.writeVillageName" bundle="conf.comm.Comm"/>");
+				 	$.messager.alert('提示',"<bean:message key="comm.jsp.common.writeVillageName" bundle="conf.comm.Comm"/>");
 				 	return ;
 				}
 				 
@@ -104,10 +109,10 @@
 				return function () {
 					if (req.readyState == 4) {
 			      		if (req.status == 200) {
-			      			//alert(req.responseText); 
+			      			//$.messager.alert('提示',req.responseText); 
 						    responseXmlHandler(req.responseXML);
 						} else {
-						    alert("HTTP error: " + req.status);
+						    $.messager.alert('提示',"HTTP error: " + req.status);
 			      		}
 			    	}
 			  	}
@@ -116,7 +121,7 @@
 				var province = document.getElementById("commProvinceId").value;
 				var xmlHttp = newXMLHttpRequest();
 				var sendTo = url + "?verbId=setCity&province=" + province;
-				//alert(sendTo);
+				//$.messager.alert('提示',sendTo);
 				xmlHttp.open("GET", sendTo, true);
 				var handlerFunction = getReadyStateHandler(xmlHttp, updateCity);
 				xmlHttp.onreadystatechange = handlerFunction;
@@ -135,7 +140,7 @@
 				var town = document.getElementById("commCountyId").value;
 				var xmlHttp = newXMLHttpRequest();
 				var sendTo = url + "?verbId=setTown&town=" + town;
-				//alert(sendTo);
+				//$.messager.alert('提示',sendTo);
 				xmlHttp.open("GET", sendTo, true);
 				var handlerFunction = getReadyStateHandler(xmlHttp, updateTown);
 				xmlHttp.onreadystatechange = handlerFunction;
@@ -249,14 +254,227 @@
 				xmlHttp.send(null);
 			}
 		</script>
-		<link rel="stylesheet" rev="stylesheet" href="comm/include/css/comm_add.css" />
+		<%--<link rel="stylesheet" rev="stylesheet" href="comm/include/css/comm_add.css" />--%>
+    <link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css"/>
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  	<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+<style type="text/css">
+.redlable{
+	color:#FF0000;
+	font-size:16px;
+}
+.crm_button_sub{
+	margin-top: 10px;
+	margin-left: 40%;
+}
+.crm_textarea_style{
+	width:87%;
+	height:80px;
+	border:1px #E0E0E0 solid;
+	overflow-y:hidden;
+}
+</style>
 	</head>
 	
 	<body onload="showCommMessage('','<%=data.getMessage()%>','1');document.form.commProvinceId.focus();">
 		<form name="form" method="post" action="comm/commConfigLocationVillage.do">&nbsp; 
 			 <input type="hidden" name="verbId" value="add" />
 			<input type="hidden" name="id" value="<%=data.getId()%>"/>
-			<table border="0" cellspacing="1" cellpadding="0" class="table" align="center">
+<!--zyc--add--b-->
+	  <div style="height:4px;"></div>
+      <div class='crm_edit_panel'>
+      	  <table class='crm_panel_table'>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属省</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" style="width: 206px;height:30px;" name="commProvinceId"
+							id="commProvinceId"
+							onkeypress="eventOnKeyPress('commCityId')"
+							data-options="    
+        valueField: 'id',    
+        textField: 'text',    
+        url: 'get_data1.php',    
+        onSelect: function(rec){    
+            var url = 'comm/commConfigLocationGroup.do?verbId=setCity&province='+rec.id;  
+            $('#commCityId').combobox('clear');     
+            $('#commCityId').combobox('reload', url);  
+        }"   >
+							<%
+								if (data.getCommProvinceIds() != null && data.getCommProvinceIds().length > 0) {
+									for (int i = 0; i < data.getCommProvinceIds().length; i++) {
+										String tempId = data.getCommProvinceIds()[i];
+										String tempName = data.getCommProvinceNames()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data.getCommProvinceId()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属市</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" style="width: 206px;height:30px;" name="commCityId"
+							id="commCityId"
+							onkeypress="eventOnKeyPress('commCountyId')"
+							data-options="valueField:'id',textField:'itemName', url: 'get_data2.php',    
+        onSelect: function(rec){    
+            var url = 'comm/commConfigLocationGroup.do?verbId=setCounty&city='+rec.id;  
+            $('#commCountyId').combobox('clear');     
+            $('#commCountyId').combobox('reload', url);    
+        }">
+							<%
+								if (data.getCommCityIds() != null && data.getCommCityIds().length > 0) {
+									for (int i = 0; i < data.getCommCityIds().length; i++) {
+										String tempId = data.getCommCityIds()[i];
+										String tempName = data.getCommCityNames()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data
+											.getCommCityId()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属县</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<select class="easyui-combobox" editable="false" style="width: 206px;height:30px;" name="commCountyId"
+							id="commCountyId"
+							onkeypress="eventOnKeyPress('commCltId')"
+							data-options="valueField:'id',textField:'itemName',url: 'get_data3.php',    
+        onSelect: function(rec){    
+            var url = 'comm/commConfigLocationGroup.do?verbId=setTown&country='+rec.id;
+            
+            $('#commCltId').combobox('clear');     
+            $('#commCltId').combobox('reload', url);    
+        }">
+							<%
+								if (data.getCommCountyIds() != null && data.getCommCountyIds().length > 0) {
+									for (int i = 0; i < data.getCommCountyIds().length; i++) {
+										String tempId = data.getCommCountyIds()[i];
+										String tempName = data.getCommCountyNames()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data
+											.getCommCountyId()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>所属乡镇</td>
+      	  		<td class='crm_edit_item_content'>
+						<select class="easyui-combobox" editable="false" style="width: 206px;height:30px;" name="commCltId"
+							id="commCltId"
+							onkeypress="eventOnKeyPress('seqNo')" data-options="valueField:'id',textField:'itemName'">
+							<%
+								if (data.getCommCltIds() != null && data.getCommCltIds().length > 0) {
+									for (int i = 0; i < data.getCommCltIds().length; i++) {
+										String tempId = data.getCommCltIds()[i];
+										String tempName = data.getCommCltNames()[i];
+							%>
+							<option value="<%=tempId%>"
+								<%=tempId.equals(data.getCommCltId()) ? "selected"
+									: ""%>>
+								<%=tempName%>
+							</option>
+							<%
+									}
+								}
+							%>
+						</select>
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>序号</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" class="text" name="seqNo" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							maxlength="9" onkeypress="eventOnKeyPress('itemCode')"  max="11" dataType="LimitB" msg="序号输入过长"
+							value="<%=data.getSeqNo()%>" />
+      	  		</td> 
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>代码</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" class="text" name="itemCode" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							maxlength="10" onkeypress="eventOnKeyPress('villagerNum')"   max="32" dataType="LimitB" msg="代码输入过长"
+							value="<%=data.getItemCode()%>" />
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'><label class="redlable">*</label>名称</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" class="text" name="itemName" size="20"
+							maxlength="9" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							onkeypress="eventOnKeyPress('contactPersonName')"  max="100" dataType="LimitB" msg="名称输入过长"
+							value="<%=data.getItemName()%>" />
+      	  		</td>
+      	  		<td class='crm_edit_item_name'>总人数</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" name="villagerNum" class="text" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  max="8" dataType="LimitB" msg="总人数输入过长"
+						onkeypress="eventOnKeyPress('familyNum')"  value="<%=data.getVillagerNum() %>" />
+      	  		</td>
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'>总家庭数</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" name="familyNum" class="text" size="20"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  max="8" dataType="LimitB" msg="总家庭数输入过长"
+						onkeypress="eventOnKeyPress('itemName')"  value="<%=data.getFamilyNum()%>" />
+      	  		</td>
+      	  		<td class='crm_edit_item_name'>村联系人</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" name="contactPersonName" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="text" size="20"  max="40" dataType="LimitB" msg="村联系人输入过长"
+						onkeypress="eventOnKeyPress('phohe')"  value="<%=data.getContactPersonName()%>" />
+      	  		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<td class='crm_edit_item_name'>联系电话</td>
+      	  		<td class='crm_edit_item_content'>
+      	  			<input type="text" name="phohe" size="20" class="text"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  max="32" dataType="LimitB" msg="联系电话输入过长"
+						onkeypress="eventOnKeyPress('comments')" value="<%=data.getPhohe()%>" />
+      	  		</td>
+      	  		<td class='crm_edit_item_name'>备注</td>
+      	  		<td class='crm_edit_item_content' colspan="3">
+      	  			<input type="text" class="text" name="comments" id="comments" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  max="40" dataType="LimitB" msg="备注输入过长"
+							size="30" maxlength="20" value="<%=data.getComments()%>" 
+							onkeypress="eventOnKeyPress('btnSaveForm')"/>
+				</td> 
+      	  	</tr>  	  	
+      	  </table>
+      </div>
+      <br/>
+      <div class='crm_button_sub'>
+		<input type="button" name="btnSaveForm" value="保存" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();"/>
+		<input type="button" name="btnBack" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" onclick="history.go(-1);"/>
+	  </div>
+	 <!--zyc--add--e-->	
+			<%--<table border="0" cellspacing="1" cellpadding="0" class="table" align="center">
 				<tr>
 					<td height="30px" class="biaoti" colspan="4">
 						<font color="red">※</font>&nbsp;&nbsp;<bean:message key="comm.jsp.common.czd" bundle="conf.comm.Comm"/>&nbsp;&nbsp;
@@ -458,7 +676,7 @@
 					</td>
 				</tr>
 			</table>
-		</form>
+		--%></form>
 
 	</body>
 </html>

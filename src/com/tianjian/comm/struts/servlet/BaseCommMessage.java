@@ -8,10 +8,18 @@ import java.io.IOException;
 
 public class BaseCommMessage {
 	
-	private static HashMap<String, String> tjMsg;
+	private static HashMap<String, String> tjMsg ;
 	
+	public static HashMap<String, String> getTjMsg() {
+		return tjMsg;
+	}
+
+	public static void setTjMsg(HashMap<String, String> tjMsg) {
+		BaseCommMessage.tjMsg = tjMsg;
+	}
+
 	public BaseCommMessage() {
-		tjMsg = new HashMap<String, String>();
+		setTjMsg(tjMsg); ;
 	}
 	
 	static {

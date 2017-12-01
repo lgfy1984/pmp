@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,8 +20,11 @@ import java.util.Map;
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.business.IProjectBaseinfoService;
 import com.tianjian.pm.dao.IProjectBaseInfoDAO;
+import com.tianjian.pm.struts.form.PageForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoVo;
+import com.tianjian.pm.struts.form.SecurityStaffBaseinfoVo;
+import com.tianjian.security.bean.SecurityStaffBaseinfo;
 import com.tianjian.util.Converter;
 
 /**
@@ -159,9 +163,9 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @throws
 	* @author lengj
 	 */
-	public int getProjectBaseInfoCount(String projectClass, String classId,
+	public int getProjectBaseInfoCount(String projectClass, String projectNameHidden,
 			String onlineTime, String startTime, String endTime, String userId){
-		return projectBaseInfoDAO.getProjectBaseinfoCount(projectClass, classId, onlineTime, startTime, endTime, userId);
+		return projectBaseInfoDAO.getProjectBaseinfoCount(projectClass, projectNameHidden, onlineTime, startTime, endTime, userId);
 	}
 	/**
 	 * 修改初始化
@@ -263,7 +267,8 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 					temp.setId(Converter.toBlank(obs.getId()));
 					temp.setProjectName(Converter.toBlank(obs.getProjectName()));
 					temp.setProjectCode(Converter.toBlank(obs.getProjectCode()));
-					temp.setProjectClass(this.changeClassId(obs.getProjectClass(), hosform));
+					temp.setProjectClassName(this.changeClassId(obs.getProjectClass(), hosform));
+					temp.setStaffName(getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.staffCode=:staffCode",Converter.toBlank(obs.getStaffCode()),"staffCode"));
 					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
 					temp.setStartTime(sdf.format(obs.getStartTime()));
 					temp.setOnlineTime(sdf.format(obs.getOnlineTime()));
@@ -285,7 +290,9 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 		data.setProjectCode(Converter.toBlank(form.getProjectCode()));
 		data.setProjectName(Converter.toBlank(form.getProjectName()));
 		data.setProjectClass(Converter.toBlank(form.getProjectClassCode()));
-		
+
+	    data.setStaffCode(Converter.toBlank(form.getStaffCode()));
+	    data.setStaffName(Converter.toBlank(form.getStaffName()));
 			String newDate = sdf.format( new Date());
 			data.setStartTime(new Timestamp(Converter.toDate(form.getStartTime()).getTime()));
 			data.setOnlineTime(new Timestamp(Converter.toDate(form.getOnlineTime()).getTime()));
@@ -302,6 +309,8 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 		    form.setProjectCode(Converter.toBlank(data.getProjectCode()));
 		    form.setProjectName(Converter.toBlank(data.getProjectName()));
 		    form.setProjectClassCode(Converter.toBlank(data.getProjectClass()));
+		    form.setStaffCode(Converter.toBlank(data.getStaffCode()));
+		    form.setStaffName(Converter.toBlank(data.getStaffName()));
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 			form.setProjectClassName(this.changeClassId(Converter.toBlank(data.getProjectClass()), form));
 		    form.setStartTime(sdf.format(data.getStartTime()));
@@ -324,5 +333,39 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 			}
 		}
 		return "";
+	}
+
+	private String getItemNameByCode(String sql,String temp,String valueName){
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(valueName, temp);
+		
+		Object  obj = projectBaseInfoDAO.findObjByHql(sql, map);
+		return  Converter.toBlank(obj);
+	}
+	
+	@Override
+	public List<SecurityStaffBaseinfoVo> findStaffList(ProjectBaseInfoForm form, PageForm page) {
+		List<SecurityStaffBaseinfo> list = projectBaseInfoDAO.findStaffList(form, page);
+		List<SecurityStaffBaseinfoVo> list2 = new ArrayList<SecurityStaffBaseinfoVo>(list.size());
+		for (SecurityStaffBaseinfo pbi : list) {
+			SecurityStaffBaseinfoVo vo = new SecurityStaffBaseinfoVo();
+			vo.setId(Converter.toBlank(pbi.getId()));
+			vo.setStaffCode(Converter.toBlank(pbi.getStaffCode()));
+			vo.setStaffName(Converter.toBlank(pbi.getName()));
+			vo.setSexName(projectBaseInfoDAO.findNameByCode(pbi.getCommConfigSexId()));
+			vo.setStaffClass("");
+			vo.setCreateUserId(Converter.toBlank(pbi.getCreateUserId()));
+			vo.setCreateUserName(Converter.toBlank(pbi.getCreateUserName()));
+			list2.add(vo);
+		}
+		return list2;
+	}
+
+	@Override
+	public int findStaffCount(ProjectBaseInfoForm form, PageForm page) {
+		List<SecurityStaffBaseinfo> list = projectBaseInfoDAO.findStaffList(form, page);
+		return list.size();
+
 	}
 }

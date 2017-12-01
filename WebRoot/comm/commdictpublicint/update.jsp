@@ -27,65 +27,92 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script type="text/javascript" src="${path }/style/easyui/jquery.min.js"></script>
+<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 		<script language="javascript" src="<bean:message  key="Comm.js.TJMessagepath"  bundle="conf.comm.CommMessage"/>"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript" src="<bean:message key="security.js.gettext_staff.path" bundle="security" />"></script>
-		<link rel="stylesheet" href="<%=request.getContextPath()%>/hsp/include/css/open.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/include/css/open.css" />
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
 		function trim(str){  //删除左右两端的空格
 			return str.replace(/(^\s*)|(\s*$)/g, "");
 		}		 
-function saveForm(){
-	if(!Validator.Validate(document.forms.form,3)){
-      return ;
-   	}
-    if(document.form.classCode.value == ""){
-	 	alert('<bean:message key="Comm.js.commom.msg10" bundle="conf.comm.CommMessage" />');
-	 	return ;
-	}
-	if(document.form.dictCode.value == ""){
-	 alert('<bean:message key="comm.jsp.common.text31" bundle="conf.comm.comm"/>');
-	 return;
-	}
-	if(/\D/.test(document.form.seqNo.value)){
-		alert("<bean:message  bundle='comm.commLocale' key='comm.jsp.warn1'/>");
-		return;
-	}
-	if(document.form.dictValue.value == ""){
-		alert('<bean:message key="comm.jsp.common.text32" bundle="conf.comm.comm"/>');
-	   return ;
-	}
-	for(var i=0; i<document.form.dictCode.value.length; i++){
-		if(document.form.dictCode.value.charAt(i)<'0' || document.form.dictCode.value.charAt(i)>'9')
-		{
-		ymPrompt.alert('<bean:message key="Comm.js.commom.msg14" bundle="conf.comm.CommMessage"/>');
-		return ;
-		}
-    } 
-    for(var i=0; i<document.form.dictValue.value.length; i++){
-		if(document.form.dictValue.value.charAt(i)<'0' || document.form.dictValue.value.charAt(i)>'9')
-		{
-		ymPrompt.alert('<bean:message key="Comm.js.commom.msg15" bundle="conf.comm.CommMessage"/>');
-		return ;
-		}
-    } 
-	//修改
-	if (confirmMessage("<bean:message key='comm.jsp.update.gengxin' bundle='comm.commLocale'/>")){     
-	    document.form.verbId.value = "update";    
-	    document.form.submit(); 
-    }   
-}
-function showHspMessage(message){
-				if(message != ''&& message != null){
-					alert(message);
-					return;
-				}
+		function saveForm(){
+			if(!Validator.Validate(document.forms.form,3)){
+		      return ;
+		   	}
+		    if(document.form.classCode.value == ""){
+			 	$.messager.alert('提示','<bean:message key="Comm.js.commom.msg10" bundle="conf.comm.CommMessage" />');
+			 	return ;
 			}
-
-
-</script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+			if(document.form.dictCode.value == ""){
+			 $.messager.alert('提示','<bean:message key="comm.jsp.common.text31" bundle="conf.comm.comm"/>');
+			 return;
+			}
+			if(/\D/.test(document.form.seqNo.value)){
+				$.messager.alert('提示',"<bean:message  bundle='comm.commLocale' key='comm.jsp.warn1'/>");
+				return;
+			}
+			if(document.form.dictValue.value == ""){
+				$.messager.alert('提示','<bean:message key="comm.jsp.common.text32" bundle="conf.comm.comm"/>');
+			   return ;
+			}
+			for(var i=0; i<document.form.dictCode.value.length; i++){
+				if(document.form.dictCode.value.charAt(i)<'0' || document.form.dictCode.value.charAt(i)>'9')
+				{
+				$.messager.alert('提示','<bean:message key="Comm.js.commom.msg14" bundle="conf.comm.CommMessage"/>');
+				return ;
+				}
+		    } 
+		    for(var i=0; i<document.form.dictValue.value.length; i++){
+				if(document.form.dictValue.value.charAt(i)<'0' || document.form.dictValue.value.charAt(i)>'9')
+				{
+				$.messager.alert('提示','<bean:message key="Comm.js.commom.msg15" bundle="conf.comm.CommMessage"/>');
+				return ;
+				}
+		    } 
+			//修改
+			
+			    document.form.verbId.value = "update";    
+			    document.form.submit(); 
+		       
+		}
+		function showHspMessage(message){
+						if(message != ''&& message != null){
+							$.messager.alert('提示',message);
+							return;
+						}
+					}
+		
+		
+		</script>
+		<!-- <link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" /> -->
+		<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+		<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css"/>
+		<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css"/>
+	  	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>	
+	  	<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+		<style type="text/css">
+		.redlable{
+			color:#FF0000;
+			font-size:16px;
+		}
+		.crm_button_sub{
+			margin-top: 10px;
+			margin-left: 40%;
+		}
+		.crm_textarea_style{
+			width:87%;
+			height:80px;
+			border:1px #E0E0E0 solid;
+			overflow-y:hidden;
+		}
+		</style>
 	</head>
 	<body
 		onload="showHspMessage('<%=commDictPublicInt.getMessage()%>')">
@@ -94,7 +121,7 @@ function showHspMessage(message){
 			<input type="hidden" name="idHidden"
 				value=<%=commDictPublicInt.getIdHidden()%> />
 			<input type="hidden" name="id" value="<%=commDictPublicInt.getId()%>" />
-			<table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
+			<!-- <table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
 				<tr>
 					<td class="tblTitle" colspan="4"><span>※</span>
 						<bean:message key="Comm.jsp.commom.modifyGeneralDict"
@@ -164,15 +191,57 @@ function showHspMessage(message){
 							value="<%=commDictPublicInt.getComments()%>" />
 					</td>
 				</tr>
-			</table>
+			</table> -->
+			
+			<div style="height:4px;"></div>
+			<div class='crm_edit_panel'>
+				<table class='crm_panel_table'>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>类别名称</td>
+						<td class='crm_edit_item_content'>
+							<input type="text" class="text" id="displayInputId_1"
+							name="className" style="font-size: 12px; width: 180px"
+							onkeydown="huiche()" value="<%=commDictPublicInt.getClassName()%>"
+							readonly="readonly" onkeypress="eventOnKeyPress('hidden_1')" disabled="disabled"/>
+							<input type="hidden" id="hiddenInputId_1"
+							value="<%=commDictPublicInt.getClassCode()%>" name="classCode" />
+							<img src="security/include/images/select.gif"
+							style="cursor: pointer;"
+							onclick="add('<%=request.getContextPath()%>/comm/commDictPublicChar.do?verbId=getClass','displayInputId_1','hiddenInputId_1')" />
+						</td>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>项目代码</td>
+						<td class='crm_edit_item_content'>
+							<input type="text" class="text" name="dictCode" size="20" maxlength="9" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('dictValue')" max="20" dataType="LimitB" msg="项目代码输入过长"  value="<%=commDictPublicInt.getDictCode()%>" />
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>项目名称</td>
+						<td class='crm_edit_item_content'>
+							<input type="text" class="text" name="dictValue" size="50" maxlength="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('seqNo')" max="20" dataType="LimitB" msg="项目名称输入过长"  value="<%=commDictPublicInt.getDictValue()%>" />
+						</td>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>序号</td>
+						<td class='crm_edit_item_content'>
+							<input type="text" class="text" name="seqNo" id="seqNo" size="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" maxlength="6" onkeypress="eventOnKeyPress('comments')" value="<%=commDictPublicInt.getSeqNo()%>" readonly />
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name'>备注</td>
+						<td class='crm_edit_item_content'>
+							<input type="text" class="text" name="comments" id="comments"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" maxlength="50" onkeypress="eventOnKeyPress('btnSaveForm')" max="40" dataType="LimitB" msg="备注输入过长"  value="<%=commDictPublicInt.getComments()%>" />
+						</td>
+					</tr>
+				</table>
+			</div>
 			<!-- Sheet operation button area -->
-			<div class="btnSave">
-				<input type="button" name="btnSaveForm"
-							value="<bean:message key="jsp.btnSaveForm" bundle="conf.Init"/>"
-							onClick="saveForm()" />
-				<input type="button" name="btnBack"
-							value="<bean:message key="jsp.btnBack" bundle="conf.Init"/>"
-							onClick="history.go(-1);" />
+			<div class='crm_button_sub'>
+				<input type="button" name="btnSaveForm" value="修改"
+					class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();" /> 
+				<input type="button" name="btnBack" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
+					onclick="history.go(-1);" />
 			</div>
 		</form>
 	</body>

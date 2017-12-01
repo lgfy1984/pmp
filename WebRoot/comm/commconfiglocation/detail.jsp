@@ -99,8 +99,11 @@
 			</table>
 			<!-- Sheet operation button area -->
 			<div class="btnSave" id="btnSave">
+			<div class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 30px;">
+					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
+					<span style="position: fixed;color: #fff;">打印</span>
+				</div>
 				<input type="button" name="btnBack" value="<bean:message key="comm.jsp.common.text19" bundle="conf.comm.comm"/>" onClick="history.go(-1);" />
-				<input type="button"  style="font-size:12px;font-family:Arial;" name="btn" value="打印" onclick="QWPrint();" />  
 			</div>
 		</form>
 	</body>

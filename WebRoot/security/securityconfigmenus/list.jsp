@@ -2,6 +2,7 @@
 <%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <jsp:useBean id="dataForm" scope="request" 
 	class="com.tianjian.security.struts.form.SecurityConfigMenusForm" />
@@ -174,6 +175,16 @@ function isMadeOf(val,str)
 			        </tr>
 				</thead>
 				<tbody id="interval_row_id">
+				   <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="7">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<logic:notEmpty name="dataForm" property="dataList">
 						<logic:iterate id="data" indexId="indexId" name="dataForm" property="dataList">
 						<tr class="list_neirong">
@@ -211,7 +222,7 @@ function isMadeOf(val,str)
 			</table>
 			</div>
 			<!--列表内容-->
-			<table width="100%" align="center" class="tblScrollFooter">
+			<table width="100%" align="center" class="tblScrollFooter" <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 				<tr>
 					<td colspan="11" align="center" class="footer">
 		 			<%

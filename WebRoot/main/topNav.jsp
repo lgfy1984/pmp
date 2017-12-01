@@ -1616,9 +1616,10 @@ body{
 					type="button" value="搜索" onclick="mainSearch()"
 					style="margin:0;margin-left:-3px;width:44px;text-align:center;height:27px;line-height:27px;border:none;background-color:rgb(131,204,86);color:white;background-image:url('<%=request.getContextPath()%>/include/images/search_box.jpg');background-position:center right">
 			</div>
-			  -->	
 			</div>
 		</div>
+			  -->	
+			
 		<div
 			style="width:100%;background-image: url('<%=request.getContextPath()%>/include/images/v.jpg');height:11px;"></div>
 
@@ -1807,7 +1808,7 @@ body{
 
 
 		</div>
-</div>
+
 <input type="hidden" id="imServerPath" value="http://localhost:8003/ChartPatientWebhttp://localhost:8003/ChatPatientWeb/">
 <OBJECT ID="CallCenter" CLASSID="CLSID:F20C5A15-A3E3-4375-9A8B-8275489017B8" style="width: 0px;height: 0px;"></OBJECT>
 <script>

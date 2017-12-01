@@ -128,7 +128,9 @@
 					  <td style="cursor:pointer;" onclick="showDetail('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="详细"  /></td>
 				  	 <c:choose>
        					<c:when test='${data.createUserId eq kd.createUserId}'>
-       						<td style="cursor:pointer;" onclick="updatepm('${kd.id}');"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="修改"  /></td>
+       					    <c:if test='${data.status != 1}'>
+       						 <td style="cursor:pointer;" onclick="updatepm('${kd.id}');"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="修改"  /></td>
+					  		</c:if>
 					  		<td style="cursor:pointer;" onclick="deletepm('${kd.id}');"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="删除"  /></td>
        					</c:when>
        					<c:otherwise>

@@ -2,7 +2,8 @@ package com.tianjian.comm.dao;
 
 import java.util.List;
 
-import com.tianjian.comm.bean.CurrentPriceList;
+import com.tianjian.hsp.bean.CurrentPriceList;
+
 
 public interface ICurrentPriceListDAO {
 

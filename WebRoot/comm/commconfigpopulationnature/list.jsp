@@ -2,6 +2,7 @@
 <%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <jsp:useBean id="data" scope="request" type="com.tianjian.comm.struts.form.CommConfigPopulationNatureForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
@@ -128,15 +129,15 @@ function huiche(){
 					</td>
 					<td id="list_C"></td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.item" bundle="conf.comm.Comm"/>：
+						<bean:message key="comm.jsp.common.item" bundle="conf.comm.Comm"/>
 						<input name="itemCode" type="text" onkeydown="huiche()" value="<%=data.getItemCode()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.names" bundle="conf.comm.Comm"/>：
+						<bean:message key="comm.jsp.common.names" bundle="conf.comm.Comm"/>
 						<input name="itemName" type="text" onkeydown="huiche()" value="<%=data.getItemName()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.inputItemCode" bundle="conf.comm.Comm"/>：
+						<bean:message key="comm.jsp.common.inputItemCode" bundle="conf.comm.Comm"/>
 						<input name="inputCode" type="text" value="<%=data.getInputCode()%>" onkeydown="huiche()">
 					</td>
 					<td id="list_R"></td>
@@ -244,6 +245,16 @@ function huiche(){
 					</td>
 				</tr>
 				<tbody id="interval_row_id">
+				   <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="8">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (data.getItemCodeList() != null && data.getItemCodeList().size() > 0) {
 							for (int i = 0; i < data.getItemCodeList().size(); i++) {
@@ -273,7 +284,7 @@ function huiche(){
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

@@ -28,6 +28,8 @@
 		<script src="include/calendar/calendar-zh.js"></script>
 		<link rel="StyleSheet" href="<%=request.getContextPath()%>/include/calendar/theme.css" type="text/css"/>
 		<link rel="stylesheet" href="security/include/css/open.css" />
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
 		function trim(str){  //删除左右两端的空格
 			return str.replace(/(^\s*)|(\s*$)/g, "");

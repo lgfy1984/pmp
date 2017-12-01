@@ -118,10 +118,24 @@ function showDetail(idHidden){
 	document.form.submit();
 }
 /**审核*/
-function check(idHidden){
-	document.form.verbId.value = "check"; 
-	document.form.idHidden.value = idHidden; 
-	document.form.submit();
+function checkcc(idHidden){
+
+	$.messager.defaults = { ok: "通过", cancel: "不通过" };
+	$.messager.confirm("操作提示", "审核选择", function (data) {
+        if (data) {
+        	document.form.status.value = "1"; 
+        	document.form.verbId.value = "check"; 
+        	document.form.idHidden.value = idHidden; 
+        	document.form.submit();
+        }
+        else {
+        	document.form.status.value = "0"; 
+        	document.form.verbId.value = "check"; 
+        	document.form.idHidden.value = idHidden; 
+        	document.form.submit();
+        }
+    });
+
 }
 /**修改页面 */
 function updatepm(idHidden){

@@ -23,39 +23,66 @@
 		<meta http-equiv="pragma" content="no-cache" />
 		<meta http-equiv="cache-control" content="no-cache" />
 		<meta http-equiv="expires" content="0" />
+		<script type="text/javascript" src="${path }/style/easyui/jquery.min.js"></script>
+<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
 		<script language="javascript" src="<bean:message key="comm.js.CommMessage.path" bundle="conf.comm.comm"/>"></script>
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript" src="<%=request.getContextPath()%>/include/javascript/utrim.js"></script>
 		<script language="javascript">
 			function saveForm(){
 				if(trim(document.form.itemCode.value)==""){
-					alert("<bean:message key="comm.jsp.common.text31" bundle="conf.comm.comm"/>");
+					$.messager.alert('提示',"<bean:message key="comm.jsp.common.text31" bundle="conf.comm.comm"/>");
 					return;
 				}
 				if(trim(document.form.itemName.value)==""){
-					alert("<bean:message key="comm.jsp.common.text32" bundle="conf.comm.comm"/>");
+					$.messager.alert('提示',"<bean:message key="comm.jsp.common.text32" bundle="conf.comm.comm"/>");
 					return;
 				}
 				if(trim(document.form.inputCode.value)==""){
-					alert("<bean:message key="comm.jsp.common.text33" bundle="conf.comm.comm"/>");
+					$.messager.alert('提示',"<bean:message key="comm.jsp.common.text33" bundle="conf.comm.comm"/>");
 					return;
 				}
 				if(trim(document.form.inputCodeWb.value)==""){
-					alert("<bean:message key="comm.jsp.common.text34" bundle="conf.comm.comm"/>");
+					$.messager.alert('提示',"<bean:message key="comm.jsp.common.text34" bundle="conf.comm.comm"/>");
 					return;
 				}
 				document.form.verbId.value = "update";
 				document.form.submit();
 			}
 		</script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<!-- <link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" /> -->
+		<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+		<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css"/>
+		<link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css"/>
+	  	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>	
+	  	<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+		<style type="text/css">
+		.redlable{
+			color:#FF0000;
+			font-size:16px;
+		}
+		.crm_button_sub{
+			margin-top: 10px;
+			margin-left: 40%;
+		}
+		.crm_textarea_style{
+			width:87%;
+			height:80px;
+			border:1px #E0E0E0 solid;
+			overflow-y:hidden;
+		}
+		</style>
 	</head>
 
 	<body onload="showCommMessage('','<%=commConfigInputDict.getMessage()%>','')">
 		<form name="form" method="post" action="comm/commConfigInputDict.do">
 
 			<input type="hidden" name="verbId" value="update" />
-			<table border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
+			<!-- <table border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
 				<tr>
 					  <td class="tblTitle" colspan="4"><span>※</span><bean:message key="comm.jsp.common.text37" bundle="conf.comm.comm"/>
 						<span>※</span></td>
@@ -107,13 +134,63 @@
 							value="<%=commConfigInputDict.getComments()%>" />
 					</td>
 				</tr>
-			</table>
+			</table> -->
 
 
+			<div style="height:4px;"></div>
+			<div class='crm_edit_panel'>
+				<table class='crm_panel_table'>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>代码</td>
+						<td class='crm_edit_item_content'><input class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							type="text" class="kuandu" name="itemCode" id="itemCode" size="20"
+							maxlength="32" onkeypress="eventOnKeyPress('itemName')" max="40"
+							dataType="LimitB" msg="代码输入过长"
+							value="<%=commConfigInputDict.getItemCode() %>" readonly="readonly" />
+						</td>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>名称</td>
+						<td class='crm_edit_item_content'><input class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							type="text" class="kuandu" name="itemName" size="20" maxlength="9"
+							onkeypress="eventOnKeyPress('inputCode')" max="40" dataType="LimitB"
+							msg="名称输入过长" value="<%=commConfigInputDict.getItemName() %>" /></td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>输入码</td>
+						<td class='crm_edit_item_content'><input class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							type="text" class="kuandu" name="inputCode" size="20"
+							maxlength="5" onkeypress="eventOnKeyPress('inputCodeWb')"
+							value="<%=commConfigInputDict.getInputCode()%>" /></td>
+						<td class='crm_edit_item_name'>五笔码</td>
+						<td class='crm_edit_item_content' colspan="3"><input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							class="text" type="text" class="kuandu" name="inputCodeWb" size="20"
+							maxlength="5" onkeypress="eventOnKeyPress('comments')"
+							value="<%=commConfigInputDict.getInputCodeWb()%>" />
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name'>备注</td>
+						<td class='crm_edit_item_content' colspan="3"><input
+							class="text" type="text" class="kuandu" name="comments"
+							id="comments" size="20" maxlength="20" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  
+							value="<%=commConfigInputDict.getComments() %>" max="40"
+							dataType="LimitB" msg="备注输入过长"
+							onkeypress="eventOnKeyPress('btnSaveForm')" />
+						</td>
+					</tr>
+	
+				</table>
+			</div>
 			<!-- Sheet operation button area -->
-			<div class="btnSave">
-				<input type="button" name="btnSaveForm" value="<bean:message key="comm.jsp.common.text3" bundle="conf.comm.comm"/>" onclick="saveForm()" />
-				<input type="button" name="btnBack" value="<bean:message key="comm.jsp.common.text19" bundle="conf.comm.comm"/>" onclick="history.go(-1);" />
+			<div class='crm_button_sub'>
+				<input type="button" name="btnSaveForm" value="修改"
+					class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();" /> 
+				<input type="button" name="btnBack" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
+					onclick="history.go(-1);" />
 			</div>
 		</form>
 

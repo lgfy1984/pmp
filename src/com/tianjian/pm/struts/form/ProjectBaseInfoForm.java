@@ -35,6 +35,7 @@ public class ProjectBaseInfoForm extends ActionForm {
 	private String projectName="" ;
 	private String projectClassCode="" ;
 	private String projectClassName="" ;
+	private String tenantId="" ;
 	private String staffCode="" ;
 	private String staffName="" ;
 	private String startTime="" ;
@@ -255,6 +256,12 @@ public class ProjectBaseInfoForm extends ActionForm {
 	}
 	public void setProjectNameHidden(String projectNameHidden) {
 		this.projectNameHidden = projectNameHidden;
+	}
+	public String getTenantId() {
+		return tenantId;
+	}
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
 	
 }

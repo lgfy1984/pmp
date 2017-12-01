@@ -158,10 +158,10 @@ public class CommDictPublicIntServiceImpl implements ICommDictPublicIntService {
 			data.setId        (transNullToString(form.getId      ()));
 			data.setClassCode(transNullToString(form.getClassCode())); 
 			data.setDictCode (transNullToString(form.getDictCode()));
-			data.setDictValue  (Long.valueOf((form.getDictValue() == null || form.getDictValue().trim() == "") ? "0" : form.getDictValue()));
+			data.setDictValue  (Long.valueOf((form.getDictValue() == null || "".equals(form.getDictValue().trim())) ? "0" : form.getDictValue()));
 			data.setInputCode (transNullToString(form.getInputCode()));
 			data.setComments  (transNullToString(form.getComments()));
-			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			 } catch (Exception e) { 
 				 log.error("setData fail!",e);
 				 e.printStackTrace();

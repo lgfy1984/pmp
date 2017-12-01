@@ -303,6 +303,51 @@ background-color:#FFFFFF;
 	color: #666666;
 	font-weight: normal;
 }
+
+.temp_pager_num{
+	margin:0 auto;
+	width:auto;
+	text-align:center;
+	color: #666666;
+	font-weight: normal;
+}
+.temp_pager_bar{
+	margin:0 auto;
+}
+.temp_pager_bar input{
+	
+	height:24px;
+	background-color:white;
+	border:none;
+	color:#707070;
+	line-height:24px;
+	text-align:center;
+	margin-right:5px;
+	cursor:pointer;
+}
+.temp_pager_bar input.cur{
+	
+	height:24px;
+	line-height:24px;
+	text-align:center;
+	background-color:#1ba4e5;
+	border:0;
+	border:none;
+	color:white;
+	cursor:default;
+}
+.temp_pager_bar a:hover span{
+	background-color:#1ba4e5;
+	color:white;
+}
+.temp_pager_text{
+	display:none;
+	height:24px;
+	line-height:24px;
+	color: #666666;
+	font-weight: normal;
+}
+
 .crm_table_content tbody td span{
 	padding:3px;
 }

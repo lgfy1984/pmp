@@ -55,8 +55,10 @@ public class CommDictPublicClassServiceImpl implements ICommDictPublicClassServi
 	/**提交修改*/
 	public void update(CommDictPublicClassForm form){
 		CommDictPublicClass data = commDictPublicClassDAO.findById(form.getClassCodeHidden());
+		CommDictPublicClass dd = data;
 		this.setData(form, data);
-		commDictPublicClassDAO.update(data);
+		commDictPublicClassDAO.delete(dd);
+		commDictPublicClassDAO.save(data);
 	}
 	/**提交察看详细*/
 	public void showInit(CommDictPublicClassForm form){
@@ -139,7 +141,7 @@ public class CommDictPublicClassServiceImpl implements ICommDictPublicClassServi
 			data.setClassName (transNullToString(form.getClassName()));
 			data.setInputCode (transNullToString(form.getInputCode()));
 			data.setComments  (transNullToString(form.getComments      ()));
-			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			 } catch (Exception e) { 
 				 log.error("setData fail!",e);
 				 e.printStackTrace();

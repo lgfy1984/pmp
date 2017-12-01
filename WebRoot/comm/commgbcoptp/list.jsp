@@ -3,6 +3,8 @@
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+
 <jsp:useBean id="commGbCoptp" scope="request" type="com.tianjian.comm.struts.form.CommGbCoptpForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -126,15 +128,15 @@ function isMadeOf(val,str)
 					</td>
 					<td id="list_C"></td>
 					<td class="list_cc">
-						<bean:message key="Comm.jsp.commom.code" bundle="conf.comm.CommMessage"/>：
+						<bean:message key="Comm.jsp.commom.code" bundle="conf.comm.CommMessage"/>
 						<input name="itemCode" type="text" onkeypress="eventOnKeyPress('itemName')" value="<%=commGbCoptp.getItemCode() %>" />
 					</td>
 					<td class="list_cc">
-						<bean:message key="Comm.jsp.commom.name" bundle="conf.comm.CommMessage"/>：
+						<bean:message key="Comm.jsp.commom.name" bundle="conf.comm.CommMessage"/>
 						<input name="itemName" type="text"  onkeypress="eventOnKeyPress('inputCode')" value="<%=commGbCoptp.getItemName() %>" />
 					</td>
 					<td class="list_cc">
-						<bean:message key="jsp.inputNo" bundle="conf.Init"/>：
+						<bean:message key="jsp.inputNo" bundle="conf.Init"/>
 						<input name="inputCode" type="text" onkeypress="eventOnKeyPress('<bean:message key="jsp.btnsubmit" bundle="conf.Init"/>')" value="<%=commGbCoptp.getInputCode() %>" />
 					</td>
 					<td id="list_R"></td>
@@ -217,6 +219,16 @@ function isMadeOf(val,str)
 					</td>
 				</tr>	
 				<tbody id="interval_row_id">
+				  <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="9">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 				<%if (commGbCoptp.getItemCodeList() != null && commGbCoptp.getItemCodeList().length > 0) {
 					for (int i = 0; i < commGbCoptp.getItemCodeList().length; i++) {
 				%>
@@ -254,7 +266,7 @@ function isMadeOf(val,str)
 
 			%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="9" align="center" bgcolor="#ffffff" height="35px">
 		 <%int curPage = 0;
 			int totalNum = 0;

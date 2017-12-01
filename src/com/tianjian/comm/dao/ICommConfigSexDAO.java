@@ -9,6 +9,7 @@ public interface ICommConfigSexDAO {
     public CommConfigSex findById(String id);
     
     public List<?> findAll();
+    public List<?> findVIPAll();
     
 	public String getItemName(String id);
 	

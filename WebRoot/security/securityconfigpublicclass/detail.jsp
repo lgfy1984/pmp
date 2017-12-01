@@ -22,7 +22,14 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		
+		<script type="text/javascript" src="${path}/js/default.js"></script>
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
 		<script language="javascript">
 		    function QWPrint(){
 			     if(document.all.PrintActiveX == undefined || document.all.PrintActiveX ==null){
@@ -42,123 +49,132 @@
 	<body>
 		<form name="form" method="post">
 			<input type="hidden" name="verbId" value="detail">
-			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tblView" align="center">
+			<div class="crm_edit_panel ">
+			<table class="crm_panel_table" >
 				<tr>
-					<td class="tblTitle" colspan="4">
-						<span>※</span>&nbsp;&nbsp;<bean:message key="security.jsp.securityconfigpublicclass.detail.topic" bundle="conf.security.security"/>
-					&nbsp;&nbsp;<span>※</span>
+					<td class="crm_edit_item_name" colspan="4">
+						<label style="float: left;font-size:14;color:#498ED3"><bean:message key="security.jsp.securityconfigpublicclass.detail.topic" bundle="conf.security.security"/></label>
 					</td>
 				</tr>
 				<tr>
-					<!--<td class="qian" nowrap>
-						ID:
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.className" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou" nowrap>
-						${dataForm.data.id}
-					</td>  -->		
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.className" bundle="conf.security.security"/>：
-					</td>
-					<td class="td_col3" colspan="3">
-						${dataForm.data.className}
+					<td class="crm_edit_item_content" colspan="3">
+						<input type="text" class="text" value="${dataForm.data.className}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.classCode" bundle="conf.security.security"/>：
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.classCode" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou">
-						${dataForm.data.classCode}
+					<td class="crm_edit_item_content" >
+						<input type="text" class="text" value="${dataForm.data.classCode}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
+					</td>
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.serialNo" bundle="conf.security.security"/><label>
+					</td>
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.serialNo}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.inputCode" bundle="conf.security.security"/><label>
+					</td>
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.inputCode}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
+					</td>
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.comments" bundle="conf.security.security"/><label>
+					</td>
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.comments}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.parentId" bundle="conf.security.security"/><label>
+					</td>
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.securityConfigPublicClassObject.className}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 					</td>
 				
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.serialNo" bundle="conf.security.security"/>：
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.levelFlag" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou">
-						${dataForm.data.serialNo}
-					</td>
-				</tr>
-				<tr>
-					
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.inputCode" bundle="conf.security.security"/>：
-					</td>
-					<td class="hou">
-						${dataForm.data.inputCode}
-					</td>
-				
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.comments" bundle="conf.security.security"/>：
-					</td>
-					<td class="hou">
-						${dataForm.data.comments}
-					</td>
-				</tr>
-				<tr>
-					
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.parentId" bundle="conf.security.security"/>：
-					</td>
-					<td class="hou">
-						${dataForm.data.securityConfigPublicClassObject.className}
-					</td>
-				
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.levelFlag" bundle="conf.security.security"/>：
-					</td>
-					<td class="hou">
+					<td class="crm_edit_item_content">
 						<%if(dataForm.getData().getLevelFlag()!=null && String.valueOf(dataForm.getData().getLevelFlag()).equals("1")){ %>
-							1级
+							<input type="text" class="text" value="1级" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else if(dataForm.getData().getLevelFlag()!=null && String.valueOf(dataForm.getData().getLevelFlag()).equals("2")){ %>
-							2级
+							<input type="text" class="text" value="2级" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else{ %>
 						<%} %>
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.picPath" bundle="conf.security.security"/>：
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.picPath" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou">
-						${dataForm.data.picPath}
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.picPath}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 					</td>
 				
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.sysFlag" bundle="conf.security.security"/>：
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.sysFlag" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou">
+					<td class="crm_edit_item_content">
 						<%if(dataForm.getData().getSysFlag()!= null && String.valueOf(dataForm.getData().getSysFlag()).equals("1")){ %>
-							系统内
+							<input type="text" class="text" value="系统内" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else if(dataForm.getData().getSysFlag()!=null && String.valueOf(dataForm.getData().getSysFlag()).equals("0")){ %>
-							系统外
+							<input type="text" class="text" value="系统外" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else{ %>
 						<%} %>
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message key="security.jsp.securityconfigpublicclass.common.redirectUrl" bundle="conf.security.security"/>：
+					<td class="crm_edit_item_name">
+						<label><bean:message key="security.jsp.securityconfigpublicclass.common.redirectUrl" bundle="conf.security.security"/><label>
 					</td>
-					<td class="hou">
-						${dataForm.data.redirectUrl}
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" value="${dataForm.data.redirectUrl}" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 					</td>
-					<td class="tblLable">
-						所属系统分类：
+					<td class="crm_edit_item_name">
+						<label>所属系统分类<label>
 					</td>
-					<td class="hou">
+					<td class="crm_edit_item_content">
 						<%if(dataForm.getData().getAppSysFlag()!= null && String.valueOf(dataForm.getData().getAppSysFlag()).equals("1")){ %>
-							应用系统
+							<input type="text" class="text" value="应用系统" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else if(dataForm.getData().getAppSysFlag()!= null && String.valueOf(dataForm.getData().getAppSysFlag()).equals("0")){ %>
-							支撑系统
+							<input type="text" class="text" value="支撑系统" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly" style="width:150px"/>
 						<%}else{ %>
 						<%} %>
 					</td>
 				</tr>
 			</table>
+			</div>
 			<!-- Sheet operation button area -->
-			<div class="btnSave" id="btnSave">
-				<input type="button"  name="btnBack" value='<bean:message key="security.jsp.commom.button2" bundle="security"/>' onClick="history.go(-1);" />
-				<input type="button"  name="btn" value="打印" onclick="QWPrint();" />  
+			<div align="center" id="btnSave" style="margin-top:10px;">
+			 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 130px;">
+					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
+					<span style="position: fixed;color: #fff;">打印</span>
+					</div>
+				<input type="button"  name="btnBack" value='<bean:message key="security.jsp.commom.button2" bundle="security"/>' onClick="history.go(-1);" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"/>
+				 
 			</div>
 		</form>
 	</body>

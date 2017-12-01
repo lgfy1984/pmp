@@ -1,8 +1,12 @@
 package com.tianjian.comm.struts.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.struts.action.ActionForm;
+
+import com.tianjian.comm.bean.CommConfigStafftype;
 
 
 public class CommConfigStafftypeForm  extends ActionForm implements Serializable{
@@ -40,6 +44,8 @@ public class CommConfigStafftypeForm  extends ActionForm implements Serializable
 	private String[] inputCodeList;
 	private String[] commentsList;
 	private String[] seqNoList;
+	
+	private List<CommConfigStafftype> ccsList = new ArrayList<CommConfigStafftype>();
 
 	public CommConfigStafftypeForm(String itemCode, String itemName, String inputCode, String comments, String seqNo) {
 		super();
@@ -221,6 +227,14 @@ public class CommConfigStafftypeForm  extends ActionForm implements Serializable
 
 	public void setItemNameHidden(String itemNameHidden) {
 		this.itemNameHidden = itemNameHidden;
+	}
+
+	public List<CommConfigStafftype> getCcsList() {
+		return ccsList;
+	}
+
+	public void setCcsList(List<CommConfigStafftype> ccsList) {
+		this.ccsList = ccsList;
 	}
 
 	

@@ -15,38 +15,44 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
+<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
 <script language="javascript" src="<bean:message key="include.js.TJMessage.path" bundle="security" />"></script>
 <script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 <script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
+<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css"/>
 <script language="javascript">
 function saveForm(){
 	if(!Validator.Validate(document.forms.form,3)){
       return ;
    	}
 	if(document.form.roleCode.value == ""){
-		alert('<bean:message key="security.jsp.securityConfigParamClass1.update.warn" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.securityConfigParamClass1.update.warn" bundle="security"/>');
 	 	return ;
 	}
 	if(isNaN(document.form.roleCode.value)){
-			alert('<bean:message key="comm.jsp.commconfigtrue.add.sc" bundle="conf.comm.CommMessageguoh"/>');
+			$.messager.alert('提示','<bean:message key="comm.jsp.commconfigtrue.add.sc" bundle="conf.comm.CommMessageguoh"/>');
 			return ; 
 	}
 	if(document.form.roleDetail.value == ""){
-		alert('<bean:message key="security.jsp.securityConfigParamClass1.update.warn1" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.securityConfigParamClass1.update.warn1" bundle="security"/>');
 	 	return ;
 	}
 	if(isNaN(document.form.serialNo.value)){
-		alert('<bean:message key="security.jsp.securityConfigpublic.update.warn" bundle="security"/>');
+		$.messager.alert('提示','<bean:message key="security.jsp.securityConfigpublic.update.warn" bundle="security"/>');
 		return true;
 	}
-	if (confirmMessage("<bean:message key='security.jsp.commom.update' bundle='security'/>")){     
+	    
 	    document.form.verbId.value = "update";    
 	    document.form.submit(); 
-    }   
+       
 }
 function showMessage(message){
 				if(message != ''&& message != null){
-					alert(message);
+					$.messager.alert('提示',message);
 					return;
 				}
 			}
@@ -62,63 +68,57 @@ function showMessage(message){
 <input type="hidden" name="data.id" value="${dataForm.data.id}" />
 <input type="hidden" name="idHidden" value="${dataForm.idHidden}" />
 <input type="hidden" name="roleCodeHidden" value="${dataForm.roleCodeHidden}" />
- <table border="0" cellpadding="0" cellspacing="0" class="tblFill" align="center">
+<div class='crm_edit_panel'>
+ <table class='crm_panel_table'>
     <tr>
-       <td class="tblTitle" colspan="4"><span>※</span> 
-       		<bean:message key="security.jsp.securityConfigroles.update.item" bundle="security"/>
-      		<span>※</span>
-		</td>
-    </tr>
-    <tr>
-
-        <td class="tblLable" >
-          <span>*</span> <bean:message key="security.jsp.commmom.classCode" bundle="security"/>：
+        <td class='crm_edit_item_name'>
+          <bean:message key="security.jsp.commmom.classCode" bundle="security"/>
         </td>
-        <td style="width:30%">
-            <input type="text" name="data.roleDetail" id=roleDetail size="50" maxlength="40"
+        <td class='crm_edit_item_content'>
+            <input type="text" name="data.roleDetail" id=roleDetail size="50" maxlength="40" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
               onkeypress="eventOnKeyPress('serialNo')" max="40" dataType="LimitB" msg="名称输入过长"
               value="${dataForm.data.roleDetail}" />
         </td>
-        <td class="tblLable"><span>*</span> 
-         <bean:message key="security.jsp.commom.menuCode" bundle="security"/>：
+        <td class="crm_edit_item_name"><span style="color: red">*</span> 
+         <bean:message key="security.jsp.commom.menuCode" bundle="security"/>
         </td>
-        <td>
-            <input type="text" name="data.roleCode" id=roleCode size="20" maxlength="20"
+        <td class='crm_edit_item_content'>
+            <input type="text" name="data.roleCode" id=roleCode size="20" maxlength="20" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
             	onkeypress="eventOnKeyPress('roleDetail')" max="20" dataType="LimitB" msg="代码输入过长"
               value="${dataForm.data.roleCode}" />
         </td>  
     </tr>
     <tr>
-      
-        <td class="tblLable" >
-            <bean:message key="security.jsp.commom.serialNo" bundle="security"/>：
+        <td class="crm_edit_item_name" >
+            <bean:message key="security.jsp.commom.serialNo" bundle="security"/>
         </td>
-        <td>
+        <td class='crm_edit_item_content'>
             <input type="text" name="data.serialNo" id="serialNo" size="30" maxlength="11"
-               onkeypress="eventOnKeyPress('comments')"
+               onkeypress="eventOnKeyPress('comments')" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
               value="${dataForm.data.serialNo}" readonly/>
         </td>
 
-          <td class="tblLable" >
-            <bean:message key="security.jsp.commmom.comments" bundle="security"/>：
+          <td class="crm_edit_item_name" >
+            <bean:message key="security.jsp.commmom.comments" bundle="security"/>
         </td>
-        <td>
-            <input type="text" name="data.comments"
-            	 id="comments" size="30" maxlength="40"
+        <td class='crm_edit_item_content'>
+            <input type="text" name="data.comments" class="text"
+            	 id="comments" size="30" maxlength="40" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
             	 max="40" dataType="LimitB" msg="备注输入过长" 
             	onkeypress="eventOnKeyPress('btnSaveForm')" 
              value="${dataForm.data.comments}" />
         </td>
     </tr>
-    
-     
   </table>
-
-
-  <!-- Sheet operation button area -->
-  <div class="btnSave">
-  	    <input type="button"  name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>" onClick="saveForm()" />
-        <input type="button"  name="btnBack" value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1);" />
+  </div>
+  <div class="horizontal_line_10"></div>
+  <div class="crm_button_sub" align="center">
+  	    <input type="button" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" name="btnSaveForm" value="修改"  onClick="saveForm()" />
+        <input type="button" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" name="btnBack" value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1);" />
   </div>
 </form>
 

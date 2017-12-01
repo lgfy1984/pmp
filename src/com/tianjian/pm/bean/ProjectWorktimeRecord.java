@@ -21,7 +21,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	private Integer seqNo;
 
-	private Boolean status;
+	private String status;
 
 	private Timestamp createDate;
 
@@ -36,7 +36,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 	/** full constructor */
 	public ProjectWorktimeRecord(String projectBaseinfoId, String staffCode,
 			Timestamp workDate, String taskCode, Integer longTime,
-			Integer seqNo, Boolean status, Timestamp createDate,
+			Integer seqNo, String status, Timestamp createDate,
 			String createUserId, String createUserName) {
 		this.projectBaseinfoId = projectBaseinfoId;
 		this.staffCode = staffCode;
@@ -107,11 +107,11 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 		this.seqNo = seqNo;
 	}
 
-	public Boolean getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

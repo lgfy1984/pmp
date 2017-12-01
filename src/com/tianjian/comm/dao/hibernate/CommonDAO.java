@@ -4,6 +4,7 @@ package com.tianjian.comm.dao.hibernate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.tianjian.comm.dao.ICommonDAO;
@@ -58,6 +60,33 @@ public class CommonDAO extends HibernateDaoSupport implements ICommonDAO{
 		}
 	}
 
+  // 从指定COMM_DICT_PUBLIC_CHAR中获取对应字典的数据
+    
+    public String getNameById(String table, String id, String name,String classCode,
+    	    String idValue) {
+    	try { 
+    	    String temp = "";
+    	    String sql = "select a." + name + " ";
+    	    sql += " from " + table + " a ";
+    	    sql += " where a." + id + " = '" + idValue + "' ";
+    	    sql += " and a.classCode = '"+classCode+"' ";
+    	    // System.out.println(sql);
+    	    List<?> ls = getHibernateTemplate().find(sql);
+    	    if (ls != null && ls.size() > 0) {
+    		temp = String.valueOf(ls.get(0));
+    	    }
+    	    if (temp.equals("null")) {
+    		temp = "";
+    	    }
+    	    log.debug("getNameById success!");
+    	    return temp;
+    	} catch (Exception re) {
+    	    log.error("getNameById fail! [" + re.getMessage() + "]");
+    	    // re.printStackTrace();
+    	    return "";
+    	}
+        }
+	
 	//从指定table中得到与指定value相等的name列表       
 	public String getNameById(String table, String id, String name, String idValue){
 		try{
@@ -312,8 +341,8 @@ public class CommonDAO extends HibernateDaoSupport implements ICommonDAO{
 			sql += " order by a." + nameOfId + " ";
 
 			List<?> ls = getHibernateTemplate().find(sql, new String[]{valueOfId});
-			if(ls.size()>0&&ls!=null){
-				return ls.get(0);
+			if(ls.size()>0){
+				return String.valueOf(ls.get(0));
 			}
 			return null;
 		} catch(Exception re){
@@ -503,7 +532,7 @@ public class CommonDAO extends HibernateDaoSupport implements ICommonDAO{
 			throw new RuntimeException("hql not null!");
 		}
 		try{
-			if(args==null && args.length<=0){
+			if(args==null || args.length<=0){
 				return this.getHibernateTemplate().find(hql);
 			}else{
 				return this.getHibernateTemplate().find(hql, args);
@@ -736,7 +765,7 @@ public class CommonDAO extends HibernateDaoSupport implements ICommonDAO{
 		}
 		return null;
 	}
-
+	
 	@Override
 	public int findPageCountByHql(String hql) {
 		List<?> list = null;
@@ -755,7 +784,7 @@ public class CommonDAO extends HibernateDaoSupport implements ICommonDAO{
 		String sql="select a."+outColumn+" from "+table+" a where a."+inColumn+"='"+inColumnValue+"'";
 		SQLQuery query=this.getSession().createSQLQuery(sql);
 		List<?> ls = query.list();
-		if(ls.size()>0&&ls!=null){
+		if(ls.size()>0 ){
 			for(int i=0;i<ls.size();i++){
 				temp = (String)ls.get(0);
 			}

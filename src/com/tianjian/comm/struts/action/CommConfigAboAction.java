@@ -58,9 +58,9 @@ public class CommConfigAboAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);	
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -143,7 +143,7 @@ public class CommConfigAboAction extends BaseAction {
 			commConfigAboService.getSearch(hosform, count, pageSize);
 			commConfigAboService.serchInit(hosform);
 			request.setAttribute("commConfigAbo", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

@@ -1,6 +1,7 @@
 ﻿<%@page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@page import="com.tianjian.util.comm.PageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="data" scope="request" class="com.tianjian.comm.struts.form.CommConfigGbDrugclassForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 
@@ -107,18 +108,18 @@ function isMadeOf(val,str)
 					</td>
 					<td id="list_C"></td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>
 						<input name="inputCode" type="text" style="width: 100px;"
 							onkeypress="eventOnKeyPress('itemCode')"
 							value="<%=data.getInputCode()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text27" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text27" bundle="conf.comm.comm"/>
 						<input name="itemCode" type="text" style="width: 100px;"
 							onkeypress="eventOnKeyPress('itemName')" value="<%=data.getItemCode()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text28" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text28" bundle="conf.comm.comm"/>
 						<input name="itemName" type="text" style="width: 100px;"
 							onkeypress="eventOnKeyPress('button')" value="<%=data.getItemName()%>">
 					</td>
@@ -155,8 +156,7 @@ function isMadeOf(val,str)
 				</tr>
 			</table>
 			<!--列表内容-->
-			<table class="table" align="center" style="font-size: 14px" width="95%" cellspacing="1"
-				cellpadding="0">
+			<table class="table" align="center" style="font-size: 14px" width="95%" cellspacing="1" cellpadding="0">
 				<tr class="list_nav">
 					<td width="130px">
 						<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
@@ -291,6 +291,16 @@ function isMadeOf(val,str)
 					
 			
 				<tbody id="interval_row_id">
+				   <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="10">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%if (data.getItemCodeList() != null
 							&& data.getItemCodeList().length > 0) {
 						for (int i = 0; i < data.getItemCodeList().length; i++) 
@@ -326,7 +336,7 @@ function isMadeOf(val,str)
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="10" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

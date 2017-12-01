@@ -1,10 +1,11 @@
 ﻿<%@page contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
-<%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
-<%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="commConfigProfession" scope="request" type="com.tianjian.comm.struts.form.CommConfigProfessionForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html>
 	<head>
 		<%
@@ -20,8 +21,13 @@
 		%>
 		<title><bean:message key="comm.jsp.common.zyzdwh" bundle="conf.comm.Comm"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<script language="javascript" src="<bean:message key="comm.js.comm.tjme" bundle="conf.comm.Comm"/>"></script>
+		<script language="javascript" src="<bean:message  key="comm.js.includeTJMessage.path"  bundle="comm.commLocale"/>"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${path}/js/pager.js"></script>
+<script type="text/javascript" src="${path}/js/default.js"></script>
 		<script language="javascript">
 
 function submitQueryForm() { 
@@ -63,14 +69,17 @@ function cmdEdit(id) {
 
 //删除
 function cmdDel(id) {    
-    if (confirmMessage("0-000004")){     
-    document.form.itemCodeHidden.value = id;  
-    document.form.verbId.value = "delete";    
-    document.form.submit();  
-    }  
+    	$.messager.defaults = { ok: "是", cancel: "否" };
+    	$.messager.confirm('确认', '确定要删除该条记录吗？', function(r){
+    	if (r){
+		    document.form.itemCodeHidden.value = id;  
+		    document.form.verbId.value = "delete";    
+		    document.form.submit();  
+		    }  
+    	});
 }
 
-function goPage(page) {  
+function paging(page) {  
    document.form.page.value = page;
    document.form.verbId.value = "query";    
    document.form.submit();
@@ -80,15 +89,15 @@ function goPage2() {
     var _tp=document.getElementById('_tp');
   var _total=document.getElementById('_total'); 
     if (!isMadeOf(_tp.value,'1234567890')) {
-      alert("<bean:message key="comm.jsp.common.error" bundle="conf.comm.Comm"/>!");
+      $.messager.alert('提示',"<bean:message key="comm.jsp.common.error" bundle="conf.comm.Comm"/>!");
       return;
     }
     if (_tp.value<=0){
-    	alert("<bean:message key="comm.jsp.common.alert2" bundle="conf.comm.Comm"/>!");
+    	$.messager.alert('提示',"<bean:message key="comm.jsp.common.alert2" bundle="conf.comm.Comm"/>!");
 		return;
     }
     if(parseInt(_tp.value)>parseInt(_total.value)){
-      alert("<bean:message key="comm.jsp.common.morethanpage" bundle="conf.comm.Comm"/>!");
+      $.messager.alert('提示',"<bean:message key="comm.jsp.common.morethanpage" bundle="conf.comm.Comm"/>!");
       return;
     } 
    
@@ -110,7 +119,13 @@ function isMadeOf(val,str)
 }
 
 </script>
-		<link rel="stylesheet" type="text/css" href="include/css/form.css" />
+<%--<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />--%>
+<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/style/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/style/steel/steel.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 	</head>
 	<body>
 		<!-- Form中的action项的值必须设置-->
@@ -120,214 +135,102 @@ function isMadeOf(val,str)
 			<input type="hidden" name="orderNo" value="<%=commConfigProfession.getOrderNo()%>">
 			<input type="hidden" name="asc" value="<%=commConfigProfession.getAsc()%>">
 			<input type="hidden" name="itemCodeHidden" value="<%=commConfigProfession.getItemCodeHidden()%>">
-			<!--查询条件-->
-			<table width="95%" class="table2" align="center" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td id="list_L"></td>
-					<td class="list_biaoti">
-						<bean:message key="comm.jsp.common.zyzd" bundle="conf.comm.Comm"/>
-					</td>
-					<td id="list_C"></td>
-					<td class="list_cc">
-						<bean:message key="comm.jsp.common.item" bundle="conf.comm.Comm"/>：
-						<input name="itemCode" type="text" onkeypress="eventOnKeyPress('itemName')" value="<%=commConfigProfession.getItemCode()%>">
-					</td>
-					<td class="list_cc">
-						<bean:message key="comm.jsp.common.names" bundle="conf.comm.Comm"/>：
-						<input name="itemName" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=commConfigProfession.getItemName()%>">
-					</td>
-					<td class="list_cc">
-						<bean:message key="comm.jsp.common.inputItemCode" bundle="conf.comm.Comm"/>：
-						<input name="inputCode" type="text" value="<%=commConfigProfession.getInputCode()%>" onkeypress="eventOnKeyPress('btnSearch')">
-					</td>
-					<td id="list_R"></td>
-					<td class="button">
-						<input type="button" id="btnSearch" name="btnSearch"  value="<bean:message key="comm.jsp.common.tj" bundle="conf.comm.Comm"/>" onClick="submitQueryForm();" />
-					</td>
-				</tr>
-			</table>
-			<!--列表标题-->
-			<table width="95%" align="center" class="table" border="0" cellspacing="0" cellpadding="0">
-				<tr class="list_title">
-					<td colspan="3" height="5px">
-						<b class="rt"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b>
-						</b>
-					</td>
-				</tr>
-				<tr class="yuan_height">
-					<td width="5%" align="center" valign="middle" style="border-left: 1px solid #BFBFBF;">
-						<img src="<%=request.getContextPath()%>/comm/include/images/comm_list_nav_red.jpg">
-					</td>
-					<td width="60%" align="left" class="jiacu">
-						<bean:message key="comm.jsp.common.chekresult" bundle="conf.comm.Comm"/>
-					</td>
-					<td width="35%" align="right" style="border-right: 1px solid #BFBFBF; padding: 0px 10px 0px 0px;">
-						<a href="javascript:cmdAdd()"><img border=0 alt="<bean:message key="comm.jsp.common.add" bundle="conf.comm.Comm"/>" src="<bean:message key="security.jsp.securityconfigpublicclass.add" bundle="conf.security.security"/>" style="cursor: hand">
-						</a>
-					</td>
-				</tr>
-			</table>
-			<!--列表内容-->
-			<table class="table" align="center" width="95%" cellspacing="1" cellpadding="0">
-				<tr class="list_nav">
-					<td width="">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td rowspan="2" align="center">
-									<bean:message key="comm.jsp.common.item" bundle="conf.comm.Comm"/>
-								</td>
-								<td align="bottom" height="12">
-									<img src="include/images/cmdOrderByAsc.gif" border="0" alt="<bean:message key="comm.jsp.common.up" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('1', '0')">
-								</td>
-							</tr>
-							<tr>
-								<td height="12">
-									<img src="include/images/cmdOrderByDesc.gif" border="0" alt="<bean:message key="comm.jsp.common.down" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('1', '1')">
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td width="">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td rowspan="2" align="center">
-									<bean:message key="comm.jsp.common.names" bundle="conf.comm.Comm"/>
-								</td>
-								<td align="bottom" height="12">
-									<img src="include/images/cmdOrderByAsc.gif" border="0" alt="<bean:message key="comm.jsp.common.up" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('2', '0')">
-								</td>
-							</tr>
-							<tr>
-								<td height="12">
-									<img src="include/images/cmdOrderByDesc.gif" border="0" alt="<bean:message key="comm.jsp.common.down" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('2', '1')">
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td width="">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td rowspan="2" align="center">
-									<bean:message key="comm.jsp.common.seqNo" bundle="conf.comm.Comm"/>
-								</td>
-								<td align="bottom" height="12">
-									<img src="include/images/cmdOrderByAsc.gif" border="0" alt="<bean:message key="comm.jsp.common.up" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('3', '0')">
-								</td>
-							</tr>
-							<tr>
-								<td height="12">
-									<img src="include/images/cmdOrderByDesc.gif" border="0" alt="<bean:message key="comm.jsp.common.down" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('3', '1')">
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td width="">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td rowspan="2" align="center">
-									<bean:message key="comm.jsp.common.inputItemCode" bundle="conf.comm.Comm"/>
-								</td>
-								<td align="bottom" height="12">
-									<img src="include/images/cmdOrderByAsc.gif" border="0" alt="<bean:message key="comm.jsp.common.up" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('4', '0')">
-								</td>
-							</tr>
-							<tr>
-								<td height="12">
-									<img src="include/images/cmdOrderByDesc.gif" border="0" alt="<bean:message key="comm.jsp.common.down" bundle="conf.comm.Comm"/>" style="cursor: hand" onClick="commandOrderBy('4', '1')">
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td width="30">
-						<bean:message key="comm.jsp.common.check" bundle="conf.comm.Comm"/>
-					</td>
-					<td width="30">
-						<bean:message key="comm.jsp.common.alter" bundle="conf.comm.Comm"/>
-					</td>
-					<td width="30">
-						<bean:message key="comm.jsp.common.delete" bundle="conf.comm.Comm"/>
-					</td>
-				</tr>
-				<tbody id="interval_row_id">
-					<%
-							if (commConfigProfession.getItemCodeList() != null && commConfigProfession.getItemCodeList().length > 0) {
-							for (int i = 0; i < commConfigProfession.getItemCodeList().length; i++) {
+		<!--zyc--add--b-->
+		
+		<div class='crm_search_div' style='overflow: hidden'>
+		 <div class="crm_input_item">
+		  	<span>代码</span>
+		  	<input class="crm_search_input_text" name="itemCode" type="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('itemName')" value="<%=commConfigProfession.getItemCode()%>" />
+		 </div>
+		 <div class="crm_input_item">
+		  	<span>名称</span>
+		  	<input class="crm_search_input_text" name="itemName" type="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('inputCode')" value="<%=commConfigProfession.getItemName() %>" />
+		 </div>
+		 <div class="crm_input_item">
+		  	<span>输入码</span>
+		  	<input class="crm_search_input_text" name="inputCode" type="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('btnSave')" value="<%=commConfigProfession.getInputCode() %>" />
+		 </div>
+		 <div class="crm_input_item">
+		 <input type="button" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"   name="btnSave" value="查询" onclick="submitQueryForm();" />
+		 <input type="button" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"  value="新增" onclick="cmdAdd();"/>
+		 </div>
+	  </div>
+	  <div class="horizontal_line_2"></div>
+
+	  <div class='crm_table_out'>
+		  <table style="table-layout: fixed;" class='crm_table_content' >
+		  <thead>
+		  <tr>
+		  <td >代码
+		  <%--<img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('1', '0')" />--%>
+		  <%--<img border="0" onclick="commandOrderBy('1', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" />--%>
+		  </td>
+		  <td >名称
+		  <%--<img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('2', '0')" />--%>
+		  <%--<img border="0" onclick="commandOrderBy('2', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" />--%>
+		  </td>
+		  <td >序号
+		  <%--<img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('3', '0')" />--%>
+		  <%--<img border="0" onclick="commandOrderBy('3', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" />--%>
+		  </td>
+		  <td >输入码
+		  <%--<img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('4', '0')" />--%>
+		  <%--<img border="0" onclick="commandOrderBy('4', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" />--%>
+		  </td>
+		  <td colspan="3" style="width:20%">操作</td>
+		  </tr>
+		  </thead>
+		  <tbody>
+		     	<c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="7">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
+			<%if (commConfigProfession.getItemCodeList() != null && commConfigProfession.getItemCodeList().length > 0) {
+				for (int i = 0; i < commConfigProfession.getItemCodeList().length; i++) {
+					if(i%2==0){%>
+						<tr class="odd">
+					<%}else{ %>
+						<tr class="even">
+					<%}
 					%>
-					<tr class="list_neirong">
-						<td class="td_shenglue leftPadding" height="25">
-							<%=commConfigProfession.getItemCodeList()[i]%>
-						</td>
-						<td class="td_shenglue leftPadding" >
-							<%=commConfigProfession.getItemNameList()[i]%>
-						</td>
-						<td class="td_shenglue leftPadding" >
-							<%=commConfigProfession.getSeqNoList()[i]%>
-						</td>
-						<td class="td_shenglue leftPadding" >
-							<%=commConfigProfession.getInputCodeList()[i]%>
-						</td>
-						<td>
-							<img onClick="cmdView('<%=commConfigProfession.getItemCodeList()[i]%>')" alt="<bean:message key="comm.jsp.common.detail" bundle="conf.comm.Comm"/>" src="include/images/cmdView_s.jpg" border="0" style="cursor: hand; vertical-align: middle;" />
-						</td>
-						<td>
-							<img onClick="cmdEdit('<%=commConfigProfession.getItemCodeList()[i]%>')" alt="<bean:message key="comm.jsp.common.alter" bundle="conf.comm.Comm"/>" src="include/images/cmdEdit_s.jpg" border="0" style="cursor: hand; vertical-align: middle;" />
-						</td>
-						<td>
-							<img onClick="cmdDel('<%=commConfigProfession.getItemCodeList()[i]%>')" alt="<bean:message key="comm.jsp.common.delete" bundle="conf.comm.Comm"/>" src="include/images/cmdDel_s.jpg" border="0" style="cursor: hand; vertical-align: middle;" />
-						</td>
-					</tr>
-					<%
-						}
-						}
-					%>
-				</tbody>
-				<tr>
-					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
-						<%
-							int curPage = 0;
-							int totalNum = 0;
-							int pageSize = 0;
-							curPage = pb.getPage();
-							totalNum = pb.getCount();
-							pageSize = pb.getPageSize();
-							int totalPage = totalNum / pageSize;
-							if (totalNum % pageSize > 0)
-								totalPage += 1;
-							if (totalPage == 0) {
-								curPage = 0;
-							}
-						%>
-						<input id="_total" name="totalPage" type="hidden" value="<%=totalPage%>">
-						<bean:message key="comm.jsp.common.page1" bundle="conf.comm.Comm" arg0="<%=String.valueOf(curPage)%>" arg1="<%=String.valueOf(totalPage)%>"/>
-					&nbsp;<bean:message key="comm.jsp.common.page2" bundle="conf.comm.Comm" arg0="<%=String.valueOf(totalNum)%>" />
-					&nbsp;|&nbsp;
-						<%
-						if (curPage > 1) {
-						%>
-						<a href="javascript:goPage('0')"><img src="include/images/shouye.gif" align="middle" border="0" /></a>&nbsp;
-						<a href="javascript:goPage('<%=curPage - 1%>')"><img src="include/images/shang.gif" align="middle" border="0" /></a>&nbsp;
-						<%
-								} else {
-								out.println("<img src='include/images/shouye_s.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/shang_s.gif' align='middle' border='0px' />&nbsp;");
-							}
-							if (curPage < totalPage) {
-						%>
-						<a href="javascript:goPage('<%=curPage + 1%>')"><img src="include/images/xia.gif" align="middle" border="0" /></a>&nbsp;
-						<a href="javascript:goPage('<%=totalPage%>')"><img src="include/images/mo.gif" align="middle" border="0" /></a>&nbsp;
-						<%
-								} else {
-								out.println("<img src='include/images/xia_x.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/mo_m.gif' align='middle' border='0px' />&nbsp;");
-							}
-						%>
-						| &nbsp;<bean:message key="comm.jsp.common.page3" bundle="conf.comm.Comm"/>
-					<input id="_tp" name="page" type="text" value="<%=curPage%>" size="2" class="txt">
-					<bean:message key="comm.jsp.common.page4" bundle="conf.comm.Comm"/>
-					&nbsp;	
-						<img style="cursor: hand;" src="include/images/go.jpg" width="18" border="0" onClick="goPage2()" />
-					</td>
-				</tr>
-			</table>
-		</form>
+					<td><%=commConfigProfession.getItemCodeList()[i]%></td>
+					<td><%=commConfigProfession.getItemNameList()[i]%></td>
+					<td><%=commConfigProfession.getSeqNoList()[i]%></td>
+					<td><%=commConfigProfession.getInputCodeList()[i]%></td>
+					<td style="cursor:pointer;"><input type="button" class="button_grey2_s0" onmouseout="this.className='button_grey2_s0'" onmousedown="this.className='button_grey2_s1'" style="text-align:center;" value="详细"  onclick="cmdView('<%=commConfigProfession.getItemCodeList()[i] %>')"/></td>
+					<td style="cursor:pointer;"><input type="button" class="button_grey2_s0" onmouseout="this.className='button_grey2_s0'" onmousedown="this.className='button_grey2_s1'" style="text-align:center;" value="修改"  onclick="cmdEdit('<%=commConfigProfession.getItemCodeList()[i] %>')"/></td>
+					<td style="cursor:pointer;"><input type="button" class="button_grey2_s0" onmouseout="this.className='button_grey2_s0'" onmousedown="this.className='button_grey2_s1'" style="text-align:center;" value="删除"  onclick="cmdDel('<%=commConfigProfession.getItemCodeList()[i] %>')"/></td>
+				  </tr>
+				<%}
+			}
+			%>
+		  </tbody>
+		  <tfoot <c:if test="${pb.count<=0}">style="display:none"</c:if>>
+			  <tr>
+			  <td colspan="7">
+			  	<input type="hidden" title="当前第几页" name="page_index" id="page_index" value="${pb.page}"/>
+			    <input type="hidden" title="一共多少页" name="page_count" id="page_count" value="${pb.pageCount}"/>
+			    <input type="hidden" title="一共多少条记录" name="count" id="count" value="${pb.count}"/>
+			    <input type="hidden" title="每页显示多少条记录" name="page_size" id="page_size" value="${pb.pageSize}"/>
+			  	<input type="hidden" name="cur_page" id="cur_page" value="${pb.page}"/>
+			  	<input type="hidden" name="page" id="page" value="${pb.page}"/>
+			  	<div class="pager_num"></div>
+			  	<div class="pager_text"></div>
+			  </td>
+			  </tr>
+		  </tfoot>
+		 </table>
+		</div>
+</form>
 		<script language="javascript" src="include/javascript/interval_row_color.js"></script>
 	</body>
 </html>

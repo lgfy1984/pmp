@@ -174,9 +174,19 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 
 
 	@Override
-	public List<?> getTaskClassDict() {
-		String hql = "select a.itemCode,a.itemName from ProjectTaskDict a";
-		List<?> list = findObjectByHql(hql);
+	public List<?> getTaskClassDict(String projectClassCode) {
+		StringBuffer sql = new StringBuffer("select a.ITEM_CODE,a.ITEM_NAME from PM.PROJECT_TASK_DICT a ");
+		List<Object> params = new ArrayList<Object>();
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.ITEM_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		List<?> list = q.list();
 		if (list == null) {
 			return null;
 		} else

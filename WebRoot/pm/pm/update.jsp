@@ -30,6 +30,7 @@
   	  <input type="hidden" name="projectClassCodeHidden" id="projectClassCodeHidden" value="${data.projectClassCodeHidden}"/>
   	  <input type="hidden" name="startTimeHidden" id="startTimeHidden" value="${data.startTimeHidden}"/>
   	  <input type="hidden" name="endTimeHidden" id="endTimeHidden" value="${data.endTimeHidden}"/>
+  	  <input type="hidden" name="projectNameHidden" id="projectNameHidden" value="${data.projectNameHidden}"/>
       
       <div class='crm_edit_panel'>
       	  <table class='crm_panel_table'>

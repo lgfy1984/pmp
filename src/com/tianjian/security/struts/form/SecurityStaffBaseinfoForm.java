@@ -29,6 +29,7 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	private String month                  ;
 	private String day                    ;
 	private String commConfigStafftypeId  ;
+	private String commConfigStaffChargeTypeId        ;
 	private String idNo                   ;
 	private String phone                  ;
 	private String islocation             ;
@@ -46,6 +47,7 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	/*Selected Names In Each Selection*/
 	private String hspConfigBaseinfoName    ;
 	private String commConfigSexName        ;
+	private String commConfigStaffChargeTypeName        ;
 	private String commConfigStafftypeName  ;
 	/*Common Fields*/
 	private String verbId;
@@ -68,10 +70,12 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	private String[] hspConfigBaseinfoIds     ;
 	private String[] commConfigSexIds         ;
 	private String[] commConfigStafftypeIds   ;
+	private String[] commConfigStaffChargeTypeIds   ;
 	private String[] islocationIds            ;
 	
 	private String[] hspConfigBaseinfoNames   ; 
-	private String[] commConfigSexNames       ; 
+	private String[] commConfigSexNames       ;
+	private String[] commConfigStaffChargeTypeNames   ; 
 	private String[] commConfigStafftypeNames ; 
 	private String[] islocationNames          ;
 	/*View Page Lists*/
@@ -81,6 +85,8 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	private String[] hspConfigBaseinfoNameList;
 	private String[] nameList;
 	private String[] commConfigSexIdList;
+	private String[] commConfigStaffChargeTypeIdList;
+	private String[] commConfigStaffChargeTypeNameList;
 	private String[] commConfigSexNameList;
 	private String[] dateOfBirthList;
 	private String[] regTimeList;
@@ -629,6 +635,59 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 
 	public void setHspStaffBaseinfoId(String hspStaffBaseinfoId) {
 		this.hspStaffBaseinfoId = hspStaffBaseinfoId;
+	}
+
+	public String getCommConfigStaffChargeTypeId() {
+		return commConfigStaffChargeTypeId;
+	}
+
+	public void setCommConfigStaffChargeTypeId(String commConfigStaffChargeTypeId) {
+		this.commConfigStaffChargeTypeId = commConfigStaffChargeTypeId;
+	}
+
+	public String getCommConfigStaffChargeTypeName() {
+		return commConfigStaffChargeTypeName;
+	}
+
+	public void setCommConfigStaffChargeTypeName(
+			String commConfigStaffChargeTypeName) {
+		this.commConfigStaffChargeTypeName = commConfigStaffChargeTypeName;
+	}
+
+	public String[] getCommConfigStaffChargeTypeIds() {
+		return commConfigStaffChargeTypeIds;
+	}
+
+	public void setCommConfigStaffChargeTypeIds(
+			String[] commConfigStaffChargeTypeIds) {
+		this.commConfigStaffChargeTypeIds = commConfigStaffChargeTypeIds;
+	}
+
+	public String[] getCommConfigStaffChargeTypeNames() {
+		return commConfigStaffChargeTypeNames;
+	}
+
+	public void setCommConfigStaffChargeTypeNames(
+			String[] commConfigStaffChargeTypeNames) {
+		this.commConfigStaffChargeTypeNames = commConfigStaffChargeTypeNames;
+	}
+
+	public String[] getCommConfigStaffChargeTypeIdList() {
+		return commConfigStaffChargeTypeIdList;
+	}
+
+	public void setCommConfigStaffChargeTypeIdList(
+			String[] commConfigStaffChargeTypeIdList) {
+		this.commConfigStaffChargeTypeIdList = commConfigStaffChargeTypeIdList;
+	}
+
+	public String[] getCommConfigStaffChargeTypeNameList() {
+		return commConfigStaffChargeTypeNameList;
+	}
+
+	public void setCommConfigStaffChargeTypeNameList(
+			String[] commConfigStaffChargeTypeNameList) {
+		this.commConfigStaffChargeTypeNameList = commConfigStaffChargeTypeNameList;
 	}
 	
 }

@@ -10,8 +10,16 @@ public class CommInit {
 	
 	private static HashMap<String, String> tjProperty;
 	
+	public static HashMap<String, String> getTjProperty() {
+		return tjProperty;
+	}
+
+	public static void setTjProperty(HashMap<String, String> tjProperty) {
+		CommInit.tjProperty = tjProperty;
+	}
+
 	public CommInit() {
-		tjProperty = new HashMap<String, String>();
+		setTjProperty(tjProperty);
 	}
 	
 	static {

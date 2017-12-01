@@ -94,7 +94,7 @@
 		  <td style="width:10%">项目编号</td>
 		  <td style="width:25%;text-align: left;padding-left: 30px;">项目名称</td>
 		  <td style="width:10%">员工姓名</td>
-		  <td style="width:10%">工作日期</td>
+		  <td style="width:10%">工时</td>
 		  <td style="width:10%">实施费用</td>
 		  <td colspan="3" style="width:220px">操作</td>
 		  
@@ -116,8 +116,8 @@
 					  <td>${kd.seqNo}</td>
 					  <td>${kd.projectCode}</td>
 					  <td  style="width:25%;text-align: left;padding-left: 30px;">${kd.projectName}</td>
-					  <td>${kd.projectName}</td>
 					  <td>${kd.createUserName}</td>
+					  <td>${kd.longTime}</td>
 					  <td>${kd.costs}</td>
 					  <td style="cursor:pointer;" onclick="showDetail('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="详细"  /></td>
 				  	 <c:choose>

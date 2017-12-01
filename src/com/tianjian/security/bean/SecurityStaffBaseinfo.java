@@ -24,6 +24,7 @@ public class SecurityStaffBaseinfo implements java.io.Serializable {
 	private String commConfigSexId;
 	private Date dateOfBirth;
 	private String commConfigStafftypeId;
+	private String commConfigStaffChargetypeId;
 	private String idNo;
 	private String phone;
 	private Long islocation;
@@ -57,7 +58,7 @@ public class SecurityStaffBaseinfo implements java.io.Serializable {
 	/** full constructor */
 	public SecurityStaffBaseinfo(String staffCode, String hspConfigBaseinfoId,
 			String name, String nameEn, String commConfigSexId,
-			Date dateOfBirth, String commConfigStafftypeId, String idNo,
+			Date dateOfBirth, String commConfigStafftypeId,String commConfigStaffChargetypeId, String idNo,
 			String phone, Long islocation, String comments, String inputCode,
 			Date createDate, String hspStaffBaseinfoId, String createUserId,
 			String createUserName, Long seqNo, String homePageType,
@@ -69,6 +70,7 @@ public class SecurityStaffBaseinfo implements java.io.Serializable {
 		this.commConfigSexId = commConfigSexId;
 		this.dateOfBirth = dateOfBirth;
 		this.commConfigStafftypeId = commConfigStafftypeId;
+		this.commConfigStaffChargetypeId = commConfigStaffChargetypeId;
 		this.idNo = idNo;
 		this.phone = phone;
 		this.islocation = islocation;
@@ -263,4 +265,12 @@ public class SecurityStaffBaseinfo implements java.io.Serializable {
 		this.email = email;
 	}
 
+	public String getCommConfigStaffChargetypeId() {
+		return commConfigStaffChargetypeId;
+	}
+
+	public void setCommConfigStaffChargetypeId(String commConfigStaffChargetypeId) {
+		this.commConfigStaffChargetypeId = commConfigStaffChargetypeId;
+	}
+   
 }

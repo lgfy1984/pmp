@@ -99,6 +99,7 @@
 				<value>com/tianjian/comm/bean/CurrentPriceList.hbm.xml</value>
 				<value>com/tianjian/comm/bean/CommConfigDrugfactory.hbm.xml</value>
 				<value>com/tianjian/comm/bean/CommConfigDeptAttr.hbm.xml</value>
+				<value>com/tianjian/comm/bean/CommConfigStaffChargeType.hbm.xml</value>
 				
 				<!--base Security  start  ,please don't delete -->
 				<value>com/tianjian/security/bean/SecurityStaffBaseinfo.hbm.xml</value>

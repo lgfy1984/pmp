@@ -89,9 +89,12 @@ public class CommConfigLocationVillageAction extends Action{
 	//-------------------------------------------------------------------
 	private ActionForward addInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		CommConfigLocationVillageForm hosform = (CommConfigLocationVillageForm)form;
-		 CommConfigLocationVillage data = this.getService().checkData(hosform.getItemCode().trim());
 			 //(CommConfigLocationVillage)request.getAttribute("data");
-		 
+		 CommConfigLocationVillage data = null;
+		 if(hosform != null){
+			  data = this.getService().checkData(hosform.getItemCode().trim());
+				 
+		 }
 		if(hosform == null || data == null){
 			hosform = new CommConfigLocationVillageForm();		
 			this.getService().addInit(hosform);
@@ -117,7 +120,7 @@ public class CommConfigLocationVillageAction extends Action{
 			this.getService().add(hosform,request);
 			CommConfigLocationVillageForm hosformNew = new CommConfigLocationVillageForm();
 			 
-			hosformNew.setMessage(hosform.getMessage());
+			//hosformNew.setMessage(hosform.getMessage());
 			return this.query(mapping, hosformNew, request, response);
 		}else{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.dataClash", request) + "!";
@@ -135,8 +138,15 @@ public class CommConfigLocationVillageAction extends Action{
 		pb.setCount(recordCount);
 		String pageString = request.getParameter("page");
 		//int pageSize = CommConfigLocationTownInit.getPageSize("PAGE_SIZE");
-		ServletContext application = request.getSession().getServletContext();
-		int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		//ServletContext application = request.getSession().getServletContext();
+		//int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		int pageSize = 10;
+		if(request.getSession().getAttribute("page_282881f53463902b013463902b221112")!=null){
+			pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463902b013463902b221112"));
+		}else{
+			ServletContext application = request.getSession().getServletContext();
+			pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		}		
 		pb.setPageSize(pageSize);
 		if(pageString == null || pageString.equals("") || pageString.equals("0")){
 			page = 1;
@@ -158,8 +168,8 @@ public class CommConfigLocationVillageAction extends Action{
 		CommConfigLocationVillageForm hosform = (CommConfigLocationVillageForm)form;
 		try{		
 			this.getService().delete(hosform, request);
-			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.deleteSuccess", request) + "!";
-			hosform.setMessage(message);
+			//String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.deleteSuccess", request) + "!";
+			//hosform.setMessage(message);
 		}catch(org.springframework.dao.DataIntegrityViolationException e){
 			if(flag.equals("true")){
 				e.printStackTrace();
@@ -167,6 +177,7 @@ public class CommConfigLocationVillageAction extends Action{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.cannotDel", request) + "!";
 			hosform.setMessage(message);
 		}
+		hosform.setMessage("");
 		hosform.setId("");
 		hosform.setIdHidden("");
 		hosform.setInputCode("");
@@ -198,8 +209,8 @@ public class CommConfigLocationVillageAction extends Action{
 		hosform.setInputCode(this.getCommConfigInputDictService().getInputCode(hosform.getItemName()));
 		this.getService().update(hosform); 
 		CommConfigLocationVillageForm hosformNew = new CommConfigLocationVillageForm();
-		String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.updateSuccess", request) + "!";
-		hosformNew.setMessage(message);
+		//String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.updateSuccess", request) + "!";
+		//hosformNew.setMessage(message);
 		return  this.query(mapping, hosformNew, request, response);
 	}
 	private ActionForward setCity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{

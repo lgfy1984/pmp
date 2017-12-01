@@ -60,9 +60,9 @@ public class CommConfigNationalityAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);	
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -85,7 +85,7 @@ public class CommConfigNationalityAction extends BaseAction {
 			commConfigNationalityService.save(hosform);
 			CommConfigNationalityForm hosformNew = new CommConfigNationalityForm();
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.dataSaveSuccess", request) + "!";
-			hosformNew.setMessage(message);
+			//hosformNew.setMessage(message);
 			return this.query(mapping, hosformNew, request, response);
 		}
 		catch (Exception e) {
@@ -146,7 +146,7 @@ public class CommConfigNationalityAction extends BaseAction {
 			commConfigNationalityService.getSearch(hosform, count, pageSize);
 			commConfigNationalityService.serchInit(hosform);
 			request.setAttribute("commConfigNationality", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

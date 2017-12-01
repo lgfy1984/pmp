@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.tianjian.comm.bean.CommConfigLocation;
 import com.tianjian.comm.bean.CommConfigLocationTown;
+import com.tianjian.comm.bean.CommConfigLocationVillage;
 import com.tianjian.comm.business.ICommConfigLocationTownService;
 import com.tianjian.comm.dao.ICommConfigLocationTownDAO;
 import com.tianjian.comm.struts.form.CommConfigLocationTownForm;
+import com.tianjian.comm.struts.form.CommConfigLocationVillageForm;
 import com.tianjian.comm.struts.servlet.CommConfigLocationTownInit;
 import com.tianjian.util.ResourcesUtil;
 /**
@@ -327,6 +329,22 @@ public class ICommConfigLocationTownServiceImpl implements ICommConfigLocationTo
 			}
 		}	
 	}
-	
+//	@Override
+//	public void setForm2(CommConfigLocationTownForm form) {
+//		// TODO Auto-generated method stub
+//		try {
+//			CommConfigLocationTown data=this.getCommConfigLocationTownDAO().findById(form.getIdHidden());
+//			if(data.getVillagerNum()!=null){
+//			form.setVillagerNum((data.getVillagerNum()==0L)?"":this.transNullToString(data.getVillagerNum()));
+//			form.setFamilyNum((data.getFamilyNum()==0L)?"":this.transNullToString(data.getFamilyNum()));
+//			
+//			form.setPhohe(data.getPhohe().equals(null)?"":this.transNullToString(data.getPhohe()));
+//            form.setContactPersonName(data.getContactPersonName().equals(null)?"":this.transNullToString(data.getContactPersonName()));
+//			}
+//			} catch (RuntimeException e) { 
+//			if(flag.equalsIgnoreCase("true"))
+//			{e.printStackTrace();}
+//		}		
+//	}
 
 }

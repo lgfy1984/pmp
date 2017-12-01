@@ -184,7 +184,7 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
     		String inputCode,String staffId, String order,int curCount, int quChuCount) {
     	try{
     		List<?> l;
-	    	StringBuilder sql = new StringBuilder("select a.id, a.staffCode,b.itemName,a.name,a.commConfigSexId,c.startTime,c.stopDate")
+	    	StringBuilder sql = new StringBuilder("select a.id, a.staffCode,b.itemName,a.name,a.commConfigSexId,c.startTime,c.stopDate,a.commConfigStaffChargetypeId ")
 	        			.append(" from SecurityStaffBaseinfo a , HspConfigBaseinfoLocalBase b ,SecurityLicense c ")
 	        			.append(" where a.id = c.securityStaffBaseinfoId")
 	        			.append(" and b.id = a.hspConfigBaseinfoId");
@@ -540,5 +540,27 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
 			return hspIdList;
 		}
 		return null;
+	}
+	@Override
+	public Object findObjByHql(String hql, Map<String, Object> map) {
+		Query query = this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(hql);
+		if (map != null && map.size() > 0) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				query.setParameter(entry.getKey(), entry.getValue());
+			}
+		}
+		List<?> list = query.list();
+		Object obj = null;
+		if (list != null && list.size() > 0) {
+			obj = list.get(0);
+		}
+
+		return obj;
+	}
+	@Override
+	public List<?> findObjectByHql(String hql) {
+		Query query = this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(hql);
+		List<?> list = query.list();
+		return list;
 	}
 }

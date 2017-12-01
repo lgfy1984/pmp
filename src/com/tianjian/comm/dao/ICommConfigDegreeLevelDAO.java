@@ -68,5 +68,7 @@ public interface ICommConfigDegreeLevelDAO{
 	public List<?> getData(String itemCode, String itemName, String inputCode, String ascNo, String orderNo, int currentPageIndex, int pageSize);
 
 	public CommConfigDegreeLevel checkData(String itemCode);
+	
+    public int getMaxSeqNo();   
 
 }

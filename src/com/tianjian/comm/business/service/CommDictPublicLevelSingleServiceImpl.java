@@ -159,8 +159,8 @@ public class CommDictPublicLevelSingleServiceImpl implements ICommDictPublicLeve
 			data.setItemName(transNullToString(form.getItemName())); 
 			data.setInputCode (transNullToString(form.getInputCode()));
 			data.setParentItemCode (transNullToString(form.getParentItemCode()));
-			data.setClassLevel   (Long.valueOf((form.getClassLevel() == null || form.getClassLevel().trim() == "") ? "0" : form.getClassLevel()));
-			data.setSeqInLevel   (Long.valueOf((form.getSeqInLevel() == null || form.getSeqInLevel().trim() == "") ? "0" : form.getSeqInLevel()));
+			data.setClassLevel   (Long.valueOf((form.getClassLevel() == null || "".equals(form.getClassLevel().trim())) ? "0" : form.getClassLevel()));
+			data.setSeqInLevel   (Long.valueOf((form.getSeqInLevel() == null || "".equals(form.getSeqInLevel().trim())) ? "0" : form.getSeqInLevel()));
 			data.setTableCode   (transNullToString(form.getTableCode()));	 
 			data.setComments  (transNullToString(form.getComments()));	
 		} catch (Exception e) { 

@@ -20,12 +20,20 @@
 		%>
 		<title><bean:message key="security.jsp.securitystaffbaseinfo.list.title" bundle="security"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="${path }/style/easyui/jquery.min.js"></script>
+<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
 		<script language="javascript" src="<bean:message key="include.js.TJMessage.path" bundle="security" />"></script>
-		<script type="text/javascript"src="security/include/javascript/jianbian.js"></script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<script type="text/javascript" src="${path}/js/pager.js"></script>
 		<script src="<%=request.getContextPath()%>/include/javascript/searchsuggest.js"></script>
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/include/css/searchsuggest.css" />
+		<script type="text/javascript" src="${path}/js/default.js"></script>
  		<script type="text/javascript" src="<%=request.getContextPath()%>/include/javascript/searchwindow.js"></script>	
+ 		<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+ 		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/border-radius.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/steel/steel.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 		<script language="javascript">
 		function huiche(){
 				if(event.keyCode==13){
@@ -64,13 +72,15 @@
 		if(len > 0){
 			 
 			 //删除
-		if (confirmMessage("<bean:message key='comm.jsp.add.shanchu' bundle='comm.commLocale'/>")){     
-		    document.form.id.value = id;  
-		    document.form.verbId.value = "delete";    
-		    document.form.submit(); 
-	    }   
+			 $.messager.confirm('确认', '确定要删除该条记录吗？', function(r){
+		    	if (r){   
+				    document.form.id.value = id;  
+				    document.form.verbId.value = "delete";    
+				    document.form.submit(); 
+			    }  
+			  }); 
 		}else{
-			alert("<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
+			$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
 			return false;
 		}
 	}
@@ -96,10 +106,10 @@
 			document.form.verbId.value = "detail";
 			document.form.submit();
 		}else if(len <= 0){
-			alert("<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
+			$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
 			return false;
 		}else if(len > 1){
-			alert("<bean:message key="security.jsp.commom.warn16" bundle="security"/>!");
+			$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn16" bundle="security"/>!");
 			return false;
 		}
 	}
@@ -116,10 +126,10 @@
 			document.form.verbId.value = "updateInit";
 			document.form.submit();
 		}else if(len <= 0){
-			alert("<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
+			$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn15" bundle="security"/>!");
 			return false;
 		}else if(len > 1){
-			alert("<bean:message key="security.jsp.commom.warn17" bundle="security"/>!");
+			$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn17" bundle="security"/>!");
 			return false;
 		}
 	}	
@@ -130,7 +140,7 @@
 	  	document.form.verbId.value = "registerCode";
 	  	document.form.submit();
 	}
-	function goPage(page) {  
+	function paging(page) {  
 	   document.form.page.value = page;
 	   document.form.verbId.value = "registerCode";    
 	   document.form.submit();
@@ -139,15 +149,15 @@
 	  var _tp=document.getElementById('_tp');
   	  var _total=document.getElementById('_total'); 
 	    if (!isMadeOf(_tp.value,'1234567890')) {
-	      alert("<bean:message key="security.jsp.commom.warn" bundle="security"/>!");
+	      $.messager.alert('提示',"<bean:message key="security.jsp.commom.warn" bundle="security"/>!");
 	      return;
 	    }
 	    if (_tp.value<=0){
-	    	alert("<bean:message key="security.jsp.commom.warn1" bundle="security"/>!");
+	    	$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn1" bundle="security"/>!");
 			return;
 	    }
 	    if(parseInt(_tp.value)>parseInt(_total.value)){
-	     	alert("<bean:message key="security.jsp.commom.warn2" bundle="security"/>!");
+	     	$.messager.alert('提示',"<bean:message key="security.jsp.commom.warn2" bundle="security"/>!");
 	     	 return;
 	    } 
 	  
@@ -171,16 +181,18 @@
 	}
 	function showHspMessage(message){
 				if(message != ''&& message != null){
-					alert(message);
+					$.messager.alert('提示',message);
 					return;
 				}
 			}
 	 function cmdExcelExport(){				
-				if(confirm("<bean:message  bundle="hsp.hspLocale" key="hsp.jsp.common.warn7"/>")){
+				$.messager.confirm('确认',"请精确查询条件避免无用的数据被导出,是否继续？", function(r){
+    				if (r){
 				  	document.form.method = "POST";
 				  	document.form.verbId.value = "elsExport";
 				  	document.form.submit();
 			  	}
+			  	});
 			}
 </script>
 		
@@ -210,52 +222,67 @@
 			<input type="hidden" name="asc" value="<%=securityStaffBaseinfo.getAsc()%>" />
 			<input type="hidden" name="id" value="<%=securityStaffBaseinfo.getId()%>" />
 			<!--查询条件-->
-			<table border="0" cellpadding="0" cellspacing="0" class="tblSearch">
-				<tr>
-					<td class="tblTitle" colspan="4">
-						<bean:message key="security.jsp.securityConfigParamClass.query.item" bundle="security"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<bean:message key="security.jsp.commom.staffCode" bundle="security"/>：
-						<input name="staffCode" id="staffCode" type="text"  onKeyDown="huiche()"  value="<%=securityStaffBaseinfo.getStaffCode()%>" />
-						
-						<bean:message key="security.jsp.commom.name" bundle="security"/>：
-						<input id="name" name="name" type="text"  value="<%=securityStaffBaseinfo.getName()%>" 
-							onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getStaffName_0000000001')" 
+			<div class='crm_content_div'>
+				<div class='crm_search_div'>
+					<div class="crm_input_item">
+						<span><bean:message key="security.jsp.commom.staffCode" bundle="security"/>：</span>
+						<input name="staffCode" id="staffCode" type="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="crm_search_input_text" onKeyDown="huiche()"  value="<%=securityStaffBaseinfo.getStaffCode()%>" />
+					</div>	
+					<div class="crm_input_item">
+						<span><bean:message key="security.jsp.commom.name" bundle="security"/>：</span>
+						<input id="name" name="name" type="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=securityStaffBaseinfo.getName()%>" 
+							class="crm_search_input_text"  onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getStaffName_0000000001')" 
 							onkeydown="huanhang(event)" />
 						<span id="spanOutput" class="spanTextDropdown" style="display: none;"></span>
 						<!--<bean:message key="security.jsp.commom.inputcode" bundle="security"/>：
 						<input name="inputCode" type="text"  onkeydown="if(event.keyCode==13){event.keyCode=9;document.getElementById('queryImg').className='queryImg_down'}" onkeypress="eventOnKeyPress('hspConfigBaseinfoName')" value="<%=securityStaffBaseinfo.getInputCode()%>" />-->
-						
-						<bean:message key="security.jsp.commom.hspConfigBaseinfoName" bundle="security"/>：
+					</div>
+					<div class="crm_input_item">
+						<span><bean:message key="security.jsp.commom.hspConfigBaseinfoName" bundle="security"/>：</span>
 						<input type="text" id="hspConfigBaseinfoName" name="hspConfigBaseinfoName" value="<%=securityStaffBaseinfo.getHspConfigBaseinfoName()%>"
 							onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getHspName_00000000004', 'hspConfigBaseinfoId')"
-							onkeydown="huanhang(event)" />
+							onkeydown="huanhang(event)" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="crm_search_input_text"/>
 					    <input type="hidden" name="hspConfigBaseinfoId" id="hspConfigBaseinfoId" value="<%=securityStaffBaseinfo.getHspConfigBaseinfoId()%>" />
-					    
-					    
-					    <input type="button" class="btnSave" name="<bean:message key="security.jsp.securityrolevsmenus.SecurityRoleVsMenus.item1" bundle="security"/>" value="<bean:message key="security.jsp.securityrolevsmenus.SecurityRoleVsMenus.item1" bundle="security"/>" onclick="queryForm()" />
-					    <input type="button" class="btnSave" name="导出" value="导出" onclick="cmdExcelExport()" />
-					</td>
-				</tr>
-			</table>
+					 </div>
+					  <div class="crm_input_item">
+						<input type="button" value="查询" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"
+							onclick="queryForm()" />
+					</div>
+					<div class="crm_input_item download_button_s1 " onclick="cmdExcelExport();" id="downprintarea" >
+					<img alt="" src="${path }/style/img/down.png" style="margin-top: 5px;margin-left: 10px;">
+					<span style="position: fixed;color: #fff;">导出</span>
+					</div>
+					<div style="clear: both"></div>
+				</div>
 			 <!--列表标题-->
-		<div id="dvh1">
-			<table border="0" cellpadding="0" cellspacing="0" class="tblSearchList" align="center">
-   				<caption style="text-align:left;">
-					<img src="security/include/images/comm_list_nav_red.jpg" width="20" height="20" align="absmiddle" /> <span><bean:message key="security.jsp.commom.item1" bundle="security"/></span>
-				</caption>
-   				 <thead>
-	   				 <tr class="lstName">
-		   				 <th width="3%" height="26">序号<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('3', '0')" /><img border="0" onclick="commandOrderBy('3', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-		   				 <th width="10%" height="26"><bean:message key="security.jsp.commom.hspConfigBaseinfoName" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('3', '0')" /><img border="0" onclick="commandOrderBy('3', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-		   				 <th width="7%" height="26"><bean:message key="security.jsp.commom.name" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('2', '0')" /><img border="0" onclick="commandOrderBy('2', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-		   				 <th width="5%" height="26"><bean:message key="security.jsp.commom.staffCode" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('1', '0')" /><img border="0" onclick="commandOrderBy('1', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-		            	 <th width="10%" height="26">注册码<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('1', '0')" /><img border="0" onclick="commandOrderBy('1', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>	
-		                 <th width="3%" height="26"><bean:message key="security.jsp.commom.button6" bundle="security"/></th>
-	   				 </tr>
+			 <div class="horizontal_line_2"></div>
+			 	<div class='crm_table_out'>
+					<table class='crm_table_content'>
+   				 		<thead>
+   				 			<tr>
+								<td>
+									序号
+								</td>
+								<td>
+									卫生机构
+								</td>
+								<td>
+									姓名
+								</td>
+								<td>
+									用户名
+								</td>
+								<td>
+									注册码
+								</td>
+								<td colspan="3" style="width:20%">
+									操作
+								</td>
+
+							</tr>
    				 </thead>
    				 <tbody id="interval_row_id">
    				    <%
@@ -264,54 +291,37 @@
 					 %>
 					 <tr>
 					 	<td style="text-align:center;"><%=(curPage-1)*pageSize+i+1%></td>		 
-					 	<td style="text-align:left;padding-left:10px;"><%=securityStaffBaseinfo.getHspConfigBaseinfoNameList()[i]%></td>
-					 	<td style="text-align:left;padding-left:10px;"><%=securityStaffBaseinfo.getNameList()[i]%></td>
-	            		<td style="text-align:left;padding-left:10px;"><%=securityStaffBaseinfo.getStaffCodeList()[i]%></td>
-	            		<td style="text-align:left;padding-left:10px;"><%=securityStaffBaseinfo.getRegistCodeList()[i]%></td>
-	            		<td><img src="include/images/cmdView_s.jpg" style="cursor: hand; vertical-align: middle;" title="<bean:message key="security.jsp.commom.button6" bundle="security"/>" onclick="viewForm('<%=securityStaffBaseinfo.getIdList()[i]%>')" /></td>
+					 	<td ><%=securityStaffBaseinfo.getHspConfigBaseinfoNameList()[i]%></td>
+					 	<td ><%=securityStaffBaseinfo.getNameList()[i]%></td>
+	            		<td ><%=securityStaffBaseinfo.getStaffCodeList()[i]%></td>
+	            		<td ><%=securityStaffBaseinfo.getRegistCodeList()[i]%></td>
+	            		<td style="cursor: pointer;">
+								<input type="button" class="button_grey2_s0" onmouseout="this.className='button_grey2_s0'" onmousedown="this.className='button_grey2_s1'" value="详细"
+										onclick="viewForm('<%=securityStaffBaseinfo.getIdList()[i]%>')" />
+						</td>
 	   				</tr>
 	   				<%
 	   					}
 					}
 					%>
 				</tbody>
+				<tfoot>
+			  <tr>
+			  <td colspan="6">
+			  	<input type="hidden" title="当前第几页" name="page_index" id="page_index" value="${pb.page}"/>
+			    <input type="hidden" title="一共多少页" name="page_count" id="page_count" value="${pb.pageCount}"/>
+			    <input type="hidden" title="一共多少条记录" name="count" id="count" value="${pb.count}"/>
+			    <input type="hidden" title="每页显示多少条记录" name="page_size" id="page_size" value="${pb.pageSize}"/>
+			  	<input type="hidden" name="cur_page" id="cur_page" value="${pb.page}"/>
+			  	<input type="hidden" name="page" id="page" value="${pb.page}"/>
+			  	<div class="pager_num"></div>
+			  	<div class="pager_text"></div>
+			  </td>
+			  </tr>
+		  </tfoot>
 			</table>
 		</div>
-			<table width="100%" align="center" class="tblScrollFooter">
-					
-				<tr>
-					<td colspan="11" align="center" class="footer">
-		 			
-						<input type="hidden" id="pageId" name="pageId" value="page_282881f5346450530134645053210000" />
-						<input type="hidden" id="reHref" name="reHref" value="<%=request.getContextPath()%>/security/securityStaffBaseinfo.do?verbId=registerCode" />
-						<%@ include file="/include/changepagesize.jsp" %>
-							
-						<input id="_total" name="totalPage" type="hidden" value="<%=totalPage%>" />
-						<bean:message key="security.jsp.commom.item2" bundle="security"/><%=curPage%><bean:message key="security.jsp.commom.item3" bundle="security"/><%=totalPage%><bean:message key="security.jsp.commom.item4" bundle="security"/><%=totalNum%><bean:message key="security.jsp.commom.item5" bundle="security"/>&nbsp;|&nbsp;
-					<%
-						if (curPage > 1) {
-					%>
-						<a href="javascript:goPage('0')"><img src="include/images/shouye.gif" align="middle" border="0" /></a>&nbsp; <a href="javascript:goPage('<%=curPage - 1 %>')"><img src="include/images/shang.gif" align="middle" border="0" /></a>&nbsp;
-					<%
-						} else {
-							out.println("<img src='include/images/shouye_s.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/shang_s.gif' align='middle' border='0px' />&nbsp;");
-						}
-						if (curPage < totalPage) {
-					%>
-						<a href="javascript:goPage('<%=curPage + 1 %>')"><img src="include/images/xia.gif" align="middle" border="0" /></a>&nbsp; <a href="javascript:goPage('<%=totalPage %>')"><img src="include/images/mo.gif" align="middle" border="0" /></a>&nbsp;
-					<%
-						} else {
-							out.println("<img src='include/images/xia_x.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/mo_m.gif' align='middle' border='0px' />&nbsp;");
-						}
-					%>
-						| &nbsp;<bean:message key="jsp.pagetext3" bundle="conf.Init"/>
-						<input id="_tp" name="page" type="text" value="<%=curPage%>" size="2" class="txt" />
-						<bean:message key="jsp.pagetext4" bundle="conf.Init"/>
-						&nbsp;
-						<img style="cursor:hand;" src="include/images/go.jpg" width="18" border="0" onClick="goPage2()" />
-					</td>
-				</tr>
-			</table>
+			
 		</form>
 		<script language="javascript" src="include/javascript/interval_row_color.js"></script>
 	</body>

@@ -52,7 +52,12 @@ function cmdEdit(id) {
 				<tr>
 					<td class="tblTitle" colspan="4">
 						药品剂型字典详细信息
-						<div id="editDiv"><img src="include/images/114.gif" width="14" height="14" /><a href="javascript:cmdEdit('<%=data.getItemCode() %>')" > 修改</a><img src="include/images/printer.png" width="14" height="14" /><a href="javascript:qprint();"> 打印</a></div>
+						<div id="editDiv">
+						<img src="include/images/114.gif" width="14" height="14" />
+						<a href="javascript:cmdEdit('<%=data.getItemCode() %>')" > 修改</a>
+						<img src="include/images/printer.png" width="14" height="14" />
+						<a href="javascript:qprint();"> 打印</a>
+						</div>
 					</td>
 				</tr>
 				<tr>

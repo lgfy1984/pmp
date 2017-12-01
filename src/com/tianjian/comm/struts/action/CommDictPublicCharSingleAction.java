@@ -121,14 +121,14 @@ public class CommDictPublicCharSingleAction extends BaseAction {
 				pb.setPage(page);
 				count = (page - 1) * pageSize;
 			}
-			String isQuery = request.getParameter("isQuery");
-			if(isQuery==null||!isQuery.equals("yes")){
-				commDictPublicCharSingleService.getSearch(hosform, count, pageSize);
-				commDictPublicCharSingleService.serchInit(hosform);
-				hosform.setIdList(null);
-				request.setAttribute("commDictPublicChar", hosform);
-				return mapping.findForward("query");
-			}
+//			String isQuery = request.getParameter("isQuery");
+//			if(isQuery==null||!isQuery.equals("yes")){
+//				commDictPublicCharSingleService.getSearch(hosform, count, pageSize);
+//				commDictPublicCharSingleService.serchInit(hosform);
+//				hosform.setIdList(null);
+//				request.setAttribute("commDictPublicChar", hosform);
+//				return mapping.findForward("query");
+//			}
 			request.setAttribute("pb", pb);
 			// ////// page end ////////////////////////
 			commDictPublicCharSingleService.getSearch(hosform, count, pageSize);

@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
+import com.tianjian.pm.struts.form.PageForm;
+import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
+import com.tianjian.security.bean.SecurityStaffBaseinfo;
 
 /**
  * TODO
@@ -144,4 +147,20 @@ public interface IProjectBaseInfoDAO {
 		* @author LengJiong
 		*/
 		public String getSequenceNo(String tableName, String filedName);
+		
+		/**
+		    *TODO
+		    * @Title: findNameByCode
+		    * @param code
+		    * @return
+		    * @return String
+		    * @throws
+		    * @author LengJiong
+		    */
+		    public String findNameByCode(String code);
+		
+		public List<SecurityStaffBaseinfo> findStaffList(ProjectBaseInfoForm smForm, PageForm page);
+		
+		public Object findObjByHql(String sql, Map<String, Object> map);
+
 }

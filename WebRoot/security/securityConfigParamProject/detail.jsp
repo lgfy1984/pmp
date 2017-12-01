@@ -16,7 +16,16 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
+<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="${path}/js/default.js"></script>
 <link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
+<script type="text/javascript" src="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/js/LodopFuncs.js"></script>
 <script type="text/javascript">
 			function goback(url){
 				location.href=url;
@@ -34,60 +43,75 @@
 			    document.getElementById("btnSave").style.display="block";
 	   
 	  		}
+			
+			 function print(){
+				 var title="工程:"+$("table tr td:eq(3) input").val()+"详情";
+				 var lodop= getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'),title);
+					//document.getElementById("btnSave").style.display="none";
+					lodop. ADD_PRINT_table(60,0,"100%","100%",document.documentElement.innerHTML);
+					//lodop.print();
+					lodop.PREVIEW();
+					//document.getElementById("btnSave").style.display="block";
+			 }
 </script>
 </head>
 
 <body>
 <form name="form" method="post">
 <input type="hidden" name="verbId" value="detail">
- <table border="0" cellpadding="0" cellspacing="0" class="tblFill" align="center">
- 	<tr>
-        <td class="tblTitle" colspan="4"><span>※</span>
-           <bean:message key="security.jsp.securityConfigParamClassProject.detail.title" bundle="security"/>
-           <span>※</span></td>
-    </tr>
+<div class="crm_edit_panel ">
+ <table class="crm_panel_table">
      <tr>
-		<td class="tblLable">
-            工程代码:
+		<td class="crm_edit_item_name">
+            	工程代码
         </td>
-        <td class="hou">
-        	<%=data.getProjectCode()%>  
+        <td class="crm_edit_item_content">
+        	<input type="text" class="text"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=data.getProjectCode()%>" readonly="readonly" />   
         </td>
-		<td class="tblLable">
-            工程名称:
+		<td class="crm_edit_item_name">
+           	工程名称
         </td>
-        <td class="hou">
-        	<%=data.getProjectName()%>  
-        </td>
-    </tr>
-	<tr>
-        <td class="tblLable">
-          	 输入码:
-        </td>
-        <td class="hou">            
-            <%=data.getInputCode()%>  
-        </td>
-
-        <td class="tblLable">
-            序号:
-        </td>
-        <td class="hou">            
-             <%=data.getSeqNo()%>           
+        <td class="crm_edit_item_content">
+        	<input type="text" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=data.getProjectName()%>" readonly="readonly" />   
         </td>
     </tr>
 	<tr>
-         <td class="tblLable">
-           备注:
+        <td class="crm_edit_item_name">
+          	 输入码
         </td>
-        <td class="hou" colspan="3">            
-            <%=data.getComments()%>  
+        <td class="crm_edit_item_content">            
+            <input type="text" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=data.getInputCode()%>" readonly="readonly" />   
+        </td>
+        <td class="crm_edit_item_name">
+           	 序号
+        </td>
+        <td class="crm_edit_item_content">            
+             <input type="text" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=data.getSeqNo()%>" readonly="readonly" />            
+        </td>
+    </tr>
+	<tr>
+         <td class="crm_edit_item_name">
+           	备注
+        </td>
+        <td class="crm_edit_item_content" colspan="3">            
+            <input type="text" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="<%=data.getComments()%>" readonly="readonly" />   
         </td>
     </tr>
   </table>
+ </div>
+ <div class="horizontal_line_10"></div>
   <!-- Sheet operation button area -->
-  <div class="btnSave" id="btnSave">
-  	<input type="button" style="font-size:12px;font-family:Arial;" name="btnBack" value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1)" />
-	<input type="button"  style="font-size:12px;font-family:Arial;" name="btn" value="打印" onclick="QWPrint();" />  
+  <div align="center"  id="btnSave">
+ <div  class=" download_button_s1 left" onclick="print();" id="downprintarea" style="margin-left: 130px;">
+					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
+					<span style="position: fixed;color: #fff;">打印</span>
+					</div>
+  	<input type="button" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" name="btnBack" value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1)" />	
   </div>
 </form>
 </body>

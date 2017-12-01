@@ -10,8 +10,16 @@ import java.util.Properties;
 public class CommBeanInit {
 	private static HashMap tjProperty;
 
+	public static HashMap getTjProperty() {
+		return tjProperty;
+	}
+
+	public static void setTjProperty(HashMap tjProperty) {
+		CommBeanInit.tjProperty = tjProperty;
+	}
+
 	public CommBeanInit() {
-		tjProperty = new HashMap();
+		setTjProperty(tjProperty);
 	}
 
 	static {

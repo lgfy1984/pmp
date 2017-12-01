@@ -148,8 +148,8 @@ public class CommConfigCardtypeServiceImpl
             data.setItemName(transNullToString(form.getItemName()));
             data.setInputCode(transNullToString(form.getInputCode()));
             data.setComments(transNullToString(form.getComments()));
-            data.setSeqNo(Long.valueOf(form.getSeqNo() != null && form.getSeqNo().trim() != "" ? form.getSeqNo().trim() : "0"));
-            data.setStopFlag(Long.valueOf(form.getStopFlag() != null && form.getStopFlag().trim() != "" ? form.getStopFlag().trim() : "0"));
+            data.setSeqNo(Long.valueOf(form.getSeqNo() != null && !"".equals(form.getSeqNo().trim()) ? form.getSeqNo().trim() : "0"));
+            data.setStopFlag(Long.valueOf(form.getStopFlag() != null && !"".equals(form.getStopFlag().trim()) ? form.getStopFlag().trim() : "0"));
         }
         catch(Exception e)
         {

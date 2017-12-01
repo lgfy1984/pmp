@@ -159,7 +159,7 @@ public class CommIHEAuthorityServiceImpl implements ICommIHEAuthorityService {
 				data.setNamespaceId(transNullToString(form.getNamespaceId()));
 				data.setDateCreated(new Date(System.currentTimeMillis()));
 				data.setCreatorId(transNullToString(form.getCreatorId()));
-				data.setSeqNo(Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+				data.setSeqNo(Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			 } catch (Exception e) { 
 				 log.error("setData fail!",e);
 				 e.printStackTrace();

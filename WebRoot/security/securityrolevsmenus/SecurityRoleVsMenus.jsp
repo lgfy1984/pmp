@@ -30,6 +30,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
+
 <link type="text/css" rev="stylesheet" rel="stylesheet"
 	href="include/css/form.css" />
 <link rel="stylesheet" href="include/css/demo.css" type="text/css">
@@ -37,6 +38,9 @@
 	type="text/css">
 <script type="text/javascript"
 	src="include/javascript/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 <script type="text/javascript"
 	src="include/javascript/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript"
@@ -60,6 +64,7 @@
 .ztree li a.level0 span {
 	font-size: 20px;
 }
+
 </style>
 <script language="javascript">
 		var roles_setting = {
@@ -105,7 +110,7 @@
 		        	url: "<%=request.getContextPath()%>/security/security_securityRoleVsMenus.do",
 		        	data: "verbId=getMenusBySelectedRole&roleId="+treeNode.id,
 		        	error: function(a, b, c){
-		        		alert(a + "-" + b + "-" + c);
+		        		$.messager.alert('提示',a + "-" + b + "-" + c);
 		        	},
 		        	success: function(json){
 		        		var ids = eval(json);
@@ -168,42 +173,44 @@
 		function beforeMenuCheck(treeId, treeNode){
 			var selectedRoleNodes = roleTree.getCheckedNodes(true);
 			if(selectedRoleNodes == null || selectedRoleNodes.length == 0){
-				alert('<bean:message key="security.jsp.role.commom.warn" bundle="security"/>');
+				$.messager.alert('提示','<bean:message key="security.jsp.role.commom.warn" bundle="security"/>');
 				return false;
 			}
 		}
 		function save(){
 			var selectedRoleNodes = roleTree.getCheckedNodes(true);
 			if(selectedRoleNodes == null || selectedRoleNodes.length == 0){
-				alert('<bean:message key="security.jsp.role.commom.warn" bundle="security"/>');
+				$.messager.alert('提示','<bean:message key="security.jsp.role.commom.warn" bundle="security"/>');
 				return;
 			}
-			if(!window.confirm("确定要保存吗？")){
-				return false;
-			}
-			var selectedMenuNodes = menuTree.getCheckedNodes(true);
-			var menuIds = new Array();
-			if(selectedMenuNodes != null){
-				for(var i = 0; i < selectedMenuNodes.length; i++){
-					var node = selectedMenuNodes[i];
-					if(node.type == NodeType.MENU){
-						menuIds.push(node.id);
+			
+			$.messager.confirm('确认', '确定要保存吗？', function(r){
+    			if (r){
+					var selectedMenuNodes = menuTree.getCheckedNodes(true);
+					var menuIds = new Array();
+					if(selectedMenuNodes != null){
+						for(var i = 0; i < selectedMenuNodes.length; i++){
+							var node = selectedMenuNodes[i];
+							if(node.type == NodeType.MENU){
+								menuIds.push(node.id);
+							}
+						}
 					}
-				}
-			}
-			 $.ajax({
-		        	type: "POST",
-		        	processData: false,
-		        	dataType: "text/xml",
-		        	url: "<%=request.getContextPath()%>/security/security_securityRoleVsMenus.do",
-		        	data: "verbId=save&roleId="+selectedRoleNodes[0].id+"&menuIds="+menuIds.join(","),
-		        	error: function(a, b, c){
-		        		alert(a + "-" + b + "-" + c);
-		        	},
-		        	success: function(str){
-		        		alert(str);
-		        	}
-		        });
+					 $.ajax({
+				        	type: "POST",
+				        	processData: false,
+				        	dataType: "text/xml",
+				        	url: "<%=request.getContextPath()%>/security/security_securityRoleVsMenus.do",
+				        	data: "verbId=save&roleId="+selectedRoleNodes[0].id+"&menuIds="+menuIds.join(","),
+				        	error: function(a, b, c){
+				        		$.messager.alert('提示',a + "-" + b + "-" + c);
+				        	},
+				        	success: function(str){
+				        		$.messager.alert('提示',str);
+				        	}
+				        });
+		     	}
+		     });
 		}
 		$(document).ready(function() {
 			resize();
@@ -254,9 +261,9 @@
 					<td>：菜单</td>
 				</tr>
 			</table>
-			<div class="btnSave"  style="text-align: left;margin: 50px 5px 5px 5px">
-				<input type="button" 
-					value="<bean:message key="security.jsp.commom.button1" bundle="security"/>"
+			<div   style="text-align: left;margin: 50px 5px 5px 5px">
+				<input type="button"  class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"
+					value="保存"
 					name="btnSaveForm" onclick="save()" />
 			</div>
 		</div>

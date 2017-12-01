@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -19,6 +20,10 @@ import org.hibernate.Query;
 import com.tianjian.comm.dao.hibernate.BaseDAOImpl;
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.dao.IProjectBaseInfoDAO;
+import com.tianjian.pm.struts.form.PageForm;
+import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
+import com.tianjian.security.bean.SecurityStaffBaseinfo;
+import com.tianjian.util.Converter;
 import com.tianjian.util.HqlUtil;
 
 /**
@@ -56,8 +61,8 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 
 		if (projectName.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " a.projectName = ? ");
-			params.add(projectClass.trim());
+					+ " a.projectName like ? ");
+			params.add("%"+projectName.trim()+"%");
 		}
 		if (onlineTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
@@ -169,8 +174,8 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 
 		if (projectName.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " a.projectName = ? ");
-			params.add(projectClass.trim());
+					+ " a.projectName like ? ");
+			params.add("%"+projectName.trim()+"%");
 		}
 		if (onlineTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
@@ -212,4 +217,51 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 	}
 
 
+	@Override
+	public List<SecurityStaffBaseinfo> findStaffList(ProjectBaseInfoForm smForm, PageForm page) {
+		List<Object> params = new ArrayList<Object>();
+
+		StringBuilder builder = new StringBuilder(
+				" from SecurityStaffBaseinfo t");
+
+		
+		if (StringUtils.isNotBlank(smForm.getStaffName())) {
+			// System.out.println(smForm.getUserName());
+			builder.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.name like ? ");
+			params.add("%" + smForm.getStaffName() + "%");
+		}
+		if (StringUtils.isNotBlank(smForm.getStaffCode())) {
+			builder.append(" " + HqlUtil.getWhereOrAndClause(params) + " t.staffCode = ? ");
+			params.add(smForm.getStaffCode());
+		}
+		if (StringUtils.isNotBlank(smForm.getTenantId())) {
+			builder.append(" " + HqlUtil.getWhereOrAndClause(params) + " t.tenantId = ? ");
+			params.add(smForm.getTenantId());
+		}
+
+		builder.append(" order by t.createDate desc ");
+		Query query = getSessionFactory().getCurrentSession().createQuery(
+				builder.toString());
+		if (page != null) {
+			int begin = (Integer.parseInt(page.getPageIndex()) - 1)
+					* Integer.parseInt(page.getPageSize());
+			query.setFirstResult(begin);
+			query.setMaxResults(Integer.parseInt(page.getPageSize()));
+		}
+		for (int i = 0; i < params.size(); i++) {
+			query.setParameter(i, params.get(i));
+		}
+		return query.list();
+	}
+    
+	public String findNameByCode(String code){
+		String name="";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", code.trim());
+		String hql = "select a.itemName from CommConfigSex a where a.itemCode=:code ";
+		Object pcd = findObjByHql(hql.toString(),map);
+		name = Converter.toBlank(pcd);
+		return name;
+	}
 }

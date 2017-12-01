@@ -178,5 +178,20 @@ public class CommConfigSexDAO extends HibernateDaoSupport implements  ICommConfi
         	re.printStackTrace();
 			return new Integer("1"); 
         }
+	}
+	@Override
+	public List<?> findVIPAll() {
+		try {
+    		String sql = " from CommConfigVip a  ";
+	       
+	    	Query q = getSession().createQuery(sql); 
+			List<?> l=q.list();
+			log.debug("findAll success!");
+			return l;
+    	} catch (Exception re) {
+        	log.error("findAll fail",re);
+        	re.printStackTrace(); 
+        	return null;
+        }
 	}  
 }

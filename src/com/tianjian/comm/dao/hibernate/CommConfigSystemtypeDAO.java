@@ -166,7 +166,7 @@ public class CommConfigSystemtypeDAO extends HibernateDaoSupport implements  ICo
         try
         {
         	List<?> l = getHibernateTemplate().find(" select max(aa.seqNo) from CommConfigSystemtype aa ");
-            if(l != null || l.size() > 0){
+            if(l != null && l.size() > 0){
             	
                 temp = Integer.valueOf(String.valueOf(l.get(0))).intValue() + 1;
             }

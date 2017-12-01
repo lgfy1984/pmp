@@ -63,6 +63,7 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			ProjectFinanceRecordForm hosform = (ProjectFinanceRecordForm) form;
 			hosform.setCreateUserName(staff.getStaffName());
 			projectFinanceRecordService.addInit(hosform);
+			hosform.setTaskClass(null);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("add");
 		}

@@ -13,8 +13,16 @@ import java.util.Properties;
 public class CommConfigLocationTownInit {
 	private static HashMap<String, String> tjProperty;
 
+	public static HashMap<String, String> getTjProperty() {
+		return tjProperty;
+	}
+
+	public static void setTjProperty(HashMap<String, String> tjProperty) {
+		CommConfigLocationTownInit.tjProperty = tjProperty;
+	}
+
 	public CommConfigLocationTownInit() {
-		tjProperty = new HashMap<String, String>();
+		 setTjProperty(tjProperty);;
 	}
 
 	static {

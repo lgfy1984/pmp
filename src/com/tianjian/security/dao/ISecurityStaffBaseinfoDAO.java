@@ -1,6 +1,7 @@
 package com.tianjian.security.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tianjian.security.bean.SecurityStaffBaseinfo;
 import com.tianjian.security.bean.SecuritySystemUsers;
@@ -77,4 +78,23 @@ public interface ISecurityStaffBaseinfoDAO {
 	public List<?> getDataRegisterCode(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String dateOfBirth, String inputCode,String staffId, String order, int curCount, int quChuCount);
 	
 	 public List<?> getRegisterExport(String staffCode, String hspConfigBaseinfoId, String name);
+	 
+	 /**
+		 * 根据hql查询一个对象
+		 * 
+		 * @param hql
+		 *            hql语句
+		 * @param map
+		 * 
+		 * @return 返回一个对象
+		 */
+		public Object findObjByHql(String hql, Map<String, Object> map); 
+		/**
+		 * 根据hql查询对象
+		 * 
+		 * @param hql
+		 *            hql语句
+		 * @return
+		 */
+		public List<?> findObjectByHql(String hql);
 }

@@ -11,10 +11,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import com.tianjian.comm.bean.CommConfigLocationGroup;
 import com.tianjian.comm.bean.CommConfigLocationTown;
+import com.tianjian.comm.bean.CommConfigLocationVillage;
 import com.tianjian.comm.business.ICommConfigInputDictService;
 import com.tianjian.comm.business.ICommConfigLocationTownService;
 import com.tianjian.comm.struts.form.CommConfigLocationTownForm;
+import com.tianjian.comm.struts.form.CommConfigLocationVillageForm;
 import com.tianjian.comm.struts.servlet.CommConfigLocationTownInit;
 import com.tianjian.util.ResourcesUtil;
 import com.tianjian.util.comm.PageBean;
@@ -88,13 +91,23 @@ public class CommConfigLocationTownAction extends Action{
 
 	private ActionForward addInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		CommConfigLocationTownForm hosform = (CommConfigLocationTownForm)form;
-		
-		this.getService().addInit(hosform);
-		
-		String itemCode=this.getService().getItemCode(hosform);
-		String newItemCode=hosform.getCommConfigLocationId3()+itemCode;
-		hosform.setItemCode(newItemCode); 
-		
+		CommConfigLocationTown data =null ;
+		if(hosform != null){
+		 data = this.getService().checkData(hosform.getItemCode().trim());
+		}
+		 if(hosform == null || data == null){
+			hosform = new CommConfigLocationTownForm();		
+			this.getService().addInit(hosform);
+//		this.getService().addInit(hosform);
+//		
+//		String itemCode=this.getService().getItemCode(hosform);
+//		String newItemCode=hosform.getCommConfigLocationId3()+itemCode;
+//		hosform.setItemCode(newItemCode); 
+
+		}else{			
+			this.getService().setForm(hosform, data);
+//			this.getService().setForm2(hosform);
+		}
 		request.setAttribute("data", hosform);
 		return mapping.findForward("add");
 	}
@@ -106,7 +119,7 @@ public class CommConfigLocationTownAction extends Action{
 			hosform.setInputCode(this.getCommConfigInputDictService().getInputCode(hosform.getItemName()));
 			this.getService().add(hosform,request);
 			CommConfigLocationTownForm hosformNew = new CommConfigLocationTownForm();	
-			hosformNew.setMessage(hosform.getMessage());
+			//hosformNew.setMessage(hosform.getMessage());
 			return this.query(mapping, hosformNew, request, response);
 		}else{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.CommConfigLocationTownAction.addFail", request) + "!";
@@ -125,8 +138,15 @@ public class CommConfigLocationTownAction extends Action{
 		pb.setCount(recordCount);
 		String pageString = request.getParameter("page");
 		//int pageSize = CommConfigLocationTownInit.getPageSize("PAGE_SIZE");
-		ServletContext application = request.getSession().getServletContext();
-		int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		//ServletContext application = request.getSession().getServletContext();
+		//int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		int pageSize = 10;
+		if(request.getSession().getAttribute("page_282881f53463902b013463902b221111")!=null){
+			pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463902b013463902b221111"));
+		}else{
+			ServletContext application = request.getSession().getServletContext();
+			pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		}		
 		pb.setPageSize(pageSize);
 		if(pageString == null || pageString.equals("") || pageString.equals("0")){
 			page = 1;
@@ -184,6 +204,7 @@ public class CommConfigLocationTownAction extends Action{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.cannotDel", request) + "!";
 			hosform.setMessage(message);
 		}
+		hosform.setMessage("");
 		hosform.setId("");
 		hosform.setIdHidden("");
 		hosform.setInputCode("");
@@ -211,7 +232,7 @@ public class CommConfigLocationTownAction extends Action{
 		CommConfigLocationTownForm hosform = (CommConfigLocationTownForm)form;		
 		this.getService().update(hosform, request);
 		CommConfigLocationTownForm hosformNew = new CommConfigLocationTownForm();
-		hosform.setMessage(hosform.getMessage());
+		//hosform.setMessage(hosform.getMessage());
 		return  this.query(mapping, hosformNew, request, response);
 	}
 	private ActionForward setCity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{

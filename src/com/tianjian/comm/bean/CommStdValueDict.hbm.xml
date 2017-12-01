@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tianjian.comm.bean.CommStdValueDict" table="COMM_STD_VALUE_DICT" schema="COMM">
+		<id name="seq_no">
+			
+		</id>
+		<property name="item_code" />
+		<property name="item_name" />
+		<property name="key_code" />
+		<property name="key_name" />
+		<property name="type" />		
+		<property name="max_value" />
+		<property name="min_value" />
+		<property name="std_value" />
+		<property name="value_unit" />
+		<property name="std_comments" />
+		<property name="input_code" />
+		<property name="max_Limited" />		
+		<property name="min_Limited" />
+		<property name="comments" />
+	</class>
+</hibernate-mapping>

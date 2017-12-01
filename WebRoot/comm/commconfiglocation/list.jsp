@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=utf-8"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="commConfigLocation" scope="request" type="com.tianjian.comm.struts.form.CommConfigLocationForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -245,19 +246,19 @@ function isMadeOf(val,str)
 				</tr>
 				<tr>
 					<td>
-						<bean:message key="comm.jsp.different.text67" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.different.text67" bundle="conf.comm.comm"/>
 						<input type="hidden" id="parentId" name="parentId" value="<%=commConfigLocation.getParentId() %>"/>
 						<input type="text" id="parentName" name="parentName" value="<%=commConfigLocation.getParentName() %>" style="width: 125px;"/>
 						<img src="<%=request.getContextPath() %>/hsp/include/images/select.gif" style="cursor:pointer;" 
 										onClick="change(),searchMore('');"  />
 						
-						<bean:message key="comm.jsp.common.text15" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text15" bundle="conf.comm.comm"/>
 						<input name="itemCode" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=commConfigLocation.getItemCode()%>" />
 					
-						<bean:message key="comm.jsp.different.text46" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.different.text46" bundle="conf.comm.comm"/>
 						<input name="itemName" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=commConfigLocation.getItemName()%>" />
 					
-						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>
 						<input name="inputCode" type="text" onkeypress="eventOnKeyPress('<bean:message key="comm.jsp.common.text40" bundle="conf.comm.comm"/>')" value="<%=commConfigLocation.getInputCode()%>" />
 					
 						<input type="button"  class="btnSave" name="<bean:message key="comm.jsp.common.text40" bundle="conf.comm.comm"/>" value="<bean:message key="comm.jsp.common.text401" bundle="conf.comm.comm"/>" onClick="submitQueryForm();" />
@@ -285,6 +286,16 @@ function isMadeOf(val,str)
 			        </tr>
 				</thead>
 				<tbody id="interval_row_id">
+				  <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="11">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (commConfigLocation.getIdList() != null && commConfigLocation.getIdList().length > 0) {
 							for (int i = 0; i < commConfigLocation.getIdList().length; i++) {
@@ -418,7 +429,7 @@ function isMadeOf(val,str)
 							</table>
 						</div>
 			<!--列表内容-->
-			<table width="100%" align="center" class="tblScrollFooter">
+			<table width="100%" align="center" class="tblScrollFooter" <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 				<tr>
 					<td colspan="11" align="center" class="footer">
 						<%

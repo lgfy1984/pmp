@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	 */
 	public void initForm(ProjectFinanceRecordForm form){
 
-		List<?> list1 = projectFinanceRecordDAO.getTaskClassDict();
+		List<?> list1 = projectFinanceRecordDAO.getTaskClassDict(form.getProjectClassCode());
 		if (list1 != null && list1.size() > 0) {
 			Map<String, String> temp = new LinkedHashMap<String, String>();
 
@@ -192,6 +193,8 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	public void updateInit(ProjectFinanceRecordForm form){
 
 		ProjectFinanceRecord data = projectFinanceRecordDAO.findById(form.getIdHidden());
+
+		form.setProjectClassCode(getItemNameByCode("select a.projectClass from ProjectBaseinfo a where a.id=:id",Converter.toBlank(data.getProjectBaseinfoId()),"id"));
 		this.initForm(form);
 		this.setForm(form, data);
 	}
@@ -334,6 +337,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 				form.setProjectCode(pbi.getProjectCode());
 				form.setProjectName(pbi.getProjectName());
 				form.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+				form.setStaffName(pbi.getStaffName());
 			}
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 		    form.setLongTime(Converter.toBlank(data.getLongTime()));
@@ -358,5 +362,13 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 			}
 		}
 		return "";
+	}
+	private String getItemNameByCode(String sql,String temp,String valueName){
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(valueName, temp);
+		
+		Object  obj = projectWorkTimeRecordDAO.findObjByHql(sql, map);
+		return  Converter.toBlank(obj);
 	}
 }

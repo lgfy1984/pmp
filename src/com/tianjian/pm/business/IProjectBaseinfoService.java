@@ -7,8 +7,12 @@
  */
 package com.tianjian.pm.business;
 
+import java.util.List;
+
 import com.tianjian.pm.bean.ProjectBaseinfo;
+import com.tianjian.pm.struts.form.PageForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
+import com.tianjian.pm.struts.form.SecurityStaffBaseinfoVo;
 
 /**
  * TODO
@@ -137,4 +141,16 @@ public interface IProjectBaseinfoService  {
 	* @author lengj
 	 */
 	public void getProjectBaseInfoSearch(ProjectBaseInfoForm hosform, int curCount,int pageSize);
+	  /**
+	    *TODO
+	    * @Title: findProjectList
+	    * @param smForm
+	    * @param page
+	    * @return
+	    * @return List<ProjectBaseinfo>
+	    * @throws
+	    * @author LengJiong
+	    */
+	    public List<SecurityStaffBaseinfoVo> findStaffList(ProjectBaseInfoForm smForm, PageForm page);
+		public int findStaffCount(ProjectBaseInfoForm form, PageForm page);
 }

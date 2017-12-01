@@ -1,12 +1,15 @@
 package com.tianjian.comm.struts.form;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+
+import com.tianjian.comm.bean.CommPsychologyDict;
 
 
 
@@ -78,6 +81,16 @@ public class CommDictPublicLevelForm extends ActionForm implements Serializable{
 	private String[] tableCodeList;
 	/**字典类别名称*/
 	private String[] tableNameList;
+	/**创建时间*/
+	private String createDate;
+	/**创建人ID*/
+	private String createUserId;
+	/**创建人姓名*/
+	private String createUserName;
+	private List<CommPsychologyDict> levelList;
+	private String currentPage;
+	private Number totalCount;
+	private String results;
 	/** 
 	 * Method validate
 	 * @param mapping
@@ -126,6 +139,76 @@ public class CommDictPublicLevelForm extends ActionForm implements Serializable{
 
 
 	
+	public String getResults() {
+		return results;
+	}
+
+
+	public void setResults(String results) {
+		this.results = results;
+	}
+
+
+	public String getCurrentPage() {
+		return currentPage;
+	}
+
+
+	public void setCurrentPage(String currentPage) {
+		this.currentPage = currentPage;
+	}
+
+
+	public Number getTotalCount() {
+		return totalCount;
+	}
+
+
+	public void setTotalCount(Number totalCount) {
+		this.totalCount = totalCount;
+	}
+
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+
+	public List<CommPsychologyDict> getLevelList() {
+		return levelList;
+	}
+
+
+	public void setLevelList(List<CommPsychologyDict> levelList) {
+		this.levelList = levelList;
+	}
+
+
 	public String getItemCode() {
 		return itemCode;
 	}

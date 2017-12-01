@@ -62,9 +62,9 @@ public class CommDictPublicLevelAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);	
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -87,7 +87,7 @@ public class CommDictPublicLevelAction extends BaseAction {
 			commDictPublicLevelService.save(hosform);
 			CommDictPublicLevelForm hosformNew = new CommDictPublicLevelForm();
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.dataSaveSuccess", request) + "!";
-			hosformNew.setMessage(message);
+			hosformNew.setMessage("");
 			return this.query(mapping, hosformNew, request, response);
 		}
 		catch (Exception e) {
@@ -150,7 +150,7 @@ public class CommDictPublicLevelAction extends BaseAction {
 			commDictPublicLevelService.getSearch(hosform, count, pageSize);
 			commDictPublicLevelService.serchInit(hosform);
 			request.setAttribute("commDictPublicLevel", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

@@ -7,6 +7,8 @@
  */
 package com.tianjian.pm.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +18,13 @@ import org.apache.struts.action.ActionMapping;
 
 import com.tianjian.pm.business.IProjectBaseinfoService;
 import com.tianjian.pm.struts.comm.BaseDispatchAction;
+import com.tianjian.pm.struts.form.PageForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
+import com.tianjian.pm.struts.form.SecurityStaffBaseinfoVo;
 import com.tianjian.security.struts.form.SessionForm;
-import com.tianjian.tenant.util.TenantIdHolder;
 import com.tianjian.util.comm.PageBean;
+
+import net.sf.json.JSONArray;
 
 /**
  * TODO
@@ -116,7 +121,6 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
 		try {
 			ProjectBaseInfoForm hosform = (ProjectBaseInfoForm) form;
-			
 			String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
 			hosform.setCreateUserId(createUserId);
@@ -281,5 +285,92 @@ public class ProjectBaseInfoAction extends BaseDispatchAction{
 			e.printStackTrace();
 			return mapping.findForward("fail");
 		}
+	}
+	
+	
+	public ActionForward findStaffList(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+			String staffCode = request.getParameter("staffCode");
+			String staffName = request.getParameter("staffName");
+			// 转码
+
+			String pageIndex = request.getParameter("pageIndex");
+			staffCode = java.net.URLDecoder.decode(staffCode, "UTF-8");
+			staffName = java.net.URLDecoder.decode(staffName, "UTF-8");
+			ProjectBaseInfoForm smForm = (ProjectBaseInfoForm) form;
+			smForm.setStaffName(staffName);
+			smForm.setStaffCode(staffCode);
+			smForm.setTenantId(staff.getTenantId());
+			
+			PageForm page = new PageForm();
+			page.setPageIndex(pageIndex);
+			List<SecurityStaffBaseinfoVo> groups = projectBaseinfoService.findStaffList(smForm, page);
+			// System.out.println(json);
+			JSONArray jsonArray = null;
+			response.setCharacterEncoding("utf-8");
+			jsonArray = JSONArray.fromObject(groups);
+//			System.out.println(jsonArray.toString());
+			response.getWriter().print(jsonArray);// JSON返回数据
+			response.flushBuffer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/***
+	 * 获取短信用户分页信息
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward findStaffPage(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+
+			SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+			String pageIndex = request.getParameter("pageIndex");
+			ProjectBaseInfoForm smForm = (ProjectBaseInfoForm) form;
+
+			smForm.setTenantId(staff.getTenantId());
+			PageForm page = new PageForm();
+			int count = projectBaseinfoService.findStaffCount(smForm, null);
+			Integer pageCount = 0;
+			Integer r = Integer.valueOf(count)
+					% (Integer.parseInt(page.getPageSize()));
+			if (r == 0) {
+				pageCount = Integer.valueOf(count)
+						/ (Integer.parseInt(page.getPageSize()));
+			} else {
+				pageCount = Integer.valueOf(count)
+						/ (Integer.parseInt(page.getPageSize())) + 1;
+			}
+			page.setCount(String.valueOf(count));
+			page.setPageIndex(pageIndex);
+			page.setPageCount(pageCount.toString());
+			String json = "{\"count\":" + "\"" + page.getCount() + "\","
+					+ "\"pageIndex\":" + "\"" + page.getPageIndex() + "\","
+					+ "\"pageCount\":" + "\"" + page.getPageCount() + "\","
+					+ "\"pageSize\":" + "\"" + page.getPageSize() + "\"}";
+//		System.out.println(json.toString());
+			response.reset();
+			response.setContentType("text/plain;charset=utf-8");
+			response.setHeader("Cache-Control", "no-store");
+			response.setHeader("Pragrma", "no-cache");
+			response.setDateHeader("Expires", 0);
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().write(json);
+			response.flushBuffer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

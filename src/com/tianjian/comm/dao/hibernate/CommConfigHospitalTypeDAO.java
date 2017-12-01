@@ -249,7 +249,7 @@ public class CommConfigHospitalTypeDAO extends HibernateDaoSupport implements IC
 	/**
 	 * 通过上一级分类得到对应的类
 	 * */
-	public List<?> getByParentItemCode(String parentItemCode,HttpServletRequest request){
+	public List<CommConfigHospitalType> getByParentItemCode(String parentItemCode,HttpServletRequest request){
 		try {
 			ServletContext application = request.getSession().getServletContext();
 			String sql = "";
@@ -262,7 +262,7 @@ public class CommConfigHospitalTypeDAO extends HibernateDaoSupport implements IC
 				sql = sql + " and a.parentItemCode = '"+parentItemCode.trim()+"'";
 			}
 			
-			List<?> l = this.getHibernateTemplate().find(sql);
+			List<CommConfigHospitalType> l = this.getHibernateTemplate().find(sql);
 			return l;
 		}
 		catch (Exception re) {

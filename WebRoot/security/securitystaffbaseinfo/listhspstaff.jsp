@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <jsp:useBean id="dataForm" scope="request" class="com.tianjian.hsp.struts.form.HspStaffBaseinfoLocalBaseForm" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -227,6 +228,16 @@ a:hover {
 			</td>
 		</tr>
 		<tbody id="interval_row_id">
+		  <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="5">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 		
 		 <% if (dataForm.getIdsHiddenArray() != null && dataForm.getIdsHiddenArray().length > 0) {
 			for (int i = 0; i < dataForm.getIdsHiddenArray().length; i++) {
@@ -248,7 +259,7 @@ a:hover {
 			}
 		%>
 		</tbody>
-		<tr>
+		<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 			<td colspan="5" align="center" bgcolor="#ffffff" height="35px">
 				<%
 					int curPage = 0;

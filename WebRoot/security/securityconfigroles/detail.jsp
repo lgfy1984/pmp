@@ -14,19 +14,40 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="${path}/style/default.css"/>
+		<link rel="stylesheet" type="text/css"
+			href="${path}/style/easyui/themes/default/easyui.css" />
+		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+		
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>		
+		
+		<script language="javascript" src="${path}/js/LodopFuncs.js"></script>
+		<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> 
+			<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+		</object>
 		<script language="javascript">
 		    function QWPrint(){
-			     if(document.all.PrintActiveX == undefined || document.all.PrintActiveX ==null){
-					document.body.innerHTML="<object id=\"PrintActiveX\" style=\"display: none\" classid=\"clsid:3ede745c-4adb-42a6-ab25-5621edbdfd6b\" codebase=\"<%=request.getContextPath()%>/include/QWPrint.cab#version=1,3,8,2\" ></object>" + document.body.innerHTML;
-				}
-		        PrintActiveX.pageName = "A4"; //设置纸张类型
-	            //设置页眉页脚
-	            
-				printed = true;
-			    document.getElementById("btnSave").style.display="none";
-			    PrintActiveX.PrintView();
-			    document.getElementById("btnSave").style.display="block";
+		    	var detailName=document.getElementById("detail").value+"详细信息";
+		    	var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'),detailName);
+		    	if(LODOP!=undefined){		    		
+		    		//table表格信息
+		    		LODOP.ADD_PRINT_TABLE(60,0,"100%","100%",document.documentElement.innerHTML);
+		    		
+		    		document.getElementById("btnSave").style.display="none";
+		    		//执行打印
+		    		LODOP.PREVIEW();
+		    		//LODOP.PRINT();
+		    		document.getElementById("btnSave").style.display="block";
+		    	}else{
+		    		$.messager.alert("操作提示", "打印环境异常,请稍后!","error");
+		    	}
 	   
 	  		}
 		</script>
@@ -34,67 +55,59 @@
 <body>
 <form name="form" method="post">
 <input type="hidden" name="verbId" value="detail">
- <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tblView" align="center">
- 	<tr>
-        <td class="tblTitle" colspan="4">
-           <span>※</span>&nbsp;&nbsp;<bean:message key="security.jsp.securityConfigroles.detail.title" bundle="security"/>
-       &nbsp;&nbsp;<span>※</span>
-        </td>
-    </tr>
-     <!--<tr>     
-   		<td class="qian"  nowrap >
-            ID:
-        </td>
-        <td class="hou" colspan="3"  nowrap >
-           ${dataForm.data.id}
-         </td>
-     </tr>  -->
+ <div class='crm_edit_panel' style="text-align:center;margin-left: 20%;">
+ <table class='crm_panel_table'>
      <tr>      
-        <td class="tblLable">
-            <bean:message key="security.jsp.commmom.classCode" bundle="security"/>：
+        <td class='crm_edit_item_name'>
+            <bean:message key="security.jsp.commmom.classCode" bundle="security"/>
         </td>
-        <td style="width:30%">
-        	${dataForm.data.roleDetail}
+        <td class="crm_edit_item_content">
+        <input id="detail" type="text" class="text readonly" readonly="readonly" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="${dataForm.data.roleDetail}"/>
         </td>
- 	    <td class="tblLable">
-            <bean:message key="security.jsp.commom.menuCode" bundle="security"/>：
+ 	    <td class="crm_edit_item_name">
+            <bean:message key="security.jsp.commom.menuCode" bundle="security"/>
         </td>
-        <td>
-            ${dataForm.data.roleCode}
+        <td class="crm_edit_item_content">
+        <input type="text" class="text readonly" readonly="readonly" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="${dataForm.data.roleCode}"/>
         </td>
      </tr>
-    
     <tr>
-     <td class="tblLable">
-            <bean:message key="security.jsp.commom.serialNo" bundle="security"/>：
+     	<td class="crm_edit_item_name">
+            <bean:message key="security.jsp.commom.serialNo" bundle="security"/>
         </td>
-        <td>            
-            ${dataForm.data.serialNo}  
-              
+        <td class="crm_edit_item_content">
+        <input type="text" class="text readonly" readonly="readonly" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="${dataForm.data.serialNo}"/>            
         </td>
-        <td class="tblLable">
-            <bean:message key="security.jsp.commom.inputcode" bundle="security"/>：
+        <td class="crm_edit_item_name">
+            <bean:message key="security.jsp.commom.inputcode" bundle="security"/>
         </td>
-        <td>            
-           ${dataForm.data.inputCode}
+        <td class="crm_edit_item_content"> 
+        <input type="text" class="text readonly" readonly="readonly" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="${dataForm.data.inputCode}"/>           
         </td>
     </tr>
     <tr>
-        <td class="tblLable">
-            <bean:message key="security.jsp.commmom.comments" bundle="security"/>：
+        <td class="crm_edit_item_name">
+            <bean:message key="security.jsp.commmom.comments" bundle="security"/>
         </td>
-       <td colspan="3">
-            ${dataForm.data.comments}
+       <td class="crm_edit_item_content" colspan="3">
+       	<input type="text" class="text readonly" readonly="readonly" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" value="${dataForm.data.comments}"/>
         </td>   
     </tr>
    
   </table>
-
-
-  <!-- Sheet operation button area -->
- 	<div class="btnSave" id="btnSave">
-        <input type="button"  name="btnBack" value="<bean:message key="security.jsp.commom.button2" bundle="security"/>" onClick="history.go(-1);" />
-        <input type="button"  name="btn" value="打印" onclick="QWPrint();" />  
+  </div>
+  <div class="horizontal_line_2"></div>
+ 	<div class='crm_button_sub'  id="btnSave" align="center">       
+ 	 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 130px;">
+					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
+					<span style="position: fixed;color: #fff;">打印</span>
+					</div>
+        <input type="button" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" name="btnBack" value="返回" onClick="history.go(-1);" />
     </div>
 </form>
 </body>

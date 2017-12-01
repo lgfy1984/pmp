@@ -30,9 +30,6 @@ public class CommConfigCountryAction extends BaseAction {
 	public void setCommConfigInputDictService(ICommConfigInputDictService commConfigInputDictService) {
 		this.commConfigInputDictService = commConfigInputDictService;
 	}
-	public ICommConfigCountryService getCommConfigCountryService() {
-		return commConfigCountryService;
-	}
 
 	public void setCommConfigCountryService(ICommConfigCountryService commConfigCountryService) {
 		this.commConfigCountryService = commConfigCountryService;
@@ -60,9 +57,9 @@ public class CommConfigCountryAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -85,7 +82,7 @@ public class CommConfigCountryAction extends BaseAction {
 			commConfigCountryService.save(hosform);
 			CommConfigCountryForm hosformNew = new CommConfigCountryForm();
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.dataSaveSuccess", request) + "!";
-			hosformNew.setMessage(message);
+			//hosformNew.setMessage(message);
 			return this.query(mapping, hosformNew, request, response);
 		}
 		catch (Exception e) {
@@ -148,7 +145,7 @@ public class CommConfigCountryAction extends BaseAction {
 			commConfigCountryService.getSearch(hosform, count, pageSize);
 			commConfigCountryService.serchInit(hosform);
 			request.setAttribute("commConfigCountry", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

@@ -2,6 +2,7 @@
 <%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <jsp:useBean id="dataForm" scope="request" 
 	class="com.tianjian.security.struts.form.SecurityConfigMenusForm" />

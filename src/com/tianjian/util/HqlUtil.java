@@ -96,4 +96,14 @@ public class HqlUtil {
 	public static String getClauseStrByOr(Map<String, Object> params) {
 		return params.isEmpty() ? " where (" : " or ";
 	}
+	/***
+	 * where or  and
+	 * @param params
+	 * @return
+	 */
+	public static String whereOrAnd(List<Object> params){
+		
+		return params == null || params.size() == 0 ? " where " : " and ";
+		
+	}
 }

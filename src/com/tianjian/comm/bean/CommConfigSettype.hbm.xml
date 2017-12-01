@@ -8,7 +8,7 @@
     <class name="com.tianjian.comm.bean.CommConfigSettype" table="COMM_CONFIG_SETTYPE" schema="COMM">
         <id name="itemCode" type="java.lang.String">
             <column name="ITEM_CODE" length="8" />
-            <generator class="uuid.hex" />
+            <generator class="assigned" />
         </id>
         <property name="seqNo" type="java.lang.Long">
             <column name="SEQ_NO" precision="11" scale="0" />

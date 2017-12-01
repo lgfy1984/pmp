@@ -30,28 +30,39 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script language="javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
+		
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		
+		<script type="text/javascript" src="${path}/js/default.js"></script>
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 		<script language="javascript" src='<bean:message key="include.js.TJMessage.path" bundle="security" />'></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
-		<script language="javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
+		
+		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<script type="text/javascript" src="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/js/radioDefault.js"></script>
+		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
 		<script language="javascript">
 			function saveForm(){
 				if(!Validator.Validate(document.forms.form,3)){
 			      	return ;
 			   	}
 				if(document.form.classCode.value == ""){
-					alert('<bean:message key="security.jsp.securityConfigParamClass1.update.warn" bundle="security"/>');
+					$.messager.alert('提示','<bean:message key="security.jsp.securityConfigParamClass1.update.warn" bundle="security"/>');
 				 	return ;
 				}
 				if(isNaN(document.form.classCode.value)){
-						alert('<bean:message key="comm.jsp.commconfigtrue.add.sc" bundle="conf.comm.CommMessageguoh"/>');
+						$.messager.alert('提示','<bean:message key="comm.jsp.commconfigtrue.add.sc" bundle="conf.comm.CommMessageguoh"/>');
 						return ; 
 				}
 				if(document.form.className.value == ""){
-					alert('<bean:message key="security.jsp.securityConfigParamClass1.update.warn1" bundle="security"/>');
+					$.messager.alert('提示','<bean:message key="security.jsp.securityConfigParamClass1.update.warn1" bundle="security"/>');
 				 	return ;
 				}
-				if (confirmMessage("<bean:message key='security.jsp.commom.update' bundle='security'/>")){     
+				$.messager.confirm('确认', '确定要保存该条记录吗？', function(r){
+    				if (r){    
 					 document.form.verbId.value = "update";
 					    var formData = $("#form").serialize();
 					    $.ajax({
@@ -61,14 +72,14 @@
 					    	processData:true,
 					    	data:formData,
 					    	error: function(a, b, c){
-				        		alert(a + "-" + b + "-" + c);
+				        		$.messager.alert('提示',a + "-" + b + "-" + c);
 				        	},
 					    	success:function(data){
 					    		if(data != null){
 					    			try{
 					    				var json = eval(data);
 					    			}catch(e){
-					    				alert("请重新登录！");
+					    				$.messager.alert('提示',"请重新登录！");
 					    				return;
 					    			}
 					    			if(json[0].flag == '1'){
@@ -85,18 +96,19 @@
 						      					parent.frames["treeFrame"].refreshByIdAndType(oldParentId, "1");
 						      				}
 					    				}
-					      				alert(json[0].msg);
+					      				$.messager.alert('提示',json[0].msg);
 					    			}else{
-					    				alert(json[0].msg);
+					    				$.messager.alert('提示',json[0].msg);
 					    			}
 					    		}
 					    	}
 					    });
-			    } 
+			   		 } 
+			    });
 			}
 			function showMessage(message){
 				if(message != '' && message != null){
-					alert(message);
+					$.messager.alert('提示',message);
 					return;
 				}
 			}
@@ -111,7 +123,12 @@
 			 	}
 			 }
 	</script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+<style type="text/css">
+.redlable {
+	color: #FF0000;
+	font-size: 16px;
+}
+</style>
 	</head>
 	<body onload="showMessage('${dataForm.message}')">
 		<form name="form" id="form" method="post"
@@ -121,79 +138,75 @@
 			<input type="hidden" name="idHidden" value="${dataForm.idHidden}" />
 			<input type="hidden" name="classCodeHidden" value="${dataForm.data.classCode}" />
 			<input type="hidden" id="oldParentId" value="${dataForm.data.parentId}" />
-			<table border="0" cellpadding="0" cellspacing="0" class="tblFill" align="center">
+			<div class="crm_edit_panel">
+			<table class="crm_panel_table">
 				<tr>
-					 <td class="tblTitle" colspan="4"><span>※</span>  <bean:message
-							key="security.jsp.securityconfigpublicclass.update.topic"
-							bundle="conf.security.security" />  <span>※</span></td>
+					<td class="crm_edit_item_name" colspan="4">
+						<label style="float: left;font-size:14;color:#498ED3"><bean:message key="security.jsp.securityconfigpublicclass.update.topic" bundle="conf.security.security" /></label>
+					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<span>*</span>
-						<bean:message
-							key="security.jsp.securityconfigpublicclass.common.className"
-							bundle="conf.security.security" />
-						：
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label><bean:message key="security.jsp.securityconfigpublicclass.common.className" bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text" name="data.className"
-							id="className" size="50" maxlength="40" 
+					<td class="crm_edit_item_content">
+						<input type="text" name="data.className" class="text" style="width:150px"
+							id="className" size="50" maxlength="40"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="40" dataType="LimitB" msg="名称输入过长"
 							onkeypress="eventOnKeyPress('serialNo')"
 							value="${dataForm.data.className}" />
 					</td>
-					<td class="tblLable">
-						<span>*</span>
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label>
 							<bean:message
 							key="security.jsp.securityconfigpublicclass.common.classCode"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.classCode"
-							id="classCode" size="20" maxlength="9" 
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.classCode" class="text" style="width:150px"
+							id="classCode" size="20" maxlength="9" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="20" dataType="LimitB" msg="代码输入过长"
 							onkeypress="eventOnKeyPress('className')"
 							value="${dataForm.data.classCode}" />
-						
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.serialNo"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.serialNo"
-							id="serialNo" size="20" maxlength="11" 
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.serialNo" class="text" style="width:150px"
+							id="serialNo" size="20" maxlength="11" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							onkeypress="eventOnKeyPress('comments')"
 							value="${dataForm.data.serialNo}" readonly />
 					</td>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.comments"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.comments"
-							id="comments" size="50" maxlength="40" 
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.comments" class="text" style="width:150px"
+							id="comments" size="50" maxlength="40" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="40" dataType="LimitB" msg="备注输入过长"
 							onkeypress="eventOnKeyPress('parentId')"
 							value="${dataForm.data.comments}" />
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.parentId"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<select id="parentId"  name="data.parentId" 
+					<td class="crm_edit_item_content">
+						<select id="parentId"  name="data.parentId" class="easyui-combobox"  style="width: 162px;height: 28px;border:1px solid rgb(218,218,218);"
 							onkeypress="eventOnKeyPress('levelFlag')" onchange="changlevelFlag();">
 							<option value=""></option>
 							<%
@@ -215,114 +228,108 @@
 							%>
 						</select>
 					</td>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.levelFlag"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
+					<td class="crm_edit_item_content">
 							<%if(dataForm.getData().getLevelFlag()!=null && String.valueOf(dataForm.getData().getLevelFlag()).equals("1")){ %>
-								<input type="radio"  name="data.levelFlag" id="levelFlag" style="width: 30px;"
-				          		onkeypress="eventOnKeyPress('picPath')"
-				             	 value="1" checked="checked" />1级
-				              <input type="radio"  name="data.levelFlag" id="levelFlag" style="width: 30px;"
-				         		 onkeypress="eventOnKeyPress('picPath')"
-				              		value="2" />2级
+								<div class="crm_radio_group">
+								<label  class="label_checked"><input type="radio"  name="data.levelFlag" id="levelFlag"  onkeypress="eventOnKeyPress('picPath')"
+				             	 value="1" checked="checked" />1级</label>
+				                <label  class="label_nocheck"><input type="radio"  name="data.levelFlag" id="levelFlag"  onkeypress="eventOnKeyPress('picPath')"
+				              		value="2" />2级</label>
+				              	</div>
 							<%}else if(dataForm.getData().getLevelFlag()!=null && String.valueOf(dataForm.getData().getLevelFlag()).equals("2")){ %>
-								<input type="radio"  name="data.levelFlag" id="levelFlag" style="width: 30px;"
-				          		onkeypress="eventOnKeyPress('picPath')"
-				             	 value="1" />1级
-				              <input type="radio"  name="data.levelFlag" id="levelFlag" style="width: 30px;"
-				         		 onkeypress="eventOnKeyPress('picPath')" checked="checked" 
-				              		value="2" />2级
+								<div class="crm_radio_group">
+								 <label  class="label_nocheck"><input type="radio"  name="data.levelFlag" id="levelFlag"  onkeypress="eventOnKeyPress('picPath')"
+				             	 value="1" />1级</label>
+				                 <label  class="label_checked"><input type="radio"  name="data.levelFlag" id="levelFlag"  onkeypress="eventOnKeyPress('picPath')" checked="checked" 
+				              		value="2" />2级</label>
+				              		</div>
 							<%}else{ %>
 							<%} %>
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.picPath"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text" name="data.picPath" id="picPath" 
-							size="30" maxlength="32" onkeypress="eventOnKeyPress('sysFlag')"
+					<td class="crm_edit_item_content">
+						<input type="text" name="data.picPath" id="picPath"  class="text" style="width:150px"
+							size="30" maxlength="32" onkeypress="eventOnKeyPress('sysFlag')" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							max="32" dataType="LimitB" msg="图片路径输入过长"
 							value="${dataForm.data.picPath}" />
 					</td>
-					<td class="tblLable">
-						<span>*</span><bean:message
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.sysFlag"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
+					<td class="crm_edit_item_content">
 						<%if(dataForm.getData().getSysFlag()!= null && String.valueOf(dataForm.getData().getSysFlag()).equals("0")){ %>
-							<input type="radio"  name="data.sysFlag" id="sysFlag" style="width: 30px;"
-				          		onkeypress="eventOnKeyPress('redirectUrl')"
-				             	 value="0" checked="checked" />系统外
-				              <input type="radio"  name="data.sysFlag" id="sysFlag" style="width: 30px;"
-				         		 onkeypress="eventOnKeyPress('redirectUrl')"
-				              		value="1" />系统内
+							<div class="crm_radio_group">
+							  <label  class="label_checked"><input type="radio"  name="data.sysFlag" id="sysFlag" onkeypress="eventOnKeyPress('redirectUrl')"
+				             	 value="0" checked="checked" />系统外</label>
+				              <label  class="label_nocheck"><input type="radio"  name="data.sysFlag" id="sysFlag" onkeypress="eventOnKeyPress('redirectUrl')"
+				              		value="1" />系统内</label>
+				            </div>
 						<%}else if(dataForm.getData().getSysFlag()!=null && String.valueOf(dataForm.getData().getSysFlag()).equals("1")){ %>
-							<input type="radio"  name="data.sysFlag" id="sysFlag" style="width: 30px;"
-				          		onkeypress="eventOnKeyPress('redirectUrl')"
-				             	 value="0"  />系统外
-				              <input type="radio"  name="data.sysFlag" id="sysFlag" style="width: 30px;"
-				         		 onkeypress="eventOnKeyPress('redirectUrl')" checked="checked"
-				              		value="1" />系统内
+							<div class="crm_radio_group">
+							 <label  class="label_nocheck"><input type="radio"  name="data.sysFlag" id="sysFlag" onkeypress="eventOnKeyPress('redirectUrl')"
+				             	value="0"  />系统外</label>
+				             <label  class="label_checked"><input type="radio"  name="data.sysFlag" id="sysFlag"  onkeypress="eventOnKeyPress('redirectUrl')" checked="checked"
+				              	value="1" />系统内</label>
+				           </div>
 						<%}else{ %>
 						<%} %>
 					</td>
 				</tr>
 				<tr>
-
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigpublicclass.common.redirectUrl"
-							bundle="conf.security.security" />
-						：
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.redirectUrl" 
-							id="redirectUrl" size="30" maxlength="100"
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.redirectUrl" class="text" style="width:150px"
+							id="redirectUrl" size="30" maxlength="100" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
 							onkeypress="eventOnKeyPress('appSysFlag')"
 							max="100" dataType="LimitB" msg="转向地址输入过长"
 							value="${dataForm.data.redirectUrl}" />
 					</td>
 
-					<td  class="tblLable">
-						<span>*</span>
-						所属系统分类：
+					<td  class="crm_edit_item_name">
+						<label><label class="redlable">*</label>所属系统分类</label>
 					</td>
-					<td>
+					<td class="crm_edit_item_content">
 						<%if(dataForm.getData().getAppSysFlag()!= null && String.valueOf(dataForm.getData().getAppSysFlag()).equals("0")){ %>
-							<input type="radio"  name="data.appSysFlag" id="appSysFlag"  style="width:30px;"
-             					value="0" checked="checked" />支撑系统
-             					<input type="radio"   name="data.appSysFlag" id="appSysFlag" style="width:30px;"
-         						onkeypress="eventOnKeyPress('supportSystem')"
-             					value="1" />应用系统
+							<div class="crm_radio_group">
+							<label  class="label_checked"><input type="radio"   name="data.appSysFlag" id="appSysFlag"  value="0" checked="checked" />支撑系统</label>
+             				<label  class="label_nocheck"><input type="radio"   name="data.appSysFlag" id="appSysFlag" onkeypress="eventOnKeyPress('supportSystem')" value="1" />应用系统</label>
+             				</div>
 						<%}else if(dataForm.getData().getAppSysFlag()!= null && String.valueOf(dataForm.getData().getAppSysFlag()).equals("1")){ %>
-							<input type="radio"  name="data.appSysFlag" id="appSysFlag"  style="width:30px;"
-             					value="0"/>支撑系统
-             					<input type="radio"   name="data.appSysFlag" id="appSysFlag" style="width:30px;"
-         						onkeypress="eventOnKeyPress('supportSystem')"  checked="checked" 
-             					value="1" />应用系统
+							<div class="crm_radio_group">
+							<label  class="label_nocheck"><input type="radio"  name="data.appSysFlag" id="appSysFlag"  value="0"/>支撑系统</label>
+             				<label  class="label_checked"><input type="radio"  name="data.appSysFlag" id="appSysFlag" onkeypress="eventOnKeyPress('supportSystem')"  checked="checked" value="1" />应用系统</label>
+             				</div>
 						<%}else{ %>
 						<%} %>
-						
 					</td>
 				</tr>
 			</table>
+			</div>
 			<p style="color: red;text-align: center">*注：一级模块类别的下一级可以是二级模块类别，也可以是模块，但两者不能共同存在。当一级模块类别下已添加模块时，不能再添加二级模块类别！</p>	
 			<!-- Sheet operation button area -->
-			 <div class="btnSave">
-		  	   			<input type="button" name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>"
+			 <div align="center" >
+		  	   	<input class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" type="button" name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>"
 							onClick="saveForm()" />
-						<input type="button" name="btnBack" value='<bean:message key="security.jsp.commom.button2" bundle="security"/>'
+				<input class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" type="button" name="btnBack" value='<bean:message key="security.jsp.commom.button2" bundle="security"/>'
 							onClick="history.go(-1);" /> 
 		 	 </div>
 		</form>

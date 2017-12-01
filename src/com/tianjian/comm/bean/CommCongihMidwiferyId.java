@@ -61,7 +61,7 @@ public class CommCongihMidwiferyId implements java.io.Serializable {
 				&& castOther.getHspConfigBaseinfoId() != null && this
 				.getHspConfigBaseinfoId().equals(
 						castOther.getHspConfigBaseinfoId())))
-				&& ((this.getHspClassCode() == castOther.getHspClassCode()) || (this
+				&& ((this.getHspClassCode() .equals(castOther.getHspClassCode())) || (this
 						.getHspClassCode() != null
 						&& castOther.getHspClassCode() != null && this
 						.getHspClassCode().equals(castOther.getHspClassCode())));

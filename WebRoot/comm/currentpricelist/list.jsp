@@ -291,6 +291,16 @@ function isMadeOf(val,str)
 					</td>-->
 				</tr>
 				<tbody id="interval_row_id">
+				   <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="8">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (data.getEanCodelist() != null && data.getEanCodelist().length > 0) {
 							for (int i = 0; i < data.getEanCodelist().length; i++) {
@@ -332,7 +342,7 @@ function isMadeOf(val,str)
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

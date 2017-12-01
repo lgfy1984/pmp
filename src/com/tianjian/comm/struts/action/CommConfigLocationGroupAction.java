@@ -1,16 +1,21 @@
 package com.tianjian.comm.struts.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import com.tianjian.comm.bean.CommConfigLocation;
 import com.tianjian.comm.bean.CommConfigLocationGroup;
 import com.tianjian.comm.business.ICommConfigInputDictService;
 import com.tianjian.comm.business.ICommConfigLocationGroupService;
@@ -82,17 +87,17 @@ public class CommConfigLocationGroupAction extends Action{
 				return mapping.findForward("fail");
 			}
 		}catch(Exception e){
-			if(flag.equalsIgnoreCase("true")){
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 			return mapping.findForward("fail");
 		}
 	}	
 	//---------------------------------------------------------------------
 	private ActionForward addInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
 		CommConfigLocationGroupForm hosform = (CommConfigLocationGroupForm)form;
-		CommConfigLocationGroup data = (CommConfigLocationGroup)request.getAttribute("data");
-
+		CommConfigLocationGroup data =null ;
+		if(hosform != null){
+		 data = this.getService().checkData(hosform.getItemCode().trim());
+		}
 		if(hosform == null || data == null){
 			hosform = new CommConfigLocationGroupForm();		
 			this.getService().addInit(hosform);
@@ -112,7 +117,7 @@ public class CommConfigLocationGroupAction extends Action{
 			this.getService().add(hosform);
 			CommConfigLocationGroupForm hosformNew = new CommConfigLocationGroupForm();	
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.newAddSuccess", request) + "!";
-			hosformNew.setMessage(message);
+			//hosformNew.setMessage(message);
 			return this.query(mapping, hosformNew, request, response);
 		}else{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.CommConfigLocationGroupAction.addFail", request) + "!";
@@ -131,8 +136,15 @@ public class CommConfigLocationGroupAction extends Action{
 		pb.setCount(recordCount);
 		String pageString = request.getParameter("page");
 		//int pageSize = CommConfigLocationTownInit.getPageSize("PAGE_SIZE");
-		ServletContext application = request.getSession().getServletContext();
-		int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		//ServletContext application = request.getSession().getServletContext();
+		//int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		int pageSize = 10;
+		if(request.getSession().getAttribute("page_282881f53463902b013463902b221133")!=null){
+			pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463902b013463902b221133"));
+		}else{
+			ServletContext application = request.getSession().getServletContext();
+			pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+		}
 		pb.setPageSize(pageSize);
 		if(pageString == null || pageString.equals("") || pageString.equals("0")){
 			page = 1;
@@ -160,6 +172,7 @@ public class CommConfigLocationGroupAction extends Action{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.cannotDel", request) + "!";
 			hosform.setMessage(message);
 		}
+		hosform.setMessage("");
 		hosform.setId("");
 		hosform.setIdHidden("");
 		hosform.setInputCode("");
@@ -187,7 +200,7 @@ public class CommConfigLocationGroupAction extends Action{
 		hosform.setInputCode(this.getCommConfigInputDictService().getInputCode(hosform.getItemName()));
 		this.getService().update(hosform, request);
 		CommConfigLocationGroupForm hosformNew = new CommConfigLocationGroupForm();
-		hosformNew.setMessage(hosform.getMessage());
+		//hosformNew.setMessage(hosform.getMessage());
 		return  this.query(mapping, hosformNew, request, response);
 	}
 	private ActionForward setCity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -195,8 +208,25 @@ public class CommConfigLocationGroupAction extends Action{
 		String province = request.getParameter("province");
 		hosform.setCommProvinceId(province);
 		this.getService().getCitys(hosform);
-		String xmlString = getXMLData(hosform.getCommCityIds(), hosform.getCommCityNames());
-		writeResponse(response, xmlString);		
+		
+		List<CommConfigLocation> citys = new ArrayList<CommConfigLocation>();
+		if(hosform.getCommCityIds()!=null&&hosform.getCommCityIds().length>0){
+			for(int i=0;i<hosform.getCommCityIds().length;i++){
+				CommConfigLocation c = new CommConfigLocation();
+				c.setId(hosform.getCommCityIds()[i]);
+				c.setItemName(hosform.getCommCityNames()[i]);
+				citys.add(c);
+			}
+		}
+		
+		JSONArray jsonArray = null;
+		response.setCharacterEncoding("utf-8");
+		jsonArray = JSONArray.fromObject(citys);
+		//System.out.println(jsonArray.toString());
+		response.getWriter().print(jsonArray);// JSON返回数据
+		response.flushBuffer();
+		//String xmlString = getXMLData(hosform.getCommCityIds(), hosform.getCommCityNames());
+		//writeResponse(response, xmlString);		
 		return null;
 	}
 	private ActionForward setCounty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -204,26 +234,79 @@ public class CommConfigLocationGroupAction extends Action{
 		String city = request.getParameter("city");
 		hosform.setCommCityId(city);
 		this.getService().getCounties(hosform);
-		String xmlString = getXMLData(hosform.getCommCountyIds(), hosform.getCommCountyNames());
-		writeResponse(response, xmlString);		
+		
+		List<CommConfigLocation> countys = new ArrayList<CommConfigLocation>();
+		if(hosform.getCommCountyIds()!=null&&hosform.getCommCountyIds().length>0){
+			for(int i=0;i<hosform.getCommCountyIds().length;i++){
+		
+			CommConfigLocation c = new CommConfigLocation();
+			c.setId(hosform.getCommCountyIds()[i]);
+			c.setItemName(hosform.getCommCountyNames()[i]);
+			countys.add(c);
+			}
+		}
+		
+		JSONArray jsonArray = null;
+		response.setCharacterEncoding("utf-8");
+		jsonArray = JSONArray.fromObject(countys);
+		//System.out.println(jsonArray.toString());
+		response.getWriter().print(jsonArray);// JSON返回数据
+		response.flushBuffer();
+		//String xmlString = getXMLData(hosform.getCommCountyIds(), hosform.getCommCountyNames());
+		//writeResponse(response, xmlString);		
 		return null;
 	}
 	private ActionForward setTown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		CommConfigLocationGroupForm hosform = (CommConfigLocationGroupForm)form;
-		String town = request.getParameter("town");
+		String town = request.getParameter("country");
 		hosform.setCommCountyId(town);
 		this.getService().getTowns(hosform);
-		String xmlString = getXMLData(hosform.getCommCltIds(), hosform.getCommCltNames());
-		writeResponse(response, xmlString);		
+		
+		List<CommConfigLocation> towns = new ArrayList<CommConfigLocation>();
+		if(hosform.getCommCltIds()!=null&&hosform.getCommCltIds().length>0){
+			for(int i=0;i<hosform.getCommCltIds().length;i++){
+				CommConfigLocation c = new CommConfigLocation();
+				c.setId(hosform.getCommCltIds()[i]);
+				c.setItemName(hosform.getCommCltNames()[i]);
+				towns.add(c);
+			}
+		}
+		
+		JSONArray jsonArray = null;
+		response.setCharacterEncoding("utf-8");
+		jsonArray = JSONArray.fromObject(towns);
+		//System.out.println(jsonArray.toString());
+		response.getWriter().print(jsonArray);// JSON返回数据
+		response.flushBuffer();
+		//String xmlString = getXMLData(hosform.getCommCltIds(), hosform.getCommCltNames());
+		//writeResponse(response, xmlString);		
 		return null;
 	}
 	private ActionForward setVillage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		CommConfigLocationGroupForm hosform = (CommConfigLocationGroupForm)form;
-		String village = request.getParameter("village");
+		String village = request.getParameter("town");
 		hosform.setCommCltId(village);
 		this.getService().getVillages(hosform);
-		String xmlString = getXMLData(hosform.getCommClvIds(), hosform.getCommClvNames());
-		writeResponse(response, xmlString);		
+		
+		List<CommConfigLocation> villages = new ArrayList<CommConfigLocation>();
+		if(hosform.getCommClvIds()!=null&&hosform.getCommClvIds().length>0){
+			
+			for(int i=0;i<hosform.getCommClvIds().length;i++){
+				CommConfigLocation c = new CommConfigLocation();
+				c.setId(hosform.getCommClvIds()[i]);
+				c.setItemName(hosform.getCommClvNames()[i]);
+				villages.add(c);
+			}
+		}
+		
+		JSONArray jsonArray = null;
+		response.setCharacterEncoding("utf-8");
+		jsonArray = JSONArray.fromObject(villages);
+		System.out.println(jsonArray.toString());
+		response.getWriter().print(jsonArray);// JSON返回数据
+		response.flushBuffer();
+		//String xmlString = getXMLData(hosform.getCommClvIds(), hosform.getCommClvNames());
+		//writeResponse(response, xmlString);		
 		return null;
 	}
 	//获取行政组编号

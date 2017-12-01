@@ -37,6 +37,7 @@ public class CommConfigDegreeLevelForm extends ActionForm{
 	private String[] parentItemCodes;
 	private String[] parentItemCodeNames;
 
+	private String itemCodeHidden ="";
 	private String verbId = "";
 	private String message = "";
 	private String orderNo = "";
@@ -187,4 +188,12 @@ public class CommConfigDegreeLevelForm extends ActionForm{
 	public void setParentItemList(List<CommConfigDegreeLevel> parentItemList) {
 		this.parentItemList = parentItemList;
 	}
+	public String getItemCodeHidden() {
+		return itemCodeHidden;
+	}
+	public void setItemCodeHidden(String itemCodeHidden) {
+		this.itemCodeHidden = itemCodeHidden;
+	}
+	
+	
 }

@@ -494,6 +494,7 @@
 	function add(url,itemName,drugDictId,drugCode,drguDict_DrugIndicator,drguDict_DrugSpec,drguDict_Units,drguDict_DrugForm,drguDict_ToxiProperty,
 	drguDict_Administration,drguDict_DrugClassDictCode,drguDict_Otc,drguDict_Concentration,drguDict_ACTIOAN,drguDict_elemt,stopFlag,divlevel){	
 			path=url;
+			alert(1);
 			if(divlevel != null){
 				document.getElementById(divlevel).style.display = "none";
 				divlayer = divlevel;

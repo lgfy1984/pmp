@@ -1,6 +1,7 @@
 ﻿<%@page contentType="text/html; charset=utf-8"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="data" scope="request" type="com.tianjian.comm.struts.form.CommConfigHospitalClassForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <html>
@@ -126,15 +127,15 @@ function huiche(){
 					</td>
 					<td id="list_C"></td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text10" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text10" bundle="conf.comm.comm"/>
 						<input name="classCode" type="text" onkeydown="huiche()" value="<%=data.getClassCode()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text29" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text29" bundle="conf.comm.comm"/>
 						<input name="className" type="text" onkeydown="huiche()" value="<%=data.getClassName()%>">
 					</td>
 					<td class="list_cc">
-						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>：
+						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>
 						<input name="inputCode" type="text" value="<%=data.getInputCode()%>" onkeydown="huiche()">
 					</td>
 					<td id="list_R"></td>
@@ -241,6 +242,16 @@ function huiche(){
 					</td>
 				</tr>
 				<tbody id="interval_row_id">
+				  <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="8">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (data.getClassCodeList() != null && data.getClassCodeList().size() > 0) {
 							for (int i = 0; i < data.getClassCodeList().size(); i++) {
@@ -270,7 +281,7 @@ function huiche(){
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

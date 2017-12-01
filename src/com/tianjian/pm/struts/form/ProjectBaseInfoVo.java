@@ -28,7 +28,8 @@ public class ProjectBaseInfoVo {
     private String id="";
 	private String projectCode="" ;
 	private String projectName="" ;
-	private String projectClass="" ;
+	private String projectClassCode="" ;
+	private String projectClassName="" ;
 	private String staffCode="" ;
 	private String staffName="" ;
 	private String startTime="" ;
@@ -76,11 +77,18 @@ public class ProjectBaseInfoVo {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public String getProjectClass() {
-		return projectClass;
+	
+	public String getProjectClassCode() {
+		return projectClassCode;
 	}
-	public void setProjectClass(String projectClass) {
-		this.projectClass = projectClass;
+	public void setProjectClassCode(String projectClassCode) {
+		this.projectClassCode = projectClassCode;
+	}
+	public String getProjectClassName() {
+		return projectClassName;
+	}
+	public void setProjectClassName(String projectClassName) {
+		this.projectClassName = projectClassName;
 	}
 	public String getStaffCode() {
 		return staffCode;

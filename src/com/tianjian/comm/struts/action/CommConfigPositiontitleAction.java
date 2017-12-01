@@ -103,8 +103,15 @@ public class CommConfigPositiontitleAction extends BaseAction {
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			//int pageSize = CommInit.getPageSize("PAGE_SIZE");
-			ServletContext application = request.getSession().getServletContext();
-			int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+			//ServletContext application = request.getSession().getServletContext();
+			//int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+			int pageSize = 10;
+			if(request.getSession().getAttribute("page_282881f53463c89c013463c89cbe0000")!=null){
+				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463c89c013463c89cbe0000"));
+			}else{
+				ServletContext application = request.getSession().getServletContext();
+				pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
+			}
 			pb.setPageSize(pageSize);
 			if (pageString == null || pageString.equals("") || pageString.equals("0")) {
 				page = 1;

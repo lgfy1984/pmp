@@ -21,19 +21,29 @@ public class ProjectTaskDict implements java.io.Serializable {
 
 	private String createUserName;
 
+	private String itemClass;
+
 	// Constructors
 	/** default constructor */
 	public ProjectTaskDict() {}
 
+	/** minimal constructor */
+	public ProjectTaskDict(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
 	/** full constructor */
-	public ProjectTaskDict(String itemName, String inputCode, String comments,
-			Timestamp createDate, String createUserId, String createUserName) {
+	public ProjectTaskDict(String itemCode, String itemName, String inputCode,
+			String comments, Timestamp createDate, String createUserId,
+			String createUserName, String itemClass) {
+		this.itemCode = itemCode;
 		this.itemName = itemName;
 		this.inputCode = inputCode;
 		this.comments = comments;
 		this.createDate = createDate;
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
+		this.itemClass = itemClass;
 	}
 
 	// Property accessors
@@ -91,5 +101,13 @@ public class ProjectTaskDict implements java.io.Serializable {
 
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
+	}
+
+	public String getItemClass() {
+		return this.itemClass;
+	}
+
+	public void setItemClass(String itemClass) {
+		this.itemClass = itemClass;
 	}
 }

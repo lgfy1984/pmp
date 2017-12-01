@@ -77,12 +77,8 @@
 							 项目经理
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="staffName" id="staffName" class="text"  value='${data.createUserName}'
-								onblur="fEvent('blur',this)"
-								onmouseover="fEvent('mouseover',this)"
-								onfocus="fEvent('focus',this)" required="true"
-								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
-								invalidMessage="有效长度1-25" />
+							<input type="text" class="text readonly" readonly
+								value="${data.staffName}"  />
 						</td>
 					</tr>
 					<tr>

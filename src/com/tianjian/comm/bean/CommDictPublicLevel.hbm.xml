@@ -23,5 +23,20 @@
         <property name="tableCode" type="java.lang.String" column ="TABLE_CODE" length="32" not-null="true" />
         <!--备注-->
         <property name="comments" type="java.lang.String" column ="COMMENTS" length="100" />
+        <property name="createDate" type="java.util.Date">
+            <column name="CREATE_DATE" length="7">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="createUserId" type="java.lang.String">
+            <column name="CREATE_USER_ID" length="32">
+                <comment>创建操作人员编号</comment>
+            </column>
+        </property>
+        <property name="createUserName" type="java.lang.String">
+            <column name="CREATE_USER_NAME" length="32">
+                <comment>创建操作人员</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

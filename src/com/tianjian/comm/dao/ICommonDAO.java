@@ -1,6 +1,7 @@
 package com.tianjian.comm.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +29,7 @@ public interface ICommonDAO {
 	 * @return List&lt;?>/null
 	 */
 	public List<?> findListByHql(String hql, String[] args);
+
 	//从指定table中得到id和name的列表   
 	public List<?> getIdNames(String table, String id, String name);
 	//从指定table中得到id和name的列表   
@@ -35,6 +37,8 @@ public interface ICommonDAO {
 
 	//从指定table中得到与指定value相等的name列表       
 	public String getNameById(String table, String id, String name, String idValue);
+    //从指定COMM_DICT_PUBLIC_CHAR中获取对应字典的数据
+	public String getNameById(String table, String id, String name,String classCode, String idValue);
 	/**
 	 * 从nameOfTable表中取出字段nameOfTargetField的第一个值，当nameOfConditionFields[*]字段的值为valueOfConditionFields[*]时，没有找到时返回null<br>
 	 * 最终SQL样式：SELECT nameOfTargetField FROM nameOfTable WHERE [AND nameOfConditionFields[*]=valueOfConditionFields[*]]
@@ -181,9 +185,21 @@ public interface ICommonDAO {
 	
 	public List<?> findPageListBySql(String sql,int start,int max);
 	public int findPageCountByHql(String hql);
+	/**
+	 * 
+	* 根据hql查询对象
+	* @Title: findObjectByHql
+	* @param hql
+	* @return
+	* @return Object
+	* @throws
+	* @author dongling
+	 */
 	public Object findObjectByHql(String hql);
+	
 	/**
 	 * 适用于根据ID或者代码取名称等情况 只适用于字符型  SQL语句非HQL
 	 * */
 	public String getValueByAnotherSQL(String table,String inColumn,String inColumnValue,String outColumn);
+	
 }

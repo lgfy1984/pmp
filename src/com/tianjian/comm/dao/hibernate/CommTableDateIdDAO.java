@@ -78,7 +78,7 @@ public class CommTableDateIdDAO extends HibernateDaoSupport implements ICommTabl
 	    	
 	    	List<?> list = getHibernateTemplate().find(sql);
 	    	if(list != null && list.size() > 0){
-	    		if(list.get(0) != null && list.get(0) != ""){
+	    		if(list.get(0) != null && !"".equals(list.get(0))){
 	    			count = Long.valueOf(String.valueOf(list.get(0))).longValue();
 	    		}
 	    	}	    	

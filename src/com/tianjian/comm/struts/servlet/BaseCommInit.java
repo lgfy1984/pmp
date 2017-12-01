@@ -8,10 +8,18 @@ import java.io.IOException;
 
 public class BaseCommInit {
 	
-	private static HashMap<String, String> tjProperty;
+	private static HashMap<String, String> tjProperty ;
 	
+	public static HashMap<String, String> getTjProperty() {
+		return tjProperty;
+	}
+
+	public static void setTjProperty(HashMap<String, String> tjProperty) {
+		BaseCommInit.tjProperty = tjProperty;
+	}
+
 	public BaseCommInit() {
-		tjProperty = new HashMap<String, String>();
+		setTjProperty(tjProperty);
 	}
 	
 	static {

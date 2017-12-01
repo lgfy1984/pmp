@@ -93,5 +93,6 @@ public interface ICommConfigLocationTownService {
 
 	//定义乡镇编号
 	public String getItemCode(CommConfigLocationTownForm form);
+//	void setForm2(CommConfigLocationTownForm hosform);
 
 }

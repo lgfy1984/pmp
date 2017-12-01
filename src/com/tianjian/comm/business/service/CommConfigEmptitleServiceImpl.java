@@ -139,7 +139,7 @@ public class CommConfigEmptitleServiceImpl implements ICommConfigEmptitleService
 			data.setItemName (transNullToString(form.getItemName()));
 			data.setInputCode (transNullToString(form.getInputCode()));
 			data.setComments  (transNullToString(form.getComments      ()));
-			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			 } catch (Exception e) { 
 				 log.error("setData fail!",e);
 				 e.printStackTrace();

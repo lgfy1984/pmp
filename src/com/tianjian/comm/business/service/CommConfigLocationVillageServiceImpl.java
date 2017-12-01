@@ -290,8 +290,8 @@ public class CommConfigLocationVillageServiceImpl implements ICommConfigLocation
 			form.setVillagerNum((data.getVillagerNum()==0L)?"":this.transNullToString(data.getVillagerNum()));
 			form.setFamilyNum((data.getFamilyNum()==0L)?"":this.transNullToString(data.getFamilyNum()));
 			
-			form.setPhohe(data.getPhohe().equals(null)?"":this.transNullToString(data.getPhohe()));
-            form.setContactPersonName(data.getContactPersonName().equals(null)?"":this.transNullToString(data.getContactPersonName()));
+			form.setPhohe(data.getPhohe()== null?"":this.transNullToString(data.getPhohe()));
+            form.setContactPersonName(data.getContactPersonName()==null?"":this.transNullToString(data.getContactPersonName()));
 			}
 			} catch (RuntimeException e) { 
 			if(flag.equalsIgnoreCase("true"))

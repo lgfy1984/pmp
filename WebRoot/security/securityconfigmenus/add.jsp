@@ -3,7 +3,7 @@
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <jsp:useBean id="dataForm" scope="request" class="com.tianjian.security.struts.form.SecurityConfigMenusForm" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<%
@@ -25,6 +25,11 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		
+		<script type="text/javascript" src="${path}/js/default.js"></script>
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 		<script language="javascript" src='<bean:message key="Comm.js.TJMessagepath" bundle="conf.comm.CommMessage"/>'></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
@@ -32,6 +37,10 @@
 		<script language="javascript" src="<bean:message key="security.js.gettext.path" bundle="security" />"></script>
 		<link rel="stylesheet" href="include/css/open.css" />
 		<script language="javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
+		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
 		<script language="javascript">
 		function savePara(){
 			var id = document.getElementById("id").value;
@@ -39,65 +48,79 @@
 				if(!Validator.Validate(document.forms.form,3)){
      			 return ;
    				}
-			
-				if (confirmMessage("<bean:message key='security.jsp.commom.save' bundle='security'/>")){
-				    document.form.verbId.value = "add";
-				    var formData = $("#form").serialize();
-				    $.ajax({
-				    	dataType: "text/html",
-				    	type:"POST",
-				    	url:"security/securityConfigMenus.do",
-				    	processData:true,
-				    	data:formData,
-				    	error: function(a, b, c){
-			        		alert(a + "-" + b + "-" + c);
-			        	},
-				    	success:function(data){
-				    		if(data != null){
-				    			try{
-				    				var json = eval(data);
-				    			}catch(e){
-				    				alert("请重新登录！");
-				    				return;
-				    			}
-				    			if(json[0].flag == '1'){
-				    				var securityConfigPublicId = document.getElementById("securityConfigPublicId").value;
-				      				var parentId = document.getElementById("parentId").value;
-				      				if(parentId != null && parentId.length > 0){
-				      					parent.frames["treeFrame"].refreshByIdAndType(parentId, "4");
-				      				}else if(securityConfigPublicId != null && securityConfigPublicId.length > 0){
-				      					parent.frames["treeFrame"].refreshByIdAndType(securityConfigPublicId, "3");
-			      					}
-				      				alert(json[0].msg);
-				    				location.reload(false);	
-				    			}else{
-				    				alert(json[0].msg);
-				    			}
-				    		}
-				    	}
-				    });
-		    	} 
+				parent.parent.$.messager.confirm("提示","<bean:message key='security.jsp.commom.save' bundle='security'/>",function(r){   
+				    if (r){   
+				    	document.form.verbId.value = "add";
+					    var formData = $("#form").serialize();
+					    $.ajax({
+					    	dataType: "text/html",
+					    	type:"POST",
+					    	url:"security/securityConfigMenus.do",
+					    	processData:true,
+					    	data:formData,
+					    	error: function(a, b, c){
+				        		parent.parent.$.messager.alert('提示',a + "-" + b + "-" + c);
+				    				
+				        	},
+					    	success:function(data){
+					    		if(data != null){
+					    			try{
+					    				var json = eval(data);
+					    			}catch(e){
+					    				parent.parent.$.messager.alert('提示',"请重新登录！");
+					    				return;
+					    			}
+					    			if(json[0].flag == '1'){
+					    				var securityConfigPublicId = document.getElementById("securityConfigPublicId").value;
+					      				var parentId = document.getElementById("parentId").value;
+					      				if(parentId != null && parentId.length > 0){
+					      					parent.frames["treeFrame"].refreshByIdAndType(parentId, "4");
+					      				}else if(securityConfigPublicId != null && securityConfigPublicId.length > 0){
+					      					parent.frames["treeFrame"].refreshByIdAndType(securityConfigPublicId, "3");
+				      					}
+					      				parent.parent.$.messager.alert('提示',json[0].msg);
+					    				
+					    				location.reload(false);	
+					    			}else{
+					    				parent.parent.$.messager.alert('提示',json[0].msg);
+					    				
+					    			}
+					    		}
+					    	}
+					    });
+				    }   
+				});
+				
 		}
 </script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+<style type="text/css">
+.redlable {
+	color: #FF0000;
+	font-size: 16px;
+}
+</style>
 	</head>
 	<body>
 		<form name="form" id="form" method="post" action="security/securityConfigMenus.do">
 			<input type="hidden" name="verbId" value="add" />
-			<table border="0" cellpadding="0" cellspacing="0" class="tblFill" align="center">
+			<div class="crm_edit_panel">
+			<table class="crm_panel_table">
 				<tr>
-					<td class="tblTitle" colspan="4"><span>※</span>
-						<bean:message key="security.jsp.securityconfigmenus.add.topic"
-							bundle="conf.security.security" />
-						<span>※</span></td>
-				</tr>
-
-				<tr>
-					<td class="tblLable">
-						<span>*</span>模块：
+					<td class="crm_edit_item_name" colspan="4">
+					<label style="float: left;font-size:14;color:#498ED3">
+						<bean:message key="security.jsp.securityconfigmenus.add.topic" bundle="conf.security.security" />
+					</label>
 					</td>
-					<td colspan="3">
-						<select name="data.securityConfigPublicId" id="securityConfigPublicId" onkeypress="eventOnKeyPress('menuCode')" onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" msg="模块不能为空">
+				</tr>
+				<tr>
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label>模块</label>
+					</td>
+					<td class="crm_edit_item_content" colspan="3">
+						<select name="data.securityConfigPublicId" id="securityConfigPublicId" 
+						onkeypress="eventOnKeyPress('menuCode')"   class="easyui-combobox"
+						style="width:445px;height: 28px;border:1px solid rgb(218,218,218);"
+						onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" msg="模块不能为空">
 							<%
 								if (dataForm.getSecurityConfigPublicIds() != null&& dataForm.getSecurityConfigPublicIds().length > 0) {
 									for (int i = 0; i < dataForm.getSecurityConfigPublicIds().length; i++) {
@@ -116,41 +139,38 @@
 					</td>
 				</tr>
 				<tr>
-					<!--<td class="qian" nowrap>
-						<font color="red">*</font> <bean:message key="jsp.code" bundle="conf.Init"/>:
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label>ID</label>
 					</td>
-					<td class="hou" nowrap>
-						<input type="text"  onkeypress="eventOnKeyPress('menuDetail')" name="data.menuCode" id="menuCode" size="20" maxlength="20" onkeydown="if(event.keyCode==13){event.keyCode=9}" value="${dataForm.data.menuCode}" />
-					</td>  -->
-					<td class="tblLable">
-						<span>*</span> ID:
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" style="width:150px" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.id" id="id" onkeypress="eventOnKeyPress('menuDetail')" size="20" maxlength="20" onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" dataType="Integer" msg="ID应为1-20位数字" value="${dataForm.data.id}" />
 					</td>
-					<td>
-						<input type="text"  name="data.id" id="id" onkeypress="eventOnKeyPress('menuDetail')" size="20" maxlength="32" onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" dataType="Integer" msg="ID应为1-32位数字" value="${dataForm.data.id}" />
+					<td class="crm_edit_item_name">
+						<label><label class="redlable">*</label>
+						<bean:message key="jsp.name" bundle="conf.Init" /></label>
 					</td>
-					<td class="tblLable">
-						<span>*</span>
-						<bean:message key="jsp.name" bundle="conf.Init" />:
-					</td>
-					<td>
-						<input type="text"  name="data.menuDetail" onkeypress="eventOnKeyPress('serialNo')" id="menuDetail" size="50" maxlength="100" max="100" require="true" dataType="LimitB" msg="名称的长度应在1-100字节范围" onkeydown="if(event.keyCode==13){event.keyCode=9}" value="" />
+					<td class="crm_edit_item_content">
+						<input type="text" class="text" style="width:150px" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.menuDetail" onkeypress="eventOnKeyPress('serialNo')" id="menuDetail" size="50" maxlength="100" max="100" require="true" dataType="LimitB" msg="名称的长度应在1-100字节范围" onkeydown="if(event.keyCode==13){event.keyCode=9}" value="" />
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message key="jsp.serialNo" bundle="conf.Init" />:
+					<td class="crm_edit_item_name">
+						<label><bean:message key="jsp.serialNo" bundle="conf.Init" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.serialNo" onkeypress="eventOnKeyPress('menuNotice')" id="serialNo" size="30" maxlength="11" onkeydown=" if(event.keyCode==13){event.keyCode=9}" value="${dataForm.data.serialNo}" readonly />
+					<td class="crm_edit_item_content">
+						<input type="text" class="text"  style="width:150px" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.serialNo" onkeypress="eventOnKeyPress('menuNotice')" id="serialNo" size="30" maxlength="11" onkeydown=" if(event.keyCode==13){event.keyCode=9}" value="${dataForm.data.serialNo}" readonly />
 					</td>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigmenus.common.menuNotice"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.menuNotice"
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.menuNotice" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"style="width:150px"
 							onkeypress="eventOnKeyPress('menuUrl')" id="menuNotice" size="30"
 							maxlength="20" onkeydown="if(event.keyCode==13){event.keyCode=9}"
 							max="100" dataType="LimitB" msg="菜单描述输入过长"
@@ -158,15 +178,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单URL  -->
-						<bean:message
-							key="security.jsp.securityconfigmenus.common.menuUrl"
-							bundle="conf.security.security" />
-						:
+						<label>
+						<bean:message key="security.jsp.securityconfigmenus.common.menuUrl" bundle="conf.security.security" />
+						</label>
 					</td>
-					<td colspan="3">
-						<input type="text"  name="data.menuUrl" id="menuUrl"
+					<td class="crm_edit_item_content" colspan="3">
+						<input type="text"  name="data.menuUrl" id="menuUrl" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:150px"
 							onkeypress="eventOnKeyPress('endLevelFlag')" size="30"
 							max="200" dataType="LimitB" msg="菜单URL输入过长"
 							maxlength="200" value="${dataForm.data.menuUrl}"
@@ -174,57 +194,81 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<!--末节点标志  -->
+					<td class="crm_edit_item_name">
+						<label>
 						<bean:message
-							key="security.jsp.securityconfigmenus.common.endLevelFlag"
+							key="security.jsp.securityconfigmenus.common.parentId"
 							bundle="conf.security.security" />
-						:
+						</label>
 					</td>
-					<td>
-						<input type="text"  name="data.endLevelFlag"
+					<td colspan="3" class="crm_edit_item_content">
+						<input type="text" style="width:434px;" class="text"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							id="parentIdname" onkeypress="eventOnKeyPress('displayType')"
+							name="parentIdname" value="<%=dataForm.getData().getMenuDetail() %>"
+							onkeydown="if(event.keyCode==13){event.keyCode=9}" />
+						<input type="hidden" id="parentId" value="${dataForm.idHidden}" name="data.parentId" />
+						<img src="security/include/images/select.gif" onkeydown="huiche()"
+							style="cursor: pointer;"
+							onclick="add('security/securityConfigMenus.do?verbId=getSecurityConfigMenus','parentIdname','parentId');" />
+					</td>
+				</tr>
+				<tr>
+					<td class="crm_edit_item_name">
+						<!--末节点标志  -->
+						<label>
+						<bean:message key="security.jsp.securityconfigmenus.common.endLevelFlag"
+							bundle="conf.security.security" />
+						</label>
+					</td>
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.endLevelFlag" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:150px"
 							onkeypress="eventOnKeyPress('menuLevel')" id="endLevelFlag"
 							size="30" maxlength="1"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}"
 							value="${dataForm.data.endLevelFlag}" />
 					</td>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单级别  -->
-						<bean:message
-							key="security.jsp.securityconfigmenus.common.menuLevel"
+						<label>
+						<bean:message key="security.jsp.securityconfigmenus.common.menuLevel"
 							bundle="conf.security.security" />
-						:
+						</label>
 					</td>
-					<td>
-						<input type="text"  name="data.menuLevel"
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.menuLevel" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:150px"
 							id="menuLevel" onkeypress="eventOnKeyPress('menuSeq')" size="30"
 							maxlength="1" value="${dataForm.data.menuLevel}"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}" />
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单序号  -->
+						<label>
 						<bean:message
 							key="security.jsp.securityconfigmenus.common.menuSeq"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.menuSeq" id="menuSeq"
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.menuSeq" id="menuSeq" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="text" style="width:150px"
 							onkeypress="eventOnKeyPress('menuIcon')" size="30" maxlength="3"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}"
 							value="${dataForm.data.menuSeq}" />
 					</td>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单数据  -->
+						<label>
 						<bean:message
 							key="security.jsp.securityconfigmenus.common.menuData"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text"  name="data.menuData"
+					<td class="crm_edit_item_content">
+						<input type="text"  name="data.menuData" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:150px"
 							id="menuData" onkeypress="eventOnKeyPress('menuTarget')"
 							size="30" maxlength="150" max="150" dataType="LimitB" msg="菜单数据输入过长"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}"
@@ -232,43 +276,45 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!-- 菜单方法 -->
+						<label>
 						<bean:message
 							key="security.jsp.securityconfigmenus.common.menuMethod"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td>
-						<input type="text" name="data.menuMethod" id="menuMethod"
+					<td class="crm_edit_item_content">
+						<input type="text" name="data.menuMethod" id="menuMethod" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="text" style="width:150px"
 							onkeypress="eventOnKeyPress('parentIdname')" size="30"
 							max="50" dataType="LimitB" msg="菜单方法输入过长"
 							maxlength="50" onkeydown="if(event.keyCode==13){event.keyCode=9}"
 							value="${dataForm.data.menuMethod}" />
 					</td>
-					<td class="tblLable">
-						终端类型:
+					<td class="crm_edit_item_name">
+						<label>终端类型</label>
 					</td>
-					<td>
+					<td class="crm_edit_item_content">
 						<%
 							String isFlagMenu = dataForm.getData().getIsFlatMenu();
 						%>
-						<select name="data.isFlagMenu">
+						<select name="data.isFlagMenu" class="easyui-combobox" style="width:162px;height: 28px;border:1px solid rgb(218,218,218);">
 							<option>web浏览器</option>
 							<option value="1" <%="1".equals(isFlagMenu) ? "selected" : "" %>>平板</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单图标  -->
+						<label>
 						<bean:message
 							key="security.jsp.securityconfigmenus.common.menuIcon"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td colspan="3">
-						<input type="text"  name="data.menuIcon"
+					<td class="crm_edit_item_content" colspan="3">
+						<input type="text"  name="data.menuIcon" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:434px;"
 							id="menuIcon" onkeypress="eventOnKeyPress('menuData')" size="30"
 							max="50" dataType="LimitB" msg="菜单图标输入过长"
 							maxlength="50" value="${dataForm.data.menuIcon}"
@@ -276,15 +322,17 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
+					<td class="crm_edit_item_name">
 						<!--菜单目标-->
+						<label>
 						<bean:message
 							key="security.jsp.securityconfigmenus.common.menuTarget"
 							bundle="conf.security.security" />
-						:
+						</label>
 					</td>
-					<td colspan="3">
-						<input type="text"  name="data.menuTarget"
+					<td class="crm_edit_item_content" colspan="3">
+						<input type="text"  name="data.menuTarget" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:434px;"
 							id="menuTarget" onkeypress="eventOnKeyPress('menuMethod')"
 							size="30" maxlength="200" value="${dataForm.data.menuTarget}"
 							max="200" dataType="LimitB" msg="菜单目标输入过长"
@@ -310,33 +358,14 @@
 				
 				------------------------源代码屏蔽-------结束-----------------onfocus="if(this.value=='')add('security/securityConfigMenus.do?verbId=getSecurityConfigMenus','parentIdname','parentId');"-----%>
 				<tr>
-					<td class="tblLable">
-						<bean:message
-							key="security.jsp.securityconfigmenus.common.parentId"
-							bundle="conf.security.security" />
-						:
-					</td>
-					<td colspan="3" style="text-align: left">
-						<input type="text" style="width:94%"
-							id="parentIdname" onkeypress="eventOnKeyPress('displayType')"
-							name="parentIdname" value="<%=dataForm.getData().getMenuDetail() %>"
-							onkeydown="if(event.keyCode==13){event.keyCode=9}" />
-						<input type="hidden" id="parentId" value="${dataForm.idHidden}" name="data.parentId" />
-						<img src="security/include/images/select.gif" onkeydown="huiche()"
-							style="cursor: pointer;"
-							onclick="add('security/securityConfigMenus.do?verbId=getSecurityConfigMenus','parentIdname','parentId');" />
-					</td>
-				</tr>
-
-				<tr>
-					<td class="tblLable">
-						<bean:message
+					<td class="crm_edit_item_name">
+						<label><bean:message
 							key="security.jsp.securityconfigmenus.common.displayType"
-							bundle="conf.security.security" />
-						:
+							bundle="conf.security.security" /></label>
 					</td>
-					<td colspan="3">
-						<select class="select" onkeypress="eventOnKeyPress('comments')" id="displayType"
+					<td class="crm_edit_item_content" colspan="3" >
+						<select  onkeypress="eventOnKeyPress('comments')" id="displayType" class="easyui-combobox"
+							style="width:445px;height: 28px;border:1px solid rgb(218,218,218);"
 							name="data.displayType"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}">
 							<option value="0"
@@ -355,21 +384,22 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tblLable">
-						<bean:message key="jsp.comments" bundle="conf.Init" />
-						:
+					<td class="crm_edit_item_name">
+						<label><bean:message key="jsp.comments" bundle="conf.Init" /></label>
 					</td>
-					<td colspan="3">
+					<td class="crm_edit_item_content" colspan="3">
 						<input type="text"  name="data.comments" onkeypress="eventOnKeyPress('btnSaveForm')" id="comments"
-							max="40" dataType="LimitB" msg="备注输入过长"
+							max="40" dataType="LimitB" msg="备注输入过长" class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" style="width:434px;"
 							size="30" maxlength="40" value="${dataForm.data.comments}"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}" />
 					</td>
 				</tr>
 			</table>
+			</div>
 			<!-- Sheet operation button area -->
-			<div class="btnSave">
-				<input type="button" name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>" onClick="savePara();" />
+			<div align="center" style="margin-top:10px;">
+				<input type="button"  class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" name="btnSaveForm" value="<bean:message key="security.jsp.commom.button1" bundle="security"/>" onClick="savePara();" />
 			</div>
 		</form>
 	</body>

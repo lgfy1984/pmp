@@ -2,7 +2,9 @@ package com.tianjian.security.business.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
@@ -18,6 +20,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.Region;
 
+import com.tianjian.comm.bean.CommConfigStaffChargeType;
 import com.tianjian.security.bean.SecurityLicense;
 import com.tianjian.security.bean.SecurityStaffBaseinfo;
 import com.tianjian.security.bean.SecuritySystemUsers;
@@ -273,12 +276,15 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 				String[] commConfigSexNameList = new String[list.size()];
 				String[] regTimeList = new String[list.size()];
 				String[] stopTimeList = new String[list.size()];
+				String[] commConfigStaffChargeTypeIdList = new String[list.size()];
+				String[] commConfigStaffChargeTypeNameList = new String[list.size()];
 				for (int i = 0; i < list.size(); i++) {
 					idList[i] = this.transNullToString(((Object[]) list.get(i))[0]);
 					staffCodeList[i] = this.transNullToString(((Object[]) list.get(i))[1]);
 					hspConfigBaseinfoNameList[i] = this.transNullToString(((Object[]) list.get(i))[2]);
 					nameList[i] = this.transNullToString(((Object[]) list.get(i))[3]);
 					commConfigSexIdList[i] = this.transNullToString(((Object[]) list.get(i))[4]);
+					commConfigStaffChargeTypeIdList[i] = this.transNullToString(((Object[]) list.get(i))[7]);
 					Date date = (Date) ((Object[]) list.get(i))[5];
 					Date date1 = (Date) ((Object[]) list.get(i))[6];
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
@@ -295,10 +301,20 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 //					dateOfBirthList[i] = this.transNullToString(dateString);
 					stopTimeList[i] = this.transNullToString(dateString1);
 					commConfigSexNameList[i] = this.transNullToString(this.getNameById("CommConfigSex", "itemCode", "itemName", commConfigSexIdList[i]));
+					
+
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("itemCode",commConfigStaffChargeTypeIdList[i]);
+					CommConfigStaffChargeType cssct = (CommConfigStaffChargeType)
+					securityStaffBaseinfoDAO.findObjByHql("from CommConfigStaffChargeType a where a.itemCode=:itemCode", map);
+					if(cssct!=null){
+					 commConfigStaffChargeTypeNameList[i] = cssct.getItemName()+" ("+cssct.getItemCost()+cssct.getItemUnit()+")";
+					}
 				}
 				form.setIdList(idList);
 				form.setStaffCodeList(staffCodeList);
 				form.setHspConfigBaseinfoNameList(hspConfigBaseinfoNameList);
+				form.setCommConfigStaffChargeTypeNameList(commConfigStaffChargeTypeNameList);
 				form.setNameList(nameList);
 				form.setCommConfigSexIdList(commConfigSexIdList);
 				form.setCommConfigSexNameList(commConfigSexNameList);
@@ -400,6 +416,7 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 			}else{
 				data.setDateOfBirth(null);
 			}
+			data.setCommConfigStaffChargetypeId(this.transNullToString(form.getCommConfigStaffChargeTypeId()));
 			data.setCommConfigStafftypeId(this.transNullToString(form.getCommConfigStafftypeId()));
 			data.setIdNo(this.transNullToString(form.getIdNo()));
 			data.setPhone(this.transNullToString(form.getPhone()));
@@ -477,6 +494,14 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 			}
 			form.setCommConfigStafftypeId(this.transNullToString(data.getCommConfigStafftypeId()));
 			form.setCommConfigStafftypeName(this.transNullToString(this.getNameById("CommConfigStafftype", "itemCode", "itemName", form.getCommConfigStafftypeId())));
+			form.setCommConfigStaffChargeTypeId(this.transNullToString(data.getCommConfigStaffChargetypeId()));
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("itemCode",data.getCommConfigStaffChargetypeId());
+			CommConfigStaffChargeType cssct = (CommConfigStaffChargeType)
+			securityStaffBaseinfoDAO.findObjByHql("from CommConfigStaffChargeType a where a.itemCode=:itemCode", map);
+			if(cssct!=null){
+			form.setCommConfigStaffChargeTypeName(cssct.getItemName()+" ("+cssct.getItemCost()+cssct.getItemUnit()+")");
+			}
 			form.setIdNo(this.transNullToString(data.getIdNo()));
 			form.setPhone(this.transNullToString(data.getPhone()));
 			form.setIslocation(this.transNullToString(data.getIslocation()));
@@ -519,6 +544,9 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 		this.setIslocations(request);
 		form.setIslocationIds(this.getIds());
 		form.setIslocationNames(this.getNames());
+		this.setIdNames("select a.itemCode,a.itemName,a.itemCost,a.itemUnit from CommConfigStaffChargeType a");
+		form.setCommConfigStaffChargeTypeIds(this.getIds());
+		form.setCommConfigStaffChargeTypeNames(this.getNames());
 		if (form.getSeqNo() == null || form.getSeqNo().equals(""))
 			form.setSeqNo(securityStaffBaseinfoDAO.getMaxSeqNo() + "");
 
@@ -572,6 +600,29 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 		}
 	}
 
+	private void setIdNames(String hql) {
+		List<?> l = securityStaffBaseinfoDAO.findObjectByHql(hql);
+		if (l != null && l.size() > 0) {
+			String[] ids = new String[l.size() + 1];
+			String[] names = new String[l.size() + 1];
+			ids[0] = "";
+			names[0] = "";
+			for (int i = 0; i < l.size(); i++) {
+				Object[] obs = (Object[]) l.get(i);
+				ids[i + 1] = this.transNullToString(obs[0]);
+				names[i + 1] = this.transNullToString(obs[1]+" ("+obs[2]+obs[3]+")");
+			}
+			this.setIds(ids);
+			this.setNames(names);
+		} else {
+			String[] ids = new String[1];
+			String[] names = new String[1];
+			ids[0] = "";
+			names[0] = "";
+			this.setIds(ids);
+			this.setNames(names);
+		}
+	}
 	/* 生成医务人员许可证注册码方法 */
 	public String generateRegCode(int zushu, int weishu) {
 		String temp_l = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

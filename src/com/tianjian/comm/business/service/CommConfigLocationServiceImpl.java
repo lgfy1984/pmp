@@ -146,11 +146,11 @@ public class CommConfigLocationServiceImpl implements ICommConfigLocationService
 			data.setId        (transNullToString(form.getId      ()));
 			data.setItemCode (transNullToString(form.getItemCode()));
 			data.setItemName (transNullToString(form.getItemName()));
-			data.setLevelFlag   (Long.valueOf((form.getLevelFlag() == null || form.getLevelFlag().trim() == "") ? "0" : form.getLevelFlag()));
+			data.setLevelFlag   (Long.valueOf((form.getLevelFlag() == null || "".equals(form.getLevelFlag().trim())) ? "0" : form.getLevelFlag()));
 			data.setParentId (transNullToString(form.getParentId()));
 			data.setInputCode (transNullToString(form.getInputCode()));
 			data.setComments  (transNullToString(form.getComments()));
-			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			 } catch (Exception e) { 
 			log.error("setData fail!",e);
 			e.printStackTrace();

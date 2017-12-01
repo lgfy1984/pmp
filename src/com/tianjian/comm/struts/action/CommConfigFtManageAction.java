@@ -90,7 +90,7 @@ public class CommConfigFtManageAction extends Action{
 			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.newAddSuccess", request) + "!";
 			hosform.setMessage(message);
 			request.setAttribute("data", hosform);		        
-			return this.addInit(mapping, hosform, request, response);
+			return this.query(mapping, hosform, request, response);
 		}catch(Exception e){
 			e.printStackTrace();
 			return mapping.findForward("fail");
@@ -126,11 +126,11 @@ public class CommConfigFtManageAction extends Action{
 				pb.setPage(page);
 				count = (page - 1) * pageSize  ;
 			}
-			String isQuery = request.getParameter("isQuery");
-			if(isQuery==null||!isQuery.equals("yes")){
-				request.setAttribute("data", null);
-				return mapping.findForward("query");
-			}
+//			String isQuery = request.getParameter("isQuery");
+//			if(isQuery==null||!isQuery.equals("yes")){
+//				request.setAttribute("data", null);
+//				return mapping.findForward("query");
+//			}
 			request.setAttribute("pb",pb );
 
 			this.getService().getSearch(hosform, count, pageSize);
@@ -190,8 +190,8 @@ public class CommConfigFtManageAction extends Action{
 			this.getService().delete(hosform);
 			hosform = null;
 			hosform = new CommConfigFtManageForm();
-			String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.deleteSuccess", request) + "!";
-			hosform.setMessage(message);
+			//String message = ResourcesUtil.getValue("conf.comm.CommLocale", "comm.java.commom.deleteSuccess", request) + "!";
+			//hosform.setMessage(message);
 			return this.query(mapping, hosform, request, response);
 		}catch(Exception e){
 //			e.printStackTrace();

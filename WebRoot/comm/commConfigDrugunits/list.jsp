@@ -1,6 +1,7 @@
 ﻿<%@page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@page import="com.tianjian.util.comm.PageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="data" scope="request" class="com.tianjian.comm.struts.form.CommConfigDrugunitsForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -110,11 +111,11 @@
 				</tr>
 				<tr>
 					<td>
-						<bean:message key="comm.jsp.common.text10" bundle="conf.comm.comm"/>：<input name="itemCode" type="text" onkeypress="eventOnKeyPress('itemName')" value="<%=data.getItemCode()%>" />
+						<bean:message key="comm.jsp.common.text10" bundle="conf.comm.comm"/><input name="itemCode" type="text" onkeypress="eventOnKeyPress('itemName')" value="<%=data.getItemCode()%>" />
 				
-						<bean:message key="comm.jsp.common.text29" bundle="conf.comm.comm"/>：<input name="itemName" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=data.getItemName()%>" />
+						<bean:message key="comm.jsp.common.text29" bundle="conf.comm.comm"/><input name="itemName" type="text" onkeypress="eventOnKeyPress('inputCode')" value="<%=data.getItemName()%>" />
 					
-						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/>：<input name="inputCode" type="text" onkeypress="eventOnKeyPress('bstnsubmit')" value="<%=data.getInputCode()%>" />
+						<bean:message key="comm.jsp.common.text38" bundle="conf.comm.comm"/><input name="inputCode" type="text" onkeypress="eventOnKeyPress('bstnsubmit')" value="<%=data.getInputCode()%>" />
 				
 						<input type="button" class="btnSave" name="bstnsubmit" value="查&nbsp;&nbsp;询" onclick="submitQueryForm();" />
 					</td>
@@ -141,6 +142,16 @@
 			        </tr>
 				</thead>
 				<tbody id="interval_row_id">
+				   	<c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="9">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 						if (data.getItemCodeList() != null && data.getItemCodeList().length > 0) {
 							for (int i = 0; i < data.getItemCodeList().length; i++) {
@@ -176,7 +187,7 @@
 				</table>
 			</div>
 			<!--列表内容-->
-			<table  width="100%" align="center" class="tblScrollFooter">
+			<table  width="100%" align="center" class="tblScrollFooter" <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 				<tr>
 					<td colspan="9" align="center"  class="footer" >
 						<%

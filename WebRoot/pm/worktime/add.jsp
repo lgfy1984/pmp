@@ -136,7 +136,7 @@ function findProjectList(page){// open a window
 			align : 'center',
 			width : $(this).width()*0.1
 		}, {
-			field : 'projectClass',
+			field : 'projectClassName',
 			title : '项目类别',
 			align : 'center',
 			width : $(this).width()*0.1
@@ -158,14 +158,39 @@ function findProjectList(page){// open a window
 		} ] ],
 		onDblClickRow:function(rowIndex,rowData){
 	        $("#dg").datagrid("selectRow",rowIndex);
-	        var currentRow = $("#dg").datagrid("getSelected");
-	        //alert(rowData.id);
-	        //alert(rowData.projectCode);
+	        var currentRow = $("#dg").datagrid("getSelected");//alert(rowData.id);
 	        $('#projectBaseinfoId').val(rowData.id);
-	        //alert($('#projectBaseinfoId').val());
 	        $('#projectCode').val(rowData.projectCode);
 	        $('#projectName').val(rowData.projectName);
-	        $('#projectClassName').val(rowData.projectClass);
+	        $('#staffName').val(rowData.staffName);
+	        $('#projectClassCode').val(rowData.projectClassCode);
+	        $('#projectClassName').val(rowData.projectClassName);
+	        
+	        var projectClassCode= $('#projectClassCode').val();
+	        var path2 = '${path}/pm/projectwork.do?verbId=findProjectTask&projectClassCode='+ projectClassCode;
+	        $.ajax({
+				type : "post",
+				url : encodeURI(encodeURI(path2)),
+				data : {
+					projectClassCode:projectClassCode,
+				},
+				dataType : "text",
+				success : function(data) {
+				   /*  alert(data);
+	                alert(eval(data)); */
+	               var dataList = [];
+                   $('#taskCode').combobox('clear');
+                   var json2map=JSON.parse(data);
+				    for(var key in json2map)
+					{
+					dataList.push({"value": key,"text":json2map[key]});
+					} 
+                    
+                   $("#taskCode").combobox("loadData", dataList);
+				    
+					
+				}
+			});
 	        $('#win').window('close'); 
 	    },
 		onLoadSuccess : function(data) {
@@ -239,6 +264,7 @@ function clearSelect() {
 	<body onload="showHspMessage('${data.message}')">
 		<form name="form" id="form" method="post" action="projectwork.do">
 			<input type="hidden" name="verbId" id="verbId" value="add" />
+			<input type="hidden" name="projectClassCode" id="projectClassCode" value="" />
 			<input type="hidden" name="projectBaseinfoId" id="projectBaseinfoId" value="" />
 
 			<div class="clear"></div>
@@ -251,7 +277,7 @@ function clearSelect() {
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" name="projectName" id="projectName" class="text"
-								onblur="fEvent('blur',this)"
+								onblur="fEvent('blur',this)" value='${data.projectName}'
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
@@ -270,7 +296,7 @@ function clearSelect() {
 
 						<td colspan="3" class='crm_edit_item_content'>
 							<input type="text" name="projectCode" id="projectCode" class="text"
-								onblur="fEvent('blur',this)"
+								onblur="fEvent('blur',this)" value='${data.projectCode}'
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
@@ -286,7 +312,7 @@ function clearSelect() {
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" name="projectClassName" id="projectClassName" class="text"
 								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)"
-								onfocus="fEvent('focus',this)" required="true"
+								onfocus="fEvent('focus',this)" required="true"  value='${data.projectClassName}'
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
 							
@@ -298,13 +324,8 @@ function clearSelect() {
 							 项目经理
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="staffName" id="staffName" class="text"
-							    value='${data.createUserName}'
-								onblur="fEvent('blur',this)"
-								onmouseover="fEvent('mouseover',this)"
-								onfocus="fEvent('focus',this)" required="true"
-								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
-								invalidMessage="有效长度1-25" />
+							<input type="text" id="staffName" name="staffName" class="text readonly" readonly
+								value="${data.staffName}"  />
 						</td>
 					</tr>
 					<tr>

@@ -15,12 +15,13 @@
   <link rel="stylesheet" type="text/css" href="../style/steel/steel.css"/>
   <link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
   <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
-  <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+  <script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
   <script type="text/javascript" src="${path}/js/pager.js"></script>
-  <script type="text/javascript" src="${path}/js/work.js"></script>
   <script type="text/javascript" src="${path}/js/default.js"></script>
+  <script type="text/javascript" src="${path}/js/work.js"></script>
   <script type="text/javascript" src="${path}/js/jscal2.js"></script>
   <script type="text/javascript" src="${path}/js/lang/cn.js"></script>
   <script type="text/javascript">
@@ -32,6 +33,7 @@
  <form name="form" method="post" action="projectwork.do">
   <input type="hidden" name="verbId" value="queryProjectWorkTimeinfo" />
   <input type="hidden" name="idHidden" id="idHidden" value="" />
+  <input type="hidden" name="status" id="status" value="" />
   <input type="hidden" name="message" id="message" value="" />
   <div class='crm_content_div'>
 	  <div style="height: 40px;">
@@ -123,7 +125,7 @@
 					  <td>${kd.workDate}</td>
 					  <td>${kd.longTime}</td>
 					  <td>${kd.status}</td> 
-					  <td style="cursor:pointer;" onclick="check('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="审核"  /></td>
+					  <td style="cursor:pointer;"  onclick="checkcc('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="审核"  /></td>
 				  </tr>
 				  </c:forEach>
 			  </tbody>

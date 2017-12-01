@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 	 */
 	public void initForm(ProjectWorkTimeRecordForm form){
 
-		List<?> list1 = projectWorkTimeRecordDAO.getTaskClassDict();
+		List<?> list1 = projectWorkTimeRecordDAO.getTaskClassDict(form.getProjectClassCode());
 		if (list1 != null && list1.size() > 0) {
 			Map<String, String> temp = new LinkedHashMap<String, String>();
 
@@ -116,7 +117,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 	public void check(ProjectWorkTimeRecordForm form){
 		
 		ProjectWorktimeRecord data = projectWorkTimeRecordDAO.findById(form.getIdHidden());
-		data.setStatus(true);
+		data.setStatus(form.getStatus());
 		projectWorkTimeRecordDAO.update(data);
 	}
 	/**
@@ -193,6 +194,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 	public void updateInit(ProjectWorkTimeRecordForm form){
 
 		ProjectWorktimeRecord data = projectWorkTimeRecordDAO.findById(form.getIdHidden());
+		form.setProjectClassCode(getItemNameByCode("select a.projectClass from ProjectBaseinfo a where a.id=:id",Converter.toBlank(data.getProjectBaseinfoId()),"id"));
 		this.initForm(form);
 		this.setForm(form, data);
 	}
@@ -295,7 +297,19 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 						temp.setProjectCode(pbi.getProjectCode());
 						temp.setProjectName(pbi.getProjectName());
 					}
-					temp.setStatus(obs.getStatus()!=null&&obs.getStatus()?"审核通过":"未审核");
+					String temp2 = "";
+					if(obs.getStatus()!=null){
+						if(obs.getStatus().equals("")){
+							temp2="未审核";
+						}else if(obs.getStatus().equals("0")){
+							temp2="审核未通过";
+						}else{
+							temp2="审核通过";
+						}
+					}else{
+						temp2="未审核";
+					}
+					temp.setStatus(temp2);
 					temp.setTaskCode(this.changeClassId(obs.getTaskCode(), hosform));
 					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
 					temp.setWorkDate(sdf.format(obs.getWorkDate()));
@@ -346,6 +360,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 				form.setProjectCode(pbi.getProjectCode());
 				form.setProjectName(pbi.getProjectName());
 				form.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+				form.setStaffName(pbi.getStaffName());
 			}
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 		    form.setLongTime(Converter.toBlank(data.getLongTime()));
@@ -394,7 +409,9 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 			vo.setId(Converter.toBlank(pbi.getId()));
 			vo.setProjectName(Converter.toBlank(pbi.getProjectName()));
 			vo.setProjectCode(Converter.toBlank(pbi.getProjectCode()));
-			vo.setProjectClass(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+			vo.setProjectClassCode(Converter.toBlank(pbi.getProjectClass()));
+			vo.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+			vo.setStaffName(Converter.toBlank(pbi.getStaffName()));
 			vo.setSeqNo(Converter.toBlank(pbi.getSeqNo()));
 			vo.setStartTime(sdf.format(pbi.getStartTime()));
 			vo.setOnlineTime(sdf.format(pbi.getOnlineTime()));
@@ -411,5 +428,13 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 		List<ProjectBaseinfo> list = projectWorkTimeRecordDAO.findProjectList(form, page);
 		return list.size();
 
+	}
+	private String getItemNameByCode(String sql,String temp,String valueName){
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(valueName, temp);
+		
+		Object  obj = projectWorkTimeRecordDAO.findObjByHql(sql, map);
+		return  Converter.toBlank(obj);
 	}
 }

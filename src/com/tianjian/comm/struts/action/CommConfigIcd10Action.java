@@ -59,9 +59,9 @@ public class CommConfigIcd10Action extends BaseAction {
 		} else if (verbId.equals("getIcd10")) {
 			return this.getIcd10(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);		
+			return this.query(mapping, form, request, response);		
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -140,7 +140,7 @@ public class CommConfigIcd10Action extends BaseAction {
 			commConfigIcd10Service.getSearch(hosform, count, pageSize);
 			commConfigIcd10Service.serchInit(hosform);
 			request.setAttribute("commConfigIcd10", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

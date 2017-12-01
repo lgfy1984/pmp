@@ -44,6 +44,10 @@
 			      	</c:forEach>
 			      </select>
 		  </div>
+		 <div class="crm_input_item" >
+		  	<span class="">项目名字</span>
+		  		 <input type="text" name="projectNameHidden" id="projectNameHidden" class="crm_input_text" value='${data.projectNameHidden}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  </div>
 		  <div class="crm_input_item" style="margin-left: 109px;">
 		  	<span class="">排序方式</span>
 		  	<select class="easyui-combobox" style="height:24px;width: 120px;" name="orderNo" id="orderNo" panelHeight="80px">
@@ -117,8 +121,8 @@
 					  <td>${kd.seqNo}</td>
 					  <td>${kd.projectCode}</td>
 					  <td  style="width:25%;text-align: left;padding-left: 30px;">${kd.projectName}</td>
-					  <td>${kd.projectClass}</td>
-					  <td>${kd.createUserName}</td>
+					  <td>${kd.projectClassName}</td>
+					  <td>${kd.staffName}</td>
 					  <td>${kd.startTime}</td>
 					  <td>${kd.onlineTime}</td>
 					  <td>${kd.endTime}</td> 

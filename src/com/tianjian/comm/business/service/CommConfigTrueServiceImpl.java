@@ -173,7 +173,7 @@ public class CommConfigTrueServiceImpl implements
 			data.setItemName(this.transNullToString(form.getItemName()));
 			data.setInputCode(this.transNullToString(form.getInputCode()));
 			data.setComments(this.transNullToString(form.getComments()));
-			data.setSeqNo(Long.valueOf((form.getSeqNo()==null||form.getSeqNo()=="")?"0":form.getSeqNo()));
+			data.setSeqNo(Long.valueOf((form.getSeqNo()==null||"".equals(form.getSeqNo()))?"0":form.getSeqNo()));
 		}catch(Exception e){
 			log.error("setData error",e);
 			e.printStackTrace();

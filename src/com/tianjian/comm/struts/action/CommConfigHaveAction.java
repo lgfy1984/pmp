@@ -55,9 +55,9 @@ public class CommConfigHaveAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);	
+			return this.query(mapping, form, request, response);	
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -140,7 +140,7 @@ public class CommConfigHaveAction extends BaseAction {
 			commConfigHaveService.getSearch(hosform, count, pageSize);
 			commConfigHaveService.serchInit(hosform);
 			request.setAttribute("commConfigHave", hosform);
-			if(verbId.equals("queryDetail")){
+			if(verbId.equals("queryDetail")||verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{
 				return mapping.findForward("query");			

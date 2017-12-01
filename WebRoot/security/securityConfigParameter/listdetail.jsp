@@ -17,11 +17,20 @@
 		<%}%>
 		<title><bean:message key="security.jsp.securityConfigParamClass1.list.title" bundle="security"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="${path}/js/pager.js"></script>
+		<script type="text/javascript" src="${path}/js/default.js"></script>
 		<script language="javascript"
 			src="<bean:message key="comm.js.CommMessage.path" bundle="security" />"></script>
 		<script language="javascript" src="include/javascript/TJMessage.js"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<link rel="stylesheet" type="text/css"
+			href="${path}/style/easyui/themes/default/easyui.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
 		<script language="javascript">
 function submitQueryForm() { 
   document.form.page.value = 1; 
@@ -76,7 +85,7 @@ function cmdDel(id) {
  
 }
 
-function goPage(page) {  
+function paging(page) {  
    document.form.page.value = page;
    document.form.verbId.value = "queryDetail";    
    document.form.submit();
@@ -132,64 +141,68 @@ function showMessage(message){
 			<input type="hidden" name="asc" value="<%=data.getAsc()%>">
 			<input type="hidden" id="hiddenId" name="hiddenId" value="<%=data.getId()%>">
 			<!--查询条件-->
-			<table border="0" cellpadding="0" cellspacing="0" class="tblSearch" align="center">
-				<tr>
-					<td class="tblTitle" colspan="4">
-						<bean:message key="security.jsp.securityConfigParamClass1.list.item" bundle="security"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						工程名称:
-						<input name="projectName" type="text" onkeypress="eventOnKeyPress('className')" value="${data.projectName}" />
-						
-						<bean:message key="security.jsp.securityConfigParamClass1.commom2" bundle="security"/>:
-						<input name="className" type="text" onkeypress="eventOnKeyPress('itemName')" value="${data.className}" />
-						
-						<bean:message key="security.jsp.securityConfigParamClass1.commom7" bundle="security"/>:
-						<input name="itemName" type="text"  onkeypress="eventOnKeyPress('btnsubmit')" value="${data.itemName}" />
-						
-						<input type="button" class="btnSave"  name="btnsubmit" value="<bean:message key="security.jsp.securityConfigParamClass.query.button1" bundle="security"/>" onClick="submitQueryForm();" />
-					</td>
-				</tr>
-			</table>
-			
+			<div class='crm_content_div'>
+			<div class='crm_search_div'>
+			<div class="crm_input_item">
+				<span>工程名称</span>
+				<input name="projectName" type="text" class="crm_search_input_text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('className')" value="${data.projectName}" />
+			</div>
+			<div class="crm_input_item">
+				<span><bean:message key="security.jsp.securityConfigParamClass1.commom2" bundle="security"/></span>
+				<input name="className" type="text" class="crm_search_input_text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('itemName')" value="${data.className}" />
+			</div>
+			<div class="crm_input_item">
+				<span><bean:message key="security.jsp.securityConfigParamClass1.commom7" bundle="security"/></span>
+				<input name="itemName" type="text" class="crm_search_input_text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" onkeypress="eventOnKeyPress('btnsubmit')" value="${data.itemName}" />
+			</div>
+			<div class="crm_input_item">	
+				<input type="button" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'"  name="btnsubmit" value="<bean:message key="security.jsp.securityConfigParamClass.query.button1" bundle="security"/>" onClick="submitQueryForm();" />
+			</div>
+			<div style="clear:both"></div>
+			</div>
+			<div class="horizontal_line_2"></div>
 			<!--列表标题-->
-			<div id="dvh1">
-			<table  border="0" cellpadding="0" cellspacing="0" class="tblSearchList" align="center">
-				<caption style="text-align:left;">
-					<img src="<%=request.getContextPath()%>/comm/include/images/comm_list_nav_red.jpg" width="20" height="20" align="absmiddle" /> <span style="font-weight:bold; color:#333;"><bean:message key="security.jsp.commom.item1" bundle="security"/></span>
-			    </caption>
+			<div id="dvh1" class='crm_table_out'>
+			<table  class='crm_table_content'>
 				<thead>
-			    	<tr class="lstName">
-			            <th width="10%" height="26">工程名称<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('1', '0')" /><img border="0" onclick="commandOrderBy('1', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-			            <th width="4%" height="26"><bean:message key="security.jsp.securityConfigParamClass1.commom2" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('2', '0')" /><img border="0" onclick="commandOrderBy('2', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-			            <th width="10%" height="26"><bean:message key="security.jsp.securityConfigParamClass1.commom7" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('3', '0')" /><img border="0" onclick="commandOrderBy('3', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-			            <th width="15%" height="26"><bean:message key="security.jsp.securityConfigParamClass1.commom8" bundle="security"/><div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('4', '0')" /><img border="0" onclick="commandOrderBy('4', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div></th>
-			            <th width="3%" height="26"><bean:message key="security.jsp.commom.button6" bundle="security"/></th>
+			    	<tr>
+			            <th>工程名称
+			            <!-- <div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('1', '0')" /><img border="0" onclick="commandOrderBy('1', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div> -->
+			            </th>
+			            <th><bean:message key="security.jsp.securityConfigParamClass1.commom2" bundle="security"/>
+			            <!--<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('2', '0')" /><img border="0" onclick="commandOrderBy('2', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div>-->
+			            </th>
+			            <th><bean:message key="security.jsp.securityConfigParamClass1.commom7" bundle="security"/>
+			            <!--<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('3', '0')" /><img border="0" onclick="commandOrderBy('3', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div>-->
+			            </th>
+			            <th><bean:message key="security.jsp.securityConfigParamClass1.commom8" bundle="security"/>
+			            <!--<div><img src="include/images/cmdOrderByAsc.gif" alt="Ascender" vspace="7" onclick="commandOrderBy('4', '0')" /><img border="0" onclick="commandOrderBy('4', '1')" alt="Descender" src="include/images/cmdOrderByDesc.gif" /></div>-->
+			            </th>
+			            <th><bean:message key="security.jsp.commom.button6" bundle="security"/></th>
 			        </tr>
 				</thead>
-				<tbody id="interval_row_id">
+				<tbody>
 					<%if (data.getIdList() != null && data.getIdList().length > 0) {
 						for (int i = 0; i < data.getIdList().length; i++) {
 					%>
 					<tr>
-						<td  style="text-align:left;padding-left:10px;">
+						<td>
 							<%=data.getProjectNameList()[i]%>
 						</td>
-						<td  style="text-align:left;padding-left:10px;">
+						<td>
 							<%=data.getClassNameList()[i]%>
 						</td>
-						<td  style="text-align:left;padding-left:10px;">
+						<td>
 							<%=data.getItemNameList()[i]%>
 						</td>
-						<td  style="text-align:left;padding-left:10px;">
+						<td>
 							<%=data.getItemValueList()[i]%>
 						</td>
 						<td>
-							<img onClick="cmdView('<%=data.getIdList()[i] %>')"
-								alt="<bean:message key="security.jsp.commom.button9" bundle="security"/>" src="include/images/cmdView_s.jpg" border="0"
-								style="cursor: hand; vertical-align: middle;" />
+							<input type="button" class="button_grey2_s0" onmouseout="this.className='button_grey2_s0'" onmousedown="this.className='button_grey2_s1'" value="详细" onClick="cmdView('<%=data.getIdList()[i] %>')">
 						</td>
 					</tr>
 					<%
@@ -197,59 +210,24 @@ function showMessage(message){
 						}
 					%>
 				</tbody>
+				<tfoot>
+			  <tr>
+			  <td colspan="5">
+			  	<input type="hidden" title="当前第几页" name="page_index" id="page_index" value="${pb.page}"/>
+			    <input type="hidden" title="一共多少页" name="page_count" id="page_count" value="${pb.pageCount}"/>
+			    <input type="hidden" title="一共多少条记录" name="count" id="count" value="${pb.count}"/>
+			    <input type="hidden" title="每页显示多少条记录" name="page_size" id="page_size" value="${pb.pageSize}"/>
+			  	<input type="hidden" name="page" id="cur_page" value="${pb.page}"/>
+			  	<div class="pager_num"></div>
+			  	<div class="pager_text"></div>
+			  </td>
+			  </tr>
+		  </tfoot>
 			</table>
 			</div>
-			<!--列表内容-->
-			<table width="100%" align="center" class="tblScrollFooter">
-				<tr>
-					<td colspan="11" align="center" class="footer">
-		 			<%
-		 				int curPage = 0;
-						int totalNum = 0;
-						int pageSize = 0;
+			</div>
+			<!--分页-->
 			
-						curPage = pb.getPage();
-						totalNum = pb.getCount();
-						pageSize = pb.getPageSize();
-			
-						int totalPage = totalNum / pageSize;
-						if (totalNum % pageSize > 0)
-							totalPage += 1;
-						if (totalPage == 0) {
-							curPage = 0;
-						}
-					%>
-						<input type="hidden" id="pageId" name="pageId" value="page_282881f53464511d013464511d870000" />
-						<input type="hidden" id="reHref" name="reHref" value="<%=request.getContextPath()%>/security/securityConfigParamClass1.do?verbId=queryDetail" />
-						<%@ include file="/include/changepagesize.jsp" %>
-							
-						<input id="_total" name="totalPage" type="hidden" value="<%=totalPage%>" />
-						<bean:message key="security.jsp.commom.item2" bundle="security"/><%=curPage%><bean:message key="security.jsp.commom.item3" bundle="security"/><%=totalPage%><bean:message key="security.jsp.commom.item4" bundle="security"/><%=totalNum%><bean:message key="security.jsp.commom.item5" bundle="security"/>&nbsp;|&nbsp;
-					<%
-						if (curPage > 1) {
-					%>
-						<a href="javascript:goPage('0')"><img src="include/images/shouye.gif" align="middle" border="0" /></a>&nbsp; <a href="javascript:goPage('<%=curPage - 1 %>')"><img src="include/images/shang.gif" align="middle" border="0" /></a>&nbsp;
-					<%
-						} else {
-							out.println("<img src='include/images/shouye_s.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/shang_s.gif' align='middle' border='0px' />&nbsp;");
-						}
-						if (curPage < totalPage) {
-					%>
-						<a href="javascript:goPage('<%=curPage + 1 %>')"><img src="include/images/xia.gif" align="middle" border="0" /></a>&nbsp; <a href="javascript:goPage('<%=totalPage %>')"><img src="include/images/mo.gif" align="middle" border="0" /></a>&nbsp;
-					<%
-						} else {
-							out.println("<img src='include/images/xia_x.gif' align='middle' border='0px' />&nbsp;&nbsp;<img src='include/images/mo_m.gif' align='middle' border='0px' />&nbsp;");
-						}
-					%>
-						| &nbsp;<bean:message key="jsp.pagetext3" bundle="conf.Init"/>
-						<input id="_tp" name="page" type="text" value="<%=curPage%>" size="2" class="txt" /> 
-						<bean:message key="jsp.pagetext4" bundle="conf.Init"/>
-						&nbsp;
-						<img style="cursor:hand;" src="include/images/go.jpg" width="18" border="0" onClick="goPage2()" />
-						
-					</td>
-				</tr>
-			</table>
 		</form>
 	</body>
 	<script language="javascript" src="include/javascript/interval_row_color.js"></script>

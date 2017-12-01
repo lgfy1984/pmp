@@ -174,7 +174,7 @@
 			<div class="btnSave">
 				<input type="button" style="font-size: 12px; font-family: Arial;"
 							name="btnSaveForm"
-							value="<bean:message key="security.jsp.commom.button1" bundle="security"/>"
+							value="修改"
 							onClick="saveForm()" />
 				<input type="button" style="font-size: 12px; font-family: Arial;"
 							name="btnBack"

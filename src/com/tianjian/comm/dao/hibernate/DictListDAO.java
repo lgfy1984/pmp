@@ -161,7 +161,7 @@ public class DictListDAO extends HibernateDaoSupport implements IDictListDAO {
 					return l;
 				}
 			}));
-			if (list.isEmpty() || list == null || list.size() == 0) {
+			if (list.isEmpty()  || list.size() == 0) {
 				return null;
 			}
 			return list;
@@ -185,7 +185,7 @@ public class DictListDAO extends HibernateDaoSupport implements IDictListDAO {
 					return l;
 				}
 			}));
-			if (list.isEmpty() || list == null || list.size() == 0) {
+			if (list.isEmpty()  || list.size() == 0) {
 				return null;
 			}
 			return (CommDictPublicChar) list.get(0);
@@ -209,7 +209,7 @@ public class DictListDAO extends HibernateDaoSupport implements IDictListDAO {
 					return l;
 				}
 			}));
-			if (list.isEmpty() || list == null || list.size() == 0) {
+			if (list.isEmpty()  || list.size() == 0) {
 				return null;
 			}
 			return list;
@@ -233,7 +233,7 @@ public class DictListDAO extends HibernateDaoSupport implements IDictListDAO {
 					return l;
 				}
 			}));
-			if (list.isEmpty() || list == null || list.size() == 0) {
+			if (list.isEmpty() || list.size() == 0) {//去掉了list != null
 				return null;
 			}
 			return list;

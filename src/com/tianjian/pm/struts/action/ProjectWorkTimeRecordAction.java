@@ -25,6 +25,7 @@ import com.tianjian.security.struts.form.SessionForm;
 import com.tianjian.util.comm.PageBean;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * TODO
@@ -70,6 +71,7 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 			ProjectWorkTimeRecordForm hosform = (ProjectWorkTimeRecordForm) form;
 			hosform.setCreateUserName(staff.getStaffName());
 			projectWorkTimeRecordService.addInit(hosform);
+			hosform.setTaskClass(null);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("add");
 		}
@@ -182,7 +184,10 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 		try {
 			ProjectWorkTimeRecordForm hosform = (ProjectWorkTimeRecordForm) form;
 			projectWorkTimeRecordService.check(hosform);
-			String message ="审核通过!";
+			String message ="";
+			if(hosform.getStatus().equals("1")){
+				 message ="审核通过!";
+			}
 			
 			hosform.setMessage(message);
 			return this.checkList(mapping, hosform, request, response);
@@ -435,6 +440,33 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().write(json);
 			response.flushBuffer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public ActionForward findProjectTask(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			String projectClassCode = request.getParameter("projectClassCode");
+			// 转码
+
+			projectClassCode = java.net.URLDecoder.decode(projectClassCode, "UTF-8");
+			ProjectWorkTimeRecordForm hosform = (ProjectWorkTimeRecordForm) form;
+			hosform.setProjectClassCode(projectClassCode);
+			projectWorkTimeRecordService.addInit(hosform);
+			
+
+			JSONObject  jsonobje = null;
+			response.setCharacterEncoding("utf-8");
+			jsonobje = jsonobje.fromObject(hosform.getTaskClass());
+//			System.out.println(jsonArray.toString());
+			response.getWriter().print(jsonobje);// JSON返回数据
+			response.flushBuffer();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

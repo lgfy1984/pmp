@@ -14,7 +14,6 @@ import com.tianjian.comm.bean.CommConfigStafftype;
 import com.tianjian.comm.business.ICommConfigInputDictService;
 import com.tianjian.comm.business.ICommConfigStafftypeService;
 import com.tianjian.comm.struts.form.CommConfigStafftypeForm;
-import com.tianjian.security.struts.action.BaseAction;
 import com.tianjian.util.ResourcesUtil;
 import com.tianjian.util.comm.PageBean;
 
@@ -58,9 +57,9 @@ public class CommConfigStafftypeAction extends BaseAction {
 		} else if (verbId.equals("delete")) {
 			return this.delete(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
 		}else if(verbId.equals("initDetail")){
-			return this.init(mapping, form, request, response);		
+			return this.query(mapping, form, request, response);		
 		} else {
 			return mapping.findForward("fail");
 		}
@@ -102,7 +101,7 @@ public class CommConfigStafftypeAction extends BaseAction {
 			int page = 0;
 			int recordCount = commConfigStafftypeService.getCount(hosform.getItemCode(), hosform.getItemName(), hosform.getInputCode(), hosform.getSeqNo());
 			pb.setCount(recordCount);
-			String pageString = request.getParameter("page");
+			String pageString = request.getParameter("cur_page");
 			int pageSize = 10;
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
 //			ServletContext application = request.getSession().getServletContext();
@@ -142,6 +141,11 @@ public class CommConfigStafftypeAction extends BaseAction {
 			String verbId = request.getParameter("verbId");
 			CommConfigStafftypeForm ssform = (CommConfigStafftypeForm) form;
 			request.setAttribute("commConfigStafftype", ssform);
+			PageBean pb = new PageBean();
+			pb.setPage(0);
+			pb.setCount(0);
+			pb.setPageSize(10);
+			request.setAttribute("pb", pb);
 			if(verbId.equals("initDetail")){
 				return mapping.findForward("queryDetail");
 			}else{

@@ -117,5 +117,5 @@ public interface IProjectFinanceRecordDAO {
     * @throws
     * @author LengJiong
     */
-    public List<?> getTaskClassDict() ;
+    public List<?> getTaskClassDict(String projectClassCode) ;
 }

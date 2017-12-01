@@ -28,5 +28,8 @@
         <property name="createUserName" type="java.lang.String">
             <column name="CREATE_USER_NAME" length="40" />
         </property>
+        <property name="itemClass" type="java.lang.String">
+            <column name="ITEM_CLASS" length="10" />
+        </property>
     </class>
 </hibernate-mapping>

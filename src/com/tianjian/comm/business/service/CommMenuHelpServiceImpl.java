@@ -156,7 +156,7 @@ public class CommMenuHelpServiceImpl implements ICommMenuHelpService {
 			data.setMenuHelpContent (transNullToString(form.getMenuHelpContent()));
 			data.setMenuHelpComment (transNullToString(form.getMenuHelpComment()));
 			data.setMenuFlag(this.transNullToString(form.getMenuFlag()));
-			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || form.getSeqNo().trim() == "") ? "0" : form.getSeqNo()));
+			data.setSeqNo     (Long.valueOf((form.getSeqNo() == null || "".equals(form.getSeqNo().trim())) ? "0" : form.getSeqNo()));
 			data.setCreateDate(new Date());
 			data.setCreateUserId(this.transNullToString(form.getCreateUserId()));
 			data.setCreateUserName(this.transNullToString(form.getCreateUserName()));

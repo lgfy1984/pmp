@@ -21,6 +21,8 @@
 		<meta http-equiv="expires" content="0">
 		<script language="javascript" src="<bean:message  key="comm.js.includeTJMessage.path"  bundle="comm.commLocale"/>"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
 function saveForm(){
 	if(document.form.itemCode.value == ""){

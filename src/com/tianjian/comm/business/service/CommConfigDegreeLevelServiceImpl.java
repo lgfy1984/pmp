@@ -28,8 +28,8 @@ public class CommConfigDegreeLevelServiceImpl implements ICommConfigDegreeLevelS
 	}
 
 	private void getDict(CommConfigDegreeLevelForm form) {
-		List<CommConfigDegreeLevel> parentItemList = this.commConfigDegreeLevelDAO.findListByLevelFlag("1");
-		form.setParentItemList(parentItemList);
+		if (form.getSeqNo() == null || form.getSeqNo().equals(""))
+			form.setSeqNo(commConfigDegreeLevelDAO.getMaxSeqNo() + "");
 	}
 
 	private String transNullToString(Object obj){

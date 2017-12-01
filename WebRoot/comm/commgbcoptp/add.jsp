@@ -19,7 +19,9 @@
 <script language="javascript" src="<bean:message  key="Comm.js.TJMessagepath"  bundle="conf.comm.CommMessage"/>"></script>
 <script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
 <script type="text/javascript" src="<bean:message  key="Comm.js.validatepath"  bundle="conf.comm.CommMessage"/>"></script>
-<script language="javascript">
+<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script language="javascript">
 function selectInputValue(self){				
 	document.form(self).select();
 }

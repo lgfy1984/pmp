@@ -74,4 +74,11 @@ public class CommConfigDept implements java.io.Serializable {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+
+	@Override
+	public String toString() {
+		return "CommConfigDept [itemCode=" + itemCode + ", seqNo=" + seqNo
+				+ ", itemName=" + itemName + ", inputCode=" + inputCode
+				+ ", comments=" + comments + "]";
+	}
 }

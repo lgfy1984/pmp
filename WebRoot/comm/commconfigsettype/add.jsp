@@ -23,38 +23,75 @@
 		<script language="javascript" src="<bean:message  key="comm.js.includeTJMessage.path"  bundle="comm.commLocale"/>"></script>
 		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
 		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript"
+			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<script language="javascript">
-function saveForm(){
-	if(!Validator.Validate(document.forms.form,3)){
-      return ;
-    }
-	if(document.form.itemCode.value == ""){
-	 	alertMessage("0-000001");
-	 	return ;
-	}
-	
-	if(document.form.itemName.value == ""){
-	 	alertMessage("0-000002");
-	 	return ;
-	}
-	if(isNaN(document.form.seqNo.value)){
-		alert("<bean:message  bundle="comm.commLocale" key="comm.jsp.commom.text33"/>!"); 
-		return true;
-	}
-	
-if (confirmMessage("0-000003")){ 
-	document.form.verbId.value = "add";
-	document.form.submit();
-	}
-}
+		function saveForm(){
+			if(document.form.seqNo.value == ""){
+				$.messager.alert('提示',"序号不能为空！");
+				return ;
+			}
 
-</script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+			if(!Validator.Validate(document.forms.form,3)){
+		      return ;
+		    }
+			if(document.form.itemCode.value == ""){
+	 	$.messager.alert('提示',"<bean:message bundle='comm.commLocale' key='comm.jsp.CodeText'/>");
+			 	return ;
+			}
+			
+			if(document.form.itemName.value == ""){
+	 	$.messager.alert('提示',"<bean:message  bundle='comm.commLocale' key='comm.jsp.jsp.itemNameText'/>");
+			 	return ;
+			}
+			if(isNaN(document.form.seqNo.value)){
+				alert("<bean:message  bundle="comm.commLocale" key="comm.jsp.commom.text33"/>!"); 
+				return true;
+			}
+			
+		
+			document.form.verbId.value = "add";
+			document.form.submit();
+			
+		}
+		
+		</script>
+		<!-- <link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" /> -->
+		<link type="text/css" rel="stylesheet" href="${path}/style/default.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css" />
+		<link rel="stylesheet" type="text/css"
+			href="${path}/style/easyui/themes/default/easyui.css" />
+		<link rel="stylesheet" type="text/css"
+			href="${path}/style/easyui/themes/icon.css" />
+		<link rel="stylesheet" type="text/css"
+			href="${path}/style/easyui/themes/default/easyui.css" />
+			<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
+  		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
+  		<script type="text/javascript" src="${path}/js/default.js"></script>
+  		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+		<style type="text/css">
+		.redlable {
+			color: #FF0000;
+			font-size: 16px;
+		}
+		
+		.crm_button_sub {
+			margin-top: 10px;
+			margin-left: 40%;
+		}
+		
+		.crm_textarea_style {
+			width: 87%;
+			height: 80px;
+			border: 1px #E0E0E0 solid;
+			overflow-y: hidden;
+		}
+		</style>
 	</head>
 	<body onload="showMessage('','<%=commConfigSettype.getMessage()%>','1')">
 		<form name="form" method="post" action="comm/commConfigSettype.do">
 			<input type="hidden" name="verbId" value="add" />
-			<table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
+			<!-- <table align="center" border="0" cellpadding="0" cellspacing="0" class="tblFill" border="0" cellpadding="0" cellspacing="0" class="tblFill">
 				<tr>
 					<td class="tblTitle" colspan="4"><span>※</span> 添加设置主办单位字典  <span>※</span></td>
 				</tr>
@@ -86,12 +123,45 @@ if (confirmMessage("0-000003")){
 						<input type="text"  name="comments" id="comments" size="30" maxlength="50" onkeypress="eventOnKeyPress('btnSaveForm')"  max="40" dataType="LimitB" msg="备注输入过长"  value="<%=commConfigSettype.getComments()%>" />
 					</td>
 				</tr>
-			</table>
-			<!-- Sheet operation button area -->
-			<div class="btnSave">
-				<input type="button"  name="btnSaveForm" value="<bean:message  bundle="comm.commLocale" key="comm.jsp.commom.save"/>" onClick="saveForm()" />
-				<input type="button"  name="btnBack" value="<bean:message  bundle="comm.commLocale" key="comm.jsp.commom.back"/>" onClick="history.go(-1);" />
+			</table> -->
+			<div style="height:4px;"></div>
+			<div class='crm_edit_panel'>
+				<table class='crm_panel_table'>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>代码</td>
+						<td class='crm_edit_item_content'><input class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							type="text" class="kuandu" name="itemCode" id="itemCode" size="20"
+							maxlength="32" onkeypress="eventOnKeyPress('itemName')"  max="32" dataType="LimitB" msg="代码输入过长" value=""/></td>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>名称</td>
+						<td class='crm_edit_item_content'><input class="text" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							type="text" class="kuandu" name="itemName" size="20" maxlength="9"
+							onkeypress="eventOnKeyPress('seqNo')"  max="40" dataType="LimitB" msg="名称输入过长" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name'><label class="redlable">*</label>序号</td>
+      	  				<td class='crm_edit_item_content'>
+      	  					<input class="text" type="text" class="kuandu" name="seqNo" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"  id="seqNo" size="20"
+							maxlength="9" onkeypress="eventOnKeyPress('comments')"  max="11" dataType="LimitB" msg="序号输入过长"
+							value="<%=commConfigSettype.getSeqNo()%>"/>
+      	  				</td>  
+      	  				<td class='crm_edit_item_name'>备注</td>
+      	  				<td class='crm_edit_item_content' colspan="3">
+      	  					<input class="text" type="text" class="kuandu" name="comments" id="comments" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" 
+							size="20" maxlength="20" value=""  onkeypress="eventOnKeyPress('btnSaveForm')"  max="40" dataType="LimitB" msg="备注输入过长"/> 
+      	  				</td>
+      	  			</tr>  
+				</table>
 			</div>
+			<!-- Sheet operation button area -->
+			<div class='crm_button_sub'>
+				<input type="button" name="btnSaveForm" value="保存" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" onclick="saveForm();"/>
+				<input type="button" name="btnBack" value="返回" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" onclick="history.go(-1);"/>
+	  		</div>
 		</form>
 	</body>
 </html>

@@ -1,6 +1,7 @@
 ﻿<%@page contentType="text/html; charset=utf-8"%>
 <%@page import="com.tianjian.util.comm.PageBean"%>
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:useBean id="data" scope="request" type="com.tianjian.comm.struts.form.CommIHEFacilityForm" />
 <jsp:useBean id="pb" scope="request" class="com.tianjian.util.comm.PageBean" />
 <html>
@@ -245,6 +246,16 @@ function isMadeOf(val,str)
 					</td>
 				</tr>
 				<tbody id="interval_row_id">
+				    <c:if test="${pb.count<=0}">
+						<tr>
+							<td colspan="8">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+					</c:if>
 					<%
 							if (data.getIdList() != null && data.getIdList().length > 0) {
 							for (int i = 0; i < data.getIdList().length; i++) {
@@ -278,7 +289,7 @@ function isMadeOf(val,str)
 						}
 					%>
 				</tbody>
-				<tr>
+				<tr <c:if test="${pb.count<=0}">style="display:none"</c:if>>
 					<td colspan="8" align="center" bgcolor="#ffffff" height="35px">
 						<%
 							int curPage = 0;

@@ -61,7 +61,7 @@ public class CommConfigDegreeLevelAction extends Action{
 		try{
 			CommConfigDegreeLevelForm hosform = new CommConfigDegreeLevelForm();
 			this.getService().addInit(hosform);
-			request.setAttribute("data", hosform);
+			request.setAttribute("commConfigDegreeLevel", hosform);
 			return mapping.findForward("add");
 		}catch(Exception e){
 //			e.printStackTrace();
@@ -72,17 +72,18 @@ public class CommConfigDegreeLevelAction extends Action{
 	private ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try{
 			CommConfigDegreeLevelForm hosform = (CommConfigDegreeLevelForm)form;
-			CommConfigDegreeLevel dataChecked = this.getService().checkData(hosform);
-			if(dataChecked!=null){
+			CommConfigDegreeLevel commConfigDegreeLevelChecked = this.getService().checkData(hosform);
+			if(commConfigDegreeLevelChecked!=null){
 				hosform.setMessage("代码已被占用,请修改!");
 				this.getService().addInit(hosform);
-				request.setAttribute("data", hosform);
+				request.setAttribute("commConfigDegreeLevel", hosform);
 				return mapping.findForward("add");
 			}
 			hosform.setInputCode(this.getCommConfigInputDictService().getInputCode(hosform.getItemName()));
 			this.getService().save(hosform);
-			request.setAttribute("data", hosform);
-			return this.addInit(mapping, form, request, response);
+			//request.setAttribute("commConfigDegreeLevel", hosform);
+			CommConfigDegreeLevelForm hosformNew = new CommConfigDegreeLevelForm();
+			return this.query(mapping, hosformNew, request, response);
 		}catch(Exception e){
 //			e.printStackTrace();
 			return mapping.findForward("fail");
@@ -91,7 +92,7 @@ public class CommConfigDegreeLevelAction extends Action{
 	private ActionForward init(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try{
 			CommConfigDegreeLevelForm hosform = (CommConfigDegreeLevelForm)form;
-			request.setAttribute("data", hosform);
+			request.setAttribute("commConfigDegreeLevel", hosform);
 			return mapping.findForward("query");
 		}catch(Exception e){
 //			e.printStackTrace();
@@ -128,7 +129,7 @@ public class CommConfigDegreeLevelAction extends Action{
 			this.getService().getSearch(hosform, count, pageSize);
 			this.getService().searchInit(hosform);
 
-			request.setAttribute("data", hosform);
+			request.setAttribute("commConfigDegreeLevel", hosform);
 			return mapping.findForward("query");
 		}catch(Exception e){
 //			e.printStackTrace();
@@ -140,7 +141,7 @@ public class CommConfigDegreeLevelAction extends Action{
 		try{
 			CommConfigDegreeLevelForm hosform = (CommConfigDegreeLevelForm)form;
 			this.getService().updateInit(hosform);
-			request.setAttribute("data", hosform);
+			request.setAttribute("commConfigDegreeLevel", hosform);
 			return mapping.findForward("detail");
 		}catch(Exception e){
 //			e.printStackTrace();
@@ -151,7 +152,7 @@ public class CommConfigDegreeLevelAction extends Action{
 	private ActionForward updateInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try{
 			CommConfigDegreeLevelForm hosform = (CommConfigDegreeLevelForm)form;
-			request.setAttribute("data", hosform);
+			request.setAttribute("commConfigDegreeLevel", hosform);
 			this.getService().updateInit(hosform);
 			return mapping.findForward("update");
 		}catch(Exception e){
