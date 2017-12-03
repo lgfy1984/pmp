@@ -392,7 +392,6 @@ public class Converter {
 	public static void setCellText(HSSFRow row, HSSFCell cell, int index, String text, HSSFCellStyle cellStyle) {
 		cell = row.createCell((short)index);
 		cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(cellStyle);
 		text = getUnicode(text,"gb2312");
 		cell.setCellValue(text);
@@ -649,6 +648,32 @@ public class Converter {
 		}else{
 			return Boolean.valueOf(s);
 		}
+	}
+	
+	//讲String转换成UTF-8编码格式的字符串
+    public static String toUtf8String(String s) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c >= 0 && c <= 255) {
+				sb.append(c);
+			} else {
+				byte[] b;
+				try {
+					b = Character.toString(c).getBytes("utf-8");
+				} catch (Exception ex) {
+					System.out.println(ex);
+					b = new byte[0];
+				}
+				for (int j = 0; j < b.length; j++) {
+					int k = b[j];
+					if (k < 0)
+						k += 256;
+					sb.append("%" + Integer.toHexString(k).toUpperCase());
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 

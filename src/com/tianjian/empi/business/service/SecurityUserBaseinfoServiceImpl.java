@@ -2787,7 +2787,6 @@ public class SecurityUserBaseinfoServiceImpl implements ISecurityUserBaseinfoSer
 	private void setCellText(HSSFRow row, HSSFCell cell, int index, String text, HSSFCellStyle cellStyle) {
 		cell = row.createCell((short)index);
 		cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 		cell.setCellStyle(cellStyle);
 		text = getUnicode(text,"gb2312");
 		cell.setCellValue(text);
@@ -3613,7 +3612,6 @@ public class SecurityUserBaseinfoServiceImpl implements ISecurityUserBaseinfoSer
 			row.setHeight((short)100);
 			row.setHeightInPoints((float)30);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellStyle(HeaderStyle);
 			text += "客户基本信息表";
 			text = getUnicode(text,"gb2312");
@@ -3624,7 +3622,6 @@ public class SecurityUserBaseinfoServiceImpl implements ISecurityUserBaseinfoSer
 			row.setHeight((short)585);
 			cell = row.createCell((short)0);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellStyle(cellStyle);
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
 			SimpleDateFormat sdf1=new SimpleDateFormat("yyyyMMddHHmmss");
@@ -3635,7 +3632,6 @@ public class SecurityUserBaseinfoServiceImpl implements ISecurityUserBaseinfoSer
 			for(int i=1; i<over_number; i++){
 				cell = row.createCell((short)i);
 				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 				cell.setCellStyle(cellStyle);
 				text = "";
 				text = getUnicode(text,"gb2312");
