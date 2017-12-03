@@ -31,6 +31,8 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 
 	private String createUserName;
 
+	private String chargeType;
+
 	// Constructors
 	/** default constructor */
 	public ProjectFinanceRecord() {}
@@ -39,7 +41,7 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 	public ProjectFinanceRecord(String projectBaseinfoId, String staffCode,
 			Timestamp workDate, String taskCode, Integer longTime, Double costs,
 			Integer seqNo, Boolean status, Timestamp createDate,
-			String createUserId, String createUserName) {
+			String createUserId, String createUserName, String chargeType) {
 		this.projectBaseinfoId = projectBaseinfoId;
 		this.staffCode = staffCode;
 		this.workDate = workDate;
@@ -51,6 +53,7 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 		this.createDate = createDate;
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
+		this.chargeType = chargeType;
 	}
 
 	// Property accessors
@@ -148,5 +151,13 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
+	}
+
+	public String getChargeType() {
+		return this.chargeType;
+	}
+
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType;
 	}
 }

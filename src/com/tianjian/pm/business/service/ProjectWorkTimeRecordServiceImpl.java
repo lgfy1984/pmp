@@ -91,7 +91,13 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 	 */
 	public void save(ProjectWorkTimeRecordForm form){
 		ProjectWorktimeRecord data = new ProjectWorktimeRecord();
-
+		String sql = "select a.item_name,a.item_cost,a.item_unit from"
+					+" security.security_staff_baseinfo t "
+					+" left join  comm.comm_config_staff_charge_type a"
+					+" on t.comm_config_staff_charge_id = a.item_code"
+					+" where t.id=:id ";
+		Object[] obs = (Object[]) getObjectBySqlCode(sql,form.getCreateUserId(),"id");
+		form.setChargeType(Converter.toBlank(obs[1]));
 		data.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_WORKTIME_RECORD", "SEQ_NO")));
 		ProjectFinanceRecord  pfr  = new ProjectFinanceRecord();
 		setData(form,data,pfr);
@@ -241,26 +247,16 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 		
 			String order ="";
 
-//			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
-//				if (hosform.getOrderNo().equals("0")) {
-//					order += " a.consultationTime";
-//				} else if (hosform.getOrderNo().equals("1")) {
-//					order += " a.name";
-//				} else if (hosform.getOrderNo().equals("2")) {
-//					order += " a.consultationComments";
-//				}
-//				else if (hosform.getOrderNo().equals("3")) {
-//					order += "  a.consultationById";
-//				} 
-//				else if (hosform.getOrderNo().equals("4")) {
-//					order += "  a.consultationClassId";
-//				} 
-//				else if (hosform.getOrderNo().equals("5")) {
-//					order += "  a.executedFlagId";
-//				} 
-//			} else {
-//				order += "  a.consultationTime";
-//			}
+			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
+				if (hosform.getOrderNo().equals("0")) {
+					order += " a.seq_no";
+				} else if (hosform.getOrderNo().equals("1")) {
+					order += " t.project_class";
+				} 
+				
+			} else {
+				order += "  a.work_date ";
+			}
 			
 			if(hosform.getSort() == null || hosform.getSort().trim().equals("0")){
 				  order +=" ASC";
@@ -271,7 +267,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 			hosform.setOrder(order);
 			
 			List<?> list = projectWorkTimeRecordDAO
-					.getProjectWorktimeRecordData(hosform.getProjectBaseinfoIdCase(), hosform.getProjectTaskCodeCase(), hosform.getWorkDate(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder(),hosform.getStatusCase());
+					.getProjectWorktimeRecordData(hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(), hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder(),hosform.getStatusCase());
 			List<?> list1 = projectWorkTimeRecordDAO.getProjectClassDict();
 			if (list1 != null && list1.size() > 0) {
 				Map<String, String> temp = new LinkedHashMap<String, String>();
@@ -288,20 +284,21 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 
 				for (int i = 0; i < list.size(); i++) {
 					ProjectWorkVo temp = new ProjectWorkVo();
-					ProjectWorktimeRecord obs = (ProjectWorktimeRecord) list.get(i);
-					temp.setId(Converter.toBlank(obs.getId()));
-					temp.setLongTime(Converter.toBlank(obs.getLongTime()));
-					temp.setProjectBaseinfoId(Converter.toBlank(obs.getProjectBaseinfoId()));
-					ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs.getProjectBaseinfoId()));
+					Object[] obs = (Object[]) list.get(i);
+					temp.setId(Converter.toBlank(obs[0]));
+					temp.setLongTime(Converter.toBlank(obs[2]));
+					temp.setProjectBaseinfoId(Converter.toBlank(obs[1]));
+					ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs[1]));
 					if(pbi!=null){
 						temp.setProjectCode(pbi.getProjectCode());
 						temp.setProjectName(pbi.getProjectName());
 					}
 					String temp2 = "";
-					if(obs.getStatus()!=null){
-						if(obs.getStatus().equals("")){
+					String tstatu =Converter.toBlank(obs[3]);
+					if(tstatu!=null){
+						if(tstatu.equals("")){
 							temp2="未审核";
-						}else if(obs.getStatus().equals("0")){
+						}else if(tstatu.equals("0")){
 							temp2="审核未通过";
 						}else{
 							temp2="审核通过";
@@ -309,12 +306,13 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 					}else{
 						temp2="未审核";
 					}
-					temp.setStatus(temp2);
-					temp.setTaskCode(this.changeClassId(obs.getTaskCode(), hosform));
-					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
-					temp.setWorkDate(sdf.format(obs.getWorkDate()));
-					temp.setCreateUserId(Converter.toBlank(obs.getCreateUserId()));
-					temp.setCreateUserName(Converter.toBlank(obs.getCreateUserName()));
+					temp.setStatus(Converter.toBlank(obs[3]));
+					temp.setStatusName(temp2);
+					temp.setTaskCode(this.changeClassId(Converter.toBlank(obs[8]), hosform));
+					temp.setSeqNo(Converter.toBlank(obs[7]));
+					temp.setWorkDate(sdf.format(obs[9]));
+					temp.setCreateUserId(Converter.toBlank(obs[4]));
+					temp.setCreateUserName(Converter.toBlank(obs[5]));
 					crd.add(temp);
 				}
 				hosform.setPwv(crd);
@@ -337,6 +335,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
+			data.setChargeType(Converter.toBlank(form.getChargeType()));
 			
         if(pfr!=null){
 			pfr.setProjectBaseinfoId(Converter.toBlank(form.getProjectBaseinfoId()));
@@ -344,6 +343,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 			pfr.setTaskCode(Converter.toBlank(form.getTaskCode()));
 			pfr.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
 			pfr.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
+			pfr.setChargeType(Converter.toBlank(form.getChargeType()));
 			pfr.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
 			pfr.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			pfr.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
@@ -362,9 +362,23 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 				form.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
 				form.setStaffName(pbi.getStaffName());
 			}
+			String temp2 = "";
+			if(data.getStatus()!=null){
+				if(data.getStatus().equals("")){
+					temp2="未审核";
+				}else if(data.getStatus().equals("0")){
+					temp2="审核未通过";
+				}else{
+					temp2="审核通过";
+				}
+			}else{
+				temp2="未审核";
+			}
+			form.setStatusName(temp2);
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 		    form.setLongTime(Converter.toBlank(data.getLongTime()));
 		    form.setTaskCode(Converter.toBlank(data.getTaskCode()));
+		    form.setChargeType(data.getChargeType());
 			form.setTaskName(this.changeClassId(Converter.toBlank(data.getTaskCode()), form));
 		    form.setWorkDate(sdf.format(data.getWorkDate()));
 			form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
@@ -436,5 +450,13 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 		
 		Object  obj = projectWorkTimeRecordDAO.findObjByHql(sql, map);
 		return  Converter.toBlank(obj);
+	}
+	private Object[] getObjectBySqlCode(String sql,String temp,String valueName){
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(valueName, temp);
+		
+		Object[]  obj = (Object[]) projectWorkTimeRecordDAO.findObjBySql(sql, map);
+		return  obj;
 	}
 }

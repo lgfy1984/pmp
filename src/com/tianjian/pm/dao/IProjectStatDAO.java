@@ -86,6 +86,6 @@ public interface IProjectStatDAO{
 	* @throws
 	* @author LengJiong
 	*/
-	public List<?> getGroupFrpData(String projectBaseinfoId,String taskCode);
+	public List<?> getGroupFrpData(String projectBaseinfoId,String taskCode,String statTime,String endTime);
 	
 }

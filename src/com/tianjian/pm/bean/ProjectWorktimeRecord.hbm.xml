@@ -40,5 +40,8 @@
         <property name="createUserName" type="java.lang.String">
             <column name="CREATE_USER_NAME" length="40" />
         </property>
+        <property name="chargeType" type="java.lang.String">
+            <column name="CHARGE_TYPE" length="40" />
+        </property>
     </class>
 </hibernate-mapping>

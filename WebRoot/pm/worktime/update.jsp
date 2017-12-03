@@ -25,6 +25,7 @@
   	  <form name="form" id="form" method="post" action="projectwork.do" >
 	  <input type="hidden" name="verbId" value="queryProjectWorkTimeinfo" />
       <input type="hidden" name="projectBaseinfoId" id="projectBaseinfoId" value="${data.projectBaseinfoId}" />
+  	  <input type="hidden" name="chargeType" id="chargeType" value="${data.chargeType}"/>
   	  <input type="hidden" name="message" id="messageId" value="修改成功！"/>
   	  <input type="hidden" name="idHidden" value="${data.id}" />
   	  <input type="hidden" name="cur_page" id="cur_page" value="${data.page_index}"/>

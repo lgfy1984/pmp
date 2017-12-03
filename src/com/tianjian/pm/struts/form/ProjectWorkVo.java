@@ -38,6 +38,7 @@ public class ProjectWorkVo {
 	private String seqNo;
 
 	private String status;
+	private String statusName;
 
 	private String createDate;
 
@@ -157,6 +158,14 @@ public class ProjectWorkVo {
 
 	public void setProjectClassName(String projectClassName) {
 		this.projectClassName = projectClassName;
+	}
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
 	
 }

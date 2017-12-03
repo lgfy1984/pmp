@@ -10,6 +10,7 @@
 		<title>添加信息</title>
 <link type="text/css" rel="stylesheet" href="${path}/style/default.css" />
 <link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css" />
+<link rel="stylesheet" type="text/css" href="${path}/style/stat.css" />
 <link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/default/easyui.css" />
 <link type="text/css" rel="stylesheet"	href="${path}/include/css/searchsuggest.css" />
 <link rel="stylesheet" type="text/css"	href="${path}/style/easyui/themes/icon.css" />
@@ -43,8 +44,8 @@ function findStaffList(page){// open a window
 	    title: '选择项目经理',
 	    width: 820,
 	    height: 450,
-	    top: ($(window).height()-700) * 0.5,
-	    left: ($(window).width()-800) * 0.5,
+	    top: ($(window).height()-650) * 0.5,
+	    left: ($(window).width()-900) * 0.5,
 	    shadow: true,
 	    modal: true,
 	    closed: true,
@@ -224,7 +225,7 @@ function selectStaffUser() {
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
-						    <input type="button" value="选择项目经理" class="button_grey1_s0"
+						    <input type="button" value="选择项目经理" class="statbutton_grey1_s0"
 							style="vertical-align: top;"
 							onmousedown="this.className='button_grey1_s1'"
 							onmouseout="this.className='button_grey1_s0'"

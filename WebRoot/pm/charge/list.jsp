@@ -44,15 +44,12 @@
 			      	</c:forEach>
 			      </select>
 		  </div>
-		  <div class="crm_input_item" style="margin-left: 109px;">
+		  <div class="crm_input_item" style="">
 		  	<span class="">排序方式</span>
 		  	<select class="easyui-combobox" style="height:24px;width: 120px;" name="orderNo" id="orderNo" panelHeight="80px">
 		  		<option value="0" <c:if test="${data.orderNo eq '0'}">selected="selected"</c:if> >序号</option>
-		  		<option value="1" <c:if test="${data.orderNo eq '1'}">selected="selected"</c:if> >项目名字</option>
+		  		<option value="1" <c:if test="${data.orderNo eq '1'}">selected="selected"</c:if> >员工姓名</option>
 		  		<option value="2" <c:if test="${data.orderNo eq '2'}">selected="selected"</c:if> >项目类别</option>
-		  		<option value="3" <c:if test="${data.orderNo eq '3'}">selected="selected"</c:if> >开始时间</option>
-		  		<option value="4" <c:if test="${data.orderNo eq '4'}">selected="selected"</c:if> >上线时间</option>
-		  		<option value="5" <c:if test="${data.orderNo eq '5'}">selected="selected"</c:if> >结束时间</option>
 			 </select>
 		  </div>
 		  <div class="crm_input_item" >
@@ -71,7 +68,12 @@
 			    </div>
 			</div>
 		 </div> 
-		 </div> 
+		 </div>
+		 
+		 <div class="crm_input_item" >
+		  	<span class="">员工姓名</span>
+		  		 <input type="text" style="width: 112px;height:20px;" name="staffName" id="staffName" class="crm_input_text" value='${data.staffName}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  </div> 
 		 <div class="crm_input_item" >
 		  	<span class="">时间条件</span>
 		  			<span  class="calendarspan">
@@ -116,7 +118,7 @@
 					  <td>${kd.seqNo}</td>
 					  <td>${kd.projectCode}</td>
 					  <td  style="width:25%;text-align: left;padding-left: 30px;">${kd.projectName}</td>
-					  <td>${kd.createUserName}</td>
+					  <td>${kd.workStaffName}</td>
 					  <td>${kd.longTime}</td>
 					  <td>${kd.costs}</td>
 					  <td style="cursor:pointer;" onclick="showDetail('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="详细"  /></td>

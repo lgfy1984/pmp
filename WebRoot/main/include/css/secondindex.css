@@ -30,8 +30,9 @@ body,body *{
 #banner{
 	width:436px;
 	height:61px;
-	background:url(../images/logo.jpg) no-repeat 0 0;
+	background:url(../images/logo.png) no-repeat 0 0;
 	float:left;
+	
 }
 #windowbutton{	
 	height:17px;	
@@ -102,7 +103,7 @@ body,body *{
 }
 #bannerregist{
 	text-align:center;
-	height:310px;			
+	overflow: hidden;		
 }
 #listbody ul{
 	width:588px;

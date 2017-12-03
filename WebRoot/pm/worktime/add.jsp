@@ -83,7 +83,7 @@ function findProjectList(page){// open a window
 	    title: '选择项目',
 	    width: 820,
 	    height: 450,
-	    top: ($(window).height()-700) * 0.5,
+	    top: ($(window).height()-300) * 0.5,
 	    left: ($(window).width()-800) * 0.5,
 	    shadow: true,
 	    modal: true,

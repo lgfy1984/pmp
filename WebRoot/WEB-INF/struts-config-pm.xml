@@ -17,6 +17,12 @@
 			<forward name="update" path="/pm/pm/update.jsp" />
 			<forward name="detail" path="/pm/pm/detail.jsp" />
 		</action>
+	  <action path="/pm/projectfinancew" name="ProjectFinanceRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/chargework/add.jsp" />
+			<forward name="query" path="/pm/chargework/list.jsp" />
+			<forward name="update" path="/pm/chargework/update.jsp" />
+			<forward name="detail" path="/pm/chargework/detail.jsp" />
+		</action>
 	  <action path="/pm/projectfinance" name="ProjectFinanceRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
 			<forward name="add" path="/pm/charge/add.jsp" />
 			<forward name="query" path="/pm/charge/list.jsp" />

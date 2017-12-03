@@ -138,62 +138,57 @@
 			}
 		</script>
 	</head>
-	<body onload="juzhong();showMessage('<%=loginForm.getMessage()%>');" scroll="no">
-		<form name="form" method="post" action="security/security_login.do">
-			<div id="full" style="margin-top:140px">
-				<table width="100%" border="0" cellpadding="0" cellspacing="0" background="home/include/images/1_05.jpg">
-					<tr>
-						<td height="320">&nbsp;
-							
-						</td>
-						<td width="564">
-							<table width="100%" height="314" border="0" align="center" cellpadding="0" cellspacing="0">
-								<tr>
-									
-									<td height="50" colspan="3" background="home/include/images/1_03.jpg">
-										<%
-											if(loginForm.getVersionStopDate()!=null){
-												Date date = new Date();
-												Date stopDate = DateUtil.string2DateTime(loginForm.getVersionStopDate(),"yyyy-MM-dd");
-												Date warnDate = DateUtil.addDays(stopDate,-30);
-												if(date.after(warnDate)){
-													long t = stopDate.getTime() - date.getTime();
-													long day = t / 1000 / 60 / 60 / 24;
-													%>
-													<div style="margin-left:30px; margin-top:15px"><table><tr><td  height="24"><span  style="font-size:14px;color:red  ">提醒：授权许可仅剩下<%=day %>天,为免影响使用,请及时联系厂家更换授权!</span></td></tr></table></div>
-													<% 
-												}
-											}
-										%>
-										<!-- <div style="margin-left:410px; margin-top:15px"><table><tr><td width="111" height="24" background="home/include/images/Language_bg.png"><span  style="font-size:14px; color:#FFF;"><a href="<%=request.getContextPath()%>/home/login.jsp?lang=es" class="language">Español</a>&nbsp;|&nbsp;<a href="<%=request.getContextPath()%>/home/login.jsp?lang=en" class="language">English</a></span></td></tr></table></div> -->
-										
-									</td>
-								</tr>
-								
-								<tr>
-									<td height="44" colspan="3" background="home/include/images/1_07.jpg">&nbsp;
-										
-									</td>
-								</tr>
-								<tr>
-									<td height="61" colspan="3" background="home/include/images/1_08.jpg">&nbsp;
-										
-									</td>
-								</tr>
-								<tr>
-									<td height="51" colspan="3" background="home/include/images/1_09.jpg">&nbsp;
-										
-									</td>
-								</tr>
-								<tr>
-									<td width="55" height="134" rowspan="2" background="home/include/images/1_10.jpg">&nbsp;
-										
-									</td>
-									<td width="240" rowspan="2" background="home/include/images/1_11.jpg">
-										<table width="236" height="102" class="table" border="0" cellpadding="0" cellspacing="0" align="left">
-											<tr >
-												<td width="50" class="td_name">
-													<bean:message key="home.jsp.login.body1" bundle="conf.home.Message"/>
+	<body onload="juzhong();showMessage('<%=loginForm.getMessage()%>');" class="newbody" >
+		<form name="form" method="post" action="security/security_login.do" >
+                      <div class="backimg">
+                               <div class="logodiv"> </div>
+                               <div class="logindiv">
+                               <div  class="newtable"  cellpadding="0" cellspacing="0" align="left" >
+	                               	<div class="clear">
+		                               	<div width="50" class="td_name">
+		                               		<bean:message key="home.jsp.login.body1" bundle="conf.home.Message" />
+		                               	</div>
+		                               	<div width="186" class="td_input">
+		                               		<input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" onfocus="fEvent('focus',this)" tabindex="2" onmouseout="fEvent('mouseout',this)" type="text" value="<%=loginForm.getStaffCode()%>" maxlength="20" size="20" class="input_left" id="userId" name="staffCode" onkeyup="value=value.replace(/[^\d\w]/g,'')"  onkeypress="eventOnKeyPress('password')" />
+		                               	</div>
+	                               	</div >
+	                               	<div class="clear">
+		                               	<div width="50" class="td_name">
+		                               		<bean:message key="home.jsp.login.body2" bundle="conf.home.Message"/>
+		                               	</div>
+		                               	<div width="186" class="td_input">
+		                               		<input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" onfocus="fEvent('focus',this)" tabindex="2" onmouseout="fEvent('mouseout',this)" type="password" value="<%=loginForm.getPassword()%>" maxlength="20" size="20" class="password" id="passwd" name="password" onkeydown="if(event.keyCode == 13)<%=(verflag==1)?"eventOnKeyPress('loginVerCode');":" checkUser();" %> " />
+		                               	</div>
+	                               	</div>
+	                               <%if(verflag==1){
+											%>	
+	                               	<div class="clear">
+		                               	<div width="50" class="td_name">
+		                               		验证码：
+		                               	</div>
+		                               	<div width="186" class="td_input">
+		                               		<input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" onfocus="fEvent('focus',this)" tabindex="2" onmouseout="fEvent('mouseout',this)" type="text" value="" maxlength="20" size="20"  id="loginVerCode" name="loginVerCode" class="input_loginvercode" onkeydown="if(event.keyCode == 13)checkUser();" />
+											<div class="yzm_div"><img  id="loginVerCodeImage" src="<%=request.getContextPath()%>/genRandomCode"  onclick="this.src='<%=request.getContextPath()%>/genRandomCode?'+Math.random()" style="vertical-align:middle;"  /></div>
+													
+		                               	</div>
+	                               	</div>
+	                               	<% } %>
+	                               		<div class="clear" >
+		                               	<div width="50" class="td_name">
+		                               	</div>
+		                               	<div  class="td_input ">
+		                               		<div style="float: left;"><input name="enter.x2" type="button" class="inp_L1" id="enter.x" tabindex="4" onclick="checkUser()" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body3" bundle="conf.home.Message"/>' /></div>
+											<div style="float: right;"><input name="enter.x3" type="button" class="inp_L1" id="enter.x2" tabindex="4" onclick="window.location='<%=request.getContextPath()%>/security/SecuritySystemUsersRegist.do?verbId=registInit'" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body5" bundle="conf.home.Message"/>' /></div>		
+		                               	</div>
+	                               	</div>
+	                               	 <div class="newfpsw" >
+													<a href="security/securitysystemusers/find_password.jsp">忘记密码了?</a>
+                                             </div>
+                               </div>
+										<%-- <table width="236" height="102" class="newtable" border="0" cellpadding="0" cellspacing="0" align="left" >
+										    <tr >
+												<td width="50" class="td_name" >
+													<bean:message key="home.jsp.login.body1" bundle="conf.home.Message" />
 												</td>
 												<td width="186" class="td_input">
 													<input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" onfocus="fEvent('focus',this)" tabindex="2" onmouseout="fEvent('mouseout',this)" type="text" value="<%=loginForm.getStaffCode()%>" maxlength="20" size="20" class="input_left" id="userId" name="staffCode" onkeyup="value=value.replace(/[^\d\w]/g,'')"  onkeypress="eventOnKeyPress('password')" />
@@ -215,64 +210,41 @@
 												</td>
 												<td align="left" class="td_input">
 													<input onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" onfocus="fEvent('focus',this)" tabindex="2" onmouseout="fEvent('mouseout',this)" type="text" value="" maxlength="20" size="20"  id="loginVerCode" name="loginVerCode" class="input_loginvercode" onkeydown="if(event.keyCode == 13)checkUser();" />
-													<img  id="loginVerCodeImage" src="<%=request.getContextPath()%>/genRandomCode"  onclick="this.src='<%=request.getContextPath()%>/genRandomCode?'+Math.random()" style="vertical-align:middle;"></img>
+													<div style='display:inline-block;vertical-align:middle;width:50px;height:20px;overflow:hidden;border-right:1px solid black;border-bottom:1px solid black;'><img  id="loginVerCodeImage" src="<%=request.getContextPath()%>/genRandomCode"  onclick="this.src='<%=request.getContextPath()%>/genRandomCode?'+Math.random()" style="vertical-align:middle;"  /></div>
+													
 												</td>
 											</tr>
 											<% } %>
 											<tr>
 												<td height="22"></td>
 												<td align="left" valign="bottom" class="tdLabel">
-													<label><input name="enter.x2" type="button" class="inp_L1" id="enter.x" tabindex="4" onclick="checkUser()" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body3" bundle="conf.home.Message"/>' /></label>
+													<label style="float: left;"><input name="enter.x2" type="button" class="inp_L1" id="enter.x" tabindex="4" onclick="checkUser()" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body3" bundle="conf.home.Message"/>' /></label>
 													<!--<label><input name="enter.x" type="reset" class="inp_L1" id="input_btn1" tabindex="4" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body4" bundle="conf.home.Message"/>' /></label> -->	
-													<label><input name="enter.x3" type="button" class="inp_L1" id="enter.x2" tabindex="4" onclick="window.location='<%=request.getContextPath()%>/security/SecuritySystemUsersRegist.do?verbId=registInit'" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body5" bundle="conf.home.Message"/>' /></label>
+													<label style="float: right;"><input name="enter.x3" type="button" class="inp_L1" id="enter.x2" tabindex="4" onclick="window.location='<%=request.getContextPath()%>/security/SecuritySystemUsersRegist.do?verbId=registInit'" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body5" bundle="conf.home.Message"/>' /></label>
 												</td>
 											</tr>
-											
-											
-											<tr >
-												<td class="td_name">
-													
-												</td>
-												<td   class="td_input">
-													<a href="security/securitysystemusers/find_password.jsp"><bean:message key="home.jsp.login.body7" bundle="conf.home.Message"/></a>
-												</td>
-											</tr>
-										</table>
-									</td>
-									<td width="269" height="63" background="home/include/images/1_12.jpg">&nbsp;
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td height="71" valign="bottom" background="home/include/images/1_13.jpg">
-										<table width="212" border="0" align="right" cellpadding="0" cellspacing="0" class="table_title">
-											<tr>
-												<td height="18">
-													版权归北京天健科技集团所有
-												</td>
-											</tr>
-											<tr>
-												<td height="18">
-													<img src="home/include/images/gg.png" alt="" width="12" height="12" />
-													2008 ALL RIGHTS RESERVED
-												</td>
-											</tr>
-											<%--<tr>
-												<td height="18">
-													<bean:message key="home.jsp.login.body6" bundle="conf.home.Message"/>
-												</td>
-											</tr>
-											 --%>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</td>
-						<td>&nbsp;						
-						</td>
-					</tr>
-				</table>
-			</div>
+										</table> --%>
+                                            
+                                        </div>
+                                        <div id="full" class="vesion">
+                                                                    <table width="212" border="0" align="center" cellpadding="0" cellspacing="0" >
+                                                                        <tr>
+                                                                            <td height="18">
+                                                                                版权归北京天健科技集团所有
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="18">
+                                                                                <img src="home/include/images/gg.png" alt="" width="12" height="12" />
+                                                                                2015 ALL RIGHTS RESERVED
+                                                                            </td>
+                                                                        </tr>
+                                                                        
+                                                                    </table>
+                                                  
+                                        </div>   
+                              </div>
+                                <div class="newrex"> </div>
 			<input type="hidden" name="verbId" value="" />
 		</form>
 	</body>

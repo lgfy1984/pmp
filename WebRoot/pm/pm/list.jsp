@@ -44,11 +44,7 @@
 			      	</c:forEach>
 			      </select>
 		  </div>
-		 <div class="crm_input_item" >
-		  	<span class="">项目名字</span>
-		  		 <input type="text" name="projectNameHidden" id="projectNameHidden" class="crm_input_text" value='${data.projectNameHidden}'  panelHeight="168" style="width: 120px;height:24px;" />
-		  </div>
-		  <div class="crm_input_item" style="margin-left: 109px;">
+		  <div class="crm_input_item" style="">
 		  	<span class="">排序方式</span>
 		  	<select class="easyui-combobox" style="height:24px;width: 120px;" name="orderNo" id="orderNo" panelHeight="80px">
 		  		<option value="0" <c:if test="${data.orderNo eq '0'}">selected="selected"</c:if> >序号</option>
@@ -75,6 +71,11 @@
 			    </div>
 			</div>
 		 </div> 
+		 
+		 <div class="crm_input_item" >
+		  	<span class="">项目名称</span>
+		  		 <input type="text" style="width: 112px;height:20px;" name="projectNameHidden" id="projectNameHidden" class="crm_input_text" value='${data.projectNameHidden}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  </div>
 		 <div class="crm_input_item" >
 		  	<span class="">时间条件</span>
 		  			<span  class="calendarspan">

@@ -207,6 +207,12 @@ function input_select(){
 	  $("input[type=text]").focus(function(){
 		$(this)[0].style.border="1px solid #8cd2f1";
 	  });
+	 /* $(".calendarspan input[type=text]").blur(function(){
+		  $(this)[0].style.border="none";
+	  });
+	  $(".calendarspan input[type=text]").focus(function(){
+		  $(this)[0].style.border="none";
+	  });*/
 	  $("textarea").blur(function(){
 		  $(this)[0].style.border="1px solid #dedede";
 	  });

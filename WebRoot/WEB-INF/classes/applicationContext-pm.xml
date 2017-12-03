@@ -47,6 +47,11 @@
 			<ref bean="projectFinanceRecordService" />
 		</property>
 	</bean>
+	<bean name="/pm/projectfinancew" class="com.tianjian.pm.struts.action.ProjectFinanceWorkAction" singleton="false">
+		<property name="projectFinanceRecordService">
+			<ref bean="projectFinanceRecordService" />
+		</property>
+	</bean>
 	<bean id="projectFinanceRecordService" parent="BaseTxService">
 		<property name="target">
 			<bean class="com.tianjian.pm.business.service.ProjectFinanceRecordServiceImpl">

@@ -41,6 +41,8 @@ public class ProjectStatVo {
 
 	private String totalLongTime="";
 	private String totalcosts="";
+	private String totalProjectCosts="";
+	private String totalProjectValue="";
 	private String status="";
 	private String createDate="";
 	private String createUserId="";
@@ -158,6 +160,18 @@ public class ProjectStatVo {
 	}
 	public void setProjectTaskCode(String projectTaskCode) {
 		this.projectTaskCode = projectTaskCode;
+	}
+	public String getTotalProjectCosts() {
+		return totalProjectCosts;
+	}
+	public void setTotalProjectCosts(String totalProjectCosts) {
+		this.totalProjectCosts = totalProjectCosts;
+	}
+	public String getTotalProjectValue() {
+		return totalProjectValue;
+	}
+	public void setTotalProjectValue(String totalProjectValue) {
+		this.totalProjectValue = totalProjectValue;
 	}
 	
 }

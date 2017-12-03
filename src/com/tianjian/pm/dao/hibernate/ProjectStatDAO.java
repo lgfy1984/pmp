@@ -79,9 +79,9 @@ public class ProjectStatDAO extends BaseDAOImpl<ProjectBaseinfo>  implements IPr
 		return l;
 	}
 	
-	public List<?> getGroupFrpData(String projectBaseinfoId,String taskCode) {
+	public List<?> getGroupFrpData(String projectBaseinfoId,String taskCode,String statTime,String endTime) {
 		List<Object> params = new ArrayList<Object>();
-		StringBuffer sqldata = new StringBuffer("select a.project_baseinfo_id,a.create_user_id,a.task_code,sum(a.long_time),sum(a.costs) "
+		StringBuffer sqldata = new StringBuffer("select a.project_baseinfo_id,a.staff_code,a.task_code,sum(a.long_time),sum(a.costs) "
                 +" FROM pm.project_finance_record a"
                 +" where 1=1 ");
 
@@ -93,9 +93,18 @@ public class ProjectStatDAO extends BaseDAOImpl<ProjectBaseinfo>  implements IPr
 			sqldata.append("and  a.task_code= ? ");
 			params.add(taskCode.trim());
 		}
-		
+		if (statTime.trim().length() > 0) {
+			sqldata.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(statTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sqldata.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
 
-        sqldata.append(" group by a.project_baseinfo_id,a.create_user_id, a.task_code");
+        sqldata.append(" group by a.project_baseinfo_id,a.staff_code, a.task_code");
 
 		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sqldata.toString());
 		for (int i = 0; i < params.size(); i++) {

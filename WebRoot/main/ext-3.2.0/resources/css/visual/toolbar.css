@@ -5,9 +5,9 @@
  * http://www.extjs.com/license
  */
 .x-toolbar{
-	border-color:#a9bfd3;
+	/* border-color:#a9bfd3;
     background-color:#d0def0;
-    background-image:url(../images/default/toolbar/bg.gif);
+    background-image:url(../images/default/toolbar/bg.gif); */
 }
 
 .x-toolbar td,.x-toolbar span,.x-toolbar input,.x-toolbar div,.x-toolbar select,.x-toolbar label{

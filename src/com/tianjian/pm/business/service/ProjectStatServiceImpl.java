@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tianjian.comm.bean.CommConfigStaffChargeType;
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.bean.ProjectTaskDict;
 import com.tianjian.pm.business.IProjectStatService;
@@ -23,7 +24,10 @@ import com.tianjian.pm.dao.IProjectStatDAO;
 import com.tianjian.pm.struts.form.ProjectStatForm;
 import com.tianjian.pm.struts.form.ProjectStatHead;
 import com.tianjian.pm.struts.form.ProjectStatVo;
+import com.tianjian.security.bean.SecurityStaffBaseinfo;
 import com.tianjian.util.Converter;
+
+import oracle.net.aso.f;
 
 /**
  * TODO
@@ -240,7 +244,7 @@ public class ProjectStatServiceImpl implements IProjectStatService{
 				psv.setProjectTaskName(itemName);
 				totalflag = "1";
 				psv.setTotalCount(totalflag);
-				List<?>  listfrp = projectStatDAO.getGroupFrpData(form.getProjectBaseinfoIdCase(), itemCode);
+				List<?>  listfrp = projectStatDAO.getGroupFrpData(form.getProjectBaseinfoIdCase(), itemCode,form.getStartTimeHidden(),form.getEndTimeHidden());
 				map.put(itemCode, Converter.toBlank(listfrp.size()));
 				form.setMap(map);
 				if(listfrp!=null && listfrp.size()>0){
@@ -249,6 +253,8 @@ public class ProjectStatServiceImpl implements IProjectStatService{
 					String projectCode = "";
 					Double sumactlongtime = (double)0L;
 					Double sumactCosts = (double)0L;
+					Double sumProjectCosts = (double)0L;//实施费用
+					Double sumProjectValue = (double)0L;//实施成本
 					for(int j=0;j<listfrp.size();j++){
 						ProjectStatVo psv1= new ProjectStatVo();
 						Object[]  objs = (Object[] )listfrp.get(j);
@@ -258,12 +264,29 @@ public class ProjectStatServiceImpl implements IProjectStatService{
 						psv1.setSeqNo(Converter.toBlank(j+1));
 						psv1.setProjectCode(pbi.getProjectCode());
 						psv1.setProjectName(pbi.getProjectName());
-						psv1.setCreateUserName(getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.staffCode=:staffCode",Converter.toBlank(objs[1]),"staffCode"));
+
+						Double tempActCost = (double)0L;
+						SecurityStaffBaseinfo ssb = null;
+						CommConfigStaffChargeType ccst = null;
+						if(!Converter.toBlank(objs[1]).equals("")){
+							 ssb = (SecurityStaffBaseinfo)getObjectByCode("from SecurityStaffBaseinfo a where a.id=:staffCode",Converter.toBlank(objs[1]),"staffCode");
+							ccst = (CommConfigStaffChargeType)getObjectByCode("from CommConfigStaffChargeType a where a.itemCode=:itemCode",ssb.getCommConfigStaffChargetypeId(),"itemCode");
+							if(ccst!=null){
+								tempActCost=Converter.toDouble(objs[3])*Converter.toDouble(ccst.getItemCost());
+							}
+							psv1.setCreateUserName(ssb.getName());
+						}
+						
 						psv1.setProjectTaskName(itemName);
 						psv1.setActLongTime(Converter.toBlank(objs[3]));
 						sumactlongtime+=Converter.toDouble(objs[3]);
-						psv1.setActCosts(Converter.toBlank(objs[4]));
-						sumactCosts+=Converter.toDouble(objs[4]);
+						psv1.setActCosts(Converter.toBlank(tempActCost));
+						sumactCosts+=Converter.toDouble(tempActCost);
+						psv1.setProjectCosts(Converter.toBlank(objs[4]));
+						sumProjectCosts+=Converter.toDouble(objs[4]);
+						Double tempProjectValue = tempActCost+Converter.toDouble(objs[4]);
+						psv1.setProjectValue(Converter.toBlank(tempProjectValue));
+						sumProjectValue+=Converter.toDouble(tempProjectValue);
 						lpsv.add(psv1);
 					}
 					ProjectStatVo psv2 = new ProjectStatVo();
@@ -273,6 +296,8 @@ public class ProjectStatServiceImpl implements IProjectStatService{
 					psv2.setProjectTaskName(itemName);
 					psv2.setTotalLongTime(Converter.toBlank(sumactlongtime));
 					psv2.setTotalcosts(Converter.toBlank(sumactCosts));
+					psv2.setTotalProjectCosts(Converter.toBlank(sumProjectCosts));
+					psv2.setTotalProjectValue(Converter.toBlank(sumProjectValue));
 					psv2.setCreateUserName("全部");
 					totalflag = "2";
 					psv2.setTotalCount(totalflag);

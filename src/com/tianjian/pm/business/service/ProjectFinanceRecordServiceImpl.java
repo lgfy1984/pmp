@@ -19,6 +19,7 @@ import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.bean.ProjectFinanceRecord;
+import com.tianjian.pm.bean.ProjectWorktimeRecord;
 import com.tianjian.pm.business.IProjectFinanceRecordService;
 import com.tianjian.pm.dao.IProjectFinanceRecordDAO;
 import com.tianjian.pm.dao.IProjectWorkTimeRecordDAO;
@@ -99,6 +100,13 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	 */
 	public void save(ProjectFinanceRecordForm form){
 		ProjectFinanceRecord data = new ProjectFinanceRecord();
+		String sql = "select a.item_name,a.item_cost,a.item_unit from"
+					+" security.security_staff_baseinfo t "
+					+" left join  comm.comm_config_staff_charge_type a"
+					+" on t.comm_config_staff_charge_id = a.item_code"
+					+" where t.id=:id ";
+		Object[] obs = (Object[]) getObjectBySqlCode(sql,form.getCreateUserId(),"id");
+		form.setChargeType(Converter.toBlank(obs[1]));
 		data.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
 		setData(form, data);
 		projectFinanceRecordDAO.save(data);
@@ -241,26 +249,16 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		
 			String order ="";
 
-//			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
-//				if (hosform.getOrderNo().equals("0")) {
-//					order += " a.consultationTime";
-//				} else if (hosform.getOrderNo().equals("1")) {
-//					order += " a.name";
-//				} else if (hosform.getOrderNo().equals("2")) {
-//					order += " a.consultationComments";
-//				}
-//				else if (hosform.getOrderNo().equals("3")) {
-//					order += "  a.consultationById";
-//				} 
-//				else if (hosform.getOrderNo().equals("4")) {
-//					order += "  a.consultationClassId";
-//				} 
-//				else if (hosform.getOrderNo().equals("5")) {
-//					order += "  a.executedFlagId";
-//				} 
-//			} else {
-//				order += "  a.consultationTime";
-//			}
+			if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
+				if (hosform.getOrderNo().equals("0")) {
+					order += " a.seq_no";
+				} else if (hosform.getOrderNo().equals("1")) {
+					order += " t.project_class";
+				} 
+				
+			} else {
+				order += "  a.work_date ";
+			}
 			
 			if(hosform.getSort() == null || hosform.getSort().trim().equals("0")){
 				  order +=" ASC";
@@ -268,30 +266,33 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 			if(hosform.getSort() != null && hosform.getSort().trim().equals("1")){
 				  order +=" DESC";
 			}
+			
 			hosform.setOrder(order);
 			
 			List<?> list = projectFinanceRecordDAO
-					.getProjectFinanceRecordData(hosform.getProjectBaseinfoIdCase(), hosform.getProjectTaskCodeCase(), hosform.getWorkDate(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
+					.getProjectFinanceRecordData(hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
+							hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
 		    if (list != null && list.size() > 0) {
 				List<ProjectFinanceVo> crd = new ArrayList<ProjectFinanceVo>(list.size());
 
 				for (int i = 0; i < list.size(); i++) {
 					ProjectFinanceVo temp = new ProjectFinanceVo();
-					ProjectFinanceRecord obs = (ProjectFinanceRecord) list.get(i);
-					temp.setId(Converter.toBlank(obs.getId()));
-					temp.setLongTime(Converter.toBlank(obs.getLongTime()));
-					temp.setProjectBaseinfoId(Converter.toBlank(obs.getProjectBaseinfoId()));
-					ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs.getProjectBaseinfoId()));
+					Object[] obs = (Object[]) list.get(i);
+					temp.setId(Converter.toBlank(obs[0]));
+					temp.setLongTime(Converter.toBlank(obs[2]));
+					temp.setProjectBaseinfoId(Converter.toBlank(obs[1]));
+					ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs[1]));
 					if(pbi!=null){
 						temp.setProjectCode(pbi.getProjectCode());
 						temp.setProjectName(pbi.getProjectName());
 					}
-					temp.setTaskCode(this.changeClassId(obs.getTaskCode(), hosform));
-					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
-					temp.setCosts(Converter.toBlank(obs.getCosts()));
-					temp.setWorkDate(sdf.format(obs.getWorkDate()));
-					temp.setCreateUserId(Converter.toBlank(obs.getCreateUserId()));
-					temp.setCreateUserName(Converter.toBlank(obs.getCreateUserName()));
+					temp.setTaskCode(this.changeClassId(Converter.toBlank(obs[8]), hosform));
+					temp.setSeqNo(Converter.toBlank(obs[7]));
+					temp.setCosts(Converter.toBlank(obs[10]));
+					temp.setWorkDate(sdf.format(obs[9]));
+					temp.setWorkStaffName(Converter.toBlank(obs[11]));
+					temp.setCreateUserId(Converter.toBlank(obs[4]));
+					temp.setCreateUserName(Converter.toBlank(Converter.toBlank(obs[5])));
 					crd.add(temp);
 				}
 				hosform.setPfv(crd);
@@ -317,9 +318,11 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 			ProjectFinanceRecord data) {
 
 		data.setProjectBaseinfoId(Converter.toBlank(form.getProjectBaseinfoId()));
+		data.setStaffCode(Converter.toBlank(form.getWorkStaffCode()));
 		data.setLongTime(Converter.toInteger(form.getLongTime()));
 		data.setTaskCode(Converter.toBlank(form.getTaskCode()));
 		data.setCosts(Converter.toDouble(form.getCosts()));
+		data.setChargeType(Converter.toBlank(form.getChargeType()));
 			String newDate = sdf.format( new Date());
 			data.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
 			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
@@ -337,15 +340,23 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 				form.setProjectCode(pbi.getProjectCode());
 				form.setProjectName(pbi.getProjectName());
 				form.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
-				form.setStaffName(pbi.getStaffName());
+				form.setStaffName(pbi.getStaffName());//项目经理姓名 
 			}
+			form.setChargeType(data.getChargeType());
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 		    form.setLongTime(Converter.toBlank(data.getLongTime()));
 		    form.setTaskCode(Converter.toBlank(data.getTaskCode()));
 			form.setTaskName(this.changeClassId(Converter.toBlank(data.getTaskCode()), form));
 		    form.setWorkDate(sdf.format(data.getWorkDate()));
 		    form.setCosts(Converter.toBlank(data.getCosts()));
-			form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
+		    //取得人员姓名，并不是财务创建人员
+		    
+		    String tempName  = "";
+		    if(data.getStaffCode()!=null){
+			    tempName = getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.id=:id ",data.getStaffCode(),"id");
+		    }
+			form.setWorkStaffName(tempName);//添加工时人员姓名
+		    form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
 		
 	}
 	
@@ -370,5 +381,13 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		
 		Object  obj = projectWorkTimeRecordDAO.findObjByHql(sql, map);
 		return  Converter.toBlank(obj);
+	}
+	private Object[] getObjectBySqlCode(String sql,String temp,String valueName){
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(valueName, temp);
+		
+		Object[]  obj = (Object[]) projectWorkTimeRecordDAO.findObjBySql(sql, map);
+		return  obj;
 	}
 }

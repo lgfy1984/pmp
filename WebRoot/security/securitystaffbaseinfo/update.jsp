@@ -621,17 +621,37 @@ function checkGender(){
 								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								regexp="^(?:(?:([0-9]{4}(-|\/)(?:(?:0?[1,3-9]|1[0-2])(-|\/)(?:29|30)|((?:0?[13578]|1[02])(-|\/)31)))|([0-9]{4}(-|\/)(?:0?[1-9]|1[0-2])(-|\/)(?:0?[1-9]|1\\d|2[0-8]))|(((?:(\\d\\d(?:0[48]|[2468][048]|[13579][26]))|(?:0[48]00|[2468][048]00|[13579][26]00))(-|\/)0?2(-|\/)29))))$"
 								msg="日期格式不正确，期待格式为：XXXX-XX-XX！" require="false"
-								readonly="readonly" onkeypress="eventOnKeyPress('comments')"
+								readonly="readonly" onkeypress="eventOnKeyPress('commConfigStaffChargeTypeId')"
 								value="<%=securityStaffBaseinfo.getStopDate()%>" />
 							<img id="stopDateButton" src="${path}/style/img/calendar_button.gif" class="calendarimg" style="vertical-align: middle;left:180px"/>
 							</span>
 						</td>
 
 						<td class="crm_edit_item_name">
-
+                                                                 人员成本类别
 						</td>
-						<td>
-
+                          <td class="crm_edit_item_content">
+							<select name="commConfigStaffChargeTypeId" id="commConfigStaffChargeTypeId" class="easyui-combobox"
+								style="width: 205px;height:30px;"editable="false" 
+								onkeypress="eventOnKeyPress('comments')">
+								<%
+									if (securityStaffBaseinfo.getCommConfigStaffChargeTypeIds() != null
+											&& securityStaffBaseinfo.getCommConfigStaffChargeTypeIds().length > 0) {
+										for (int i = 0; i < securityStaffBaseinfo.getCommConfigStaffChargeTypeIds().length; i++) {
+											String tempId = securityStaffBaseinfo.getCommConfigStaffChargeTypeIds()[i];
+											String tempName = securityStaffBaseinfo
+													.getCommConfigStaffChargeTypeNames()[i];
+								%>
+								<option value="<%=tempId%>"
+									<%=tempId.equals(securityStaffBaseinfo
+							.getCommConfigStaffChargeTypeId()) ? "selected" : ""%>>
+									<%=tempName%>
+								</option>
+								<%
+									}
+									}
+								%>
+							</select>
 						</td>
 					</tr>
 					<!--<tr>

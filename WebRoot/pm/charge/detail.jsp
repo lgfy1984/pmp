@@ -88,20 +88,20 @@
 					</tr>
 					<tr>
 						<td class='crm_edit_item_name' >
-							工作日期
-						</td>
-						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text"  class="text readonly" readonly
-								value="${data.workDate}" />
-						</td>
-					</tr>
-					<tr>
-						<td class='crm_edit_item_name' >
 							 费用
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text"  class="text readonly" readonly
 								value="${data.costs}"/>
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name' >
+							费用发生月份
+						</td>
+						<td colspan="3"  class='crm_edit_item_content'>
+							<input type="text"  class="text readonly" readonly
+								value="${data.workDate}" />
 						</td>
 					</tr>
 					<tr>

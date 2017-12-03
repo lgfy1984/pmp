@@ -1,5 +1,8 @@
 function ocxwaibo(){
-	var incomingTelegramNo=$("#pn").html();//来电号码赋值
+//	var incomingTelegramNo=$("#pn").val();//来电号码赋值
+	//var incomingTelegramNo='13368098310';
+	var incomingTelegramNo=$("#pn").val();
+	//alert("----no-----"+incomingTelegramNo);
 	incomingTelegramNo=$.trim(incomingTelegramNo);
 	getHospitalName();//得到医院名称
 	findjbxx(incomingTelegramNo);
@@ -19,6 +22,7 @@ function getHospitalName(){//查询医院名称,全局用
 		data:{},
 		dataType: "json",
 		success:function(data){
+//			hospitalName=data[0].hospitalName;//由于是给全局变量赋值，ajax异步加载无法赋值，需要改为同步执行async:false，这样就能给全局变量赋值了。
 			window.hospitalName=data[0].hospitalName;//由于是给全局变量赋值，ajax异步加载无法赋值，需要改为同步执行async:false，这样就能给全局变量赋值了。
 		},
 		error:function(data){
@@ -34,6 +38,7 @@ function getHospitalName(){//查询医院名称,全局用
 			data:{incomingTelegramNo:incomingTelegramNo},
 			dataType:"json",
 			success:function(data){
+				//alert("findjbxx---"+1);
 				if(data.state=="yes"){
 					$("#huanzhexingming").html(data.huanzhexingming);
 					$("#xingbie").html(data.xingbie);
@@ -871,6 +876,7 @@ function getHospitalName(){//查询医院名称,全局用
 	function fyGetData() {
 		if ($("#checkSecurityUserBaseinfoId").val() == "yes" && $("#checkfy").val() == "yes") {
 			var securityUserBaseinfoId = $("#securityUserBaseinfoId").val();
+//			var securityUserBaseinfoId ="2c9280f750a1fa940150a35816af0034";
 			var path = $("#zycPath").val();
 			if (typeof (securityUserBaseinfoId) != "undefind") {
 				$.ajax({
@@ -884,11 +890,12 @@ function getHospitalName(){//查询医院名称,全局用
 							for ( var key in map) {
 								if (key == "row1") {
 									var rowData = map[key];
+									$("#fylb1").html(rowData[0].clinicType);
 									$("#fysj1").html(rowData[0].fysj);
 									$("#fyks1").html(rowData[0].fyks);
-									$("#fyfp1").html(rowData[0].fyfp);
+//									$("#fyfp1").html(rowData[0].fyfp);
 									$("#fyje1").html(rowData[0].fyje);
-									$("#fyreceiptNumber1").val(rowData[0].receiptNumber);
+//									$("#fyreceiptNumber1").val(rowData[0].receiptNumber);
 									$("#fyauthorityId1").val(rowData[0].authorityId);
 									$("#fypid1").val(rowData[0].pid);
 									$("#fyclinicId1").val(rowData[0].clinicId);
@@ -897,11 +904,12 @@ function getHospitalName(){//查询医院名称,全局用
 								}
 								if (key == "row2") {
 									var rowData = map[key];
+									$("#fylb2").html(rowData[0].clinicType);
 									$("#fysj2").html(rowData[0].fysj);
 									$("#fyks2").html(rowData[0].fyks);
-									$("#fyfp2").html(rowData[0].fyfp);
+//									$("#fyfp2").html(rowData[0].fyfp);
 									$("#fyje2").html(rowData[0].fyje);
-									$("#fyreceiptNumber2").val(rowData[0].receiptNumber);
+//									$("#fyreceiptNumber2").val(rowData[0].receiptNumber);
 									$("#fyauthorityId2").val(rowData[0].authorityId);
 									$("#fypid2").val(rowData[0].pid);
 									$("#fyclinicId2").val(rowData[0].clinicId);
@@ -910,11 +918,12 @@ function getHospitalName(){//查询医院名称,全局用
 								}
 								if (key == "row3") {
 									var rowData = map[key];
+									$("#fylb3").html(rowData[0].clinicType);
 									$("#fysj3").html(rowData[0].fysj);
 									$("#fyks3").html(rowData[0].fyks);
-									$("#fyfp3").html(rowData[0].fyfp);
+//									$("#fyfp3").html(rowData[0].fyfp);
 									$("#fyje3").html(rowData[0].fyje);
-									$("#fyreceiptNumber3").val(rowData[0].receiptNumber);
+//									$("#fyreceiptNumber3").val(rowData[0].receiptNumber);
 									$("#fyauthorityId3").val(rowData[0].authorityId);
 									$("#fypid3").val(rowData[0].pid);
 									$("#fyclinicId3").val(rowData[0].clinicId);
@@ -941,17 +950,10 @@ function getHospitalName(){//查询医院名称,全局用
 		var clinicId=$("#fyclinicId"+num).val();
 		var clinicType=$("#fyclinicType"+num).val();
 		var receiptNumber=$("#fyreceiptNumber"+num).val();
-		/*if(clinicType=="outp"){
-		$("#zjfyxx").window("refresh", path+"/hsp/patientClinicRecord.do?verbId=getOutpBill" +
-			"&authorityId="+authorityId+"&pid="+patientId+"&clinicId="+clinicId+"&clinicType="+clinicType+"&receiptNumber="+receiptNumber);
-		$("#zjfyxx").window("open");
-		}
-		if(clinicType=="inp"){
-		$("#zjfyxx").window("refresh", path+"/hsp/patientClinicRecord.do?verbId=getInpBill" +
-			"&authorityId="+authorityId+"&pid="+patientId+"&clinicId="+clinicId+"&clinicType="+clinicType+"&receiptNumber="+receiptNumber);
-		$("#zjfyxx").window("open");
-		}*/
-		if(clinicType=="outp"){
+		var hospitalName=window.hospitalName;
+		var sj=$("#fysj"+num).text();
+		var deptName=$("#fyks"+num).text();
+		if(clinicType=="门诊"){
 			$.ajax({
 				type : "post",
 				url : path + "/tab/TabDetailAction.do?verbId=getOutpBill",
@@ -965,61 +967,55 @@ function getHospitalName(){//查询医院名称,全局用
 								"<h5 style=\"text-align: center;\">费用详细信息</h5>" +
 								"<br>";
 						for(var i=0;i<data.length;i++){
-							str1+="<div id=\"fee_info_div_"+data[i].classOnRcptCode+"\" class=\"div_width_100\">";
-							str1+="<div style=\"width: 98%;margin-left: 1%;margin-top: 5px;\">";
-							var billMasterFormats=data[i].billMasterFormats;
-							if(billMasterFormats!=null&&billMasterFormats.length>0){
-								for(var j=0;j<billMasterFormats.length;j++){
-									str1+="<div class=\"div_width_100\" style=\"border: solid 1px #000000;\">" +
-									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
-									"<tr>" +
-									"<td width=\"25%\">费用类型：</td>" +
-									"<td width=\"25%\">"+data[i].classOnRcptName+"</td>" +
-									"<td width=\"25%\">收据号：</td>" +
-									"<td width=\"25%\">"+billMasterFormats[j].receiptNumber+"</td>" +
-									"</tr>" +
-									"<tr>" +
-									"<td>交费时间：</td>";
-									if(billMasterFormats[j].invoiceDate!=null){
-										str1+="<td>"+getSmpFormatDateByLong(billMasterFormats[j].invoiceDate.time,false)+"</td>";
-									}else{
-										str1+="<td></td>";
+//								str1+="<div id=\"fee_info_div_"+data[i].classOnRcptCode+"\" class=\"div_width_100\">";
+								str1+="<div style=\"width: 98%;margin-left: 1%;margin-top: 5px;\">";
+								var billMasterFormats=data[i].billMasterFormats;
+								if(billMasterFormats!=null&&billMasterFormats.length>0){
+									for(var j=0;j<billMasterFormats.length;j++){
+										str1+="<div class=\"div_width_100\" style=\"border: solid 1px #000000;\">" +
+										"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
+										"<tr>" +
+										"<td width=\"30%\">交费时间：";
+										if(billMasterFormats[j].invoiceDate!=null){
+											str1+=getSmpFormatDateByLong(billMasterFormats[j].invoiceDate.time,false);
+										}
+										str1+="</td><td width=\"30%\">收费员：" +billMasterFormats[j].tollName+"</td>" +
+										"<td width=\"40%\">收据号：" +billMasterFormats[j].receiptNumber+"</td>" +
+										"</tr> </table>" +
+										"<div class=\"horizontal_line_3\"></div>" +
+										"<hr/>" +
+										"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
+										"<tr>" +
+										"<td width=\"30%\">名称</td>" +
+										"<td width=\"25%\">费用类别</td>" +
+										"<td width=\"10%\">数量</td>" +
+										"<td width=\"15%\">单位</td>" +
+										"<td width=\"20%\">金额</td>" +
+										"</tr>";
+										var billItemsFormats=billMasterFormats[j].billItemsFormats;
+										if(billItemsFormats!=null&&billItemsFormats.length>0){
+											for(var k=0;k<billItemsFormats.length;k++){
+												str1+="<tr>" +
+												"<td>"+billItemsFormats[k].itemName+"</td>" +
+												"<td>"+billItemsFormats[k].className+"</td>" +
+												"<td>"+billItemsFormats[k].num+"</td>" +
+												"<td>"+billItemsFormats[k].uint+"</td>" +
+												"<td>"+billItemsFormats[k].money+"</td>" +
+												"</tr>";
+											}									
+										}
+										str1+="<tr>" +
+												"<td colspan=\"4\"></td>" +
+												"<td>合计："+billMasterFormats[j].totalFee+"</td>" +
+											"</tr>" +
+										"</table>" +
+										"</div>"
 									}
-									str1+="<td>收费员：</td>" +
-									"<td>"+billMasterFormats[j].tollName+"</td>" +
-									"</tr>" +
-									"</table>" +
-									"<div class=\"horizontal_line_3\"></div>" +
-									"<hr/>" +
-									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
-									"<tr>" +
-									"<td width=\"25%\">名称</td>" +
-									"<td width=\"25%\">数量</td>" +
-									"<td width=\"25%\">单位</td>" +
-									"<td width=\"25%\">金额</td>" +
-									"</tr>";
-									var billItemsFormats=billMasterFormats[j].billItemsFormats;
-									if(billItemsFormats!=null&&billItemsFormats.length>0){
-										for(var k=0;k<billItemsFormats.length;k++){
-											str1+="<tr>" +
-											"<td>"+billItemsFormats[k].itemName+"</td>" +
-											"<td>"+billItemsFormats[k].num+"</td>" +
-											"<td>"+billItemsFormats[k].uint+"</td>" +
-											"<td>"+billItemsFormats[k].money+"</td>" +
-											"</tr>";
-										}									
-									}
-									str1+="<tr>" +
-											"<td colspan=\"3\"></td>" +
-											"<td>合计："+billMasterFormats[j].totalFee+"</td>" +
-										"</tr>" +
-									"</table>" +
-									"</div>"
 								}
-							}
-							str1+="</div>" +
-									"<div class=\"horizontal_line_3\"></div>" +
-							"</div>"		
+								str1+="</div>" +
+										"<div class=\"horizontal_line_3\"></div>" +
+								"</div>"
+									
 						}
 						$("#else_fee_mz").html(str1);
 						$("#zjmzfyxx").window("open");
@@ -1032,7 +1028,7 @@ function getHospitalName(){//查询医院名称,全局用
 				}
 			});
 		}
-		if(clinicType=="inp"){
+		if(clinicType=="住院"){
 			$.ajax({
 				type : "post",
 				url : path + "/tab/TabDetailAction.do?verbId=getInpBill",
@@ -1053,37 +1049,29 @@ function getHospitalName(){//查询医院名称,全局用
 								for(var j=0;j<billMasterFormats.length;j++){
 									str1+="<div class=\"div_width_100\" style=\"border: solid 1px #000000;\">" +
 									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
-									"<tr>" +
-									"<td width=\"25%\">费用类型：</td>" +
-									"<td width=\"25%\">"+data[i].classOnRcptName+"</td>" +
-									"<td width=\"25%\">收据号：</td>" +
-									"<td width=\"25%\">"+billMasterFormats[j].receiptNumber+"</td>" +
-									"</tr>" +
-									"<tr>" +
-									"<td>交费时间：</td>";
+									"<tr> <td width=\"30%\">交费时间：";
 									if(billMasterFormats[j].invoiceDate!=null){
-										str1+="<td>"+getSmpFormatDateByLong(billMasterFormats[j].invoiceDate.time,false)+"</td>";
-									}else{
-										str1+="<td></td>";
+										str1+=getSmpFormatDateByLong(billMasterFormats[j].invoiceDate.time,false);
 									}
-									str1+="<td>收费员：</td>" +
-									"<td>"+billMasterFormats[j].tollName+"</td>" +
-									"</tr>" +
-									"</table>" +
+									str1+="</td> <td width=\"30%\">收费员："+billMasterFormats[j].tollName+"</td>" +
+									"<td width=\"40%\">收据号：" +billMasterFormats[j].receiptNumber+"</td>" +
+									"</tr> </table>" +
 									"<div class=\"horizontal_line_3\"></div>" +
 									"<hr/>" +
 									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
 									"<tr>" +
-									"<td width=\"25%\">名称</td>" +
-									"<td width=\"25%\">数量</td>" +
-									"<td width=\"25%\">单位</td>" +
-									"<td width=\"25%\">金额</td>" +
+									"<td width=\"30%\">名称</td>" +
+									"<td width=\"25%\">费用类别</td>" +
+									"<td width=\"10%\">数量</td>" +
+									"<td width=\"15%\">单位</td>" +
+									"<td width=\"20%\">金额</td>" +
 									"</tr>" ;		
 									var billItemsFormats=billMasterFormats[j].billItemsFormats;
 									if(billItemsFormats!=null&&billItemsFormats.length>0){
 										for(var k=0;k<billItemsFormats.length;k++){
 											str1+="<tr>" +
 											"<td>"+billItemsFormats[k].itemName+"</td>" +
+											"<td>"+billItemsFormats[k].className+"</td>" +
 											"<td>"+billItemsFormats[k].num+"</td>" +
 											"<td>"+billItemsFormats[k].uint+"</td>" +
 											"<td>"+billItemsFormats[k].money+"</td>" +
@@ -1091,7 +1079,7 @@ function getHospitalName(){//查询医院名称,全局用
 										}									
 									}
 									str1+="<tr>" +
-											"<td colspan=\"3\"></td>" +
+											"<td colspan=\"4\"></td>" +
 											"<td>合计："+billMasterFormats[j].totalFee+"</td>" +
 										"</tr>" +
 									"</table>" +
@@ -1112,11 +1100,64 @@ function getHospitalName(){//查询医院名称,全局用
 					$.messager.alert('提示',"查询费用记录失败!","info");
 				}
 			});
-		}		
+		}	
+		if(clinicType=="预交金"){
+			$.ajax({
+				type : "post",
+				url : path + "/tab/TabDetailAction.do?verbId=getYjj",
+				data : {authorityId:authorityId,patientId:patientId,clinicId:clinicId,clinicType:clinicType,receiptNumber:receiptNumber},
+				dataType : "json",
+				success : function(data) {
+						var str1="<br>" +
+								"<h5 style=\"text-align: center;\">"+hospitalName+"</h5>" +
+								"<br>" +
+								"<h5 style=\"text-align: center;\">预交金详细信息</h5>" +
+								"<br> <div id=\"fee_info_div_1\" class=\"div_width_100\">";
+							str1+="<div style=\"width: 98%;margin-left: 1%;margin-top: 5px;\">";
+									str1+="<div class=\"div_width_100\" style=\"border: solid 1px #000000;\">" +
+									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
+									"<tr> <td width=\"50%\">住院科室："+deptName+"</td>" +
+									"<td width=\"50%\">住院日期："+sj+"</td> </tr>" +
+									"</table>" +
+									"<div class=\"horizontal_line_3\"></div>" +
+									"<hr/>" +
+									"<table class=\"div_width_100 table_td_interval3\" style=\"text-align: center;\">" +
+									"<tr>" +
+									"<td width=\"25%\">预交金收据号</td>" +
+									"<td width=\"10%\">支付方式</td>" +
+									"<td width=\"25%\">缴费日期</td>" +
+									"<td width=\"20%\">发票号</td>" +
+									"<td width=\"20%\">金额</td>" +
+									"</tr>" ;		
+									var billItemsFormats=data.list;
+									if(billItemsFormats!=null&&billItemsFormats.length>0){
+										for(var k=0;k<billItemsFormats.length;k++){
+											str1+="<tr>" +
+											"<td>"+billItemsFormats[k].recptNo+"</td>" +
+											"<td>"+billItemsFormats[k].payWay+"</td>" +
+											"<td>"+billItemsFormats[k].transactDate+"</td>" +
+											"<td>"+billItemsFormats[k].cardNo+"</td>" +
+											"<td>"+billItemsFormats[k].amount+"</td>" +
+											"</tr>";
+										}									
+									}
+									str1+="<tr> <td colspan=\"4\"></td><td '>合计："+data.sum+"</td> </tr> </table> </div>"
+							str1+="</div> <div class=\"horizontal_line_3\"></div> </div>"
+						$("#else_fee_yjj").html(str1);
+						$("#yjjfyxx").window("open");
+				},
+				error : function(data) {
+					$.messager.alert('提示',"查询费用记录失败!","info");
+				}
+			});
+		}
 	}
 	function fyLieBiao(){
 		var securityUserBaseinfoId=$("#securityUserBaseinfoId").val();
-		openOtherWindow("19850074","费用列表","hsp/patientClinicRecord.do?verbId=electronicArchives&securityUserBaseinfoId="+securityUserBaseinfoId);
+		var authorityId=$("#fyauthorityId1").val();
+		var patientId=$("#fypid1").val();
+		openOtherWindow("19850074","费用列表","hsp/patientClinicRecord.do?verbId=costList&pid="+patientId+"&authorityId="+authorityId);
+//		openOtherWindow("19850074","费用列表","hsp/patientClinicRecord.do?verbId=electronicArchives&securityUserBaseinfoId="+securityUserBaseinfoId);
 	}
 	function tjGetData() {
 		if ($("#checkSecurityUserBaseinfoId").val() == "yes" && $("#checktj").val() == "yes") {

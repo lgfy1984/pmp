@@ -24,6 +24,7 @@
   <body>
   	  <form name="form" id="form" method="post" action="projectfinance.do" >
 	<input type="hidden" name="verbId" value="queryFinanceRecordinfo" />
+  	  <input type="hidden" name="chargeType" id="chargeType" value="${data.chargeType}"/>
   	  <input type="hidden" name="message" id="messageId" value="修改成功！"/>
       <input type="hidden" name="projectBaseinfoId" id="projectBaseinfoId" value="${data.projectBaseinfoId}" />
   	  <input type="hidden" name="idHidden" value="${data.id}" />
@@ -37,7 +38,7 @@
 						</td>
 
 						<td colspan="3" class='crm_edit_item_content'>
-							<input type="text" name="projectCode" id="projectCode" class="text" value='${data.projectCode}'
+							<input type="text" name="projectCode" id="projectCode"  class="text readonly" value='${data.projectCode}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -51,7 +52,7 @@
 							项目名称
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="projectName" id="projectName" class="text" value='${data.projectName}'
+							<input type="text" name="projectName" id="projectName"  class="text readonly" value='${data.projectName}'
 								onblur="fEvent('blur',this)" 
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -64,7 +65,7 @@
 							项目类别
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="projectClassName" id="projectClassName" class="text"  value='${data.projectClassName}'
+							<input type="text" name="projectClassName" id="projectClassName"  class="text readonly"  value='${data.projectClassName}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
@@ -110,6 +111,23 @@
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+						</td>
+					</tr>
+					<tr>
+						<td class='crm_edit_item_name' >
+							费用发生月份
+						</td>
+						<td colspan="3"  class='crm_edit_item_content'>
+							<input type="text" name="workDate" id="workDate" class="text" 
+							    value='${data.workDate}'
+								onblur="fEvent('blur',this)"
+								onmouseover="fEvent('mouseover',this)"
+								onfocus="fEvent('focus',this)" required="true"
+								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
+								invalidMessage="有效长度1-25" />
+								
+		  			<span  class="calendarspan">
+		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 						</td>
 					</tr>
 					<tr>

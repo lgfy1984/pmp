@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 /**
  * TODO
@@ -42,20 +43,24 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	private String startTime="" ;
 	private String onlineTime="" ;
 	private String endTime="" ;
+	private String chargeType="" ;
 	
 	private String staffCode;
 	private String staffName="" ;
 
-	private String workDate;
+	private String workDate="";
 
-	private String taskCode;
-	private String taskName;
+	private String taskCode="";
+	private String taskName="";
 
-	private String longTime;
+	private String longTime="";
 
-	private String seqNo;
+	private String costs="";
 
-	private String status;
+	private String seqNo="";
+
+	private String status="";
+	private String statusName="";
 	
 	private String createDate ="";
 	private String createUserId ="";
@@ -81,6 +86,8 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	private String startTimeHidden="";
 	private String endTimeHidden="";
 
+
+	private FormFile fileToUpload;// 上传文件
 	private Map<String , String> taskClass;
 	private Map<String , String> projectClass;
 
@@ -346,6 +353,30 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	}
 	public void setStatusCase(String statusCase) {
 		this.statusCase = statusCase;
+	}
+	public String getCosts() {
+		return costs;
+	}
+	public void setCosts(String costs) {
+		this.costs = costs;
+	}
+	public String getStatusName() {
+		return statusName;
+	}
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+	public FormFile getFileToUpload() {
+		return fileToUpload;
+	}
+	public void setFileToUpload(FormFile fileToUpload) {
+		this.fileToUpload = fileToUpload;
+	}
+	public String getChargeType() {
+		return chargeType;
+	}
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType;
 	}
 	
 	

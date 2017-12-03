@@ -29,6 +29,8 @@ public class ProjectFinanceVo {
 
 	private String staffCode;
 
+	private String workStaffCode;
+	private String workStaffName;
 	private String workDate;
 
 	private String taskCode;
@@ -165,6 +167,22 @@ public class ProjectFinanceVo {
 
 	public void setProjectClassName(String projectClassName) {
 		this.projectClassName = projectClassName;
+	}
+
+	public String getWorkStaffCode() {
+		return workStaffCode;
+	}
+
+	public void setWorkStaffCode(String workStaffCode) {
+		this.workStaffCode = workStaffCode;
+	}
+
+	public String getWorkStaffName() {
+		return workStaffName;
+	}
+
+	public void setWorkStaffName(String workStaffName) {
+		this.workStaffName = workStaffName;
 	}
 	
 }

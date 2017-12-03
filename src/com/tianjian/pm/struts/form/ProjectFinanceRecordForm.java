@@ -40,22 +40,26 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	private String startTime="" ;
 	private String onlineTime="" ;
 	private String endTime="" ;
+	private String chargeType="" ;
 
 	private String staffCode="";
 	private String staffName="" ;
+	private String workStaffCode="" ;
+	private String workStaffName="" ;
 
-	private String workDate;
+	private String workDate="";
 
-	private String taskCode;
-	private String taskName;
+	private String taskCode="";
+	private String taskName="";
 
-	private String longTime;
+	private String longTime="";
 
-	private String costs;
+	private String costs="";
 
-	private String seqNo;
+	private String seqNo="";
 
-	private String status;
+	private String status="";
+	private String statusName="";
 	
 	private String createDate ="";
 	private String createUserId ="";
@@ -428,6 +432,38 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 
 	public void setProjectTaskCodeCase(String projectTaskCodeCase) {
 		this.projectTaskCodeCase = projectTaskCodeCase;
+	}
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public String getChargeType() {
+		return chargeType;
+	}
+
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType;
+	}
+
+	public String getWorkStaffName() {
+		return workStaffName;
+	}
+
+	public void setWorkStaffName(String workStaffName) {
+		this.workStaffName = workStaffName;
+	}
+
+	public String getWorkStaffCode() {
+		return workStaffCode;
+	}
+
+	public void setWorkStaffCode(String workStaffCode) {
+		this.workStaffCode = workStaffCode;
 	}
 	 
 	

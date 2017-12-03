@@ -63,6 +63,9 @@
 		    		$.messager.alert("操作提示", "打印环境异常,请稍后!","error");
 		    	}	   
 	  		}
+	  		function goBack(){
+			location.href = "<%=request.getContextPath()%>/security/securityStaffBaseinfo.do?verbId=init&navtext=操作员管理主菜单-操作人员查询";
+		}
 		</script>
 	</head>
 	<body>
@@ -293,6 +296,16 @@
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getStopDate() %>" />
 						</td>
+						<td class="crm_edit_item_name">
+							人员费用类别
+						</td>
+						<td class="crm_edit_item_content">
+							<input type="text" id="commConfigStaffChargeTypeName" name="commConfigStaffChargeTypeName"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
+								dataType="LimitB" readonly="readonly"
+								onkeypress="eventOnKeyPress('stopDate')"
+								value="<%=securityStaffBaseinfo.getCommConfigStaffChargeTypeName() %>" />
+						</td>
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
@@ -353,14 +366,13 @@
 			</div>
 			<div class="horizontal_line_10"></div>
 			<div class="crm_button_sub" id="btnSave" align="center">
-			 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 130px;">
+			 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 300px;">
 					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
 					<span style="color: #fff;">打印</span>
 					</div>
-				<input type="button" name="btnBack" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
-					value="<bean:message key="security.jsp.commom.button2" bundle="security"/>"
-					onclick="document.form.message.value='';history.go(-1);document.form.message.value='';" />
-
+					<input type="button" name="btnBack"class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
+						value="<bean:message key="security.jsp.commom.button2" bundle="security"/>"
+						onclick="goBack();" />
 			</div>
 		</form>
 	</body>

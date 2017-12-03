@@ -255,8 +255,8 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectTaskCodeCase(),
-					hosform.getWorkDate(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
+			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
+					hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
 			int pageSize = 10;

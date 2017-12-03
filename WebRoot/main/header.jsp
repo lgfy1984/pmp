@@ -9,7 +9,7 @@ function cmdView(flag,id,url){
 
 </script>
     <div id="header">
-				<img src="main/include/images/login_03.jpg" width="536" height="85" />
+				<img src="main/include/images/login_03.png" width="536" height="85" />
                 <ul class="nav">
                 	<%
 						if(stauts != null && !stauts.equals("1")){ 

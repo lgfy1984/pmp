@@ -3,22 +3,23 @@
 
 html,body{margin:0; padding:0; height:100%; overflow-x:hidden; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333;}
 body{ /*background:url(../images/mainbg.jpg) no-repeat left 115px #e9f0f9;*/}
-a, a:active, a:link, a:visited { text-decoration:none; color: #ccc; outline: none;}
-a:hover { text-decoration: underline; color: #C00; }
+a, a:active, a:link, a:visited { text-decoration:none; color: #baddf4; outline: none;}
+a:hover { text-decoration: underline; /* color: #C00; */ }
 ul, li { list-style:none;}
 
 #header{
 	height:95px;
-	background:url(../images/login_01.jpg) repeat-x;
-	top:0;
+	background:url(../images/main_background.jpg) repeat-x;
+	top:0px;
  	width:100%;
- 	background-color:#0d78c9;
+ 	margin: 0 auto;
+ 	/* background-color:#0d78c9; */
  	
 }
 #header .headerNav { height:85px; background-repeat:no-repeat; background:url(../images/login_03.jpg) no-repeat;}
-#header .nav { display:block; overflow:hidden; height:22px; position:absolute; top:0px; right:0; font-size:12px;}
+#header .nav { display:block; overflow:hidden; height:22px; position:absolute; top:5px; right:15px; font-size:12px;}
 #header .nav li { float:left; margin-left:-1px; padding:0 10px; line-height:11px; color:#fff; background:url(../images/listLine.png) no-repeat;}
-#header .nav li.user { color:#ccc; padding-top:2px; background:none;}
+#header .nav li.user { color:#baddf4; padding-top:2px; background:none;}
 #header .nav li a { line-height:15px;}
 
 #header .themeList { position:absolute; top:30px; right:10px;}
@@ -195,7 +196,7 @@ ul, li { list-style:none;}
 	border-top:1px solid #CCEAFC;
 	position:absolute!important;
 	position:relative;
-	top:115px!important;
+	top:125px!important;
 	top:0;
 	bottom:25px;
 	width:100%;

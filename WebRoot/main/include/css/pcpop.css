@@ -1,12 +1,14 @@
 .ul_pc_1{
 	width: 100%;
 	height: 60px;
+	
 }
 .li_pc_1{
 	width: 100%;
 	height: 60px;
 	position: relative;
 	z-index: 99;
+	padding-top:5px;
 }
 .li_pc_1 div{
 	cursor: pointer;
@@ -15,37 +17,65 @@
 	cursor: pointer;
 }
 .ul_pc_2{
-	margin: -3px 0 0 0;
-	padding: 20px 0 8px 0;
+	padding: 10px;
 	position: fixed;
 	display: none;
 	z-index: 1000;
-	width: 350px;
-	background-color: #98caeb;
-}
-.li_pc_2{
-	cursor: pointer;
-	color: #2e2e2e;
-	float: left;
-	height: 40px;
-	line-height: 40px;
-	padding: 0 8px 0 28px;
-	background: url("../images/ic.png") top left no-repeat;
-	margin: 5px 10px 5px 5px;
-}
-.li_pc_2 h4{
-	color: #e2e2e2;
-}
-.pc1_active{
-	background-color: #98caeb;
+	width: 300px;
+	background-color:transperent;
+	background-color:white;
+	border:1px solid #cacccb;
+	margin-top:5px;
+	top:83px;
 }
 
-.pc_1_selected h3{
-	color: red;
+.li_pc_2{
+	cursor: pointer;
+	float: left;
+	margin:10px 30px 5px 17px;
+}
+.li_pc_2 h4{
+	color: #606060;
+	font-weight:normal;
+	font-family:"Î¢ÈíÑÅºÚ";
+	font-size:12px;
+}
+.pc1_active{
+	background-color: white;
+	background: url("../images/nav_bg.png") top center no-repeat;
+}
+.liActive{
+	background: url("../images/nav_bg.png") top center no-repeat;
+}
+.bg_wrapper ,.bg_wrapper2{
+	display:none;
+	
+}
+
+.pc1_active  .bg_wrapper{
+	width: 75px;
+	display:block;
+	height:9px;
+	background: url("../images/jiantou.gif") center center no-repeat;
+	position:fixed;
+	z-index: 2000;
+	margin-top:-3px;
+	top:90px;
+	
+}
+.pc1_active  .bg_wrapper2{
+	width: 75px;
+	display:block;
+	height:9px;
+	background: url("../images/jiantouTwo.png") center center no-repeat;
+	position:fixed;
+	z-index: 2000;
+	margin-top:-3px;
+	top:83px;
+}
+.pc_1_selected{
+	background: url("../images/nav_bg.png") top center no-repeat;
 }
 .pc_2_selected{
-	background-color: #00ccff;
-}
-.pc_2_selected h4{
-	color: red;
+	background: url("../images/nav_bg.png") top center no-repeat;
 }

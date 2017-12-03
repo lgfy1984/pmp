@@ -1131,7 +1131,7 @@ background-repeat: no-repeat;
 	position:relative;
 }
 .calendarimg{
-	position:absolute;
+	/*position:absolute;*/
 	left:80px;
 	margin-top: 5px;
 }

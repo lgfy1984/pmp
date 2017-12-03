@@ -7,12 +7,12 @@
 <html>
 <head>
 
-<title>随访综合统计</title>
+<title>财务报表统计</title>
 <link rel="stylesheet" type="text/css" href="${path}/style/default.css">
-<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css">
 <link rel="stylesheet" type="text/css"	href="${path}/style/border-radius.css">
 <link rel="stylesheet" type="text/css"	href="${path}/style/gold/gold.css">
 <link rel="stylesheet" type="text/css"	href="${path}/style/steel/steel.css">
+<link rel="stylesheet" type="text/css" href="${path}/style/jscal2.css">
 <script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="${path}/js/pager.js"></script>
 <script type="text/javascript" src="${path}/js/jscal2.js"></script>
@@ -29,6 +29,22 @@
 		$("#loadlayer").hide();
 		
 	});
+	function statquery(){
+		var start = $('#startTimeHidden').val();
+		var end = $('#endTimeHidden').val();
+		var projectBaseinfoIdCase = $('#projectBaseinfoIdCase').val();
+		if(start!=''&&end!=''&&end<start){
+			$.messager.alert('提示',"结束时间必须晚于开始时间。","info"); 
+			return;
+		}
+		if(projectBaseinfoIdCase.replace(/(^s*)|(s*$)/g, "").length == 0){
+			$.messager.alert('提示',"请选择项目。","info"); 
+			return;
+		}
+       	document.form.verbId.value = "statfrp"; 
+		$('#loadlayer').show();
+		document.form.submit();
+	}
 var selectUsersData = new Array(); 	 
 function findProjectList(page){// open a window  	
 	$win = $('#win').window({
@@ -114,10 +130,11 @@ function findProjectList(page){// open a window
 	        //alert(rowData.id);
 	        //alert(rowData.projectCode);
 	        $('#projectBaseinfoIdCase').val(rowData.id);
+	        $('#staffName').val(rowData.staffName);
 	        //alert($('#projectBaseinfoIdCase').val());
 	        $('#projectCode').val(rowData.projectCode);
 	        $('#projectName').val(rowData.projectName);
-	        $('#projectClassName').val(rowData.projectClass);
+	        $('#projectClassName').val(rowData.projectClassName);
 	        $('#projectTime').val(rowData.startTime+"-"+rowData.endTime);
 	        $('#win').window('close'); 
 	    },
@@ -190,8 +207,8 @@ function clearSelect() {
 </head>
 
 <body>
-	<form action="${path}/pm/projectstat.do?verbId=statfrp"
-				method="post" >
+	<form name="form" action="projectstat.do"	method="post" >
+  <input type="hidden" name="verbId" id="verbId" value="" />
 	<input type="hidden"  id="projectBaseinfoIdCase" name="projectBaseinfoIdCase" value='${data.projectBaseinfoIdCase}'/>
 	<div class='crm_content_div'>
 	<div class="crm_search_div">
@@ -220,7 +237,7 @@ function clearSelect() {
 							onmousedown="this.className='button_grey1_s1'"
 							onmouseout="this.className='button_grey1_s0'"
 							onclick="findProjectList('1')" />
-		    <input type="submit" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="$('#loadlayer').show();" />
+		    <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="statquery();" />
 		</div>
 		  <div style="clear:both"></div>
 		<div  class="crm_input_item" style="">
@@ -232,21 +249,20 @@ function clearSelect() {
 			<span class="">项目计划总周期：</span>
 			<input type="text" name="projectTime" id="projectTime" class="stat_text"    value='${data.projectTime}' />
 		</div>
-		<%-- <div>
-		<span>统计方式</span>
-			 <select name="termCode" id="type"	class="easyui-combobox  crm_width_3 "
-							style='HEIGHT: 25px; width:100px; DISPLAY: none; padding:0px;'
-							panelHeight="60px"	editable='false'>
-								<option value="1"
-									<c:if test="${hisform.termCode=='1'}">selected="selected"</c:if>>按月</option>
-								<option value="2"
-									<c:if test="${hisform.termCode==('2')}">selected="selected"</c:if>>时间段</option>
-				</select>
-		</div> --%>
-		<div  class="crm_input_item" style="">
-			
-		</div>
+	
 		  <div style="clear:both"></div>
+		  
+		 <div class="crm_input_item" >
+		  	<span class="">时间条件</span>
+		  			<span  class="calendarspan">
+		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="startTimeHidden" name="startTimeHidden" value="${data.startTimeHidden}" readonly/>
+		  			<img id="date_input1" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>-
+		  			<span  class="calendarspan">
+		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" readonly/>
+		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
+		  </div>
 	  </div>
 		</div>
 			</form>
@@ -258,12 +274,14 @@ function clearSelect() {
 				<thead>
 					<tr>
 						<td style="width: 10%;">序号</td>
-						<td style="width: 5%;">项目编号</td>
-						<td style="width: 5%;">项目名称</td>
-						<td style="width: 5%;">员工姓名</td>
+						<td style="width: 8%;">项目编号</td>
+						<td style="width: 8%;">项目名称</td>
+						<td style="width: 8%;">员工姓名</td>
 						<td>项目阶段</td>
 						<td>实际工时(小时)</td>
 						<td>人工成本(小时)</td>
+						<td>实施费用</td>
+						<td>实施成本</td>
 						 
 					<tr>
 				</thead>
@@ -284,10 +302,14 @@ function clearSelect() {
 				                   <c:when test="${kd.totalCount eq 2 }">  
 				                             <td>${kd.totalLongTime}</td>
 				                             <td>${kd.totalcosts}</td>
+				                             <td>${kd.totalProjectCosts}</td>
+				                             <td>${kd.totalProjectValue}</td>
 								   </c:when>
 								   <c:otherwise> 
 			                           <td>${kd.actLongTime}</td>
 			                           <td>${kd.actCosts}</td>
+			                           <td>${kd.projectCosts}</td>
+			                           <td>${kd.projectValue}</td>
 					 			   </c:otherwise>
 			                     </c:choose>      
 				 			   </c:otherwise>
@@ -371,7 +393,7 @@ function clearSelect() {
 		},
 		showTime : true
 	});
-	cal.manageFields("img_date_1", "Start", "%Y-%m-%d");
-	cal.manageFields("img_date_2", "End", "%Y-%m-%d");
+	cal.manageFields("date_input1", "startTimeHidden", "%Y-%m-%d");
+	cal.manageFields("date_input2", "endTimeHidden", "%Y-%m-%d");
 </script>
 </html>

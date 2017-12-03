@@ -54,8 +54,8 @@ shareObj = {};
 			async: false,
 			error:function(XmlHttpRequest,textStatus, errorThrown)
 			  {
-			  //alert("获取失败!"+XmlHttpRequest.responseText);
-			  alert("获取失败!");
+			  /* alert("获取失败!"+XmlHttpRequest.responseText);
+			  alert("获取失败!"+errorThrown); */
 			  document.location = "<%=request.getContextPath()%>/home/nologin.jsp";
 			  },
 						

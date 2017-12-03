@@ -7,14 +7,23 @@
  */
 package com.tianjian.pm.struts.action;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 
 import com.tianjian.pm.business.IProjectWorkTimeRecordService;
 import com.tianjian.pm.struts.comm.BaseDispatchAction;
@@ -22,6 +31,7 @@ import com.tianjian.pm.struts.form.PageForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoVo;
 import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
 import com.tianjian.security.struts.form.SessionForm;
+import com.tianjian.util.Converter;
 import com.tianjian.util.comm.PageBean;
 
 import net.sf.json.JSONArray;
@@ -293,8 +303,8 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectWorkTimeRecordService.getProjectWorkTimeRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectTaskCodeCase(),
-					hosform.getWorkDate(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getStatusCase());
+			int recordCount = projectWorkTimeRecordService.getProjectWorkTimeRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
+					hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getStatusCase());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
 			int pageSize = 10;
@@ -338,8 +348,8 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectWorkTimeRecordService.getProjectWorkTimeRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectTaskCodeCase(),
-					hosform.getWorkDate(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getStatusCase());
+			int recordCount = projectWorkTimeRecordService.getProjectWorkTimeRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
+					hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getStatusCase());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
 			int pageSize = 10;
@@ -472,4 +482,5 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 		}
 		return null;
 	}
+	
 }

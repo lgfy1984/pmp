@@ -29,6 +29,8 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	private String createUserName;
 
+	private String chargeType;
+
 	// Constructors
 	/** default constructor */
 	public ProjectWorktimeRecord() {}
@@ -37,7 +39,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 	public ProjectWorktimeRecord(String projectBaseinfoId, String staffCode,
 			Timestamp workDate, String taskCode, Integer longTime,
 			Integer seqNo, String status, Timestamp createDate,
-			String createUserId, String createUserName) {
+			String createUserId, String createUserName, String chargeType) {
 		this.projectBaseinfoId = projectBaseinfoId;
 		this.staffCode = staffCode;
 		this.workDate = workDate;
@@ -48,6 +50,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 		this.createDate = createDate;
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
+		this.chargeType = chargeType;
 	}
 
 	// Property accessors
@@ -137,5 +140,13 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
+	}
+
+	public String getChargeType() {
+		return this.chargeType;
+	}
+
+	public void setChargeType(String chargeType) {
+		this.chargeType = chargeType;
 	}
 }

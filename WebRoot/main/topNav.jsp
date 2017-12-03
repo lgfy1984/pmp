@@ -49,56 +49,14 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css"
-	href="main/include/css/index_n.css" />
-<title>:::<%=application.getAttribute("security.SYSTEMNAME")%>
-	:::
-</title>
-
-	<link href="<%=request.getContextPath()%>/style/styles.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath()%>/style/emoji.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath()%>/style/jishixiaoxi.css" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/demo.css">
-
+<link rel="stylesheet" type="text/css"	href="main/include/css/index_n.css" id="link1"/>
+<link href="<%=request.getContextPath()%>/chat/css/chat.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/chat/css/emoji.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/style/styles.css" rel="stylesheet" type="text/css"/>
+<!--<link href="<%=request.getContextPath()%>/style/emoji.css" rel="stylesheet" type="text/css"/>-->
+<!--<link href="<%=request.getContextPath()%>/style/jishixiaoxi.css" rel="stylesheet" type="text/css"/>-->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/demo.css">
 <link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/style/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/main/ext-3.2.0/resources/css/ext-all.css" />
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/main/include/css/multiPage.css" />
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/main/include/css/pcpop.css" />
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/main/ext-3.2.0/adapter/ext/ext-base.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/main/ext-3.2.0/ext-all.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/utrim.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery-1.4.2.min.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.contextmenu.r2.packed.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.easing.1.3.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.mousewheel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.contentcarousel.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.easyui.min.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/include/javascript/jquery.easyui.mobile.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/style/callCenterControls.css" />
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/callCenterControls.js"></script>
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/default.css">
-<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/style/easyui/themes/default/calendar.css">
-<script type="text/javascript"	src="<%=request.getContextPath()%>/style/easyui/locale/easyui-lang-zh_CN.js"></script>		
-	<script src="<%=request.getContextPath()%>/js/jishixiaoxi.js"></script>
-	<script src="<%=request.getContextPath()%>/js/json2.js"></script>
-	<script src="<%=request.getContextPath()%>/js/emoji.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/mainTab.js"></script>
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/mainTab.css">
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/outpPrescInfo.css">
 <link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/style/easyui/themes/icon.css">
@@ -107,693 +65,352 @@
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/outpLabInfo.css">
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/outpBillInfo.css">
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/kbs.css"/>
-<style type="text/css">
-.toggleDiv{
-   width:243px;
-   float:right;
-   background-image:url(<%=request.getContextPath()%>/main/include/images/toggleBg.jpg);
-   background-repeat:repeat-y;
-   background-color:white;
-   border-top:1px solid #dddddd;
-   position:relative;
-   border-bottom:1px solid #dddddd;
-  
-}
-.displayDiv{
-  height:800px;
-  margin-right:243px;
-}
-.toggleButton{
-   position:absolute;
-   width:9px;
-   height:71px;
-   left:2px;
-   background-image:url(<%=request.getContextPath()%>/main/include/images/closed.png);
-   top:200px;
-   cursor:pointer;
-}
-.right_black {
-	width: 225px;
-	height: 500px;
-	font-size: 10pt;;
-	background-color: #FFFFFF;
-	margin-left:14px;
-	 overflow:hidden;
-}
-
-.right_history_blank {
-	width: 100%;
-	border: 1px #DDDDDD solid;
-	height: 245px;
-	border-top:none;
-	border-left:none;
-}
-
-.right_title {
-	width: 100%;
-	background-color: #F9F9F9;
-	height: 33px;
-	line-height: 33px;
-	color: #3994DA;
-}
-
-.right_title span {
-	margin-left: 5px;
-}
-
-.line {
-	width: 100%;
-	height: 1px;
-	background-color: #DDDDDD;
-}
-
-.right_content_blank {
-	width: 221px;
-	margin: 2px auto;
-}
-
-.calendar_show {
-	width: 100%;
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/easyui.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/style/easyuiUpdate.css">
+<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/main/ext-3.2.0/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/style/callCenterControls.css" />
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/default.css">
+<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/style/easyui/themes/default/calendar.css">
+<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/main/include/css/multiPage.css" />
+<link rel="stylesheet" type="text/css"	href="<%=request.getContextPath()%>/main/include/css/pcpop.css" />
+<script type="text/javascript"	src="<%=request.getContextPath()%>/main/ext-3.2.0/adapter/ext/ext-base.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/main/ext-3.2.0/ext-all.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/utrim.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery-1.4.2.min.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.contextmenu.r2.packed.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.easing.1.3.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.mousewheel.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.contentcarousel.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.easyui.min.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/style/easyui/jquery.easyui.min.js"></script>
+<!--<script src="<%=request.getContextPath()%>/chat/js/emoji.js"></script>-->
+<script type="text/javascript"	src="<%=request.getContextPath()%>/include/javascript/jquery.easyui.mobile.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/js/callCenterControls.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/style/easyui/locale/easyui-lang-zh_CN.js"></script>		
+<script src="<%=request.getContextPath()%>/js/jishixiaoxi.js"></script>
+<script src="<%=request.getContextPath()%>/js/json2.js"></script>
+<!--<script src="<%=request.getContextPath()%>/js/emoji.js"></script>-->
+<script src="${path}/chat/js/CRM/crmEmoji.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/js/mainTab.js"></script>
+	<style type="text/css">
+	html{
+	    overflow:hidden;
+	    height:100%;
+	}
+	body{
+	    height:100%;
+	    background-color: rgb(239, 239, 239);
+	    overflow-y:scroll;
+	   
+	}
+	.tab_gengduo{
+		color: blue;
+		float:left;
+		border:none;
+		margin-top:160px;
+	}
+	
+	.messager-body .messager-button A.l-btn SPAN.l-btn-left{
+	width: 70px;
+	line-height: 25px;
 	text-align: center;
-	margin: 0;
-	border-collapse: collapse;
-	border-spacing: 0;
-	font-family: Arial, Helvetica, sans-serif
-}
-
-.calendar_show td {
-	height: 27px;
-}
-
-.calendar_show thead td {
-	background-color: #3994DA;
-	color: white;
-	height: 30px;
-}
-
-.weekday td {
-	height: 28px;
-	width: 30px
-}
-
-.month_day td {
-	background-color: #F9F9F9;
-}
-
-.month_day td.holiday {
-	background-color: #EEEEEE
-}
-
-.weekday,.month_day {
-	color: #666666
-}
-
-.calendar_show a {
-	text-decoration: none;
-}
-
-.current_link a span {
-	display: block;
-	background-color: white;
-	border: 1px #0099FF solid;
-	width: 97%;
-	height: 25px;
-	line-height: 27px;
-}
-
-.month_link a span {
-	display: block;
-	background-color: #0099FF;
-	color: white;
-	width: 100%;
-	height: 27px;
-	line-height: 27px;
-}
-
-.next_month_link a span {
-	display: block;
-	background-color: #4AB7FF;
-	color: white;
-	width: 100%;
-	height: 27px;
-	line-height: 27px;
-}
-
-.line_15 {
+	}
+		.toggleDiv{
+		   width:243px;
+		   float:right;
+		   background-image:url(<%=request.getContextPath()%>/main/include/images/toggleBg.jpg);
+		   background-repeat:repeat-y;
+		   background-color:white;
+		   border-top:1px solid #dddddd;
+		   position:relative;
+		   border-bottom:1px solid #dddddd;
+		  
+		}
+		.installDiv{
+		   width:321px;
+		   height:256px;
+		   float:right;
+		    background-image:url(<%=request.getContextPath()%>/main/include/images/mainfullbg.gif);
+		  display:none;
+		   background-repeat:repeat-y;
+		   background-color:white;
+		   border-top:1px solid #dddddd;
+		  z-index:10000;
+		   border-bottom:1px solid #dddddd;
+		  
+		}
+		.displayDiv{
+		  margin-right:243px;
+		}
+		.toggleButton{
+		   position:absolute;
+		   width:9px;
+		   height:71px;
+		   left:2px;
+		   background-image:url(<%=request.getContextPath()%>/main/include/images/closed.png);
+		   top:200px;
+		   cursor:pointer;
+		}
+		.right_black {
+			width: 225px;
+			height: 500px;
+			font-size: 10pt;;
+			background-color: #FFFFFF;
+			margin-left:14px;
+			 overflow:hidden;
+		}
+		
+		.right_history_blank {
+			width: 100%;
+			border: 1px #DDDDDD solid;
+			height: 245px;
+			border-top:none;
+			border-left:none;
+		}
+		
+		.right_title {
+			width: 100%;
+			background-color: #F9F9F9;
+			height: 33px;
+			line-height: 33px;
+			color: #3994DA;
+		}
+		
+		.right_title span {
+			margin-left: 5px;
+		}
+		
+		.line {
+			width: 100%;
+			height: 1px;
+			background-color: #DDDDDD;
+		}
+		
+		.right_content_blank {
+			width: 221px;
+			margin: 2px auto;
+		}
+		
+		.calendar_show {
+			width: 100%;
+			text-align: center;
+			margin: 0;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font-family: Arial, Helvetica, sans-serif
+		}
+		
+		.calendar_show td {
+			height: 27px;
+		}
+		
+		.calendar_show thead td {
+			background-color: #3994DA;
+			color: white;
+			height: 30px;
+		}
+		
+		.weekday td {
+			height: 28px;
+			width: 30px
+		}
+		
+		.month_day td {
+			background-color: #F9F9F9;
+		}
+		
+		.month_day td.holiday {
+			background-color: #EEEEEE
+		}
+		
+		.weekday,.month_day {
+			color: #666666
+		}
+		
+		.calendar_show a {
+			text-decoration: none;
+		}
+		
+		.current_link a span {
+			display: block;
+			background-color: white;
+			border: 1px #0099FF solid;
+			width: 97%;
+			height: 25px;
+			line-height: 27px;
+		}
+		
+		.month_link a span {
+			display: block;
+			background-color: #0099FF;
+			color: white;
+			width: 100%;
+			height: 27px;
+			line-height: 27px;
+		}
+		
+		.next_month_link a span {
+			display: block;
+			background-color: #4AB7FF;
+			color: white;
+			width: 100%;
+			height: 27px;
+			line-height: 27px;
+		}
+		
+		.line_15 {
+			height: 15px;
+		}
+		
+		.log_item {
+			height: 32px;
+			line-height: 32px;
+			width: 100%
+		}
+		
+		.log_item span {
+			margin-left: 5px;
+		}
+		
+		.even {
+			background-color: #F3F3F3
+		}
+		
+		.phone_button {
+			width: 53px;
+			height: 35px;
+			line-height: 35px;
+			display: block;
+			float: left;
+			margin-left: 5px;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/phone_wait.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			text-align: center;
+		}
+		
+		.phone_button a {
+			color: #787878;
+		}
+		
+		.phone_current {
+			color: white;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/phone_current.jpg')
+		}
+		
+		.phone_disable {
+			color: #CCCCCC;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/phone_wait.jpg')
+		}
+		
+		.tool_tab {
+			width: 75px;
+			height: 30px;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/footer_tab_normal.jpg');
+			background-position: center bottom;
+			background-repeat: no-repeat;
+			float: left;
+			line-height: 38px;
+			color: rgb(85, 85, 85);
+		}
+		
+		.tool_tab_active {
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/footer_tab_active.jpg');
+			color: #FFFFFF;
+		}
+		
+		.margin_left {
+			width: 10px;
+			height: 30px;
+			float: left;
+		}
+		
+		.footer_show {
+			width: 30px;
+			height: 30px;
+			float: right;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/footer_hidden.jpg');
+			background-position: center center;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+		
+		.footer_hidden {
+			width: 30px;
+			height: 30px;
+			float: right;
+			background-image:
+				url('<%=request.getContextPath()%>/include/images/footer_show.jpg');
+			background-position: center center;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+		
+		#toolbar_two{
+		position: absolute;
+		}
+	.window{
+	background-color: #1ca4e6;
+	border: 1px solid #8cd2f1;
+	padding: 0px;
+	}
+	.panel-tool-close{
+	width: 20px;
 	height: 15px;
-}
-
-.log_item {
-	height: 42px;
-	line-height: 42px;
-	width: 100%
-}
-
-.log_item span {
-	margin-left: 5px;
-}
-
-.even {
-	background-color: #F3F3F3
-}
-
-.phone_button {
-	width: 53px;
-	height: 35px;
-	line-height: 35px;
 	display: block;
-	float: left;
-	margin-left: 5px;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/phone_wait.jpg');
-	background-position: center;
-	background-repeat: no-repeat;
-	text-align: center;
-}
-
-.phone_button a {
-	color: #787878;
-}
-
-.phone_current {
-	color: white;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/phone_current.jpg')
-}
-
-.phone_disable {
-	color: #CCCCCC;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/phone_wait.jpg')
-}
-
-.tool_tab {
-	width: 75px;
-	height: 30px;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/footer_tab_normal.jpg');
-	background-position: center bottom;
-	background-repeat: no-repeat;
-	float: left;
-	line-height: 38px;
-	color: rgb(85, 85, 85);
-}
-
-.tool_tab_active {
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/footer_tab_active.jpg');
-	color: #FFFFFF;
-}
-
-.margin_left {
-	width: 10px;
-	height: 30px;
-	float: left;
-}
-
-.footer_show {
-	width: 30px;
-	height: 30px;
-	float: right;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/footer_hidden.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	cursor: pointer;
-}
-
-.footer_hidden {
-	width: 30px;
-	height: 30px;
-	float: right;
-	background-image:
-		url('<%=request.getContextPath()%>/include/images/footer_show.jpg');
-	background-position: center center;
-	background-repeat: no-repeat;
-	cursor: pointer;
-}
-</style>
+	}
+	.messager-window .panel-header .panel-tool{
+	top:15px;
+	}
+	.window .panel-header .panel-tool{
+	top:15px;
+	right:10px;
+	}
+	#winContent div .datagrid div .datagrid-view .datagrid-view2{
+	left:0px;
+	}
+	#winContent div .datagrid{
+	border:0px;
+	margin-left: 1px;
+	}
+	.window .panel-header{
+	height:26px;
+	}
+	.window .window-header{
+	padding: 0;
+	}
+	.remind{
+	color:red;
+	}
+	</style>	
 	<script type="text/javascript">
-	
-	/* 获取OCX控件对象 */
-	/*聊天记录点击次数*/
-	var display=0;
-	/*聊天记录框是否显示*/	
-	function chatMessage(){
-		if (display==1){
-			var v=	document.getElementById('chats');
-			var r=	document.getElementById('records');
-			v.style.display="inline";
-			r.style.display="none";
-			display=0;
-		}else {
-			var v=	document.getElementById('chats');
-			var r=	document.getElementById('records');
-			v.style.display="none";
-			r.style.display="inline";
-			display=1;
-			var pageNo = $("#chatsNum").val();
-			getMsg(pageNo,"2");
-		}
-	}
-	/* 关闭聊天记录框 */
-	function closeChats(){
-		var v=	document.getElementById('chats');
-		v.style.display="none";
-	}
-	
-	/*-------------------------------表情------------------------------------------*/
-	
-	
-	//标记表情面板是否已经打开
-	var emojiflag=false;
-	/* 加载表情 */
-	function loadBiaoQing(){
-		//如果表情面板没打开
-		if(!emojiflag){
-			var str="";
-			var json=jEmoji.EMOJI_MAP;
-			for(var key in json){
-					str+=key;
-			}
-			 var message=jEmoji.unifiedToHTML(str);
-			$(".wrap_bq").html(message);
-			//显示表情弹出框
-			$(".wrap_bq").show();
-			
-			$(".biaoqing").css("background","url(<%=request.getContextPath()%>/include/images/biaoqing_down.png) 0 3px no-repeat");
-			//打开表情面板
-			emojiflag=true;
-		}else{
-			 //隐藏表情弹出框
-			 $(".wrap_bq").hide();
-			 $(".biaoqing").css("background","url(<%=request.getContextPath()%>/include/images/biaoqing.png) 0 3px no-repeat");
-			//关闭表情面板
-		     emojiflag=false;
-		}
-	}
-	
-
-	function loadfujian(){
-			 $(".fujian").css("background","url(<%=request.getContextPath()%>/include/images/fujian_down.png) 0 3px no-repeat");
-			 document.getElementById("file1").click();
-			 $(".fujian").css("background","url(<%=request.getContextPath()%>/include/images/fujian.png) 0 3px no-repeat");		
-	}
-	
-	function dealVoice(){
-			$('#dlg').dialog('open') ;
-			makeVoice();
- 		}
-
-	function emojitohtml(value){
-		var text = jEmoji.softbankToUnified(value);
-		 var message=jEmoji.unifiedToHTML(text);
-		 fn_insertPos(message+" ");
-		 //隐藏表情弹出框
-		 $(".wrap_bq").hide();
-	}
-	//在光标处插入内容
-	function fn_insertPos(textValue)
-	{     
-		//var msg=document.getElementById("msg");
-	    if(pos!=null)
-	    {
-	       // pos.text="插入文字内容";
-	        pos.pasteHTML(textValue);
-	        //设置光标位置函数
-	        
-	        //释放位置
-	        pos=null;
-	    }else{
-	    	$("#msg").append(textValue);
-	    }  
-	} 
- 	function stop(){ 
-		return false; 
-		} 
-		document.oncontextmenu=stop; 
-		
-		document.onkeydown = function(){
-			if(window.event && window.event.keyCode == 123) {
-			    return false;   
-		    }
-		}
-	</script>
-  <script type="text/javascript">
-  
- 		function pageLoad(){
-			/* 判断是否已经安装OCX控件 */
-			if (CallCenter.callid == undefined) {// 检查是否安装OCX控件
-				alert("您还没有安装OCX控件,请先下载安装！");// 您还没有安装OCX控件
-
-				window.location.href='http://docs.cloopen.com/images/a/ac/CCP_PC_OCX_WINDOWS_v2.5.7r.zip';
-			}
-			/* 初始化SDK，在调用其他接口之前调用。 */
-			var initParm=CallCenter.CCPinit();
-			if(initParm!="0"&&initParm!="-1000"){
-				alert("初始化失败!");
-				//return;
-			}
-			
-  			var RESTIP = $("#RESTIP").val();
-			var RESTPOST =$("#RESTPOST").val();
-			var accountSid =$("#accountSid").val();
-			var authToken = $("#authToken").val();
-			var subaccount = $("#subaccount").val();
-			var subaccounttoken = $("#subaccounttoken").val();
-			var voip =$("#voip").val();
-			var voiptoken = $("#voiptoken").val(); 
-			
-			 var v=CallCenter.CCPlogin(RESTIP,RESTPOST,accountSid,authToken
-					,subaccount,subaccounttoken
-					,voip,voiptoken); 
-				//alert(v);
-			if(v!='0'){
-				alert("未登陆成功!");
-			} 
-		}
- 		
- 		//-------------语音-------------//
- 		 var time = 60;
- 		 var timeOut = 0;//0 超时 1，未超时
- 		function uuid() {
-		    var s = [];
-		    var hexDigits = "0123456789abcdef";
-		    for (var i = 0; i < 36; i++) {
-		        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-		    }
-		    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-		    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-		    s[8] = s[13] = s[18] = s[23] = "-";
-		    var uuid = s.join("");
-		    return uuid;
-		}
- 		
- 		var filepath="";
- 		function makeVoice(){
- 			
- 			//获取当前准备发送的voip
- 			var voip=$("#currentVoipIp").val();
- 			if(voip==""){
- 				alert("请选择VoIP!");
- 				return false;
- 			}
- 			$(".voice").css("background","url(<%=request.getContextPath()%>/include/images/yuyin_down.png) 0 3px no-repeat");//设置鼠标按下控件的样式
- 			$(".voice").attr("disabled",true);   //设置控件的属性
- 			//颜色置灰
- 			$(".voice").css("color","gray");
- 			$("#graph").show();	
- 			time = 60;
- 			go();
- 			//生成js uuid
- 			 filepath=fileDownPath+"\\"+uuid()+".amr";
- 			var v = CallCenter.CCPstartVoiceRecording(filepath,voip);
- 			timeOut = 0 ;
- 		}
- 		/* 语音时间条 */
-		
- 		function go() {
- 			var bar=$("#bar");
- 			if ( time > 0) {
- 				bar.width(bar.width() + 4.5 + "px");
- 				time--;
- 				bar.text(time);
- 				setTimeout(function(){go();},1000);
- 			} else if(time == 0){//当time==0 时，发送语音消息
- 				time = -1;
- 				if(timeOut==0){
- 					alert("录音超时，请重试！");
- 				}
- 				$(".voice").attr("disabled",false);	
- 				//bar.width(0);	
- 				$(".graph").hide();	
- 				cancelVoice();
- 				timeOut = 1;//设置为未超时
- 		     }
- 		}
- 		//如果sendflag=true,则点击的是"取消";sendflag=false,则点击的是"发送"
- 		var sendflag=false;
- 		function sendVoice1(){
- 			sendflag=false;	
- 			time=0;
- 			$(".voice").attr("disabled",false);
- 			$(".voice").css("background","url(<%=request.getContextPath()%>/include/images/yuyin.png) 0 3px no-repeat");
- 			//停止录音
- 			CallCenter.CCPstopVoiceRecording();
- 			scro();
- 		}
- 		//发送语音
- 		function sendvoice(){
- 			var voip=$("#currentVoipIp").val();
- 			var v=CallCenter.CCPsendInstanceMessage(voip,"",filepath,"");
- 			//保存聊天记录
- 			sendMsgSaveServer(filepath,"2",$("#voip").val(),$("#fromVoip").val(),"1","语音",false,true,$("#hspName").val(),$("#userName").val(),$("#hspConfigBaseinfoId").val(),$("#idHidden").val());
- 			var json=eval('('+v+')');
- 			$("#msg").text("");
-
- 			if(json.msgId!="" && json.result=='0'){
- 				var timeLoong = CallCenter.CCPgetVoiceDuration(filepath);
- 				var lastIndex = filepath.lastIndexOf("\\");
- 				var fileName = filepath.substring(lastIndex+1, filepath.length);
- 				$("#send_get").append("<div class='replyer'><img class='pic2' src='<%=request.getContextPath()%>/include/images/s_touxiang.jpg' alt=''/><span><a href='javascript:void(0)' onclick='palyVoice(\""+fileName+"\")'>语音</a></span>"+(timeLoong/1000)+"秒</div>");
- 			}else{
- 				alert("发送失败");
- 			}
- 		}
- 		
-  		//文件存放目录
- 		var fileDownPath="";
- 		$(function(){
- 			setTimeout(function(){
- 				fileDownPath=CallCenter.appDataDir;
- 		   		/* 消息到达事件
- 		 		function CallCenter::OnReceiveInstanceMessage(msg){
- 		 			acceptmsg(msg);
- 		 		} */
- 		 		//语音停止录制
- 		 		function CallCenter::OnRecordingTimeOut(msg){
- 		 			OnRecordingTimeOut(msg);
- 		 		}
- 		 		function OnRecordingTimeOut(msg){
- 		 			if(!sendflag){
- 		 				//发送语音	
- 		 				sendvoice();
- 		 				deleteVoice();
- 		 			}	
- 		 			
- 		 		}
- 		 		/* 接收到语音文件和附件时，回调事假 -- 多媒体消息事件 */
- 		 		function CallCenter::OnReceiveInstanceMessageMedia(msg){
- 		 			OnReceiveInstanceMessageMedia(msg);
- 		 		}
- 				
- 				
- 			}, 10000); 
- 		
- 		});
- 			
- 		function OnReceiveInstanceMessageMedia(msg){
- 			var json=eval('('+msg+')');
- 			if(json.fileExt=="amr"){
- 				acceptvoiceFile(json);/* 接收语音文件 */
- 			}else{
- 				acceptFile(json);/* 接收附件文件 */
- 			}
- 			scro();
- 		}
- 		function acceptvoiceFile(json){
- 			var voip=$("#currentVoipIp").val();
- 			var  filename=json.fileUrl.split('=')[1];
- 			var path=fileDownPath+"\\"+filename;
- 			//获取语音文件目录
- 				//下载附件 
- 			var param = new Array();
- 			param[0] = new Object();
- 			param[0]["fileName"]=path;
- 			param[0]["fileUrl"]=json.fileUrl;
- 			param[0]["msgId"]=json.msgId;
- 			param[0]["sender"]=json.sender;
-
- 			var strjson = JSON.stringify(param);
- 				var v=CallCenter.CCPdownloadAttached(strjson,"");
- 				if(v!=0){
- 					alert("语音文件下载失败!");
- 					return false;
- 				}
- 				var sender="";
- 				var fun="";
- 				var index=json.receiver.indexOf("g");
- 				if(index==-1){
- 					sender=json.sender;	
- 					fun="showMsg(this)";
- 				}else if(index!=-1){//消息来自群组
- 					sender=json.receiver;	
- 					//fun="showMsg(this,\"group\")";
- 					fun="showMsg(this)";
- 				}
- 	 			//保存聊天记录
- 	 			//sendMsgSaveServer(path,"2",json.sender,json.receiver,"1","语音",true,false,$("#userName").val(),$("#hspName").val(),$("#hspConfigBaseinfoId").val(),$("#idHidden").val());
- 				var timeLoong = CallCenter.CCPgetVoiceDuration(path);
- 				if(sender==voip){
- 						$("#send_get").append("<div class='sender'><img class='pic1' src='<%=request.getContextPath()%>/include/images/s_touxiang.jpg'/><img class='pic1' src='<%=request.getContextPath()%>/include/images/tag2.png' alt='' onclick='palyVoice(\""+filename+"\");'/><span></span>"+(timeLoong/1000)+"秒</div>");	
- 				}else{
- 					$("#huihua").append("<li class='clearfix' style='cursor:hand' onclick='"+fun+"'>"+
- 							"<img class='touxiang' src='<%=request.getContextPath()%>/include/images/b_touxiang.jpg' alt=''/>"+
- 							"<div class='info'>"+
- 							"<span>"+sender+"</span>"+
- 							"<em style='display: none;'><div class='sender'><img class='pic1' src='<%=request.getContextPath()%>/include/images/tag2.png' alt='' onclick='palyVoice(\""+filename+"\");'/><span></span>"+(timeLoong/1000)+"秒</div></em>"+
- 							"<em>[语音]</em>"+
- 							"</div>"+
- 							"<i class='dotted'></i>"+
- 							"</li>");
- 							$(".tablist").find("i").attr("class","dotted");
- 				}
- 		}
-
-/*  		function acceptFile(json){
- 			var voip=$("#currentVoipIp").val();
- 			var filename=json.userData;
- 			var fileurl=json.fileUrl;
- 			var msgId=json.msgId;
- 			var sender=json.sender;
- 				var sender="";
- 				var fun="";
- 				var index=json.receiver.indexOf("g");
- 				if(index==-1){
- 					sender=json.sender;	
- 					fun="showMsg(this)";
- 				}else if(index!=-1){//消息来自群组
- 					sender=json.receiver;	
- 					//fun="showMsg(this,\"group\")";
- 					fun="showMsg(this)";
- 				}
- 				if(sender==voip){
- 					$("#send_get").append("<div class='sender'><span><a href=\"javascript:savefile('"+filename+"','"+fileurl+"','"+msgId+"','"+sender+"')\">"+filename+"->接收</a></span></div>");
- 				}else{
- 					$("#huihua").append("<li class='clearfix' style='cursor:hand' onclick='"+fun+"'>"+
- 							"<img class='touxiang' src='<%=request.getContextPath()%>/include/images/b_touxiang.jpg' alt=''/>"+
- 							"<div class='info'>"+
- 							"<span>"+sender+"</span>"+
- 							"<em style='display: none;'><div class='sender'><span><a href=\"javascript:savefile('"+filename+"','"+fileurl+"','"+msgId+"','"+sender+"')\">"+filename+"->接收</a></span></div></em>"+
- 							"<em>[附件]</em>"+
- 							"</div>"+
- 							"<i class='dotted'></i>"+
- 							"</li>");
- 							$(".tablist").find("i").attr("class","dotted");
- 				}
- 		} */
- 		/* 播放语音 */
- 		function palyVoice(filename){
- 			var path=fileDownPath+"\\"+filename;
- 			var v=CallCenter.CCPplayVoiceMsg(path,"");
- 			if(v!='0'){
- 				alert("播放失败!");
- 				return;
- 			}
- 		}
- 		//取消
- 		function cancelVoice(){
- 			sendflag=true;
- 			CallCenter.CCPstopVoiceRecording();
- 			deleteVoice();
- 		}
- 		function deleteVoice(){	
-			var bar=$("#bar");
-			bar.width(0); 
-			timeOut = 1;
-			time = 0;
- 			$('#dlg').dialog('close');
- 			$(".voice").attr("disabled",false);
- 			$(".voice").css("background","url(<%=request.getContextPath()%>/include/images/yuyin.png) 0 3px no-repeat");
- 		}
- 	 	//保存聊天记录
- 	   	function sendMsgSaveServer(msg,type,fromVoipId,toVoip,isFile,fileName,isHospital,isUser,hspName,userName,hspId,userId){
- 	 	   		$.ajax( {
- 	   			type : "post",
- 	   			url : '${path}/msg/crmChatMessageRecord.do?verbId=saveMsgToServer',
- 	   			data:{"fromVoip":fromVoipId,"toVoip":toVoip,"content":msg,
- 	   				"isFile":isFile,"fileName":fileName,"type":type,
- 	   				"isHospital":isHospital,"isUser":isUser,
- 	   				"toUserBaseinfoName":hspName,"fromUserBaseinfoName":userName,
- 	   				"toUserBaseinfoId":hspId,"fromUserBaseinfoId":userId
- 	   				},
- 	   			dataType : "json",
- 	   			success : function(data) {
- 	   				var pg = eval(data);
- 	   				try {
-
- 	   				} catch (e) {
- 	   					alert(e);
- 	   				}
- 	   			}
- 	   		});
- 	   	}
- 	 //获取聊天记录
- 	   function getMsg(pageIndex,type){
- 	   	$.ajax({
- 	   		url : '${path}/msg/crmChatMessageRecord.do?verbId=getChatRecord',
- 	   		type:"post",
- 	   		data:{"fromVoip":$("#fromVoip").val(),"toVoip":$("#currentVoipIp").val(),"type":type,"pageIndex":pageIndex},
- 	   		dataType:"json",
- 	   		success:function(msg){
- 	   			if(msg.count==undefined){
- 	   				$("#countPage").text("/0");
- 	   			}else{
- 	   				$("#countPage").text("/"+msg.count);
- 	   				$("#countPage1").val(msg.count);
- 	   			}
- 	   			var msgContent = $("#msgContent");
- 	   			msgContent.empty();
- 	   			for(var i=0;i<msg.list.length;i++){
- 	   				var ss = msg.list[i].content;
- 	   				var pos = ss.lastIndexOf(".");
- 	   				var ty = ss.substring(pos+1,ss.length);
- 	   				var color = "";
- 	   				if(msg.list[i].fromVoip==$("#fromVoip").val()){
- 	   					color = "green";
- 	   				}else{
- 	   					color = "blue";
- 	   				}
- 	   				if(msg.list[i].isFile!=""){
- 	   					if(ty=="amr"){
- 	   						var timeLoong = CallCenter.CCPgetVoiceDuration(ss);
- 	   		 				var lastIndex = ss.lastIndexOf("\\");
- 	   		 				var fileName = ss.substring(lastIndex+1, ss.length);
- 	   						var m = "<font color=\""+color+"\" style='margin-left:10px;'>"+msg.list[i].fromUserBaseinfoName+"("+msg.list[i].createTime+")</font><br/>" +
- 	   								"<div class='sender'><span><a href='javascript:void(0)' onclick='palyVoice(\""+fileName+"\")'>语音</a></span>"+(timeLoong/1000)+"秒</div>";
- 	   						msgContent.append(m);
- 	   					}else if(ty=="jpg" || ty == "bmp"||ty=="gif" || ty=="jpeg"){
- 	   						var m = "<font color=\""+color+"\" style='margin-left:10px;'>"+msg.list[i].fromUserBaseinfoName+"("+msg.list[i].createTime+")</font><br/>" +
- 	   						"<div>&nbsp;&nbsp;&nbsp;<img src='"+msg.list[i].content+"' onload=\"javascript:if(this.height>this.width){this.height=150}else{this.width=150}\"/></div>";
- 	   						msgContent.append(m);
- 	   					}else{
- 	   						var lastIndex = ss.lastIndexOf("\\");
- 	   		 				var fileName = ss.substring(lastIndex+1, ss.length);
- 	   						var m = "<font color=\""+color+"\" style='margin-left:10px;'>"+msg.list[i].fromUserBaseinfoName+"("+msg.list[i].createTime+")</font><br/>" +
- 	   						"<div class='sender'><span><a href=\"javascript:savefile('"+msg.list[i].content+"','"+fileName+"','"+""+"','"+""+"')\">附件</span>"+msg.list[i].fileName+"</div>";
- 	   						msgContent.append(m);
- 	   					}
- 	   				}else{
- 	   					var m = "<font color=\""+color+"\" style='margin-left:10px;'>"+msg.list[i].fromUserBaseinfoName+"("+msg.list[i].createTime+")</font><br/><div>&nbsp;&nbsp;&nbsp;"+msg.list[i].content+"</div>";
- 	   					msgContent.append(m);
- 	   				}
- 	   			}
- 	   		},
- 	   		error:function(msg){
- 	   			//alert(msg);
- 	   		}
- 	   		
- 	   	});
- 	   }
-  </script>
-<script type="text/javascript">
+	$(function(){
+		 $.ajax( {
+				type : "POST",
+				url : '${path}/hsp/patientBirthday.do?verbId=findmark',
+				dataType : "json",
+				success : function(data) {
+					var bd = eval(data[0].birthdaySwitch);
+					if(bd == 0){
+						$("#followUpValuesend").css("display","none");
+					}
+				}
+			});
+	});
 		var tb;
 	 	var currentPublicClassName = "<%=currentPublicClassName%>";
 		Ext.onReady(
 			function(){
 		   		 // 创建工具条
 			    tb = new Ext.Toolbar();
-			    tb.render('toolbar');
+			   // tb.render('toolbar');
+			    tb.render('toolbar_two');
 			    getPublicByClassId("<%=firstPubicClassId%>");
 			}
 		);
@@ -827,7 +444,54 @@
 	    				}
 	    			});
 	    }
-
+	    
+	    /**获取二级菜单  */
+	 function getPublicTwoByClassId(publicClassId){
+		 if($.trim(publicClassId).length == 0){
+				return;
+			}
+			$.ajax({
+				type: "POST",
+	        	processData: false,
+	        	dataType: "application/json",
+	        	url: "<%=request.getContextPath()%>/security/security_loginSecond.do",
+	        	data: "verbId=getPublic&publicClassId="+publicClassId,
+	        	success: function(res){
+	        		if(res){
+	        			var json;
+	        			try{
+		        			json = eval(res);
+	        			}catch(e){
+	        				$.messager.alert("提示","获取失败!:"+e.prototype);
+	          			  	document.location = "<%=request.getContextPath()%>/home/nologin.jsp";
+	        			}
+	        			if(json){
+		        			tb.removeAll();
+		        			tb.add(json);
+		        			tb.doLayout();
+		        			$(".li_pc_1").removeClass("pc_1_selected");
+		        			$(".li_pc_1").removeClass("pc1_active");
+		        			$(".li_pc_2").removeClass("pc_2_selected");
+		        			$(".li_pc_2").removeClass("pc1_active");
+		        			var _pc_li = $(".pc_"+publicClassId);
+		        			$(".pc_"+publicClassId+".li_pc_1").addClass("pc1_active");
+		        			if(_pc_li.hasClass("li_pc_1")){
+		        				_pc_li.addClass("pc_1_selected");
+		        			}else{
+		        				_pc_li.addClass("pc_2_selected");
+		        				_pc_li.parents(".li_pc_1").addClass("pc_1_selected");
+		        			}
+		        			update_toolbar_two();
+	        			}
+	        		}
+	        	},
+	        	error: function(a, b, c){
+	        		$.messager.alert("提示","获取失败!:"+a+":"+b+":"+c);
+	  			  	document.location = "<%=request.getContextPath()%>/home/nologin.jsp";
+	        	}
+			});
+	    }
+/**子菜单菜单*/
 	function getPublicByClassId(publicClassId){
 		if($.trim(publicClassId).length == 0){
 			return;
@@ -844,7 +508,7 @@
         			try{
 	        			json = eval(res);
         			}catch(e){
-        				alert("获取失败!");
+        				$.messager.alert("提示","获取失败!");
           			  	document.location = "<%=request.getContextPath()%>/home/nologin.jsp";
         			}
         			if(json){
@@ -852,24 +516,46 @@
 	        			tb.add(json);
 	        			tb.doLayout();
 	        			$(".li_pc_1").removeClass("pc_1_selected");
+	        			$(".li_pc_1").removeClass("pc1_active");
 	        			$(".li_pc_2").removeClass("pc_2_selected");
+	        			$(".li_pc_2").removeClass("pc1_active");
 	        			var _pc_li = $(".pc_"+publicClassId);
+	        			$(".pc_"+publicClassId+".li_pc_1").addClass("pc1_active");
 	        			if(_pc_li.hasClass("li_pc_1")){
 	        				_pc_li.addClass("pc_1_selected");
 	        			}else{
 	        				_pc_li.addClass("pc_2_selected");
 	        				_pc_li.parents(".li_pc_1").addClass("pc_1_selected");
+	        				_pc_li.parents(".li_pc_1").addClass("pc1_active");
+	        				$(".bg_wrapper2").hide();
+	        				$(".bg_wrapper").show();
 	        			}
+	        			update_toolbar_two();
         			}
         		}
         	},
         	error: function(a, b, c){
-        		alert("获取失败!");
+        		$.messager.alert("提示","获取失败!"+a+":"+b+":"+c);
   			  	document.location = "<%=request.getContextPath()%>/home/nologin.jsp";
         	}
 		});
 	}	
-		
+	//更改二级菜单的位置
+		function update_toolbar_two(){
+			var i=$(".pc_1_selected").parent("ul").parent().parent().offset().left;
+			var window_wid=$(window).width();
+			$("#toolbar_two").removeAttr("style");
+			  var top=-$(this).scrollTop()+97;
+			   $("#toolbar_two").css('top',top);
+			if(i+$("#toolbar_two").width()>window_wid){
+				//从右向左
+				//$("#toolbar_two").css("right","35");
+				$("#toolbar_two").css("right","35");
+			}else{
+				var left_i=i-($("#toolbar_two").width()-$(".ca-item").width())/2;
+				$("#toolbar_two").css("left",left_i+"px");
+			}
+		}
 	function goDiv(url){
 		if(url != null && trim(url) != ''){
 			if(url.substring(0,4)!='http'){
@@ -1049,8 +735,8 @@
 				}
 			});
 			$(".tabs").append(li);
-			var height = pageHeight-300-60;
-			$(iframe).height(800);
+			var height = pageHeight;
+			$(iframe).height(height);
 		}
 		focusOnePage(id);
 	}
@@ -1133,29 +819,77 @@
 	var showPC2 = function(_li) {
 		var jq_li = $(_li);
 		var jq_ul = jq_li.children("ul");
+		jq_li.children(".bg_wrapper").hide();
+		jq_li.children(".bg_wrapper2").show();
 		jq_ul.show();
-		if (jq_ul.offset().left + jq_ul.width() > $(document).width()) {
+		 if (jq_ul.offset().left + jq_ul.width() > $(document).width()) {
 			var _left = jq_li.offset().left - jq_ul.width() + jq_li.width();
 			jq_ul.css({
 				"left" : _left
 			});
-		}
+		} 
 		jq_li.addClass("pc1_active");
 	}
 	var hidePC2 = function(_li) {
 		var jq_li = $(_li);
 		jq_li.children("ul").hide();
-		jq_li.removeClass("pc1_active");
-	}
-	var resizeSlide = function() {
-		
-		if ($(".iframe_div:visible").length > 0) {
-			var height = pageHeight-300-60;
-			$(".iframe_div > iframe").css("height", height);
+		jq_li.children(".bg_wrapper").show();
+		if(jq_li.hasClass("pc_1_selected")){
+			jq_li.children(".bg_wrapper2").hide();
+		}else{
+			jq_li.removeClass("pc1_active");
 		}
-		var div_height =pageHeight-300;
-		$(".multi_pages").css("height", div_height);
-
+		
+		 /*  */
+	}
+	
+	var resizeSlide = function() {
+		var hideHeight=0;
+		//查询随访方式和满意度方式
+		$.post("${path}//followexcuteAction.do",{"verbId":"findfollowType"},
+				function(data){
+					if(data!=null){
+						if(data.followType==1){
+							$("#follow_log_item").hide();
+							hideHeight++;
+						}else{
+							$("#follow_log_item").show();
+						}
+						if(data.satisfType==1){
+							hideHeight++;
+							$("#satisf_log_item").hide();
+						}else{
+							$("#satisf_log_item").show();
+						}
+						//alert($(".iframe_div:visible").length)
+						if ($(".iframe_div:visible").length > 0) {
+							var height = pageHeight-170-45-55;
+							$(".iframe_div > iframe").css("height", height);
+						}
+						
+						var div_height =pageHeight;
+						$(".multi_pages").css("height", div_height);
+						$(".toggleDiv").css("height",div_height);
+						$(".right_black").css("height",div_height);
+						var number=$(".log_item").length;
+						var h=parseInt((div_height-260-30)/number);
+						$("#gzrz").css("height",div_height-260);
+						$(".log_item").css("height",h+"px");
+						$(".log_item").css("line-height",h+"px");
+						var logNum=$(".log_item:visible").length;
+						for(var i=0;i<logNum;i++){
+							if(i==0 && hideHeight>0){
+								$(".log_item:visible").eq(i).css("margin-top","5px");
+							}
+							if((i)%2==0){
+								$(".log_item:visible").eq(i).addClass("old");	
+							}else{
+								$(".log_item:visible").eq(i).addClass("even");
+							}
+						}
+					}
+				},'json');
+		
 	}
 	var resizeContainer = function() {
 		var _width = $(document).width() - $("#header > img").width() - 100;
@@ -1173,49 +907,107 @@
 	var pageHeight;
 	$(function() {
 		//判断文档高度
-		pageHeight=$(document).height()<window.screen.availHeight?window.screen.availHeight:$(document).height();
+		//alert($(document).height()+":"+window.screen.availHeight);
+		//pageHeight=$(document).height()<window.screen.availHeight?window.screen.availHeight:$(document).height();
+		//pageHeight=window.screen.availHeight;
+		pageHeight=document.body.clientHeight;
 		resizeSlide();
 		resizeContainer();
+		$('#noticeWindow').window('move',{   
+			  left:document.body.clientWidth-250,   
+			  top:pageHeight-170  
+			}); 
 		/*头部导航栏*/
 		$('#ca-container').contentcarousel();
 		/*页面滚动时显示导航栏下级菜单*/
 		var bg_wrapper=$('#ca-container .bg_wrapper');
+		var bg_wrapper2=$('#ca-container .bg_wrapper2');
 		var ul_pc_2=$('#ca-container .ul_pc_2');
 		$('body').scroll(function(){
 			   var top=-$(this).scrollTop()+83;
-			   bg_wrapper.css('top',top);
+			   bg_wrapper.css('top',top+7);
+			   bg_wrapper2.css('top',top);
+			   $("#toolbar_two").css('top',top+14);
 			   ul_pc_2.css('top',top);
-               
-			})
+               $("#jqContextMenu").css('top',top+116);
+			});
+		getWorkLog();
+		/**鼠标滑动弹出框响应事件*/
+			/* $("#footer").mouseenter(function(){
+				$("#fbody").slideToggle();
+				$("#f_button").attr('class', 'footer_hidden');
+			});
+		$("#footer").mouseleave(function(){
+			$("#fbody").slideToggle();
+			$("#f_button").attr('class', 'footer_show');
+		}); */
+		//setInterval(remind,60000);
 	});
+	
+	function remind(){
+			$.ajax({
+	        type: "post",
+	        url: "iframe.do?verbId=getComplaintsTODo",
+	        dataType: "text",
+	        success: function(data){
+	        	var val = $('#complaintsValue').html();
+	        	if(data!=val){
+	        		  $('#complaintsValueRe').addClass('remind');
+	        	}
+	        	$('#complaintsValue').html(data);
+	           }
+		    });
+			$.ajax({
+		        type: "post",
+		        url: "iframe.do?verbId=getConsultationTODo",
+		        dataType: "text",
+		        success: function(data){
+		        	var val = $('#consultationValue').html();
+		        	if(data!=val){
+		        		$('#consultationValueRe').addClass('remind');
+		        	}
+		        	$('#consultationValue').html(data);
+		           }
+		    });
+			
+			$.ajax({
+		        type: "post",
+		        url: "<%=request.getContextPath()%>/followUp/followUpPlan.do?verbId=personNum",
+		        dataType: "text",
+		        success: function(data){
+		        	var val = $('#followUpValue').html();
+		        	if(data!=val){
+		        		$('#followUpValueRe').addClass('remind');
+		        	}
+		        	$('#followUpValue').html(data);
+		           }
+		    });
+			openNoticeWindow(noticeType);
+		}
+	function removeRemind(obj){
+		$(obj).children("span").removeClass('remind');
+	}
 	function toggle_footer(id) {
-
 		$("#" + id).toggle('normal', function() {
 			if ($("#" + id).is(":hidden")) {
 				$("#f_button").attr('class', 'footer_hidden');
-			} else
+			} else{
 				$("#f_button").attr('class', 'footer_show');
+				//ocxwaibo();
+			}
 		});
 	}
+	function show_footer(id) {
+		$("#fbody").show();
+		$("#f_button").attr('class', 'footer_show');
+		
+	}
+	
 	function resetIframeSize(e,w,h)
 	{
 		
 	}
 
-	
-	
-	
-	$(function(){
-		$.ajax({
-	        type: "GET",
-	        url: "iframe.do?verbId=getComplaintsTODo",
-	        dataType: "text",
-	        success: function(data){
-	        	$('#complaintsValue').html(data);
-	           }
-	    });
-		
-	});
 	function openOtherWindow( id, name, src){
 		if(src.substring(0,4).toUpperCase() !='HTTP'){
 			if(src.substring(0, 1) == '/'){
@@ -1296,8 +1088,11 @@
 			}
 		});
 		$(".tabs").append(li);
-		var height = pageHeight-300-60;
+		var height = pageHeight-170-45-55;
 		$(iframe).height(height);
+	//	$(".toggleDiv").height(height);
+		//var h=height/10;
+		//$(".log_item").height('10%');
 	}
 	focusOnePage(id);
 	}
@@ -1312,11 +1107,25 @@
 			closeOnePage('1256289171');
 			openOtherWindow('1256289171',"查询","search/synthesisSearch.do?keyWord="+encodeURIComponent(message)+"&langue=1");
 		}else{
-			alert("请输入查询内容！");
+			$.messager.alert("提示","请输入查询内容！");
 		}
 	}
-	$(function(){
+	function getIfreamHeight(){
+		var h=0;
+		var length=$(".one_page").length;
+		for(var i=0;i<length;i++){
+			if($(".one_page:eq("+i+")").css("display") == 'block'){  
+	            h= $("iframe:eq("+i+")").height();
+	            return h;
+	 		} 
+		}
+		return h;
+	}
+	/**获取工作日志*/
+	var noticeType="0";
+	function getWorkLog(){
 		hideHistoryData();
+		//投诉
 		$.ajax({
 	        type: "post",
 	        url: "iframe.do?verbId=getComplaintsTODo",
@@ -1325,6 +1134,7 @@
 	        	$('#complaintsValue').html(data);
 	           }
 	    });
+		//咨询
 		$.ajax({
 	        type: "post",
 	        url: "iframe.do?verbId=getConsultationTODo",
@@ -1333,7 +1143,7 @@
 	        	$('#consultationValue').html(data);
 	           }
 	    });
-		
+		//随访
 		$.ajax({
 	        type: "post",
 	        url: "<%=request.getContextPath()%>/followUp/followUpPlan.do?verbId=personNum",
@@ -1342,6 +1152,7 @@
 	        	$('#followUpValue').html(data);
 	           }
 	    });
+		//满意度
 		$.ajax({
 	        type: "post",
 	        url: "<%=request.getContextPath()%>/satisfied/satisfiedPlan.do?verbId=personNum",
@@ -1351,8 +1162,43 @@
 	           }
 	    });
 		
+		//生日
+		$.ajax({
+	        type: "post",
+	        url: "<%=request.getContextPath()%>/hsp/patientBirthday.do?verbId=personNum",
+	        dataType: "text",
+	        success: function(data){
+	        	$('#birthdayValue').html(data);
+	           }
+	    });
+		//投诉预警
+		openNoticeWindow(noticeType);
 		
-	});
+	}
+	/**投诉预警*/
+	function openNoticeWindow(type){
+		$.ajax({
+	        type: "post",
+	        url: "<%=request.getContextPath()%>/complaints.do?verbId=complintsNotices",
+	        dataType: "json",
+	        success: function(data){
+	        	if(data.status==true){
+	        	$('#noticeValue').html("本月："+data.complePersonNum+";本周："+data.compleZNum);
+	        	if(type=="0" ){
+	        	$("#notice1").text(data.num);
+	        	$("#notice2").text(data.compleZNum);
+	        	$("#notice3").text(data.personNum);
+	        	$("#notice4").text(data.complePersonNum);
+	        	$("#notice5").text(data.deptNum);
+	        	$("#notice6").text(data.compleZDeptNum);
+	        	$("#notice7").text(data.personDeptNum);
+	        	$("#notice8").text(data.complePersonDeptNum);
+					$("#noticeWindow").window('open');
+	        	}
+	        	}
+	           }
+	    });
+	}
 	function getHistoryData(data,type){
 		eval("var json = "+data);
 		var tableData;
@@ -1436,75 +1282,114 @@
 		}
 		
 	}
-function addBg(value){
-	$(value).addClass("liActive");
-	
+	function addBg(value){
+		$(value).addClass("liActive");
+		
+	}
+	function deleteBg(value){
+		$(value).removeClass("liActive");
+	}
+	/**关闭投诉预警弹出框，如果type=1，表示不再提示*/
+	function closeNoticeWin(type){
+		noticeType=type;
+		$("#noticeWindow").window('close');
+	}
+
+function fnInit(){
+// 访问 styleSheet 中的一条规则, 将其 backgroundColor 改为蓝色。
+var oStyleSheet=document.styleSheets[20];
+var l = oStyleSheet.rules.length;
+var oRule=oStyleSheet.rules[0];
+oRule.style.fontSize=$("#fontSize").combobox('getText');
+oRule.style.fontFamily=$("#fontFamily").combobox('getText');
 }
-function deleteBg(value){
-	$(value).removeClass("liActive");
+$(function(){
+	$("#fontFamily").combobox({
+		 valueField:'val',   
+		    	textField:'text',
+		    	data:[{val:'0',text:'宋体'
+		    		  },{val:'1',text:'黑体'
+		    		  },{val:'2',text:'楷体'}
+		    	],
+		onSelect:function(rec){			
+			fnInit();
+		},
+		onLoadSuccess:function(){
+			$("#fontFamily").combobox('setValue','0');
+		}
+	});
+	$("#fontSize").combobox({
+		 valueField:'val',   
+		    	textField:'text',
+		    	data:[{val:'0',text:'12px'
+		    		  },{val:'1',text:'14px'
+		    		  },{val:'2',text:'16px'}
+		    	],
+		onSelect:function(rec){			
+			fnInit();
+		},
+		onLoadSuccess:function(){
+			$("#fontSize").combobox('setValue','0');
+		}
+	});
+});
+var inShow = false;
+function installCss(obj){
+	if(inShow){
+		inShow = false;
+		$("#installDiv").hide();
+	}else{
+		inShow = true;
+		var X = $(obj).offset().top;
+		var Y = $(obj).offset().left;
+		$("#installDiv").css({position:'absolute','left':Y-290,'top':X+20});
+		$("#installDiv").show();
+	}
 }
-</script>
-<style>
-html{
-    overflow:hidden;
-    height:100%;
+function installClose(){
+	$("#installDiv").hide();
+	inShow = false;
 }
-body{
-    height:100%;
-    background-color: rgb(239, 239, 239);
-    overflow-y:scroll;
-   
-}
- #footer table{
- padding-top:5px;
+function changeRadio1(){
+	 $("#redc").attr("checked","checked");
+	 $("#bg1").addClass("label_checked");
+	 $("#bg1").removeClass("label_nocheck");
+	 $("#bg2").addClass("label_nocheck");
+	 $("#bg2").removeClass("label_checked");
+	 $("#link1").attr('href','main/newClass/css/index_n.css');
  }
- #footer table td{
-   color:black;
-   padding:0px;
-   height:20px;
-   margin:0px;
-}
-#footer table td div{
-   margin-left:10px;
-   position:relative;
-   background-color:#fafafa;
-   border:1px solid #dedede;
-   width:100%;
-   padding-left:10px;
-   margin-left:-10px;
-   line-height:20px;
-}
-#footer #jbxx .tab_table {
-	width:90%;
-	border:none;
-	margin-top:10px;
-	margin-left:20px;
-}
-#footer #jbxx .tab_table td{
-   text-align:right;
-}
-#footer .tab_table{
-	border-collapse:collapse;
-	margin-top:10px;
-	margin-left:90px;
-	float:left;
-	margin-right:30px;
-}
-#footer .tab_table td{
-   padding-right:10px;
-   text-align:left;
-}
-.tab_gengduo{
-	color: blue;
-	float:left;
-	border:none;
-	margin-top:160px;
-}
-#footer #tj .tab_table td{
-   width:auto;
-}
- 
-</style>
+/**执行状态 待回复 */
+function changeRadio2(){
+	 $("#blues").attr("checked","checked");
+	 $("#bg2").addClass("label_checked");
+	 $("#bg2").removeClass("label_nocheck");
+	 $("#bg1").addClass("label_nocheck");
+	 $("#bg1").removeClass("label_checked");
+	 $("#link1").attr('href','main/include/css/index_n.css');
+ }
+ function sendSMS(){
+	 var phone = null;
+	 var username = null;
+	 $.ajax( {
+			type : "POST",
+			url : '${path}/hsp/patientBirthday.do?verbId=manualSend',
+			data : {
+				"phone" : phone,
+				"username" : username,
+			},
+			dataType : "json",
+			success : function(data) {
+				var pg = eval(data);
+				if(pg[0].statusCode!="000000"){
+					var mes = pg[0].statusMsg;
+					$.messager.alert('提示', mes, "info");
+				}else{
+					$.messager.alert('提示', "发送成功！", "info");
+				}
+			}
+		});
+ }
+	</script>
 </head>
 <body>
 <input id="zycPath" type="hidden" value="<%=request.getContextPath()%>"/>
@@ -1513,42 +1398,50 @@ body{
 		<input type="hidden" name="verbId" value="" /> <input type="hidden"
 			name="publicClassId" value="" />
 		<div id="header">
-			<img src="main/include/images/login_03.jpg" height="85"
-				style="float: left" />
+			<img src="main/include/images/login_03.png"
+				style="float: left;"/>
 			<ul class="nav">
-				<li class="user">欢迎您！<%=sessionForm.getStaffName()%></li>
+			
+			<li class="user">当前用户：<%=sessionForm.getStaffName()%></li>
 				<li><a
-					href="<%=request.getContextPath()%>/security/security_login.do?verbId=reLogin">返回首页</a></li>
+					href="<%=request.getContextPath()%>/security/security_login.do?verbId=reLogin">
+					<img src="main/include/images/main_top.gif" 
+				style="float: left;margin-top: -2px;margin-right: 2px;" />首页</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/index.jsp?agree=true" onclick="zuoXiOffWork();">退出系统</a></li>
+					href="<%=request.getContextPath()%>/index.jsp?agree=true" onclick="zuoXiOffWork();"><img src="main/include/images/main_close.gif" 
+				style="float: left;margin-right: 2px;" />退出</a></li>
 			</ul>
+			
 			<div id="topNav" style='margin-left:0px;margin-right:0px;float:right'>
 				<div id="ca-container" class="ca-container">
 					<div class="ca-wrapper" >
 						<%
 							if (pcList != null) {
+								int i=0;
 								for (SecurityConfigPublicClass pc : pcList) {
 									List<SecurityConfigPublicClass> childList = null;
+									i++;
 									if (childMap != null) {
 										childList = childMap.get(pc.getId());
 									}
 						%>
-						<div class="ca-item">
+						<div class="ca-item" id="ca-item-div-<%=i%>">
 							<div class="ca-item-main">
 								<ul class="ul_pc_1" title="<%=pc.getClassName()%>">
 									<%
 										if (childList != null) {
 									%>
-									<li class="li_pc_1 pc_<%=pc.getId()%>"
+									<li class="li_pc_1 pc_<%=pc.getId()%>" 
 										onmouseover="showPC2(this)" onmouseout="hidePC2(this)">
 										<div style="cursor: pointer;width:70px;height:40px;position:relative;margin:0 auto;background-image: url(main/include/images/<%=pc.getPicPath() %>);"></div>
 										<h3><%=pc.getClassName()%></h3>
-										<div class='bg_wrapper'></div>
+										<div class='bg_wrapper' ></div>
+										<div class='bg_wrapper2'></div>
 										<ul class="ul_pc_2">
 											<%
 												for (SecurityConfigPublicClass child : childList) {
 											%>
-											<li class="li_pc_2 pc_<%=child.getId()%>"
+											<li class="li_pc_2 pc_<%=child.getId()%>" id="<%=child.getId()%>"
 												onclick="currentPublicClassName='<%=pc.getClassName()%>&nbsp;&nbsp;&gt;&gt;&nbsp;<%=child.getClassName()%>';getPublicByClassId('<%=child.getId()%>');"
 												title="<%=child.getClassName()%>">
 												<h4><%=child.getClassName()%></h4>
@@ -1557,15 +1450,18 @@ body{
 												}
 											%>
 										</ul>
+										
 									</li>
 									<%
 										} else {
 									%>
-									<li class="li_pc_1 pc_<%=pc.getId()%>" onmouseover="addBg(this)" onmouseout="deleteBg(this)"
+									<li class="li_pc_1 pc_<%=pc.getId()%>" id="<%=pc.getId()%>"
+									onmouseover="addBg(this);" onmouseout="deleteBg(this)"
 										onclick="currentPublicClassName='<%=pc.getClassName()%>';getPublicByClassId('<%=pc.getId()%>');"
 										title="<%=pc.getClassName()%>">
 										<div style="cursor: pointer;width:70px;height:40px;position:relative;margin:0 auto;background-image: url(main/include/images/<%=pc.getPicPath() %>);"></div>
 										<h3><%=pc.getClassName()%></h3>
+											<div class='bg_wrapper' ></div>
 									</li>
 									<%
 										}
@@ -1583,44 +1479,13 @@ body{
 				</div>
 			</div>
 		</div>
-		<div id="toolbar"></div>
-		
-
-<div id="call_pan" style="width:350px;height:400px;z-index:1002;background-image:url('<%=request.getContextPath()%>/images/phone/call_background.png');display:none">
-  <div style="height: 30px;text-align:right;padding-right: 12px;padding-top: 12px;">
-  	<img src="<%=request.getContextPath()%>/images/phone/call_close.png" onclick="$('#call_pan').hide();">
-  </div>
-  <div style="height: 100px;margin-top: 10px;text-align:center;">
-  	<img id="callingState1" src="<%=request.getContextPath()%>/images/phone/call_incoming.png">
-  </div>
-  <div id="calledno" style="text-align:center;font-size:40px;color:white;height:50px;line-height:50px;font-family:Arial;margin-top: 20px;">
-  13368098310
-  </div>
-  <div id="timeCount" style="text-align:center;font-size:12px;;color:white;height:30px;line-height:30px;font-family:Arial;">
-  <span id="hSpan"></span><span id="xsSpan"></span><span id="mSpan"></span><span id="fzSpan"></span><span id="sSpan"></span>
-  </div>
-  <div id="incomingCall" style="height: 45px;margin-top: 50px;text-align:center;">
-  	<input type="button" onclick="acceptCall();" style="width:90px;height:45px;background-image:url('<%=request.getContextPath()%>/images/phone/call_call.png');border:0;border:none;"/>
-  	<input type="button" onclick="rejectCall();" style="width:90px;height:45px;background-image:url('<%=request.getContextPath()%>/images/phone/call_hangup.png');border:0;border:none;margin-left:50px;"/>
-  </div>
-  <div id="callingState2" style="height: 45px;margin-top: 50px;text-align:center;display: none;">
-  	<input type="button" onclick="zhuanyuyue();" style="width:90px;height:45px;background-image:url('<%=request.getContextPath()%>/images/phone/order.png');border:0;border:none;"/>
-  	<input type="button" onclick="zhuanzixun();" style="width:90px;height:45px;background-image:url('<%=request.getContextPath()%>/images/phone/consult.png');border:0;border:none;margin-left:10px"/>
-  	<input type="button" onclick="zhuantousu();" style="width:90px;height:45px;background-image:url('<%=request.getContextPath()%>/images/phone/complaint.png');border:0;border:none;margin-left:10px"/>
-  </div>
-</div>		<!--
-			<div
-				style="float: right; height: 27px; line-height: 27px; padding: 0px; margin-top: 5px; margin-right: 5px">
-				<input type="text" id="mainSearchText"
-					style="width:133px;height:27px;line-height:27px;border:none;+border:0;padding-left:30px;background-image:url('<%=request.getContextPath()%>/include/images/search_box.jpg')"><input
-					type="button" value="搜索" onclick="mainSearch()"
-					style="margin:0;margin-left:-3px;width:44px;text-align:center;height:27px;line-height:27px;border:none;background-color:rgb(131,204,86);color:white;background-image:url('<%=request.getContextPath()%>/include/images/search_box.jpg');background-position:center right">
-			</div>
-			</div>
+		<div id="toolbar" style="border-top: 1px #49acfd solid;background-color: #0173c4;height: 35px;line-height: 35px;text-align: center; ">
+		<div id="toolbar_two" ></div>
 		</div>
-			  -->	
-			
+		<!-- phone bar -->
 		<div
+			style="width: 100%; background-color: rgb(209, 209, 209); height: 1px;"></div>
+<div
 			style="width:100%;background-image: url('<%=request.getContextPath()%>/include/images/v.jpg');height:11px;"></div>
 
 		<div style="width: 100%; background-color: rgb(239, 239, 239);overflow:hidden;">
@@ -1637,33 +1502,34 @@ body{
 							<div style="width:221px; height:200px;" class="easyui-calendar" id="timeControl" ></div>
 						</div>
 					</div>
-					<div class="line_15"></div>
-					<div class="right_history_blank" style='border-top:1px solid #dddddd'>
+					<div class="line_10"></div>
+					<div class="right_history_blank" style='border-top:1px solid #dddddd;' id="gzrz">
 						<div class="right_title">
 							<span>工作日志</span>
 						</div>
 						<div class="line"></div>
-						<div class="log_item odd">
-							<a href="javascript:openOtherWindow('129128917','随访信息处理','followUp/followUpPlan.do?verbId=list');"><span>随访提醒（<label id="followUpValue"></label>）</span></a>
+						<div class="log_item " id="follow_log_item">
+							<a href="javascript:openOtherWindow('129128917','随访信息处理','followUp/followUpPlan.do?verbId=list');" onclick="removeRemind(this)"><span id="followUpValueRe">随访提醒（<label id="followUpValue"></label>）</span></a>
 						</div>
-						<div class="log_item even">
-							<a href="javascript:openOtherWindow('129128918','投诉信息处理','complaints.do?verbId=list&type=2');"><span>投诉提醒（<label id="complaintsValue"></label>）</span></a>
-						</div>
-						<div class="log_item odd">
-							<a href="javascript:openOtherWindow('129128919','咨询信息处理','crm/crmConsultation.do?verbId=queryConsultation&executedFlag=1');"><span>咨询提醒（<label id="consultationValue"></label>）</span></a>
-						</div>
-						<div class="log_item even">
+						<div class="log_item " id="satisf_log_item">
 							<a href="javascript:openOtherWindow('129128920','满意度信息处理','satisfied/satisfiedPlan.do?verbId=list');"><span>满意度提醒（<label id="satisfedValue"></label>）</span></a>
 						</div>
+						<div class="log_item ">
+							<a href="javascript:openOtherWindow('129128918','投诉信息处理','complaints.do?verbId=list&type=2');" onclick="removeRemind(this)"><span id="complaintsValueRe">投诉提醒（<label id="complaintsValue"></label>）</span></a>
+						</div>
+						<div class="log_item ">
+							<a href="javascript:openOtherWindow('129128919','咨询信息处理','crm/crmConsultation.do?verbId=queryConsultation&executedFlag=1');" onclick="removeRemind(this)"><span id="consultationValueRe">咨询提醒（<label id="consultationValue"></label>）</span></a>
+						</div>
+					  
+<!-- <div class="log_item even">
+							<span>院内通知（1）</span>
+						</div> -->
 					</div>
 
-
 				</div>
-
-
 			</div>
-			<div class='displayDiv'>
-				<div
+<div class='displayDiv'>
+		<div
 					style="margin: 0 auto; margin-left: 10px; margin-right: 10px; border: 1px rgb(210, 210, 210) solid; background-color: #FFFFFF">
 					<div class="multi_pages">
 						<ul class="tabs">
@@ -1686,131 +1552,246 @@ body{
 			</div>
 		</div>
 	</form>
-	
-<div id="win" class="easyui-window" title="聊天对话窗口" style="width:800px;height:500px;display:none;" data-options="iconCls:'icon-save',modal:false,onOpen:function(){openTalk();},onClose:function(){closeTalk();},closed:true">
-  <input type="hidden" value="${RESTIP}" id="RESTIP">
-  <input type="hidden" value="${RESTPOST}" id="RESTPOST">
-  <input type="hidden" value="${accountSid}" id="accountSid">
-  <input type="hidden" value="${authToken}" id="authToken">
-  <input type="hidden" value="${subaccount}" id="subaccount">
-  <input type="hidden" value="${subaccounttoken}" id="subaccounttoken">
-  <input type="hidden" value="${voip}" id="voip">
-  <input type="hidden" value="${voiptoken}" id="voiptoken">
+<object id="ecsdkobject" class="noDisplay"></object>
+ <div id="win" class="easyui-window"style="width:840px;height:526px;" data-options="modal:false,closed:true,collapsible: false,resizable: false">
+     	
+  <input type="hidden" value="" id="RESTIP">
+  <input type="hidden" value="" id="RESTPOST">
+  <input type="hidden" value="" id="accountSid">
+  <input type="hidden" value="" id="authToken">
+  <input type="hidden" value="" id="subaccount">
+  <input type="hidden" value="" id="subaccounttoken">
+  <input type="hidden" value="" id="appId">
+ <input type="hidden" value="" id="appPwd">
+  <input type="hidden" value="" id="voip">
+  <input type="hidden" value="" id="voiptoken">
+  <input type="hidden" value="" id=fromVoip name="fromVoip">
+  <input type="hidden" value="" id="userVoip" name="userVoip">
+  <input type="hidden" name="hspName" id="hspName" value="">
+	<input type="hidden" id="hspId" value="<%=sessionForm.getStaffHospitalId()%>">
+	<input type="hidden" value="" id = "toVoip" />
+	<input type="hidden" value="<%=sessionForm.getTenantId()%>" id = "tenantId" />
+  <input type="hidden" id="userName" value="<%=sessionForm.getStaffName()%>">
+  <input type="hidden" name="userId" id="userId" value="<%= sessionForm.getStaffId()%>"/>	
+  <input type="hidden" value="" id = "flagHspOrSecurity" />
+  <input type="hidden" value="" id = "toFlagHspOrSecurity" />
   <input type="hidden" value="0" id="talk_status">
-
-
-			<div
-				style="width: 90%; height: 500px; margin: 0 auto; margin-top: 20px;">
-				<div id="middleConversation"
-					style="width: 68%; height: 500px; border: red 0px solid; float: left; padding: 0px; margin-right: 0px"
-					class="personal_words">
-					<div class="title" style='width: 100%'>
-						<input type="hidden" id="currentVoipIp" value="87365300000080">
-						<input type="hidden" id="hspName" value="${hspName }">
-						<input type="hidden" id="userName" value="${userName}">
-						<input type="hidden" id="fromVoip" >
-						<span id="currentVoip">当前对话：87365300000080</span>
+	<div class="chatMain">
+		<div class="leftMain">
+	     <div class="content">
+	          <div class="nav">
+	              <div class="message messageSelected"><div class="unReadMsgCount noDisplay" >0</div></div>
+	              <div class='contacts'></div>
+	          </div>
+	          <div class="info">
+	              <div class="messageList">
+	                  <ul id="huihuaList"><%--
+                      	 <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang1.png" /><span>医生1</span></li>
+	                     <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang2.png" /><span>医生2</span></li>
+	                                
+	                  --%></ul>
+	              </div>
+	              <div class="contactsList noDisplay">
+	                   <ul>
+	                      <li>
+	                          <div class="title">医生组</div>
+	                          <ul class="noDisplay" id="doctorDeptList">
+	                           	<%--<li>
+	                                <div class="title">儿科</div>
+	                                <ul class="noDisplay">
+	                                    <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang1.png" /><span>医生1</span></li>
+	                                    <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang2.png" /><span>医生2</span></li>
+	                                </ul>
+	                            </li>
+	                            <li>
+	                                 <div class="title">骨科</div>
+	                                      <ul class="noDisplay">
+	                                          <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang1.png" /><span>医生1</span></li>
+	                                          <li class="openTrigger doctor"><img src="${path}/chat/images/touxiang2.png" /><span>医生2</span></li>
+	                                      </ul>
+	                             </li>
+	                         --%></ul>
+	                      </li>
+	                      <li>
+	                           <div class="title">患者组</div>
+	                           <ul class="noDisplay" id="patientList">
+	                           </ul>
+	                      </li>
+	                      <li>
+	                           <div class="title">客服组</div>
+	                           <ul class="noDisplay" id="crmList">
+	                           		<!--<li class="openTrigger doctor"><img src="${path}/chat/images/discuss_group_head1.png" /><span>医生1</span></li>
+	                                <li class="openTrigger doctor"><img src="${path}/chat/images/discuss_group_head1.png" /><span>医生2</span></li>
+	                                      
+	                           --></ul>
+	                      </li>
+	                  </ul>
+	              </div>
+	          </div>
+	     </div>
+	  </div>
+	  <div class="openBox">
+	        <div class="head">
+            	<span id="toVoipName"></span>
+            	<a href="javascript:closeChatBox();"  class="closeImg"></a>
+<%--                <a href="#" onclick="closeChatBox();" class="closeImg"></a>--%>
+            </div>
+	        <div class="content">
+	            <div class="infoK" id="infoK">
+	                  <div class="more"><span>查看更多消息</span></div>
+	                  <div class="info_get" id="send_get">
+	                  <!--<div class="self">
+	                    <img class="touxiang" alt="" src="${path}/chat/images/touxiang1.png">
+                     	<span class="chatContent">
+                     		<span class="msgContent">最近身体好些了吗</span>
+                     	 </span>  
+	                   </div>
+	                   <div class="other">
+	                     <img class="touxiang" alt="" src="${path}/chat/images/touxiang2.png">
+	                    	<span class="chatContent">
+	                    		<span class="msgContent">好些了</span> 
+	                         </span> 
+	                    </div>
+	                    <div class="self">
+	                    <img class="touxiang" alt="" src="${path}/chat/images/touxiang1.png">
+	                     	<span class="chatContent">
+	                     		<img class="picture" alt="" src="${path}/chat/images/chat_tu_down.png">
+	                     	 </span>  
+	                    </div>
+	                    <div class="other">
+	                     <img class="touxiang" alt="" src="${path}/chat/images/touxiang2.png">
+	                    	<span class="chatContent">
+	                    		<img class="picture" alt="" src="${path}/chat/images/chat_tu_down.png">
+	                         </span> 
+	                    </div>
+	                   
+	                   <div class="self">
+	                     <img class="touxiang" alt="" src="${path}/chat/images/touxiang1.png">
+	                     	  <span class="chatContent" > 
+	                     	  		<span class="voiceTime" >3"</span>
+									<img class="voiceImg"alt="" src="${path}/chat/images/yuyin_normal.png">
+									
+	                     	 </span> 
+	                    </div>
+	                    
+	                    <div class="other">
+	                     <img class="touxiang" alt="" src="${path}/chat/images/touxiang2.png">
+	                    	<span class="chatContent"> 
+	                    		<img class="voiceImg"alt="" src="${path}/chat/images/yuyin_form_normal.png">
+	                    		<span class="voiceTime">3"</span><img class="voiceUnRead" alt="" src="${path}/chat/images/dotted.png">
+	                          </span> 
+	                    </div>
+	                 --></div>
+                     
+	            </div>
+	            
+                <!--录音-->
+                 <div class="wrap_record noDisplay" > 
+                 	<div id='bar' class="recordBar">
+                    	
 					</div>
-					<div class="infobox" style="width: 100%; padding: 0px;">
-						<div class="info_get" id="send_get" style="width: 100%">
-							<!--  聊天信息  -->
-						</div>
-						<div style="display: none;">
-							<div id="dlg" class="easyui-dialog" title="录音" closed="true"
-								data-options="iconCls:'icon-save',modal:true,closable:false,buttons:'#yuyinButton'"
-								style="width:266px;height:240px;padding:0px;overflow:hidden;background-color:RGB(50,192,202);background-image:url('<%=request.getContextPath()%>/include/images/huatong.png');background-repeat:no-repeat;background-position:50% 50%;">
-								<div class='graph' id='graph' align='center'
-									style='width: 100%; top: 140px; display: none;'>
-									<div id='bar' style='width: 0px; text-align: left;'>
-									</div>
-								</div>
-							</div>
-							<div id="yuyinButton" style="text-align: center;">
-								<a class="easyui-linkbutton" onclick="sendVoice1()"
-									onmouseover="this.style.color='white'"
-									onmouseout="this.style.color='black'"
-									style="width: 80px; height: 25px; line-height: 36px; text-align: center; background: RGB(50, 192, 202); color: RGB(0, 0, 0); font-size: 16px; margin-top: 2px; text-decoration: none; cursor: pointer">发送</a>
-								<a class="easyui-linkbutton" onclick="cancelVoice()"
-									onmouseover="this.style.color='white'"
-									onmouseout="this.style.color='black'"
-									style="width: 80px; height: 25px; line-height: 36px; text-align: center; background: RGB(255, 0, 0); color: RGB(0, 0, 0); font-size: 16px; margin-top: 2px; text-decoration: none; cursor: pointer">取消</a>
-							</div>
-						</div>
-						<div class="info_choose" style='width: 100%;'>
-							<a style="cursor: pointer" onclick="loadBiaoQing();"
-								class="biaoqing" title="表情"></a>
-							<!-- <a href="javascript:void(0);"  class="screenshot" title="截图"></a> -->
-							<a style="cursor: pointer" onclick="loadfujian();" class="fujian"
-								title="附件"></a>
-							<input class="file" type="file" style="display: none;" id="file1"
-								name="file1" size=".01" onchange="uploadfile();" />
-							<a style="cursor: pointer" onclick="dealVoice()" class="voice"
-								title="语音"></a>
-							<a style="cursor: pointer" onclick="chatMessage();"
-								class="chatmessages" title="聊天记录"></a>
-							<!-- 表情框 -->
-							<div class="wrap_bq" style="display: none"></div>
-						</div>
-						<div class="info_send" style="margin: 0px">
-							<div class="area" onclick="getPos();" onkeydown="getHuiche();"
-								contenteditable="true" id="msg"
-								style="width: auto; padding: 0px; margin: 0px; color: black; text-align: left; padding-left: 3px">
-							</div>
-							<div style="display: none" id="sendValue"></div>
-							<div class="btnbox"
-								style="padding: 0px; margin: 0px; width: 100%">
-								<a id="send" class="send_btn" style="cursor: pointer;">发 送</a>
-							</div>
-						</div>
+                    <div class="recoerdBtns">
+                    	<img src="${path}/chat/images/dotted.png"/>
+                    	<span class="recordTime">正在录音中...</span>
+                   		<input type="submit" value="发送" class="recordSend" onclick="sendRecord();"/>
+                    	<input type="submit" value="取消" class="recordCancel" onclick="cancelRecord();" />
+                    </div>
+                 	
+                 </div>
+	             <div class="emoticon">
+	             	<a  onclick="loadBiaoQing();"class="biaoqing" title="表情"></a>
+					<a  onclick="loadfujian();"  class="fujian" title="附件"></a>       		
+		            <input class="file" type="file"  style="width: 0px;" id="file1" name="file1" onchange="uploadfile(this);"/>  	 
+		            <a  onclick="dealRecord()" class="record" title="录音"></a>
+		            <a  class="voice" onclick="loadVoiceVideo('0');" title="语音呼叫"></a>
+					<a class="video" onclick="loadVoiceVideo('1');" title="视频"></a>
+	              	
+	               <!-- 表情框 -->
+					<div class="wrap_bq" ></div>
+	            </div>
+	            <div class="writeMessage">
+	               <!--<div>
+	                  <textarea></textarea>
+	               </div>-->
+	               <div class="area" contenteditable="true" id="chatMsg" onkeydown="sendMessage();">
 					</div>
-				</div>
-				<div class="commonright"
-					style="margin-top: 0px; height: 500px; background-color: #f4f4f4; width: 30%; float: right; margin-left: 0px">
-					<div id="chats"
-						style="width: 100%; height: 500px; border: #999999 0px solid; float: left; overflow: auto; margin-left: 2px;"
-						class="chats">
-						<ul class="tablist" style="width: 100%; padding: 0px">
-							<li class="li1 active">
-								会话
-								<i></i>
-							</li>
-						</ul>
-						<div class="ulbox" style="display: block; width: 100%">
-							<ul class="ul2 child" id="contact"
-								style="display: block; width: 100%">
-								<!-- 联系人 -->
-							</ul>
-						</div>
-					</div>
-					<div id="records"
-						style="width: 100%; height: 500px; border: #999999 0px solid; float: left; display: none; overflow: auto; margin-left: 2px;"
-						class="chats">
-						<ul class="tablist" style="width: 100%; padding: 0px">
-							<li class="li1 active">
-								聊天记录
-								<i></i>
-							</li>
-						</ul>
-						<div class="message" id="msgContent" style="overflow: auto;">
-							<!--  聊天记录  -->
-						</div>
-						<div class="bottom">
-							<a href="javascript:void(0);" class="upOn" id="upOn">上一页</a>
-							<input type="text" style="width: 50px" id="chatsNum" value="1" />
-							<input type="hidden" id="countPage1" disabled="disabled">
-							<span id="countPage">/0</span>
-							<a href="javascript:void(0);" class="next" id="nextOn">下一页</a>
-						</div>
-					</div>
-				</div>
-			</div>
+					<pre id="im_send_content_copy" ></pre>
+                    <div class="sendBtn">
+                    	<a class="send" id="send" href="javascript:btnSendMessage();">发送</a>
+                    </div>
+                    
+	               
+	            </div>
+	      </div>
+	      
+	    </div>
 
-
-
+</div>
+</div>
+	<input type="hidden" id="caller_callid" value=""/>
+	<input type="hidden" id="caller_callType" />
+	<input type="hidden" id="caller_name" />
+	<input type="hidden" id="caller_voip" />
+    <!-- 视频呼叫 -->
+<div id="videoCall" class="easyui-window"
+	data-options="modal:false,closed:true"
+	style="width:526px;height:368px;overflow: hidden;">
+    <div class="videoHead">
+    	<span class="videoTabel">与XXX进行视频通话中</span>
+    </div>
+    <div class="videoContent">
+        <div class="replayer_img">
+            <OBJECT ID="remoteView" style="width: 100%;height: 100%;background:#fff;" CLASSID="CLSID:4CB3537E-EF5A-4493-A3FC-EC14C16C0760"></OBJECT>
+       </div>
+        <div class="sender_img">
+            <OBJECT ID="localView" style="width:200px;height: 200px;background:#fff; margin-left: 1px;" CLASSID="CLSID:4CB3537E-EF5A-4493-A3FC-EC14C16C0760"></OBJECT>
+       		<div class="videoAccept noDisplay">
+       			<span class="videoTime">00:00:34</span>
+	       		<div class="videoHangUpBtn">
+	       			 <a class="vedioCallButton hangup" onclick="hangup();"> </a>
+	       		</div>
+       		</div>
+       		<div class="videoNoAccept ">
+	       		<div class="joinUpCall noDisplay">
+	       			<a class="vedioCallButton answer" onclick="answer();"> </a>
+	       			
+    				<a class="vedioCallButton reject"  onclick="reject();"> </a>
+	       		</div>
+	       		<div class="dialOutCall ">
+	       			 <a class="vedioCallButton hangup" onclick="hangup();"> </a>
+	       		</div>
+       		</div>
+       </div>
+   </div>
+</div>
+  	  <!-- 语音视频呼叫 -->
+<div id="voiceVideoCall" class="easyui-window"  
+	data-options="modal:false,closed:true,collapsible: false,resizable: false"
+	style="width:265px;height:255px;overflow: hidden;">
+    
+	<div class="callVoice">
+		<div class="voiceTouxiangImg">
+			<img class="touxiang" alt="" src="<%=request.getContextPath()%>/chat/images/touxiang2.png">
+            
 		</div>
+		<div >
+			<div id="voiceToVoipName" style="font-size: 20px;color:white;"></div>
+			<div id="stateDescribe" style="font-size: 12px;color:white;padding-top: 10px;"></div>
+		</div>
+	</div>
+    <div class="joinUpCall noDisplay">
+   	 	<a class="voiceCallButton answer" onclick="answer();"> </a>
+    	<a class="voiceCallButton reject"  onclick="reject();"> </a>
+    </div>
+    <div class="dialOutCall">
+        <a class="voiceCallButton hangup" onclick="hangup();"> </a>
+    </div>
+	
+</div>
 
-<input type="hidden" id="imServerPath" value="http://localhost:8003/ChartPatientWebhttp://localhost:8003/ChatPatientWeb/">
-<OBJECT ID="CallCenter" CLASSID="CLSID:F20C5A15-A3E3-4375-9A8B-8275489017B8" style="width: 0px;height: 0px;"></OBJECT>
+	<input type="hidden" id="serverPath" value="<%=request.getContextPath()%>"/>
+	<input type="hidden" id="imServerPath" value="http://localhost:8003/ChartPatientWebhttp://localhost:8003/ChatPatientWeb/">
+	<OBJECT ID="CallCenter" CLASSID="CLSID:F20C5A15-A3E3-4375-9A8B-8275489017B8" style="width: 0px;height: 0px;"></OBJECT>
 <script>
 
       //右边伸缩
@@ -1851,5 +1832,14 @@ body{
 </script>
 
 </body>
-</html>
+	<script src="<%=request.getContextPath()%>/chat/js/CRM/chatCRMPublic.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/CRM/crmBaseData.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/CRM/chatCRMOCX-1.1.7.13.js"></script>
+
+	<!--<script src="<%=request.getContextPath()%>/chat/js/chat.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/chatPort.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/chatPublic.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/baseData.js"></script>
+	<script src="<%=request.getContextPath()%>/chat/js/voiceAndvideoCall.js"></script>
+--></html>
 

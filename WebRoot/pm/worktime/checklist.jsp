@@ -46,7 +46,7 @@
 			      	</c:forEach>
 			      </select>
 		  </div>
-		 <div class="crm_input_item" style="margin-left: 109px;">
+		 <div class="crm_input_item" style="">
 		  	<span class="">排序方式</span>
 		  	<select class="easyui-combobox" style="height:24px;width: 120px;" name="orderNo" id="orderNo" panelHeight="80px">
 		  		<option value="0" <c:if test="${data.orderNo eq '0'}">selected="selected"</c:if> >序号</option>
@@ -66,13 +66,12 @@
 		    <div class="crm_input_item" >
 		      <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="clearSelect();query_button();" />
 		    </div>
-		    <div class="crm_input_item" >
- 			<div class="download_button_s1 " onclick="downList();">
-		     <img alt="" src="${path }/style/img/down.png" style="margin-top: 5px;margin-left: 10px;">
-		     <span style="position: absolute;color: #fff;">导出</span>
-		    </div>
-		</div>
+		    
 		 </div> 
+		 <div class="crm_input_item" >
+		  	<span class="">项目名称</span>
+		  		 <input type="text" style="width: 112px;height:20px;" name="staffName" id="staffName" class="crm_input_text" value='${data.staffName}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  </div>
 		 <div class="crm_input_item" >
 		  	<span class="">时间条件</span>
 		  			<span  class="calendarspan">

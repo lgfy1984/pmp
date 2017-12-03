@@ -324,7 +324,6 @@ private List<?> getList(HspConfigBaseinfoForm form,String saffid){
 			row.setHeight((short)100);
 			row.setHeightInPoints((float)30);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellStyle(HeaderStyle);
 			String str = ResourcesUtil.getValue("conf.hsp.HspLocale", "hsp.java.hspConfigBaseinfoServiceImpl.itemInfo", request);
 			text = Converter.getUnicode(str,"gb2312");
@@ -335,7 +334,6 @@ private List<?> getList(HspConfigBaseinfoForm form,String saffid){
 			row.setHeight((short)585);
 			cell = row.createCell((short)0);
 			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 			cell.setCellStyle(cellStyle);
 			str = ResourcesUtil.getValue("conf.hsp.HspLocale", "hsp.java.common.createTime", request);
 			text = str + ":"+new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -345,7 +343,6 @@ private List<?> getList(HspConfigBaseinfoForm form,String saffid){
 			for(int i=1; i<Overall_Number; i++){
 				cell = row.createCell((short)i);
 				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				cell.setEncoding(HSSFCell.ENCODING_UTF_16);
 				cell.setCellStyle(cellStyle);
 				text = "";
 				text = Converter.getUnicode(text,"gb2312");

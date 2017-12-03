@@ -189,4 +189,15 @@ public interface IProjectWorkTimeRecordDAO  {
 	 * @return 返回一个对象
 	 */
 	public Object findObjByHql(String hql, Map<String, Object> map);
+	
+	/**
+	 * 根据sql查询一个对象
+	 * 
+	 * @param sql
+	 *            sql语句
+	 * @param map
+	 * 
+	 * @return 返回一个对象
+	 */
+	public Object findObjBySql(String sql, Map<String, Object> map);
 }

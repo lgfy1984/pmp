@@ -10,19 +10,27 @@ body{
 	margin:0;	
 	padding:0;	
 	text-align:center;	
+	
+}
 
+.newbody{	
+	margin:0;	
+	padding:0;	
+	text-align:center;	
+	background-color: #eef2f3;
+	
 }
 a{
 	font-size:12px;
-	color:#333;
+	color:#0778c8;
 	text-decoration:none;
 }
 a:hover{
-	color:#000;
+	color:#0778c8;
 	text-decoration:underline;
 }
 a:visited{
-	color:#333;
+	color:#0778c8;
 }
 .table{
       margin:0px;
@@ -32,17 +40,32 @@ a:visited{
 .td_name{ 
     height:24px;
 	width:60px;
-    color:#000000;
+    color:#898989;
 	font-family:Arial;
-	font-size:13px;
+	font-size:14px;
 	text-align:right;
+	margin-bottom: 10px;
+	float: left;
 	}
 .td_input{
-    width:150px;
+    width:186px;
 	text-align:left;
+	float: left;
  }
+ .clear{
+ clear: both;
  
- 
+ }
+ .yzm_div{
+ display:inline-block;
+ vertical-align:middle;
+ width:50px;
+ height:20px;
+ overflow:hidden;
+ border-right:1px solid black;
+ border-bottom:1px solid black;
+ float: right;
+ }
 .input_left{
 	border-right: #a1bca3 1px solid;
     border-top: #a1bca3 1px solid;
@@ -52,7 +75,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 138px! important;
+	width: 158px! important;
 	height:20px;
 	line-height:20px;	
 	font-family:Arial;
@@ -72,7 +95,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 138px! important;
+	width: 158px! important;
 	height:20px;
 	line-height:20px;
 	font-family: Arial;
@@ -90,7 +113,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 138px! important;
+	width: 158px! important;
 	height:20px;	
 	line-height:20px;
 	font-family: Arial;
@@ -109,7 +132,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 138px! important;
+	width: 158px! important;
 	height:20px;
 	line-height:20px;	
 	font-family: Arial;
@@ -128,7 +151,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 67px! important;
+	width: 90px! important;
 	height:20px;
 	line-height:20px;	
 	font-family:Arial;
@@ -147,7 +170,7 @@ a:visited{
 	padding-bottom: 0px;
 	padding-left:22px;
 	vertical-align: middle; 
-	width: 67px! important;
+	width: 90px! important;
 	height:20px;
 	line-height:20px;
 	font-family: Arial;
@@ -157,7 +180,6 @@ a:visited{
 	}
 	
 .inp_L1 {
-
 	BACKGROUND: url(../images/button_bg.png) no-repeat
 }
 .inp_L2 {
@@ -173,35 +195,39 @@ a:visited{
 	border-right-width: 0px;
 	padding:0;
 	margin:0;
+	margin-top:10px;
 	width:50px; 
 	color: #464646;
 	line-height: 23px; 
 	height: 23px; 
 	font-family:Arial;
-	font-size:11px;
+	font-size:12px;
+	
 }
 .inp_L2 {
 	border-top-width: 0px;  
 	border-left-width: 0px; 
 	border-bottom-width: 0px; 
 	width:50px; 
+	margin-top:10px;
 	color: #ffffff; 
 	line-height: 23px; 
 	height: 23px; 
 	border-right-width: 0px;
 	font-family:Arial;
-	font-size:11px;}	
+	font-size:12px;}	
 .inp_L3{
 	border-top-width: 0px;  
 	border-left-width: 0px; 
 	border-bottom-width: 0px; 
 	width:50px; 
+	margin-top:10px;
 	color: #ffffff; 
 	line-height: 23px; 
 	height: 23px; 
 	border-right-width: 0px;
 	font-family:Arial;
-	font-size:11px;}	
+	font-size:12px;}	
 .table_title{ 
     font-size:11px;
 	color:#464646;
@@ -209,3 +235,76 @@ a:visited{
 	margin-bottom:12px;
  }
 label{margin-right:0px;}
+.logodiv{
+	width: 380px;
+	height: 146px;
+	position: relative;
+	background-image: url(../images/newlogo.gif);
+	z-index: 1;
+	margin:0 auto;
+	bottom:195px;
+	
+}
+.logindiv{
+	background-image: url(../images/newlogin.png);
+	width: 478px;
+	height: 441px;
+	position: relative;
+	bottom: 200px;
+	z-index: 1;
+	margin:0 auto;
+}
+.backimg{
+	background-image: url(../images/newbackgroud.jpg);
+	height: 215px;
+	position: relative;
+	top: 200px;
+	text-align: center;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+.newrex{
+	background-image: url(../images/newrex.jpg);
+	height: 215px;
+	position: relative;
+	bottom: 15px;
+	background-repeat: repeat-x;
+	z-index: -1;
+}
+.vesion{
+	font-size: 11px;
+	color: #464646;
+	font-family: Arial;
+	z-index: -1;
+	position: relative;
+	bottom: 250px;
+	width: 212px;
+	text-align:center;
+	margin:0 auto;
+}
+.newtable{
+	margin: 0px;
+	display: inline;
+	border:0px;
+/*	border: 3px solid #0D02F5;*/
+	position: relative;
+	top: 80px;
+	 left: 110px; 
+	width:240px;
+	 height:120px;
+ }
+ 
+.newfpsw{
+	height: 24px;
+	width: 100px;
+	color: #0778c8;
+	position: relative;
+	top: 90px;
+	right: 210px;
+	font-family: Arial;
+	font-size: 13px;
+/*	border: 3px solid #F90307;*/
+	text-align: center;
+	float: right;
+}
+
