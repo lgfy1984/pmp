@@ -76,92 +76,93 @@ jQuery.extend({
         }            
         
         var uploadCallback = function(isTimeout)
-  {  
-   // Wait for a response to come back 
-   var io = document.getElementById(frameId);
-            try 
-   {    
-    if(io.contentWindow)
-    {
-      xml.responseText = io.contentWindow.document.body?io.contentWindow.document.body.innerHTML:null;
-                  xml.responseXML = io.contentWindow.document.XMLDocument?io.contentWindow.document.XMLDocument:io.contentWindow.document;
-      
-    }else if(io.contentDocument)
-    {
-      xml.responseText = io.contentDocument.document.body?io.contentDocument.document.body.innerHTML:null;
-                 xml.responseXML = io.contentDocument.document.XMLDocument?io.contentDocument.document.XMLDocument:io.contentDocument.document;
-    }      
-            }catch(e)
-   {
-    jQuery.handleError(s, xml, null, e);
-   }
-            if( xml || isTimeout == "timeout") 
-   {    
-                requestDone = true;
-                var status;
-                try {
-                    status = isTimeout != "timeout" ? "success" : "error";
-                    // Make sure that the request was successful or notmodified
-                    if( status != "error" )
-     {
-                        // process the data (runs the xml through httpData regardless of callback)
-                        var data = jQuery.uploadHttpData( xml, s.dataType );                        
-                        if( s.success )
-                        {
-       // ifa local callback was specified, fire it and pass it the data
-                         s.success( data, status );
-                        };                 
-                        if( s.global )
-                        {
-       // Fire the global callback
-                         jQuery.event.trigger( "ajaxSuccess", [xml, s] );
-                        };                            
-                    } else
-                    {
-                     jQuery.handleError(s, xml, status);
-                    }
-                        
-                } catch(e) 
-    {
-                    status = "error";
-                    jQuery.handleError(s, xml, status, e);
-                };                
-                if( s.global )
-                {
-     // The request was completed
-                 jQuery.event.trigger( "ajaxComplete", [xml, s] );
-                };
-                    
-
-                // Handle the global AJAX counter
-                if(s.global && ! --jQuery.active)
-                {
-                 jQuery.event.trigger("ajaxStop");
-                };
-                if(s.complete)
-                {
-                  s.complete(xml, status);
-                } ;                 
-
-                jQuery(io).unbind();
-
-                setTimeout(function()
-         { try 
-          {
-           jQuery(io).remove();
-           jQuery(form).remove(); 
-           
-          } catch(e) 
-          {
-           jQuery.handleError(s, xml, null, e);
-          }         
-
-         }, 100);
-
-                xml = null;
-
-            };
-        }
+      {  
+	   // Wait for a response to come back 
+	   var io = document.getElementById(frameId);
+	            try 
+	   {    
+	    if(io.contentWindow)
+	    {
+	      xml.responseText = io.contentWindow.document.body?io.contentWindow.document.body.innerHTML:null;
+	                  xml.responseXML = io.contentWindow.document.XMLDocument?io.contentWindow.document.XMLDocument:io.contentWindow.document;
+	      
+	    }else if(io.contentDocument)
+	    {
+	      xml.responseText = io.contentDocument.document.body?io.contentDocument.document.body.innerHTML:null;
+	                 xml.responseXML = io.contentDocument.document.XMLDocument?io.contentDocument.document.XMLDocument:io.contentDocument.document;
+	    }      
+	            }catch(e)
+	   {
+	    jQuery.handleError(s, xml, null, e);
+	   }
+	            if( xml || isTimeout == "timeout") 
+	         {    
+	                requestDone = true;
+	                var status;
+	                try {
+	                    status = isTimeout != "timeout" ? "success" : "error";
+	                    // Make sure that the request was successful or notmodified
+	                    if( status != "error" )
+	                  {
+	                        // process the data (runs the xml through httpData regardless of callback)
+	                        var data = jQuery.uploadHttpData( xml, s.dataType );   
+	                        if( s.success )
+	                        {
+	       // ifa local callback was specified, fire it and pass it the data
+	                         s.success( data, status );
+	                        };                 
+	                        if( s.global )
+	                        {
+	       // Fire the global callback
+	                         jQuery.event.trigger( "ajaxSuccess", [xml, s] );
+	                        };                            
+	                    } else
+	                    {
+	
+	                     jQuery.handleError(s, xml, status);
+	                    }
+	                        
+	                } catch(e) 
+	                 {
+	                    status = "error";
+	                    jQuery.handleError(s, xml, status, e);
+	                };                
+	                if( s.global )
+	                {
+	     // The request was completed
+	                 jQuery.event.trigger( "ajaxComplete", [xml, s] );
+	                };
+	                    
+	
+	                // Handle the global AJAX counter
+	                if(s.global && ! --jQuery.active)
+	                {
+	                 jQuery.event.trigger("ajaxStop");
+	                };
+	                if(s.complete)
+	                {
+	                  s.complete(xml, status);
+	                } ;                 
+	
+	                jQuery(io).unbind();
+	
+	                setTimeout(function()
+	         { try 
+	          {
+	           jQuery(io).remove();
+	           jQuery(form).remove(); 
+	           
+	          } catch(e) 
+	          {
+	           jQuery.handleError(s, xml, null, e);
+	          }         
+	
+	         }, 100);
+	
+	                xml = null;
+	
+	       };
+     }
         // Timeout checker
         if( s.timeout > 0 ) 
   {
@@ -227,5 +228,16 @@ jQuery.extend({
         }
             
         return data;
-    }
+    },
+    handleError: function( s, xhr, status, e ) 		{
+    	// If a local callback was specified, fire it
+    			if ( s.error ) {
+    				s.error.call( s.context || s, xhr, status, e );
+    			}
+    			// Fire the global callback
+    			if ( s.global ) {
+    				(s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+    			}
+    		}
+    
 });

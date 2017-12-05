@@ -335,10 +335,6 @@ public class ProjectWorkTimeRecordAction extends BaseDispatchAction{
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
 		try {
 			ProjectWorkTimeRecordForm hosform =(ProjectWorkTimeRecordForm) form;
-			String statues =request.getParameter("executedFlag");
-			if(statues!=null&&statues.equals("1")){
-				//hosform.setExecutedFlagIdHidden("1");
-			}
 			String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
 			hosform.setCreateUserId(createUserId);

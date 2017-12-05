@@ -20,7 +20,116 @@
     <script type="text/javascript" src="${path}/js/jscal2.js"></script>
     <script type="text/javascript" src="${path}/js/lang/cn.js"></script>
   </head>
-  
+  	<script type="text/javascript">
+  	/**查找电话号码历史 */
+  	var selectUsersData = new Array(); 	 
+function findStaffList(page){// open a window  	
+	$win = $('#win').window({
+	    title: '选择项目经理',
+	    width: 820,
+	    height: 450,
+	    top: ($(window).height()-650) * 0.5,
+	    left: ($(window).width()-900) * 0.5,
+	    shadow: true,
+	    modal: true,
+	    closed: true,
+	    minimizable: false,
+	    maximizable: false,
+	    collapsible: false
+	});
+
+	$('#win').window('open'); 
+	
+	var staffCodeCase=$('#staffCodeCase').val();
+	var staffNameCase=$('#staffNameCase').val();
+	var pageIndex = page;
+	var path = '${path}/pm/projectbaseinfo.do?verbId=findStaffList&&pageIndex='
+			+ pageIndex + '&staffCode='+ staffCodeCase + '&staffName=' + staffNameCase;
+	$.ajax({
+		type : "post",
+		url : '${path}/pm/projectbaseinfo.do?verbId=findStaffPage',
+		data : {
+			pageIndex:pageIndex,
+			staffCode:staffCodeCase,
+			staffName:staffNameCase
+		},
+		dataType : "text",
+		success : function(data) {
+			getPageSuccess(data);
+		}
+	});
+	$('#dg').datagrid( {
+		url : encodeURI(encodeURI(path)),
+		nowrap : false,
+		striped : true,
+		remoteSort : false,
+		fitColumns:true,
+		height:300,
+		columns : [ [ {
+			idField : 'id',
+			hidden : true
+		}, {
+			field : 'staffCode',
+			title : '员工代码',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'staffName',
+			title : '姓名',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'sexName',
+			title : '性别',
+			align : 'center',
+			width : $(this).width()*0.1
+		}, {
+			field : 'staffClass',
+			title : '人员类别',
+			align : 'center',
+			width : $(this).width()*0.15
+		}] ],
+		onDblClickRow:function(rowIndex,rowData){
+	        //alert(rowData.projectCode);
+	        $('#staffId').val(rowData.id);
+	        $('#staffCode').val(rowData.staffCode);
+	        $('#staffName').val(rowData.staffName);
+	        
+	        $('#win').window('close');  
+	    }		
+	});
+}
+
+
+function getPageSuccess(data) {
+	eval("var json = " + data + ";");
+	var count = json.count;
+	var pageIndex = json.pageIndex;
+	var pageCount = json.pageCount;
+	var pageSize = json.pageSize;
+	$('#count').val(count);
+	$('#page_index').val(pageIndex);
+	$('#page_count').val(pageCount);
+	$('#page_size').val(pageSize);
+	updatePager();
+	$('#pageshow').show();
+	activePage="pageshow";
+}
+function paging(page) {
+	$("#cur_page").val(page);
+	if(activePage=="pageshow"){
+		findStaffList(page);
+	}else	if(activePage=="grouppageshow"){
+		getPreview(selectNode,page);
+	}else	if(activePage=="pageTempletShow"){
+		getTempletContent(selectNode.id,page);
+	}
+}
+
+function selectStaffUser() {
+
+}  	
+</script>
   <body>
   	  <form name="form" id="form" method="post" action="projectbaseinfo.do" >
 			<input type="hidden" name="verbId" value="update" />
@@ -28,6 +137,7 @@
   	  <input type="hidden" name="idHidden" value="${data.id}" />
   	  <input type="hidden" name="cur_page" id="cur_page" value="${data.page_index}"/>
   	  <input type="hidden" name="projectClassCodeHidden" id="projectClassCodeHidden" value="${data.projectClassCodeHidden}"/>
+  	  <input type="hidden" name="staffCode" id="staffCode" value="${data.staffCode}"/>
   	  <input type="hidden" name="startTimeHidden" id="startTimeHidden" value="${data.startTimeHidden}"/>
   	  <input type="hidden" name="endTimeHidden" id="endTimeHidden" value="${data.endTimeHidden}"/>
   	  <input type="hidden" name="projectNameHidden" id="projectNameHidden" value="${data.projectNameHidden}"/>
@@ -93,12 +203,17 @@
 							 项目经理
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
-							<input type="text" name="staffName" id="staffName" class="text"  value='${data.createUserName}'
+							<input type="text" name="staffName" id="staffName" class="text"  value='${data.staffName}'
 								onblur="fEvent('blur',this)"
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
+						   <input type="button" value="请选择" class="button_grey1_s0"
+							style="vertical-align: top;"
+							onmousedown="this.className='button_grey1_s1'"
+							onmouseout="this.className='button_grey1_s0'"
+							onclick="findStaffList('1')" />
 						</td>
 					</tr>
 					<tr>
@@ -167,7 +282,6 @@
 								
 						</td>
 					</tr>     	  	
-      	  
       	  </table>
       </div>
       
@@ -175,6 +289,56 @@
 		<input type="button" value="修改" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" onclick="clearSelect();update_Form();"/>&nbsp;&nbsp;
 		<input type="button" value="返回" class="button_grey1_s0" onmousedown="this.className='button_grey1_s1'" onmouseout="this.className='button_grey1_s0'" onclick="query_List();"/>
 	  </div>
+	  <div id="win" class="easyui-window" closed="true" title=""
+				style="overflow: hidden;">
+				<div class='crm_search_div' align="center">
+					<div style="height: 10px; widows: 100%" id="firstCondition"></div>
+					<div class="crm_input_item">
+						<span style="margin-left: 3px;">员工代码：</span>
+						<input id="staffCodeCase" type="text" class="crm_input_text crm_width_3"
+							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+							value="" style="width:80px;height:22px;line-height: 22px;">
+					</div>
+					<div class="crm_input_item">
+						<span>员工姓名：</span>
+						<input id="staffNameCase" type="text" class="crm_input_text crm_width_3"
+							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+							value=""style="width:80px;height:22px;line-height: 22px;">
+					</div>
+					<div class="crm_input_item">
+						<input type="button" value="查询" class="button_blue1_s0" 
+							onmousedown="this.className='button_blue1_s1'"
+							onmouseout="this.className='button_blue1_s0'"
+							onclick="findStaffList('1')" />
+					</div>
+					<div class="crm_input_item">
+						<input type="button" value="确定" class="button_green1_s0" 
+							onmousedown="this.className='button_green1_s1'"
+							onmouseout="this.className='button_green1_s0'"
+							onclick="selectStaffUser()" />
+					</div>
+					<div style="clear: both"></div>
+					<div style="height: 10px; widows: 100%"></div>
+					
+				<table id="dg"></table>
+				<tfoot>
+					<div id="pageshow" style="display: none;">
+						<input type="hidden" title="当前第几页" name="page_index"
+							id="page_index" value="" />
+						<input type="hidden" title="一共多少页" name="page_count"
+							id="page_count" value="" />
+						<input type="hidden" title="一共多少条记录" name="count" id="count"
+							value="" />
+						<input type="hidden" title="每页显示多少条记录" name="page_size"
+							id="page_size" value="" />
+						<div class="pager_num"></div>
+						<div class="pager_text"></div>
+					</div>
+				</tfoot>
+				</div>
+			</div>
 	  </form>
 		<script type="text/javascript">
 		var cal = Calendar.setup({            //日期控件

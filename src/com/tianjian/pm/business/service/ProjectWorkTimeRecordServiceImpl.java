@@ -329,6 +329,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 		data.setProjectBaseinfoId(Converter.toBlank(form.getProjectBaseinfoId()));
 		data.setLongTime(Converter.toInteger(form.getLongTime()));
 		data.setTaskCode(Converter.toBlank(form.getTaskCode()));
+		data.setStaffCode(Converter.toBlank(form.getCreateUserId()));
 		
 			String newDate = sdf.format( new Date());
 			data.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
@@ -341,6 +342,7 @@ public class ProjectWorkTimeRecordServiceImpl implements IProjectWorkTimeRecordS
 			pfr.setProjectBaseinfoId(Converter.toBlank(form.getProjectBaseinfoId()));
 			pfr.setLongTime(Converter.toInteger(form.getLongTime()));
 			pfr.setTaskCode(Converter.toBlank(form.getTaskCode()));
+			pfr.setStaffCode(Converter.toBlank(form.getCreateUserId()));
 			pfr.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
 			pfr.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
 			pfr.setChargeType(Converter.toBlank(form.getChargeType()));

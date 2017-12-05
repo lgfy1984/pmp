@@ -6,6 +6,7 @@
 	<form-beans>
 	</form-beans>
 	<action-mappings/>	
+	<controller maxFileSize="1024M" />	
 	<message-resources key="main"  parameter="conf.main.Init" ></message-resources>
 	<message-resources key="test" parameter="conf.test" ></message-resources>
 	<message-resources key="a"  parameter="conf.Init" ></message-resources>
@@ -24,5 +25,6 @@
     <message-resources parameter="com.yourcompany.struts.ApplicationResources" />
   	<message-resources key="security" parameter="conf.security.securityInit"></message-resources>
 	<message-resources key="comm.comIHE" parameter="conf.comm.CommIHE"></message-resources>
+  <message-resources parameter="ApplicationResources"/> 
 </struts-config>
 

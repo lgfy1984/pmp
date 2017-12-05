@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
+
 
 /**
  * TODO
@@ -85,6 +87,7 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	private String startTimeHidden="";
 	private String endTimeHidden="";
 
+	private FormFile fileToUpload;// 上传文件
 	private Map<String , String> taskClass;
 	private Map<String , String> projectClass;
 	
@@ -465,6 +468,16 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	public void setWorkStaffCode(String workStaffCode) {
 		this.workStaffCode = workStaffCode;
 	}
+
+	public FormFile getFileToUpload() {
+		return fileToUpload;
+	}
+
+	public void setFileToUpload(FormFile fileToUpload) {
+		this.fileToUpload = fileToUpload;
+	}
+
+	
 	 
 	
 }

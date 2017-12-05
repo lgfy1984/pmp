@@ -15,15 +15,38 @@
   <link rel="stylesheet" type="text/css" href="../style/steel/steel.css"/>
   <link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
   <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
-  <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
   <script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
   <script type="text/javascript" src="${path}/js/pager.js"></script>
   <script type="text/javascript" src="${path}/js/charge.js"></script>
-  <script type="text/javascript" src="${path}/js/default.js"></script>
   <script type="text/javascript" src="${path}/js/jscal2.js"></script>
   <script type="text/javascript" src="${path}/js/lang/cn.js"></script>
 <script type="text/javascript" src="${path}/js/ajaxfileupload.js"></script>
+  <script type="text/javascript" src="${path}/js/default.js"></script>
+  
+  
+  <style type="text/css">
+/*   #uploadPictureWrapper{ */
+/*         background-image: url(${path}/style/img/blue_normal_93x26.gif); */
+/*         width:68px; */
+/*         height:15px; */
+/*         position:relative; */
+/*         overflow:hidden;       */
+/*         margin:0 auto; */
+/*         margin-bottom:0px;   */
+/*         padding-left:20px; */
+/*         padding-top:6px; */
+/*         color:white;       */
+/*   } */
+/*   #uploadPictureWrapper input{ */
+/*         opacity:0; */
+/*         filter:alpha(opacity=0); */
+/*         position:absolute; */
+/*         right:20px; */
+/*         height:26px; */
+/*   } */
+ </style>
   <script type="text/javascript">
   
 	$(function() {
@@ -68,11 +91,11 @@
 	function importExcelFile(){ 
 			$.ajaxFileUpload(
               	 	 	{          	
-			                url:'${path}/followup/ObjectivQuestions.do?verbid=importFile',           
+			                url:'${path}/pm/projectfinancew.do?verbId=importfile',          
 			                secureuri:false,
 			                fileElementId:'fileToUpload',                        //文件选择框的id属性
 			                dataType: 'json',                                     //服务器返回的格式，可以是json
-			                success: function (data, status)            //相当于java中try语句块的用法
+					        success: function (data, status)            //相当于java中try语句块的用法
 			                {  
 			                	if(data.result=='error'){
 			                		$.messager.alert("操作提示", "导入文件格式错误!","error");
@@ -115,7 +138,13 @@
 
  </head>
  <body onload="showHspMessage('${data.message}')">
- <form name="form" method="post" action="projectfinancew.do">
+ <form  name="form1" id="form1" method="post" enctype="multipart/form-data" >
+			 <div id='uploadPictureWrapper'  class="crm_input_item" style="margin-top: 3px;margin-left: 10px;float: right;">
+		         	<span class="">导入excel</span>
+			    <input type="file" id="fileToUpload"   class="crm_search_input_text"  name="fileToUpload" onchange="importExcelFile();" />
+		      </div>
+ </form>
+ <form name="form" id="form" method="post" action="projectfinancew.do">
   <input type="hidden" name="verbId" value="queryFinanceRecordinfo" />
   <input type="hidden" name="idHidden" id="idHidden" value="" />
   <input type="hidden" name="message" id="message" value="" />
@@ -171,11 +200,6 @@
 								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" readonly/>
 		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 		  </div>
-		  
-			 <div id='uploadPictureWrapper'  class="crm_input_item" style="margin-top: 3px;margin-left: 10px;">
-		         	<span class="">导入excel</span>
-			    <input type="file" id="fileToUpload"   class="crm_search_input_text"  name="fileToUpload" onchange="importExcelFile();" />
-		      </div>
 		  <div style="clear:both"></div>
 	  </div>
 	  <div class="horizontal_line_2"></div>

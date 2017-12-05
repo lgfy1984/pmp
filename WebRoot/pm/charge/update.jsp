@@ -26,6 +26,7 @@
 	<input type="hidden" name="verbId" value="queryFinanceRecordinfo" />
   	  <input type="hidden" name="chargeType" id="chargeType" value="${data.chargeType}"/>
   	  <input type="hidden" name="message" id="messageId" value="修改成功！"/>
+  	  <input type="hidden" name="workStaffCode" id="workStaffCode" value="${data.workStaffCode}"/>
       <input type="hidden" name="projectBaseinfoId" id="projectBaseinfoId" value="${data.projectBaseinfoId}" />
   	  <input type="hidden" name="idHidden" value="${data.id}" />
   	  <input type="hidden" name="cur_page" id="cur_page" value="${data.page_index}"/>
@@ -136,7 +137,7 @@
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" class="text readonly" readonly
-								value="${data.createUserName}"  />
+								value="${data.workStaffName}"  />
 						</td>
 					</tr>
 					<tr>

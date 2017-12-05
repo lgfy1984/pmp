@@ -110,7 +110,7 @@
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" class="text readonly" readonly
-								value="${data.createUserName}"  />
+								value="${data.workStaffName}"  />
 						</td>
 					</tr>
 					<tr>

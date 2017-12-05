@@ -123,7 +123,7 @@
 					  <td>${kd.taskCode}</td>
 					  <td>${kd.workDate}</td>
 					  <td>${kd.longTime}</td>
-					  <td>${kd.status}</td> 
+					  <td>${kd.statusName}</td> 
 					  <td style="cursor:pointer;"  onclick="checkcc('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="审核"  /></td>
 				  </tr>
 				  </c:forEach>

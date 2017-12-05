@@ -50,7 +50,11 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 <!-- end Spring配置 -->
-	
+	<listener>
+        <listener-class>
+          org.apache.commons.fileupload.servlet.FileCleanerCleanup
+	        </listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>

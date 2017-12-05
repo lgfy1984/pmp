@@ -42,6 +42,17 @@ public interface IProjectFinanceRecordService  {
 	* @author lengj
 	 */
 	public void save(ProjectFinanceRecordForm form);
+	
+	/**
+	 * 保存EXCEL数据
+	*
+	* @Title: save
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void saveExcelData(ProjectFinanceRecordForm form);
 	/**
 	 * 修改
 	*

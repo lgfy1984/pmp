@@ -225,7 +225,7 @@ function selectStaffUser() {
 								onfocus="fEvent('focus',this)" required="true"
 								onmouseout="fEvent('mouseout',this)" validtype="length[1,25]"
 								invalidMessage="有效长度1-25" />
-						    <input type="button" value="选择项目经理" class="statbutton_grey1_s0"
+						    <input type="button" value="请选择" class="button_grey1_s0"
 							style="vertical-align: top;"
 							onmousedown="this.className='button_grey1_s1'"
 							onmouseout="this.className='button_grey1_s0'"

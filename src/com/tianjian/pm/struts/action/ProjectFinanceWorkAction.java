@@ -7,18 +7,19 @@
  */
 package com.tianjian.pm.struts.action;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -29,11 +30,12 @@ import com.tianjian.pm.business.IProjectFinanceRecordService;
 import com.tianjian.pm.struts.comm.BaseDispatchAction;
 import com.tianjian.pm.struts.form.ProjectFinanceRecordForm;
 import com.tianjian.pm.struts.form.ProjectFinanceVo;
-import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
 import com.tianjian.security.struts.form.SessionForm;
 import com.tianjian.util.Converter;
 import com.tianjian.util.comm.PageBean;
+import com.tianjian.util.excel.ExcelHelper;
 import com.tianjian.util.excel.HssfExcelHelper;
+import com.tianjian.util.excel.JxlExcelHelper;
 
 /**
  * TODO
@@ -366,9 +368,12 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 		}
 		return mapping.findForward(null);
 	}
-	public ActionForward importFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
-		ProjectWorkTimeRecordForm fileUploadForm = (ProjectWorkTimeRecordForm) form;	
-	    FormFile uploadFile = fileUploadForm.getFileToUpload();
+	public ActionForward importfile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
+		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+		ProjectFinanceRecordForm fform = (ProjectFinanceRecordForm) form;	
+		fform.setCreateUserId(staff.getStaffId());
+		fform.setCreateUserName(staff.getStaffName());
+	    FormFile uploadFile = fform.getFileToUpload();
 	    response.setCharacterEncoding("utf-8");
 	    //判断是否是excel文件
 	    if(uploadFile==null || !uploadFile.getFileName().toLowerCase().endsWith("xls")){  
@@ -380,42 +385,29 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 	    	return mapping.findForward(null);
 	    }   
 	    try {  
-	    	InputStream inputStream=uploadFile.getInputStream();
-	    	HSSFWorkbook book =new HSSFWorkbook(inputStream);
-	    	HSSFSheet sheet =  book.getSheetAt(0);
-	    	HSSFRow row2 = sheet.getRow(2);
-	    	if(!row2.getCell((short)1).getStringCellValue().equals("问题名称")||
-	    		!row2.getCell((short)3).getStringCellValue().equals("科室")||
-	    		!row2.getCell((short)4).getStringCellValue().equals("病种")||
-	    		!row2.getCell((short)5).getStringCellValue().equals("创建人")||
-	    		!row2.getCell((short)6).getStringCellValue().equals("答案")||
-	    		!row2.getCell((short)7).getStringCellValue().equals("科室代码"))
-	    	{
-	    		response.getWriter().write("{\"result\":\""+"error"+"\"}");
-	    		return mapping.findForward(null);
-	    	}
-	    	//获取excel数据
-	    	List<?> listData=new ArrayList<Object>();
-	    	for (int i = 3; i <= sheet.getLastRowNum(); i++) {
-	             
-	             //listData.add(followupQuestion);
-	    	 }
+
+			String[] fieldNames = new String[]{"seqNo", "projectCode", "projectName", "workStaffName","longTime", "costs"};
 	    	
-	    	//填装关联数据并过滤已有的问题数据
-	    	List<?> newQuestionListData=new ArrayList<Object>();	
-	    	for (int i = 0; i < listData.size(); i++) {
-	    		//查看问题是有已经存在
-/*	    		CrmFollowupQuestion findResult=iQuestionBusiness.findQuestionByTitle(followupQuestion.getQuestionTitle());
-	    		if(findResult!=null){
-	    			//continue;   //则无需再插入
-	    		}*/
-	    		
-	    	
-	    		//newQuestionListData.add(followupQuestion);	    		
-			}	    	
-	    	for (int j = 0; j < newQuestionListData.size(); j++) {
-			}
-	    	
+    	    System.out.println(uploadFile.getFileName().toString());
+    	    //设置保存路径
+    	    String path="/pm/excel";
+    	    String realPath=request.getSession().getServletContext().getRealPath(path);
+    	    File dir=new File(realPath);
+    	    if(!dir.exists()) dir.mkdir();//判断该目录是否存在，不存在则创建
+    	    
+    	    //设置要进行保存的文件名称，防止出现重复文件名称，通过uuid确定其文件名的唯一性
+    	    String fileName=UUID.randomUUID().toString()+"."+getFileExt(uploadFile);//uuid+源文件后缀
+    	    File saveFile=new File(dir,fileName);//创建文件对象，在dir目录下的fileName这个文件
+    	    FileOutputStream fos=new FileOutputStream(saveFile);//创建一个到saveFile中的输出流
+    	    fos.write(uploadFile.getFileData());
+    	    fos.close();
+	    	ExcelHelper eh1 = JxlExcelHelper.getInstance(saveFile);
+			List<ProjectFinanceVo> list1 = eh1.readExcel(ProjectFinanceVo.class, fieldNames,true);
+//			for (ProjectFinanceVo user : list1) {
+//				System.out.println(user);
+//			}
+			fform.setPfv(list1);
+			projectFinanceRecordService.saveExcelData(fform);
 	        uploadFile.destroy(); 
 	        response.getWriter().write("{\"result\":\""+"success"+"\"}");
 	    } catch (Exception e) { 
@@ -429,4 +421,10 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 	    }  
         return mapping.findForward(null);
 	}
+	
+	 public static String getFileExt(FormFile file)
+	 {
+	  String fileName=file.getFileName();
+	  return fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+	 }
 }

@@ -64,11 +64,11 @@
 		    <div class="crm_input_item" >
 		      <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="clearSelect();query_button();" />
 		    </div>
-			<div class="crm_input_item" >
+			<!-- <div class="crm_input_item" >
 	 			<div class="download_button_s1 " onclick="downList();">
 			     <img alt="" src="${path }/style/img/down.png" style="margin-top: 5px;margin-left: 10px;">
 			     <span style="position: absolute;color: #fff;">导出</span>
-			    </div>
+			    </div> -->
 			</div>
 		 </div> 
 		 

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.bean.ProjectFinanceRecord;
-import com.tianjian.pm.bean.ProjectWorktimeRecord;
 import com.tianjian.pm.business.IProjectFinanceRecordService;
 import com.tianjian.pm.dao.IProjectFinanceRecordDAO;
 import com.tianjian.pm.dao.IProjectWorkTimeRecordDAO;
@@ -42,6 +41,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 
 
 	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat sdss = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 	
 	private IProjectWorkTimeRecordDAO projectWorkTimeRecordDAO;
 
@@ -110,6 +110,22 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		data.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
 		setData(form, data);
 		projectFinanceRecordDAO.save(data);
+	}
+	/**
+	 * 保存
+	*
+	* @Title: save
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void saveExcelData(ProjectFinanceRecordForm form){
+		for (ProjectFinanceVo pfv : form.getPfv()) {
+			ProjectFinanceRecord data = new ProjectFinanceRecord();
+			setData(pfv, data,form);
+			projectFinanceRecordDAO.save(data);
+		}
 	}
 	/**
 	 * 修改
@@ -289,7 +305,9 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 					temp.setTaskCode(this.changeClassId(Converter.toBlank(obs[8]), hosform));
 					temp.setSeqNo(Converter.toBlank(obs[7]));
 					temp.setCosts(Converter.toBlank(obs[10]));
-					temp.setWorkDate(sdf.format(obs[9]));
+					if(obs[9]!=null && !obs[9].equals("")){
+						temp.setWorkDate(sdf.format(obs[9]));
+					}
 					temp.setWorkStaffName(Converter.toBlank(obs[11]));
 					temp.setCreateUserId(Converter.toBlank(obs[4]));
 					temp.setCreateUserName(Converter.toBlank(Converter.toBlank(obs[5])));
@@ -311,7 +329,29 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 
 		
 	}
-	
+	/** 构造exceldata */
+	private void setData(ProjectFinanceVo pfv,ProjectFinanceRecord data,ProjectFinanceRecordForm form) {
+		
+
+//		String sql = "select a.item_name,a.item_cost,a.item_unit from"
+//					+" security.security_staff_baseinfo t "
+//					+" left join  comm.comm_config_staff_charge_type a"
+//					+" on t.comm_config_staff_charge_id = a.item_code"
+//					+" where t.id=:id ";
+//		Object[] obs = (Object[]) getObjectBySqlCode(sql,form.getCreateUserId(),"id");
+//		data.setChargeType(Converter.toBlank(obs[1]));
+
+		data.setProjectBaseinfoId(Converter.toBlank(pfv.getProjectBaseinfoId()));
+		data.setStaffCode(Converter.toBlank(pfv.getWorkStaffCode()));
+		data.setLongTime(Converter.toInteger(pfv.getLongTime()));
+		data.setCosts(Converter.toDouble(pfv.getCosts()));
+		data.setSeqNo(Converter.toInteger(pfv.getSeqNo()));
+			String newDatess = sdss.format( new Date());
+			data.setCreateDate(new Timestamp(Converter.toDate(newDatess).getTime()));
+			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
+			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
+		
+	}
 	
 	/** 构造data */
 	private void setData(ProjectFinanceRecordForm form,
@@ -323,9 +363,9 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		data.setTaskCode(Converter.toBlank(form.getTaskCode()));
 		data.setCosts(Converter.toDouble(form.getCosts()));
 		data.setChargeType(Converter.toBlank(form.getChargeType()));
-			String newDate = sdf.format( new Date());
+		          String newDatess = sdss.format( new Date());
 			data.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
-			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
+			data.setCreateDate(new Timestamp(Converter.toDate(newDatess).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
 		
@@ -355,6 +395,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		    if(data.getStaffCode()!=null){
 			    tempName = getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.id=:id ",data.getStaffCode(),"id");
 		    }
+		    form.setWorkStaffCode(data.getStaffCode());
 			form.setWorkStaffName(tempName);//添加工时人员姓名
 		    form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
 		
