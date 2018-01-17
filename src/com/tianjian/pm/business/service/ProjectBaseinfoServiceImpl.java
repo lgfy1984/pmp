@@ -83,10 +83,39 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public void save(ProjectBaseInfoForm form){
-		ProjectBaseinfo data = new ProjectBaseinfo();
-		data.setSeqNo(Converter.toInteger(projectBaseInfoDAO.getSequenceNo("PM.PROJECT_BASEINFO", "SEQ_NO")));
-		setData(form, data);
-		projectBaseInfoDAO.save(data);
+
+		ProjectBaseinfo data = projectBaseInfoDAO.findById(form.getIdHidden());
+		if(data==null){
+			data = new ProjectBaseinfo();
+			data.setSeqNo(Converter.toInteger(projectBaseInfoDAO.getSequenceNo("PM.PROJECT_BASEINFO", "SEQ_NO")));
+			setData(form, data);
+			projectBaseInfoDAO.save(data);
+		}else{
+			setData(form, data);
+			projectBaseInfoDAO.update(data);
+		}
+	}
+	
+	public void saveExcelData(ProjectBaseInfoForm form){
+		for (ProjectBaseInfoVo pbi : form.getPbi()) {
+			ProjectBaseinfo data = new ProjectBaseinfo();
+			setData(pbi,data,form);
+			projectBaseInfoDAO.save(data);
+		}
+	}
+	public String checkProjectCode(ProjectBaseInfoForm form){
+
+		String message ="";
+		Map<String, Object> map = new HashMap<String, Object>();
+        String sql = " from ProjectBaseinfo a where "
+        		+ " a.projectCode=:projectCode";
+        
+		map.put("projectCode", form.getProjectCode());
+		Object obj = projectBaseInfoDAO.findObjByHql(sql, map);
+		if(obj!=null){
+				message = "1";
+		}
+		return message;
 	}
 	/**
 	 * 修改
@@ -140,10 +169,35 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @throws
 	* @author lengj
 	 */
-	public void delete(ProjectBaseInfoForm form){
-		  
-		ProjectBaseinfo data = projectBaseInfoDAO.findById(form.getIdHidden());
-		projectBaseInfoDAO.delete(data);// 删除数据库记录
+	public String delete(ProjectBaseInfoForm form){
+		String temp="";
+		String[] objs = form.getIds();
+		Map<String, String> mapr = new HashMap<String, String>();
+		if(objs!=null && objs.length>0){
+			for(int i=0;i<objs.length;i++){
+				ProjectBaseinfo data = projectBaseInfoDAO.findById((objs[i]));
+				Map<String, Object> map = new HashMap<String, Object>();
+		        String sql = " from ProjectWorktimeRecord a where "
+		        		+ " a.projectBaseinfoId=:projectBaseinfoId";
+		        
+				map.put("projectBaseinfoId", objs[i]);
+				Object obj = projectBaseInfoDAO.findObjByHql(sql, map);
+				if(obj==null){
+					projectBaseInfoDAO.delete(data);
+					mapr.put(data.getId(), "项目"+data.getProjectName()+"删除成功");
+				}else{
+					mapr.put(data.getId(), "项目"+data.getProjectName()+"已有关联数据删除不成功");
+				}
+				// 删除数据库记录
+			}
+		}
+		Iterator<String> iter = mapr.keySet().iterator();
+	    while (iter.hasNext()) {
+			String key = iter.next();
+			String value = mapr.get(key);
+			temp+=value+"</br>";
+		}
+        return temp;
 
 	}
 	/**
@@ -164,8 +218,15 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	* @author lengj
 	 */
 	public int getProjectBaseInfoCount(String projectClass, String projectNameHidden,
-			String onlineTime, String startTime, String endTime, String userId){
-		return projectBaseInfoDAO.getProjectBaseinfoCount(projectClass, projectNameHidden, onlineTime, startTime, endTime, userId);
+			String onlineStartTime, String onlineEndTime, 
+			String startStartTime, String startEndTime, 
+			String endStartTime, String endEndTime, 
+			String userId){
+		return projectBaseInfoDAO.getProjectBaseinfoCount(projectClass, projectNameHidden, 
+				onlineStartTime, onlineEndTime, 
+				startStartTime, startEndTime, 
+				endStartTime, endEndTime, 
+				userId);
 	}
 	/**
 	 * 修改初始化
@@ -194,9 +255,9 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	public void addInit(ProjectBaseInfoForm form){
 		
 		initForm(form);
-		form.setOnlineTime(sdf.format(new Date()));
-		form.setStartTime(sdf.format(new Date()));
-		form.setEndTime(sdf.format(new Date()));
+//		form.setOnlineTime(sdf.format(new Date()));
+//		form.setStartTime(sdf.format(new Date()));
+//		form.setEndTime(sdf.format(new Date()));
 	}
 	/**
 	 * 知识库列表
@@ -257,7 +318,13 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 			hosform.setOrder(order);
 			
 			List<?> list = projectBaseInfoDAO
-					.getProjectBaseinfoData(hosform.getProjectClassCodeHidden(), hosform.getProjectNameHidden(), hosform.getOnlineTimeHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
+					.getProjectBaseinfoData(hosform.getProjectClassCodeHidden(), hosform.getProjectNameHidden(),
+							hosform.getOnlineStartTimeHidden(),
+							hosform.getOnlineEndTimeHidden(), 
+							hosform.getStartStartTimeHidden(),
+							hosform.getStartEndTimeHidden(),
+							hosform.getEndStartTimeHidden(),
+							hosform.getEndEndTimeHidden(),curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
 			if (list != null && list.size() > 0) {
 				List<ProjectBaseInfoVo> crd = new ArrayList<ProjectBaseInfoVo>(list.size());
 
@@ -268,10 +335,14 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 					temp.setProjectName(Converter.toBlank(obs.getProjectName()));
 					temp.setProjectCode(Converter.toBlank(obs.getProjectCode()));
 					temp.setProjectClassName(this.changeClassId(obs.getProjectClass(), hosform));
-					temp.setStaffName(getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.staffCode=:staffCode",Converter.toBlank(obs.getStaffCode()),"staffCode"));
+					temp.setStaffCode(Converter.toBlank(obs.getStaffCode()));
+					temp.setStaffName(getItemNameByCode("select a.name from SecurityStaffBaseinfo a where a.id=:staffCode",Converter.toBlank(obs.getStaffCode()),"staffCode"));
 					temp.setSeqNo(Converter.toBlank(obs.getSeqNo()));
+					if(obs.getStartTime()!=null)
 					temp.setStartTime(sdf.format(obs.getStartTime()));
+					if(obs.getOnlineTime()!=null)
 					temp.setOnlineTime(sdf.format(obs.getOnlineTime()));
+					if(obs.getEndTime()!=null)
 					temp.setEndTime(sdf.format(obs.getEndTime()));
 					temp.setCreateUserId(Converter.toBlank(obs.getCreateUserId()));
 					temp.setCreateUserName(Converter.toBlank(obs.getCreateUserName()));
@@ -282,7 +353,34 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 
 		
 	}
-	
+	private void setData(ProjectBaseInfoVo vo,ProjectBaseinfo data,ProjectBaseInfoForm form) {
+		data.setProjectCode(Converter.toBlank(vo.getProjectCode()));
+		data.setProjectName(Converter.toBlank(vo.getProjectName()));
+		data.setProjectClass(Converter.toBlank(vo.getProjectClassCode()));
+
+	    data.setStaffCode(Converter.toBlank(vo.getStaffCode()));
+	    data.setStaffName(Converter.toBlank(vo.getStaffName()));
+			String newDate = sdf.format( new Date());
+			if(!vo.getStartTime().equals("")){
+			 data.setStartTime(new Timestamp(Converter.toDate(vo.getStartTime()).getTime()));
+			}else{
+			  data.setStartTime(null);
+			}
+			if(!vo.getOnlineTime().equals("")){
+			 data.setOnlineTime(new Timestamp(Converter.toDate(vo.getOnlineTime()).getTime()));
+			}else{
+				  data.setOnlineTime(null);
+			}
+			if(!vo.getEndTime().equals("")){
+			 data.setEndTime(new Timestamp(Converter.toDate(vo.getEndTime()).getTime()));
+			}else{
+				  data.setEndTime(null);
+			}
+			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
+			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
+			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
+		
+	}
 	
 	/** 构造data */
 	private void setData(ProjectBaseInfoForm form,
@@ -294,9 +392,42 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	    data.setStaffCode(Converter.toBlank(form.getStaffCode()));
 	    data.setStaffName(Converter.toBlank(form.getStaffName()));
 			String newDate = sdf.format( new Date());
-			data.setStartTime(new Timestamp(Converter.toDate(form.getStartTime()).getTime()));
-			data.setOnlineTime(new Timestamp(Converter.toDate(form.getOnlineTime()).getTime()));
-			data.setEndTime(new Timestamp(Converter.toDate(form.getEndTime()).getTime()));
+			if(!form.getStartTime().equals("")){
+			 data.setStartTime(new Timestamp(Converter.toDate(form.getStartTime()).getTime()));
+			}else{
+			  data.setStartTime(null);
+			}
+			if(!form.getOnlineTime().equals("")){
+			 data.setOnlineTime(new Timestamp(Converter.toDate(form.getOnlineTime()).getTime()));
+			}else{
+				  data.setOnlineTime(null);
+			}
+			if(!form.getEndTime().equals("")){
+			 data.setEndTime(new Timestamp(Converter.toDate(form.getEndTime()).getTime()));
+			}else{
+				  data.setEndTime(null);
+			}
+			//-----------研发时间-----------------
+			    if(!form.getRequireTime().equals("")){
+				 data.setRequireTime(new Timestamp(Converter.toDate(form.getRequireTime()).getTime()));
+				}else{
+				  data.setRequireTime(null);
+				}
+				if(!form.getDesignTime().equals("")){
+				 data.setDesignTime(new Timestamp(Converter.toDate(form.getDesignTime()).getTime()));
+				}else{
+					  data.setDesignTime(null);
+				}
+				if(!form.getCodeTime().equals("")){
+				 data.setCodeTime(new Timestamp(Converter.toDate(form.getCodeTime()).getTime()));
+				}else{
+					  data.setCodeTime(null);
+				}
+				if(!form.getTestTime().equals("")){
+					 data.setTestTime(new Timestamp(Converter.toDate(form.getTestTime()).getTime()));
+					}else{
+						  data.setTestTime(null);
+				}
 			data.setCreateDate(new Timestamp(Converter.toDate(newDate).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
@@ -305,7 +436,7 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 	/** 构造data */
 	private void setForm(ProjectBaseInfoForm form,
 			ProjectBaseinfo data) {
-			form.setId(Converter.toBlank(data.getId()));
+			//form.setId(Converter.toBlank(data.getId()));
 		    form.setProjectCode(Converter.toBlank(data.getProjectCode()));
 		    form.setProjectName(Converter.toBlank(data.getProjectName()));
 		    form.setProjectClassCode(Converter.toBlank(data.getProjectClass()));
@@ -313,9 +444,21 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 		    form.setStaffName(Converter.toBlank(data.getStaffName()));
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
 			form.setProjectClassName(this.changeClassId(Converter.toBlank(data.getProjectClass()), form));
-		    form.setStartTime(sdf.format(data.getStartTime()));
+			if(data.getStartTime()!=null){
+		      form.setStartTime(sdf.format(data.getStartTime()));
+			}else{
+		      form.setStartTime("");
+			}
+			if(data.getOnlineTime()!=null){
 		    form.setOnlineTime(sdf.format(data.getOnlineTime()));
+			}else{
+			      form.setOnlineTime("");
+				}
+			if(data.getEndTime()!=null){
 		    form.setEndTime(sdf.format(data.getEndTime()));
+			}else{
+			    form.setEndTime("");
+				}
 			form.setCreateUserName(Converter.toBlank(data.getCreateUserName()));
 		
 	}
@@ -353,7 +496,9 @@ public class ProjectBaseinfoServiceImpl implements IProjectBaseinfoService{
 			vo.setId(Converter.toBlank(pbi.getId()));
 			vo.setStaffCode(Converter.toBlank(pbi.getStaffCode()));
 			vo.setStaffName(Converter.toBlank(pbi.getName()));
-			vo.setSexName(projectBaseInfoDAO.findNameByCode(pbi.getCommConfigSexId()));
+			if(pbi.getCommConfigSexId()!=null && !pbi.getCommConfigSexId().equals("")){
+				vo.setSexName(projectBaseInfoDAO.findNameByCode(pbi.getCommConfigSexId()));
+			}
 			vo.setStaffClass("");
 			vo.setCreateUserId(Converter.toBlank(pbi.getCreateUserId()));
 			vo.setCreateUserName(Converter.toBlank(pbi.getCreateUserName()));

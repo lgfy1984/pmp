@@ -55,21 +55,17 @@ public class SecurityStaffPasswordInitDAO extends HibernateDaoSupport implements
     /***
      * 根据条件获取操作员列表分页显示
      */
-    	public List<?> getStaffs(String staffId, String staffName, String inputCode, String itemCode,String itemCodeHidden, String hspConfigId,String orderNo, int from, int length) {
+    	public List<?> getStaffs(String staffId, String staffName, String inputCode, String itemCode,String itemCodeHidden, String hspConfigId, String tenantId,String orderNo, int from, int length) {
     		try {
-    			String sql = "select a.id, a.staffCode,b.itemName,a.name,a.commConfigSexId,c.startTime,c.stopDate " +
-				" from SecurityStaffBaseinfo a, HspConfigBaseinfoLocalBase b ,SecurityLicense c " +
-				" where c.securityStaffBaseinfoId = a.id and " +
-				" a.hspConfigBaseinfoId = b.id and b.hspType = '"+ TJInit.getProperty("classFlag").trim() +"'";	
+    			//                   0        1          2          3                 4         5
+    			String sql = "select a.id, a.staffCode,a.name,a.commConfigSexId,c.startTime,c.stopDate " +
+				" from SecurityStaffBaseinfo a,SecurityLicense c " +
+				" where c.securityStaffBaseinfoId = a.id ";	
     			
     			
-    			if(TJInit.getProperty("classFlag").trim()!=null && TJInit.getProperty("classFlag").trim().equals("1")){
-    			    sql +=" and b.hspConfigBaseinfoId3 = (select s.hspConfigBaseinfoId3 from HspConfigBaseinfoLocalBase s where s.id = '"+ hspConfigId +"') " ;
-    			 }else if(TJInit.getProperty("classFlag").trim()!=null && TJInit.getProperty("classFlag").trim().equals("2")){
-    			    sql +=" and b.hspConfigBaseinfoId2 = (select s.hspConfigBaseinfoId2 from HspConfigBaseinfoLocalBase s where s.id = '"+ hspConfigId +"') " ;
-    			 }else{
-    				sql +=" ";
-    			 }
+    			if(tenantId.trim().length() > 0){
+    				sql += " and a.tenantId  = '"+tenantId+"' ";
+    	        }
     			if (staffId.trim().length() > 0) {
     				sql += " and lower(a.staffCode) like '%" + staffId.trim().toLowerCase() + "%' ";
     			}
@@ -100,19 +96,15 @@ public class SecurityStaffPasswordInitDAO extends HibernateDaoSupport implements
     /***
      * 获取某个机构内操作员列表
      */
-    	public int getStaffsCount(String staffId, String staffName, String inputCode, String itemCode,String staffHspId,String hspConfigId) {
+    	public int getStaffsCount(String staffId, String staffName, String inputCode, String itemCode,String staffHspId,String hspConfigId, String tenantId) {
     		try {
     			int count = 0;
-    			String sql = "select count(*) from SecurityStaffBaseinfo a ,HspConfigBaseinfoLocalBase b ,SecurityLicense c where " +
-    					"c.securityStaffBaseinfoId = a.id and a.hspConfigBaseinfoId = b.id and b.hspType = '"+TJInit.getProperty("classFlag").trim() +"'";
+    			String sql = "select count(*) from SecurityStaffBaseinfo a ,SecurityLicense c where " +
+    					"c.securityStaffBaseinfoId = a.id ";
     			
-    			if(TJInit.getProperty("classFlag").trim()!=null && TJInit.getProperty("classFlag").trim().equals("1")){
-    			    sql +=" and b.hspConfigBaseinfoId3 = (select s.hspConfigBaseinfoId3 from HspConfigBaseinfoLocalBase s where s.id = '"+ hspConfigId +"') " ;
-    			 }else if(TJInit.getProperty("classFlag").trim()!=null && TJInit.getProperty("classFlag").trim().equals("2")){
-    			    sql +=" and b.hspConfigBaseinfoId2 = (select s.hspConfigBaseinfoId2 from HspConfigBaseinfoLocalBase s where s.id = '"+ hspConfigId +"') " ;
-    			 }else{
-    				sql +=" ";
-    			 }	
+    			if(tenantId.trim().length() > 0){
+    				sql += " and a.tenantId  = '"+tenantId+"' ";
+    	        }
     			if (staffId.trim().length() > 0) {
     				sql += " and lower(a.staffCode) like '%" + staffId.toLowerCase() + "%' ";
     			}

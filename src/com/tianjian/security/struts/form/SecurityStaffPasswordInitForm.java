@@ -10,13 +10,15 @@ public class SecurityStaffPasswordInitForm extends ActionForm implements Seriali
 
 	
 	
-	private String staffId;//用户名
+	private String staffId="";//用户名
+	private String staffId2="";//用户名
 	private String name;//用户姓名
 	private String passwd;//用户密码
 	private String inputCode;//输入码
 	private String itemCode;//机构代码
 	private String itemName;//机构名称
 	private String staffHspId;
+	private String tenantId="";
 	
 	private String hspConfigId;
 	
@@ -288,6 +290,26 @@ public class SecurityStaffPasswordInitForm extends ActionForm implements Seriali
 
 	public void setHspConfigId(String hspConfigId) {
 		this.hspConfigId = hspConfigId;
+	}
+
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
+
+	public String getStaffId2() {
+		return staffId2;
+	}
+
+
+	public void setStaffId2(String staffId2) {
+		this.staffId2 = staffId2;
 	}
 
 	

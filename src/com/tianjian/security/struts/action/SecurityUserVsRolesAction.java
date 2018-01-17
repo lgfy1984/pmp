@@ -62,11 +62,11 @@ public class SecurityUserVsRolesAction extends BaseAction {
 			HttpSession session = request.getSession(true);
 			SessionForm sessionForm = (SessionForm)session.getAttribute("sessionForm");
 			String staffType = sessionForm.getStaffType();
-			
+			securityUserVsRolesForm.setTenantId(sessionForm.getTenantId());
 			PageBean pb = new PageBean();
 			int count;
 			int page = 0;
-			int recordCount = this.getService().count(securityUserVsRolesForm,staffType,sessionForm.getStaffHospitalId());
+			int recordCount = this.getService().count(securityUserVsRolesForm,staffType,sessionForm.getStaffHospitalId(),securityUserVsRolesForm.getTenantId());
 			if(recordCount == 0){
 				//查询条件有误，未查询到结果
 				String str = ResourcesUtil.getValue("conf.security.securityInit", "comm.java.security.warn1", request);
@@ -81,7 +81,7 @@ public class SecurityUserVsRolesAction extends BaseAction {
 			}
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_2828810b39763bf50139763bf5cf0000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b39763bf50139763bf5cf0000"));
 			}else{
@@ -89,7 +89,7 @@ public class SecurityUserVsRolesAction extends BaseAction {
 				pageSize = Integer.parseInt((String)application.getAttribute("security.PAGE_SIZE"));
 			}
 			
-			//int pageSize = 10;
+			//int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if (pageString == null || pageString.equals("")
 					|| pageString.equals("0")) {

@@ -76,15 +76,26 @@
 				value="<%=securityStaffBaseinfo.getMessage()%>" />
 			<div class='crm_edit_panel'>
 				<table class='crm_panel_table' cellspacing=1>
+				    <tr>
+				       <td class="crm_edit_item_name">
+							<bean:message key="security.jsp.commom.idNo" bundle="security" />
+							
+						</td>
+						<td class="crm_edit_item_content">
+
+							<input type="text" id="email" name="email" class="text" max="100"
+								dataType="LimitB" maxlength="100" readonly="readonly"
+								onkeypress="eventOnKeyPress('commConfigSexId')"
+								value="<%=securityStaffBaseinfo.getIdNo()%>" />
+						</td>
+					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.staffCode"
-								bundle="security" />							
+							登陆名
+							
 						</td>
 						<td class="crm_edit_item_content" 　style="width: 30%">
 							<input type="text" name="name" size="20" class="text"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								maxlength="40" onkeypress="eventOnKeyPress('name')" max="40"
 								dataType="LimitB" readonly="readonly"
 								value="<%=securityStaffBaseinfo.getStaffCode()%>" />
@@ -95,28 +106,13 @@
 						</td>
 						<td class="crm_edit_item_content" style="width: 30%">
 							<input id="detailName" type="text" name="name" size="20" class="text"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								maxlength="40" onkeypress="eventOnKeyPress('hspConfigBaseinfoName')" max="40"
+								maxlength="40"
+								onkeypress="eventOnKeyPress('hspConfigBaseinfoName')" max="40"
 								dataType="LimitB" msg="姓名输入过长" readonly="readonly"
 								value="<%=securityStaffBaseinfo.getName()%>" />
 						</td>
 					</tr>
 					<tr>
-						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.hspConfigBaseinfoName"
-								bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content" >
-							<input type="text" id="displayInputId_1"
-								name="hspConfigBaseinfoName" readonly="readonly"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								value="<%=securityStaffBaseinfo.getHspConfigBaseinfoName()%>"
-								readonly="true" onkeypress="eventOnKeyPress('nameEn')"
-								class="text" />
-						</td>
 
 
 						<td class="crm_edit_item_name">
@@ -127,10 +123,22 @@
 							<input type="text" onkeyup="value=value.replace(/[^\''\w]/g,'')"
 								name="year" onkeypress="eventOnKeyPress('idNo')" maxlength="40"
 								class="text" onkeydown="huiche()" max="40" dataType="LimitB"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								readonly="readonly" value="<%=securityStaffBaseinfo.getNameEn()%>" />
+								readonly="readonly"
+								value="<%=securityStaffBaseinfo.getNameEn()%>" />
 						</td>
+						
+						<td class="crm_edit_item_name">
+							员工编号
+						</td>
+						<td  class="crm_edit_item_content">
+							<input type="text" id="id" name="id" class="text"
+								name="name" maxlength="20" size="20" onkeyup="value=value.replace(/[^\d\w]/g,'')"   max="40" required="true"
+								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly"
+								value="<%=securityStaffBaseinfo.getId()%>"
+								onkeypress="eventOnKeyPress('name')" />
+						</td>
+						
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
@@ -143,8 +151,6 @@
 								onkeypress="eventOnKeyPress('month')" style="width: 40px;"
 								value="<%=securityStaffBaseinfo.getYear()%>"
 								onkeydown="huiche()" readonly="readonly"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								onkeyup="value=value.replace(/[^\d]|\\.{1}/g,'')" id="statYear"
 								maxlength="4" />
 							<bean:message key="security.jsp.commom.Year" bundle="security" />
@@ -153,30 +159,29 @@
 								onkeypress="eventOnKeyPress('day')" readonly="readonly"
 								value="<%=securityStaffBaseinfo.getMonth()%>"
 								onkeydown="huiche()" style="width: 30px;"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								onkeyup="value=value.replace(/[^\d]|\\.{1}/g,'')" maxlength="2" />
 							<bean:message key="security.jsp.commom.month" bundle="security" />
 							&nbsp;
-							<input type="text" name="day" class="text" style="width: 30px;"
-								onkeypress="eventOnKeyPress('email')"onkeydown="huiche()"
-								readonly="readonly" value="<%=securityStaffBaseinfo.getDay()%>"							
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+							<input type="text" name="day" class="text"
+								onkeypress="eventOnKeyPress('email')" style="width: 30px;"
+								readonly="readonly" value="<%=securityStaffBaseinfo.getDay()%>"
+								onkeydown="huiche()"
 								onkeyup="value=value.replace(/[^\d]|\\.{1}/g,'')" maxlength="2" />
 							<bean:message key="security.jsp.commom.day" bundle="security" />
 						</td>
+
+
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.commConfigSexId"
-								bundle="security" />						
+								bundle="security" />
+							
 						</td>
 						<td class="crm_edit_item_content">
 							<input type="text" id="email" name="email" class="text" max="100"
 								dataType="LimitB" msg="邮箱输入过长" maxlength="100"
 								onkeypress="eventOnKeyPress('commConfigSexId')"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								readonly="readonly" value="<%=securityStaffBaseinfo.getCommConfigSexName()%>" />
+								readonly="readonly"
+								value="<%=securityStaffBaseinfo.getCommConfigSexName()%>" />
 
 						</td>
 					</tr>
@@ -190,57 +195,48 @@
 							<input type="text" id="email" name="email" class="text" max="100"
 								dataType="LimitB" msg="邮箱输入过长" maxlength="100"
 								onkeypress="eventOnKeyPress('commConfigSexId')"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								readonly="readonly" value="<%=securityStaffBaseinfo.getEmail()%>" />
+								readonly="readonly"
+								value="<%=securityStaffBaseinfo.getEmail()%>" />
 						</td>
 
-						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.idNo" bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content">
-
-							<input type="text" id="email" name="email" class="text" max="100"
-								dataType="LimitB" maxlength="100" readonly="readonly"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								onkeypress="eventOnKeyPress('commConfigSexId')"
-								value="<%=securityStaffBaseinfo.getIdNo()%>" />
-						</td>
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.commConfigStafftypeId"
-								bundle="security" />
+							员工系列
 							
 						</td>
 						<td class="crm_edit_item_content">
 							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell();fEvent('blur',this)" maxlength="40" class="text" max="40"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
 								dataType="LimitB" msg="手机号输入过长" readonly="readonly"
-								onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getCommConfigStafftypeName()%>" />
 						</td>
-
-						<td class="crm_edit_item_name">
+                        <td class="crm_edit_item_name">
+							员工类别
+						</td>
+						<td class="crm_edit_item_content">
+							<input type="text" id="commConfigStaffChargeTypeName" name="commConfigStaffChargeTypeName"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
+								dataType="LimitB" readonly="readonly"
+								onkeypress="eventOnKeyPress('stopDate')"
+								value="<%=securityStaffBaseinfo.getCommConfigStaffChargeTypeName() %>" />
+						</td>
+						
+					</tr>
+					<tr>
+					  <td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.islocation"
 								bundle="security" />
 							
 						</td>
 						<td class="crm_edit_item_content">
 							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell();fEvent('blur',this)" maxlength="40" class="text" max="40"
-							    onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
 								dataType="LimitB" readonly="readonly"
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getIslocationName()%>" />
 						</td>
-					</tr>
-					<tr>
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.mobilecode"
 								bundle="security" />
@@ -248,68 +244,18 @@
 						</td>
 						<td class="crm_edit_item_content">
 							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell();fEvent('blur',this)" maxlength="40" class="text" 
-								onmouseover="fEvent('mouseover',this)" max="40"
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
 								dataType="LimitB" readonly="readonly"
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getPhone()%>" />
 						</td>
 
-						<td class="crm_edit_item_name">
-							注册码
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell();fEvent('blur',this)" maxlength="40"  max="40"
-								onmouseover="fEvent('mouseover',this)" class="text"
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getRegistCode() %>" />
-						</td>
+						
+						
 					</tr>
 					<tr>
-						<td class="crm_edit_item_name">
-							注册码生成时间
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								readonly="readonly" onblur="checkcell();fEvent('blur',this)" maxlength="40"
-								onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								class="text" max="40" dataType="LimitB"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getRegTime() %>" />
-						</td>
-
-						<td class="crm_edit_item_name">
-							激活时间
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								maxlength="40" class="text" max="40"
-								onblur="checkcell();fEvent('blur',this)" 
-								onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getStartTime() %>" />
-						</td>
-					</tr>
-					<tr>
-						<td class="crm_edit_item_name">
-							有效截止日期
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								class="text" max="40" onblur="checkcell();fEvent('blur',this)" 
-								onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getStopDate() %>" />
-						</td>
+						
+						
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
@@ -319,8 +265,6 @@
 						</td>
 						<td class="crm_edit_item_content" colspan="3">
 							<textarea name="comments" max="100" dataType="LimitB"
-								onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								class="textarea_w" readonly="readonly" msg="备注输入过长"
 								id="comments" cols="45" rows="5"><%=securityStaffBaseinfo.getComments()%></textarea>
 						</td>

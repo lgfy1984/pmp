@@ -89,7 +89,7 @@ public class SecurityDataObjectVsRoleAction extends DispatchAction {
         String pageString = request.getParameter("page");
         //ServletContext application = request.getSession().getServletContext();
         //int pageSize = Integer.parseInt((String)application.getAttribute("security.PAGE_SIZE"));
-        int pageSize = 10;
+        int pageSize = 5;
         if(request.getSession().getAttribute("page_2828810b39b36be40139b36be44e0000")!=null){
 			pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b39b36be40139b36be44e0000"));
 		}else{

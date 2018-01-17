@@ -73,6 +73,19 @@
 			src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 		<script language="javascript">
+		$(document).ready(
+		 function(){
+		    var idNo = $('#idNo').val();
+		    if(idNo==""){
+		        var Num=""; 
+				for(var i=0;i<6;i++) 
+				{ 
+				Num+=Math.floor(Math.random()*10); 
+				} 
+				$('#id').val(Num);
+		    }
+		   }
+		 ) 
 			function huiche(){
 				if(event.keyCode==13){
 						event.keyCode=9
@@ -89,20 +102,7 @@
 				if(!Validator.Validate(document.forms.form,3)){
       				return ;
    				}				
-				if(!Validator.Validate(document.forms.form,3)){
-      				return ;
-   				}
-				
-				if(document.form.hspConfigBaseinfoName.value == ""){
-					$.messager.alert('提示','<bean:message key="security.jsp.securitystaffbaseinfo.add.warn1" bundle="security"/>');
-				 	return ;
-				}
-				if(document.form.name.value == ""){
-					$.messager.alert('提示','<bean:message key="security.jsp.securitystaffbaseinfo.add.warn2" bundle="security"/>');
-			        document.form.name.focus();
-				 	return ;
-				}	
-				if(document.form.email.value == "") {
+				/* if(document.form.email.value == "") {
 					$.messager.alert('提示','<bean:message key="security.jsp.findpassword.warn1" bundle="security"/>');
   					return ;
   				}else{
@@ -110,7 +110,7 @@
 						$.messager.alert('提示','<bean:message key="security.jsp.findpassword.warn2" bundle="security"/>');
 						return ;
  			    	}			
-  				}		
+  				} */		
 				
 				if(document.form.comments.value.length>49){
 					$.messager.alert('提示','<bean:message key="security.jsp.securitystaffbaseinfo.add.warn3" bundle="security"/>');
@@ -356,6 +356,15 @@
 			document.form.year.focus();
 			}
 		}
+		function changeId(){
+			var idNo = trim(document.form.idNo.value);
+			idNo = idNo.substr(idNo.length-4,idNo.length);
+			var x = 10;     
+		    var y = 99;     
+		    var rand = parseInt(Math.random() * (x - y + 1) + y); 
+			$('#id').val(idNo+rand);
+			
+	   }
        function checkDate(y,m,d) 
 		{ 
 			var dateElement = y+"-"+m+"-"+d;
@@ -456,10 +465,14 @@
 				}
 			}
 		}
-	 function sendRequest(code){
+	 function sendRequest(){
+		   if(!$("#form").form('validate')){
+				return false;
+			}			
 			createXMLHttpRequest();	
-			var staffCode = document.getElementById (code).value;
-			var url = "<%=request.getContextPath()%>/security/securityStaffBaseinfo.do?verbId=verification&staffCode="+staffCode+"";		
+			var staffCode = $('#staffCode').val();
+			var id = $('#id').val();
+			var url = "<%=request.getContextPath()%>/security/securityStaffBaseinfo.do?verbId=verification&staffCode="+staffCode+"&id="+id;		
             xmlrequest.open("GET", url, true);          
 			xmlrequest.onreadystatechange = processResponse;
 			xmlrequest.send(null);
@@ -467,7 +480,13 @@
       function processResponse(){
 			if (xmlrequest.readyState == 4){
 				if (xmlrequest.status == 200){
-               		document.getElementById("message").innerHTML = xmlrequest.responseText;
+               		//document.getElementById("message").innerHTML = xmlrequest.responseText;
+               		//alert(xmlrequest.responseText);
+               		if(xmlrequest.responseText!=""){
+					        $.messager.alert('提示',xmlrequest.responseText);
+               		}else{
+               		   saveForm();
+               		}
 				 } 
 			}
 		}
@@ -561,18 +580,59 @@
 			style="display: none; width: 600px; height: 464px; background-color: white; position: absolute; top: 50; left: 225; border: #DAEBF5 solid; border-width: 1 1 3 1; z-index: 101;"
 			scrolling="no" frameborder=0></iframe>
 		<div id="mask"></div>
-		<form name="form" method="post" id="form"
+		<form name="form" id="form" method="post" id="form"
 			action="security/securityStaffBaseinfo.do">
 			<input type="hidden" name="verbId" value="add" />
-			<input type="hidden" name="id"
-				value="<%=securityStaffBaseinfo.getId()%>" />
+			<input type="hidden" name="message" id="message"  value="" />
 			<input type="hidden" name="seqNo"
 				value="<%=securityStaffBaseinfo.getSeqNo()%>" />
 
 			<div class='crm_edit_panel'>
 				<table class='crm_panel_table' cellspacing=1>
+				<tr>
+						<td class="crm_edit_item_name">
+							<bean:message key="security.jsp.commom.idNo" bundle="security" />
+							
+						</td>
+						<td class="crm_edit_item_content">
+							<input type="text" id="idNo" name="idNo" maxlength="40" onblur="changeId();fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								onchange="checkId();" onkeypress="eventOnKeyPress('email')"
+								class="text" max="40" dataType="LimitB" msg="身份证号输入过长"
+								value="<%=securityStaffBaseinfo.getIdNo()%>" />
+						</td>
+				</tr>
+				<tr>
+						
+						<td class="crm_edit_item_name">
+							<span style="color: red;">*</span>
+							登陆名
+						</td>
+						<td  class="crm_edit_item_content">
+							<input type="text" id="staffCode" name="staffCode" class="text"
+								name="name" maxlength="20" size="20" onkeyup="value=value.replace(/[^\d\w]/g,'')"   max="40" required="true"
+								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								value="<%=securityStaffBaseinfo.getStaffCode()%>"
+								onkeypress="eventOnKeyPress('name')" />
+						</td>
+						<td class="crm_edit_item_name">
+							<span style="color: red;">*</span>
+							<bean:message key="security.jsp.commom.name" bundle="security" />
+							
+						</td>
+						<td class="crm_edit_item_content">
+							<input type="text" id="displayInputId_2" class="text" required="true"
+								name="name" size="20" maxlength="13" onblur="getPY()" max="40"
+								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								value="<%=securityStaffBaseinfo.getName()%>"
+								onkeypress="eventOnKeyPress('hspConfigBaseinfoName')" />
+						</td>
+						
+					</tr>
 					<tr>
-						<td class="crm_edit_item_name" width="120px;">
+						<%-- <td class="crm_edit_item_name" width="120px;">
 							卫生人员选择
 							
 						</td>
@@ -582,46 +642,8 @@
 							<img
 								src="<%=request.getContextPath()%>/include/images/select.gif"
 								style="cursor: pointer;" onclick="openLayer();" />
-						</td>
-						<td class="crm_edit_item_name">
-							<span style="color: red;">*</span>
-							<bean:message key="security.jsp.commom.name" bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="displayInputId_2" class="text"
-								name="name" size="20" maxlength="13" onblur="getPY()" max="40"
-								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								value="<%=securityStaffBaseinfo.getName()%>"
-								onkeypress="eventOnKeyPress('hspConfigBaseinfoName')" />
-						</td>
-					</tr>
-					<tr>
-						<td class="crm_edit_item_name">
-							<span style="color: red;">*</span>
-							<bean:message key="security.jsp.commom.hspConfigBaseinfoName"
-								bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="displayInputId_1"class="text"
-								name="hspConfigBaseinfoName" onkeydown="huiche()" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								value="<%=securityStaffBaseinfo.getHspConfigBaseinfoName()%>"
-								readonly="readonly" onkeypress="eventOnKeyPress('name')" />
-							<!--这是准备存储到数据的字段-->
-							<input type="hidden" id="hiddenInputId_1"
-								value="<%=securityStaffBaseinfo.getHspConfigBaseinfoId()%>"
-								name="hspConfigBaseinfoId" />
-							<!--弹出的选择按钮，add(arg1,arg2,arg3)其中arg1代表基本录入框的id，arg2代表保存存储到数据库字段对应的input的id
-								arg3代表需要传递到.do的数据库检索参数
-							-->
-							<!-- hspType 1为除去卫生服务站2为只包括服务站和服务中心3为所有 -->
-							<img src="security/include/images/select.gif"
-								style="cursor: pointer; position: relative;"
-								onclick="add('hsp/hspConfigBaseinfoBase.do?verbId=getHsp&hspType=3','displayInputId_1','hiddenInputId_1')" />
-						</td>
+						</td> --%>
+					
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.nameEn" bundle="security" />
 							
@@ -634,21 +656,23 @@
 								onkeydown="huiche()" onkeypress="eventOnKeyPress('idNo')"
 								value="<%=securityStaffBaseinfo.getNameEn()%>" />
 						</td>
-					</tr>
-					<tr>
-						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.idNo" bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="idNo" name="idNo" maxlength="40" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-								onchange="checkId();" onkeypress="eventOnKeyPress('email')"
-								class="text" max="40" dataType="LimitB" msg="身份证号输入过长"
-								value="<%=securityStaffBaseinfo.getIdNo()%>" />
-						</td>
 						<td class="crm_edit_item_name">
 							<span style="color: red;">*</span>
+							员工编号
+						</td>
+						<td  class="crm_edit_item_content">
+							<input type="text" id="id" name="id" class="text"
+								name="name" maxlength="20" size="20" onkeyup="value=value.replace(/[^\d\w]/g,'')"   max="40" required="true"
+								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
+								value="<%=securityStaffBaseinfo.getId()%>"
+								onkeypress="eventOnKeyPress('name')" />
+						</td>
+						
+					</tr>
+					<tr>
+						
+						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.securitystaffbaseinfo.commom1"
 								bundle="security" />
 							
@@ -660,8 +684,6 @@
 								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 								value="<%=securityStaffBaseinfo.getEmail()%>" />
 						</td>
-					</tr>
-					<tr>
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.birthDay"
 								bundle="security" />
@@ -695,6 +717,9 @@
 							<bean:message key="security.jsp.commom.day" bundle="security" />
 							&nbsp;
 						</td>
+					</tr>
+					<tr>
+						
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.commConfigSexId"
 								bundle="security" />
@@ -725,15 +750,12 @@
 								%>
 							</select>
 						</td>
-					</tr>
-					<tr>
 						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.commConfigStafftypeId"
-								bundle="security" />
+							员工系列
 							
 						</td>
 						<td class="crm_edit_item_content">
-							<select name="commConfigStafftypeId" id="commConfigStafftypeId"
+							<select name="commConfigStafftypeId" id="commConfigStafftypeId" required="true"
 								editable="false"  class="easyui-combobox" style="width: 205px;height:30px;"
 								>
 								<option value="">&nbsp;</option>
@@ -758,6 +780,37 @@
 								%>
 							</select>
 						</td>
+					</tr>
+					<tr>
+						
+						
+						<td class="crm_edit_item_name">
+						<span style="color: red;">*</span>
+                                                                员工类别
+						</td>
+                          <td class="crm_edit_item_content">
+							<select name="commConfigStaffChargeTypeId" id="commConfigStaffChargeTypeId" class="easyui-combobox"
+								style="width: 205px;height:30px;"editable="false" required="true"
+								onkeypress="eventOnKeyPress('comments')">
+								<%
+									if (securityStaffBaseinfo.getCommConfigStaffChargeTypeIds() != null
+											&& securityStaffBaseinfo.getCommConfigStaffChargeTypeIds().length > 0) {
+										for (int i = 0; i < securityStaffBaseinfo.getCommConfigStaffChargeTypeIds().length; i++) {
+											String tempId = securityStaffBaseinfo.getCommConfigStaffChargeTypeIds()[i];
+											String tempName = securityStaffBaseinfo
+													.getCommConfigStaffChargeTypeNames()[i];
+								%>
+								<option value="<%=tempId%>"
+									<%=tempId.equals(securityStaffBaseinfo
+							.getCommConfigStaffChargeTypeId()) ? "selected" : ""%>>
+									<%=tempName%>
+								</option>
+								<%
+									}
+									}
+								%>
+							</select>
+						</td>
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.islocation"
 								bundle="security" />
@@ -766,7 +819,6 @@
 						<td class="crm_edit_item_content">
 							<select name="islocation" id="islocation"class="easyui-combobox" style="width: 205px;height:30px;"
 								editable="false"  onkeypress="eventOnKeyPress('phone')">
-								<option value="">&nbsp;</option>
 								<%
 									if (securityStaffBaseinfo.getIslocationIds() != null
 											&& securityStaffBaseinfo.getIslocationIds().length > 0) {
@@ -866,7 +918,7 @@
 					<div class="crm_button_sub" id="btnSave" align="center">
 					<input type="button" name="btnSaveForm" class="button_green1_s0" onmouseout="this.className='button_green1_s0'" onmousedown="this.className='button_green1_s1'"
 						value="<bean:message key="security.jsp.commom.button1" bundle="security"/>"
-						onclick="saveForm();" />
+						onclick="sendRequest();" />
 					&nbsp;&nbsp;
 					<input type="button" name="btnBack" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
 						value="<bean:message key="security.jsp.commom.button2" bundle="security"/>"

@@ -33,6 +33,14 @@ public class ProjectBaseinfo implements java.io.Serializable {
 
 	private String createUserName;
 
+	private Timestamp requireTime;
+
+	private Timestamp designTime;
+
+	private Timestamp codeTime;
+
+	private Timestamp testTime;
+
 	// Constructors
 	/** default constructor */
 	public ProjectBaseinfo() {}
@@ -42,7 +50,8 @@ public class ProjectBaseinfo implements java.io.Serializable {
 			String projectClass, String staffCode, String staffName,
 			Timestamp startTime, Timestamp onlineTime, Timestamp endTime,
 			Integer seqNo, Timestamp createDate, String createUserId,
-			String createUserName) {
+			String createUserName, Timestamp requireTime, Timestamp designTime,
+			Timestamp codeTime, Timestamp testTime) {
 		this.projectCode = projectCode;
 		this.projectName = projectName;
 		this.projectClass = projectClass;
@@ -55,6 +64,10 @@ public class ProjectBaseinfo implements java.io.Serializable {
 		this.createDate = createDate;
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
+		this.requireTime = requireTime;
+		this.designTime = designTime;
+		this.codeTime = codeTime;
+		this.testTime = testTime;
 	}
 
 	// Property accessors
@@ -160,5 +173,37 @@ public class ProjectBaseinfo implements java.io.Serializable {
 
 	public void setCreateUserName(String createUserName) {
 		this.createUserName = createUserName;
+	}
+
+	public Timestamp getRequireTime() {
+		return this.requireTime;
+	}
+
+	public void setRequireTime(Timestamp requireTime) {
+		this.requireTime = requireTime;
+	}
+
+	public Timestamp getDesignTime() {
+		return this.designTime;
+	}
+
+	public void setDesignTime(Timestamp designTime) {
+		this.designTime = designTime;
+	}
+
+	public Timestamp getCodeTime() {
+		return this.codeTime;
+	}
+
+	public void setCodeTime(Timestamp codeTime) {
+		this.codeTime = codeTime;
+	}
+
+	public Timestamp getTestTime() {
+		return this.testTime;
+	}
+
+	public void setTestTime(Timestamp testTime) {
+		this.testTime = testTime;
 	}
 }

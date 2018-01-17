@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8"%>
+﻿﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="html" uri="/WEB-INF/struts-html.tld"%>
 <%@ taglib prefix="bean" uri="/WEB-INF/struts-bean.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
@@ -28,19 +28,19 @@
 		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
 		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
-		
 		<script type="text/javascript" src="${path}/js/default.js"></script>
-		<script language="javascript" src="<bean:message key="includes.js.validator.path" bundle="security" />" defer="defer"></script>
+		<script language="javascript" src="${path}/include/javascript/validator.js" /></script>
 		<script language="javascript" src='<bean:message key="Comm.js.TJMessagepath" bundle="conf.comm.CommMessage"/>'></script>
-		<script language="javascript" src="include/javascript/eventOnKeyPress.js"></script>
-		<script type="text/javascript" src="security/include/javascript/jianbian.js"></script>
-		<script language="javascript" src="<bean:message key="security.js.gettext.path" bundle="security" />"></script>
-		<link rel="stylesheet" href="include/css/open.css" />
-		<script language="javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
-		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
+		<script language="javascript" src="${path}/include/javascript/eventOnKeyPress.js"></script>
+		<script type="text/javascript" src="${path}/security/include/javascript/jianbian.js"></script>
+		<script type="text/javascript" src="${path}/security/include/javascript/gettext_en.js"></script>
+		<link rel="stylesheet" href="${path}/include/css/open.css" />
+		<link type="text/css" rev="stylesheet" rel="stylesheet" href="${path}/include/css/form.css" />
 		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
   		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
+	    <script type="text/javascript" src="${path}/include/javascript/jquery-1.4.4.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
+	
 		<script language="javascript">
 		function savePara(){
 			var id = document.getElementById("id").value;
@@ -48,14 +48,14 @@
 				if(!Validator.Validate(document.forms.form,3)){
      			 return ;
    				}
-				parent.parent.$.messager.confirm("提示","<bean:message key='security.jsp.commom.save' bundle='security'/>",function(r){   
+				parent.parent.$.messager.confirm("提示","<bean:message key='security.jsp.commom.save' bundle='security'/>",function(r){
 				    if (r){   
 				    	document.form.verbId.value = "add";
 					    var formData = $("#form").serialize();
 					    $.ajax({
 					    	dataType: "text/html",
 					    	type:"POST",
-					    	url:"security/securityConfigMenus.do",
+					    	url:"${path}/security/securityConfigMenus.do",
 					    	processData:true,
 					    	data:formData,
 					    	error: function(a, b, c){
@@ -63,6 +63,7 @@
 				    				
 				        	},
 					    	success:function(data){
+					    			    alert(1);
 					    		if(data != null){
 					    			try{
 					    				var json = eval(data);
@@ -119,7 +120,7 @@
 					<td class="crm_edit_item_content" colspan="3">
 						<select name="data.securityConfigPublicId" id="securityConfigPublicId" 
 						onkeypress="eventOnKeyPress('menuCode')"   class="easyui-combobox"
-						style="width:445px;height: 28px;border:1px solid rgb(218,218,218);"
+						style="width:445px;height: 28px;border:1px solid rgb(218,218,218);" readonly
 						onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" msg="模块不能为空">
 							<%
 								if (dataForm.getSecurityConfigPublicIds() != null&& dataForm.getSecurityConfigPublicIds().length > 0) {
@@ -142,17 +143,19 @@
 					<td class="crm_edit_item_name">
 						<label><label class="redlable">*</label>ID</label>
 					</td>
-					<td class="crm_edit_item_content">
+					<td class="crm_edit_item_content" colspan="3">
 						<input type="text" class="text" style="width:150px" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.id" id="id" onkeypress="eventOnKeyPress('menuDetail')" size="20" maxlength="20" onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" dataType="Integer" msg="ID应为1-20位数字" value="${dataForm.data.id}" />
 					</td>
+				</tr>
+				<tr>
 					<td class="crm_edit_item_name">
 						<label><label class="redlable">*</label>
 						<bean:message key="jsp.name" bundle="conf.Init" /></label>
 					</td>
-					<td class="crm_edit_item_content">
+					<td class="crm_edit_item_content" colspan="3">
 						<input type="text" class="text" style="width:150px" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.menuDetail" onkeypress="eventOnKeyPress('serialNo')" id="menuDetail" size="50" maxlength="100" max="100" require="true" dataType="LimitB" msg="名称的长度应在1-100字节范围" onkeydown="if(event.keyCode==13){event.keyCode=9}" value="" />
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"name="data.menuDetail" id="menuDetail" onkeypress="eventOnKeyPress('serialNo')"  size="50" maxlength="100" min="1" max="100" require="true" dataType="LimitB" msg="名称的长度应在1-100字节范围" onkeydown="if(event.keyCode==13){event.keyCode=9}" value="" />
 					</td>
 				</tr>
 				<tr>
@@ -208,9 +211,9 @@
 							name="parentIdname" value="<%=dataForm.getData().getMenuDetail() %>"
 							onkeydown="if(event.keyCode==13){event.keyCode=9}" />
 						<input type="hidden" id="parentId" value="${dataForm.idHidden}" name="data.parentId" />
-						<img src="security/include/images/select.gif" onkeydown="huiche()"
+						<img src="${path}/security/include/images/select.gif" onkeydown="huiche()"
 							style="cursor: pointer;"
-							onclick="add('security/securityConfigMenus.do?verbId=getSecurityConfigMenus','parentIdname','parentId');" />
+							onclick="add('${path}/security/securityConfigMenus.do?verbId=getSecurityConfigMenus','parentIdname','parentId');" />
 					</td>
 				</tr>
 				<tr>

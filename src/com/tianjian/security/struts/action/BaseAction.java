@@ -1,5 +1,6 @@
 package com.tianjian.security.struts.action;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +12,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.tianjian.pm.struts.comm.Globals;
 import com.tianjian.security.bean.SecurityStaffAliveAccess;
 import com.tianjian.security.business.ISecurityStaffAliveAccessService;
 import com.tianjian.security.business.service.SecurityStaffAliveAccessServiceImpl;
@@ -34,6 +36,26 @@ public class BaseAction extends Action {
 	}
 	public BaseAction() {
 		super();
+	}
+
+    //设置请求参数到系统环境里
+    protected void path(HttpServletRequest request) {
+		ServletContext ctx = request.getSession().getServletContext();
+		if (ctx.getAttribute(Globals.CONTEXT_PATH) == null) {
+			ctx.setAttribute(Globals.CONTEXT_PATH, request.getContextPath());
+		}
+    	StringBuilder abPath = new StringBuilder();
+    	abPath.append(request.getScheme()).append("://").append(request.getServerName());
+    	int port = request.getServerPort();
+    	if(port != 80)
+    	{
+    		abPath.append(":");
+    		abPath.append(port);
+    	}
+    	abPath.append(request.getContextPath()).append("/");
+		if (ctx.getAttribute(Globals.CONTEXT_ABSOLUTEPATH) == null) {
+			ctx.setAttribute(Globals.CONTEXT_ABSOLUTEPATH, abPath);
+		}
 	}
 	// ----------检查用户-------------------------
 	protected String checkUser(HttpServletRequest request, HttpServletResponse response) {

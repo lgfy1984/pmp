@@ -33,6 +33,7 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
+	private String[] ids;
 
 	private String projectBaseinfoId="";
 
@@ -48,19 +49,33 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	private String staffCode;
 	private String staffName="" ;
 
+	private String workStaffCode="" ;
+	private String workStaffName="" ;
 	private String workDate="";
 
 	private String taskCode="";
 	private String taskName="";
+	private String noLimit="";
 
-	private String longTime="";
+	private String longTimeCode="";
+	private String longTimeName="";
 
 	private String costs="";
 
 	private String seqNo="";
+	//返回标志
+	private String flag="" ;
+	//日期标志
+	private String dateFlag="" ;
 
+	//操作标志 1 新增 0修改
+	private String operFlag="" ;
+	
 	private String status="";
 	private String statusName="";
+
+
+	private String lockStatus="";
 	
 	private String createDate ="";
 	private String createUserId ="";
@@ -83,12 +98,16 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	private String projectTaskCodeCase="";
 	private String timeStartCase="";
 	private String timeEndCase="";
+	private String staffNameHidden="";
 	private String startTimeHidden="";
 	private String endTimeHidden="";
+	private String createUserIdHidden="";
+	private String projectBaseinfoIdHidden="";
 
 
 	private FormFile fileToUpload;// 上传文件
 	private Map<String , String> taskClass;
+	private Map<String , String> longTimeDict;
 	private Map<String , String> projectClass;
 
 
@@ -226,14 +245,18 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	public void setTaskCode(String taskCode) {
 		this.taskCode = taskCode;
 	}
-	public String getLongTime() {
-		return longTime;
+	public String getLongTimeCode() {
+		return longTimeCode;
 	}
-	public void setLongTime(String longTime) {
-		this.longTime = longTime;
+	public void setLongTimeCode(String longTimeCode) {
+		this.longTimeCode = longTimeCode;
 	}
-	
-	
+	public String getLongTimeName() {
+		return longTimeName;
+	}
+	public void setLongTimeName(String longTimeName) {
+		this.longTimeName = longTimeName;
+	}
 	public String getSeqNo() {
 		return seqNo;
 	}
@@ -377,6 +400,78 @@ public class ProjectWorkTimeRecordForm  extends ActionForm  {
 	}
 	public void setChargeType(String chargeType) {
 		this.chargeType = chargeType;
+	}
+	public String getStaffNameHidden() {
+		return staffNameHidden;
+	}
+	public void setStaffNameHidden(String staffNameHidden) {
+		this.staffNameHidden = staffNameHidden;
+	}
+	public String[] getIds() {
+		return ids;
+	}
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	public String getDateFlag() {
+		return dateFlag;
+	}
+	public void setDateFlag(String dateFlag) {
+		this.dateFlag = dateFlag;
+	}
+	public String getLockStatus() {
+		return lockStatus;
+	}
+	public void setLockStatus(String lockStatus) {
+		this.lockStatus = lockStatus;
+	}
+	public Map<String, String> getLongTimeDict() {
+		return longTimeDict;
+	}
+	public void setLongTimeDict(Map<String, String> longTimeDict) {
+		this.longTimeDict = longTimeDict;
+	}
+	public String getCreateUserIdHidden() {
+		return createUserIdHidden;
+	}
+	public void setCreateUserIdHidden(String createUserIdHidden) {
+		this.createUserIdHidden = createUserIdHidden;
+	}
+	public String getProjectBaseinfoIdHidden() {
+		return projectBaseinfoIdHidden;
+	}
+	public void setProjectBaseinfoIdHidden(String projectBaseinfoIdHidden) {
+		this.projectBaseinfoIdHidden = projectBaseinfoIdHidden;
+	}
+	public String getWorkStaffCode() {
+		return workStaffCode;
+	}
+	public void setWorkStaffCode(String workStaffCode) {
+		this.workStaffCode = workStaffCode;
+	}
+	public String getWorkStaffName() {
+		return workStaffName;
+	}
+	public void setWorkStaffName(String workStaffName) {
+		this.workStaffName = workStaffName;
+	}
+	public String getNoLimit() {
+		return noLimit;
+	}
+	public void setNoLimit(String noLimit) {
+		this.noLimit = noLimit;
+	}
+	public String getOperFlag() {
+		return operFlag;
+	}
+	public void setOperFlag(String operFlag) {
+		this.operFlag = operFlag;
 	}
 	
 	

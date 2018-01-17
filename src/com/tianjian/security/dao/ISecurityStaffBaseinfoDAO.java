@@ -51,12 +51,12 @@ public interface ISecurityStaffBaseinfoDAO {
      * 根据条件获取指定页面长度的操作员信息列表
      */
     public List<?> getData(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String dateOfBirth, 
-    		String inputCode,String staffId,String order, int curCount, int quChuCount);
+    		String inputCode,String staffId,String tenantId,String order, int curCount, int quChuCount);
     /**
      * 根据条件获取的操作员的总数量
      */
     public int getCount(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String dateOfBirth,
-    		String inputCode, String staffId);
+    		String inputCode, String staffId,String tenantId);
     /**
      *从指定的table表中获取id和name
      */

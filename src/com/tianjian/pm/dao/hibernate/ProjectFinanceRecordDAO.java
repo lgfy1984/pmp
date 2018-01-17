@@ -38,9 +38,9 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 			.getLogger(ProjectFinanceRecordDAO.class);
 	
 	
-	public List<?> getProjectFinanceRecordData(String projectBaseinfoId, String projectClassCode,
+	public List<?> getProjectFinanceRecordData(String projectNameCase,String projectBaseinfoId, String projectClassCode,
 			String staffName, String startTime, String endTime, int curCount,
-			int pageSize,  String userId,String order) {
+			int pageSize,  String userId,String timeCase,String timeSelect,String order) {
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("select "
 				+ "a.id," //0
@@ -54,7 +54,113 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 				+ "a.TASK_CODE,"//8
 				+ "a.WORK_DATE, "//9
 				+ "a.COSTS ,"//10
-				+ "s.name "//11
+				+ "s.name,"//11
+				+ "a.staff_code "//12
+				+ " from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id ");
+	
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectNameCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
+		sql.append(" order by " + order);
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		if (pageSize != 0 && curCount != -1) {
+			q.setFirstResult(curCount);
+			q.setMaxResults(pageSize);
+		}
+		List<?> l = q.list();
+		log.debug("getData success!");
+		return l;
+	}
+	
+	public List<?> getProjectFwDayData(String timeCase,String timeSelect,String staffCode) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "a.id," //0
+				+ "a.PROJECT_BASEINFO_ID," //1
+				+ "a.LONG_TIME,"//2
+				+ "a.STATUS,"//3
+				+ "a.CREATE_USER_ID,"//4
+				+ "a.CREATE_USER_NAME,"//5
+				+ "a.CREATE_DATE,"//6
+				+ "a.SEQ_NO,"//7
+				+ "a.TASK_CODE,"//8
+				+ "a.WORK_DATE, "//9
+				+ "a.COSTS ,"//10
+				+ "s.name,"//11
+				+ "a.staff_code "//12
+				+ " from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id  ");
+		
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
+		if (staffCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.staff_code = ? ");
+			params.add(staffCode.trim());
+		}
+		sql.append("and  a.long_time>8");
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		List<?> l = q.list();
+		log.debug("getData success!");
+		return l;
+	}
+	public List<?> getProjectFwSelectData(String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect,String order) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ " distinct a.staff_code "//12
+				+ " , s.name "//12
 				+ " from PM.PROJECT_FINANCE_RECORD a "
 			+"left join pm.project_baseinfo t "
 			+" on  a.project_baseinfo_id = t.id "
@@ -89,23 +195,127 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
 			params.add(endTime.trim());
 		}
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		List<?> l = q.list();
+		log.debug("getProjectFwSelectData success!");
+		return l;
+	}
+	public List<?> getProjectFwData(String projectBaseinfoId, String projectClassCode,
+			String staffName,String staffCode, String startTime, String endTime, String userId,String order) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "a.id," //0
+				+ "a.PROJECT_BASEINFO_ID," //1
+				+ "a.LONG_TIME,"//2
+				+ "a.STATUS,"//3
+				+ "a.CREATE_USER_ID,"//4
+				+ "a.CREATE_USER_NAME,"//5
+				+ "a.CREATE_DATE,"//6
+				+ "a.SEQ_NO,"//7
+				+ "a.TASK_CODE,"//8
+				+ "a.WORK_DATE, "//9
+				+ "a.COSTS ,"//10
+				+ "s.name,"//11
+				+ "a.staff_code "//12
+				+ " from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id ");
+		if (userId.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.create_user_id = ? ");
+			params.add(userId.trim());
+		}
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		if (staffCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.staff_code = ? ");
+			params.add(staffCode.trim());
+		}
 		sql.append(" order by " + order);
 
 		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
 		for (int i = 0; i < params.size(); i++) {
 			q.setParameter(i, params.get(i));
 		}
-		if (pageSize != 0 && curCount != -1) {
-			q.setFirstResult(curCount);
-			q.setMaxResults(pageSize);
-		}
+		
 		List<?> l = q.list();
 		log.debug("getData success!");
 		return l;
 	}
 	
+	public List<?> getProjectFwWeekData(String staffCode,String startTime, String endTime) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "sum(a.long_time)," //1
+				+ "a.staff_code "//2
+				
+				+ " from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id   ");
+		
+		if (staffCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.staff_code = ? ");
+			params.add(staffCode.trim());
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		} 
+			sql.append(" group by a.staff_code  having sum(a.long_time) >40");
 
-
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		List<?> l = q.list();
+		log.debug("getData success!");
+		return l;
+	}
 	@Override
 	public void save(ProjectFinanceRecord data) {
 		// TODO Auto-generated method stub
@@ -149,23 +359,25 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 
 
 	@Override
-	public int getProjectFinanceRecordCount(String projectBaseinfoId, String projectClassCode,
-			String staffName, String startTime, String endTime, String userId) {
+	public int getProjectFinanceRecordCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect) {
 		// TODO Auto-generated method stub
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("select a.* from PM.PROJECT_FINANCE_RECORD a "
 			+"left join pm.project_baseinfo t "
 			+" on  a.project_baseinfo_id = t.id "
 			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
-			+" on a.create_user_id = s.id ");
-		if (userId.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.create_user_id = ? ");
-			params.add(userId.trim());
-		}
+			+" on a.staff_code = s.id ");
+		
 		if (projectBaseinfoId.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " a.PROJECT_BASEINFO_ID = ? ");
 			params.add(projectBaseinfoId.trim());
+		}
+		if (projectNameCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
 		}
 		if (projectClassCode.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
@@ -187,7 +399,11 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
 			params.add(endTime.trim());
 		}
-
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
 		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
 		for (int i = 0; i < params.size(); i++) {
 			q.setParameter(i, params.get(i));
@@ -201,7 +417,140 @@ public class ProjectFinanceRecordDAO extends BaseDAOImpl<ProjectFinanceRecord> i
 		log.debug("getCount success!");
 		return count;
 	}
+	public int getQsCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect) {
+		// TODO Auto-generated method stub
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select a.* from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id ");
+		
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectNameCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
 
+		sql.append(" " + HqlUtil.getWhereOrAndClause(params)+" a.LONG_TIME<=8");
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		int count = 0;
+		List<?> list = q.list();
+		if (list != null && list.size() > 0) {
+			count = Integer.valueOf(list.size()).intValue();
+		}
+		log.debug("getCount success!");
+		return count;
+	}
+	public List<?> getQsData(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, int curCount,
+			int pageSize,  String userId,String timeCase,String timeSelect,String order) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "a.id," //0
+				+ "a.PROJECT_BASEINFO_ID," //1
+				+ "a.LONG_TIME,"//2
+				+ "a.STATUS,"//3
+				+ "a.CREATE_USER_ID,"//4
+				+ "a.CREATE_USER_NAME,"//5
+				+ "a.CREATE_DATE,"//6
+				+ "a.SEQ_NO,"//7
+				+ "a.TASK_CODE,"//8
+				+ "a.WORK_DATE, "//9
+				+ "a.COSTS ,"//10
+				+ "s.name,"//11
+				+ "a.staff_code "//12
+				+ " from PM.PROJECT_FINANCE_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.staff_code = s.id ");
+	
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectNameCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		if (timeSelect.equals("0") && timeCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') = ? ");
+			params.add(timeCase.trim());
+		}
+		sql.append(" " + HqlUtil.getWhereOrAndClause(params)+" a.LONG_TIME<=8");
+		sql.append(" order by " + order);
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		if (pageSize != 0 && curCount != -1) {
+			q.setFirstResult(curCount);
+			q.setMaxResults(pageSize);
+		}
+		List<?> l = q.list();
+		log.debug("getData success!");
+		return l;
+	}
 
 	@Override
 	public List<?> getTaskClassDict(String projectClassCode) {

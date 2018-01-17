@@ -415,18 +415,18 @@ function clearSelect() {
 					</div>
 					<div class="crm_input_item">
 						<span>项目名称：</span>
-						<input id="projectNameCase" type="text" class="crm_input_text crm_width_3"
+						<input id="projectNameCase2" type="text" class="crm_input_text crm_width_3"
 							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 							value=""style="width:80px;height:22px;line-height: 22px;">
 					</div>
-					<div class="crm_input_item">
+					<!-- <div class="crm_input_item">
 						<span>验收时间：</span>
 						<input id="timeCase" type="text" class="crm_input_text crm_width_3"
 							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 							value=""style="width:80px;height:22px;line-height: 22px;">
-					</div>
+					</div> -->
 					<div class="crm_input_item">
 						<input type="button" value="查询" class="button_blue1_s0" 
 							onmousedown="this.className='button_blue1_s1'"

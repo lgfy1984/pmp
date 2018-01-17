@@ -22,6 +22,7 @@ import com.tianjian.pm.struts.form.ProjectFinanceRecordForm;;
  * 
  */
 public interface IProjectFinanceRecordService  {
+	
 	/**
 	 * 初始化form
 	*
@@ -62,7 +63,16 @@ public interface IProjectFinanceRecordService  {
 	* @throws
 	* @author lengj
 	 */
-	public void update(ProjectFinanceRecordForm form);
+	public void update(ProjectFinanceRecordForm form);/**
+	 * 修改
+	*
+	* @Title: update
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void updateall(ProjectFinanceRecordForm form);
 	/**
 	 * 根据id查找咨询信息
 	*
@@ -101,8 +111,8 @@ public interface IProjectFinanceRecordService  {
 	* @throws
 	* @author lengj
 	 */
-	public int getProjectFinanceRecordCount(String projectClass, String classId,
-			String onlineTime, String startTime, String endTime, String userId);
+	public int getProjectFinanceRecordCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect);
 	/**
 	 * 修改初始化
 	*
@@ -147,4 +157,9 @@ public interface IProjectFinanceRecordService  {
 	* @author lengj
 	 */
 	public void getProjectFinanceRecordSearch(ProjectFinanceRecordForm hosform, int curCount,int pageSize);
+	
+
+	public void getQsSearch(ProjectFinanceRecordForm hosform, int curCount,int pageSize);
+	public int getQsCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect);
 }

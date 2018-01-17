@@ -44,7 +44,10 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 	
 	
 	public List<?> getProjectBaseinfoData(String projectClass, String projectName,
-			String onlineTime, String startTime, String endTime, int curCount,
+			String onlineStartTime, String onlineEndTime, 
+			String startStartTime, String startEndTime, 
+			String endStartTime, String endEndTime, 
+			int curCount,
 			int pageSize,  String userId,String order) {
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("  from ProjectBaseinfo a");
@@ -64,22 +67,38 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 					+ " a.projectName like ? ");
 			params.add("%"+projectName.trim()+"%");
 		}
-		if (onlineTime.trim().length() > 0) {
+		if (onlineStartTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.onlineTime,'yyyy-MM-dd') >= ? ");
-			params.add(onlineTime.trim());
+			params.add(onlineStartTime.trim());
 		}
-		if (startTime.trim().length() > 0) {
+		if (onlineEndTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.onlineTime,'yyyy-MM-dd') <= ? ");
+			params.add(onlineEndTime.trim());
+		}
+		if (startStartTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.startTime,'yyyy-MM-dd') >= ? ");
+			params.add(startStartTime.trim());
+		}
+		if (startEndTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.startTime,'yyyy-MM-dd') <= ? ");
-			params.add(startTime.trim());
+			params.add(startEndTime.trim());
 		}
-		if (endTime.trim().length() > 0) {
+		if (endStartTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.endTime,'yyyy-MM-dd') >= ? ");
+			params.add(endStartTime.trim());
+		}
+		if (endEndTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.endTime,'yyyy-MM-dd') <= ? ");
-			params.add(endTime.trim());
+			params.add(endEndTime.trim());
 		}
-		sql.append(" order by " + order);
+		
+		sql.append(" order by a.seqNo desc");
 
 		Query q = getSessionFactory().getCurrentSession().createQuery(sql.toString());
 		for (int i = 0; i < params.size(); i++) {
@@ -157,7 +176,10 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 
 	@Override
 	public int getProjectBaseinfoCount(String projectClass, String projectName,
-			String onlineTime, String startTime, String endTime, String userId) {
+			String onlineStartTime, String onlineEndTime, 
+			String startStartTime, String startEndTime, 
+			String endStartTime, String endEndTime, 
+			String userId) {
 		// TODO Auto-generated method stub
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("from ProjectBaseinfo a ");
@@ -177,20 +199,36 @@ public class ProjectBaseInfoDAO extends BaseDAOImpl<ProjectBaseinfo> implements 
 					+ " a.projectName like ? ");
 			params.add("%"+projectName.trim()+"%");
 		}
-		if (onlineTime.trim().length() > 0) {
+
+		if (onlineStartTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.onlineTime,'yyyy-MM-dd') >= ? ");
-			params.add(onlineTime.trim());
+			params.add(onlineStartTime.trim());
 		}
-		if (startTime.trim().length() > 0) {
+		if (onlineEndTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.onlineTime,'yyyy-MM-dd') <= ? ");
+			params.add(onlineEndTime.trim());
+		}
+		if (startStartTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.startTime,'yyyy-MM-dd') >= ? ");
-			params.add(startTime.trim());
+			params.add(startStartTime.trim());
 		}
-		if (endTime.trim().length() > 0) {
+		if (startEndTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.startTime,'yyyy-MM-dd') <= ? ");
+			params.add(startEndTime.trim());
+		}
+		if (endStartTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.endTime,'yyyy-MM-dd') >= ? ");
+			params.add(endStartTime.trim());
+		}
+		if (endEndTime.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
 					+ " to_char(a.endTime,'yyyy-MM-dd') <= ? ");
-			params.add(endTime.trim());
+			params.add(endEndTime.trim());
 		}
 
 		Query q = getSessionFactory().getCurrentSession().createQuery(sql.toString());

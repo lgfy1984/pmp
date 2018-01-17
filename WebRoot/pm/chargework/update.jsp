@@ -111,10 +111,10 @@
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" name="longTime" id="longTime" style="width:206px;height:26px;line-height:26px;
 	padding-left:5px;padding-right:5px;	border:1px solid #dedede;font-size:12px;"  class="easyui-numberbox"  value='${data.longTime}'
-								onblur="fEvent('blur',this)"  min="0" max="8" 
+								onblur="fEvent('blur',this)" 
 								onmouseover="fEvent('mouseover',this)"
 								onfocus="fEvent('focus',this)" required="true"
-								onmouseout="fEvent('mouseout',this)" missingMessage="必须填写0~8之间的数字" />
+								onmouseout="fEvent('mouseout',this)" />
 						</td>
 					</tr>
 					<tr>

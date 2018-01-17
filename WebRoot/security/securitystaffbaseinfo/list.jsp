@@ -36,6 +36,7 @@
   		<link rel="stylesheet" type="text/css" href="${path}/style/border-radius.css"/>
   		<link rel="stylesheet" type="text/css" href="${path}/style/steel/steel.css"/>
   		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
+        <script type="text/javascript" src="${path}/js/ajaxfileupload.js"></script>
   		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
 		<script language="javascript">
 		function huiche(){
@@ -107,10 +108,10 @@
 		frames['iframemain'].document.body.innerHTML = loadHtml;
 		document.getElementById('iframemain').style.display='';
 		document.getElementById('iframemain').style.visibility='visible';
-		var hspConfigBaseinfoName =$("#hspConfigBaseinfoName").val();
+		/* var hspConfigBaseinfoName =$("#hspConfigBaseinfoName").val();
 		if(hspConfigBaseinfoName==null||hspConfigBaseinfoName==""){
 			$("#hspConfigBaseinfoId").val("");
-		}
+		} */
 		var obj = document.getElementById('iframemain');
        	centerLayer(obj);
 		document.form.page.value = 1; 
@@ -216,6 +217,85 @@
 					return;
 				}
 			}
+			
+			
+//导出客观excel文件
+	function exportExcelFile(){
+	    var staffCode=$("#staffCode").val();
+		var name=$("#name").val();
+		//var orderNo = $("#orderNo").combobox('getValue');
+		//var sort = $('input:radio:checked').val();
+		//前置条件
+		$.messager.confirm("操作提示", "确定导出数据？", function (data) {
+            if (data) {
+            	window.location='${path}/security/securityStaffBaseinfo.do?verbId=exportFile&staffCode='+staffCode
+            			+'&name='+name;          	
+            }
+        });	
+	}
+	//导入客观excel文件
+	function dialogMiddle(className){
+		var dialogElement = $("."+className);
+		var shadow=$(".window-shadow");
+		
+ 		var width=dialogElement.css('width');
+		var height=dialogElement.css('height');
+		var left=$(window).width()-parseInt(width);
+		var  top=$(window).height()-parseInt(height);
+		var l=left/2+"px";
+		var t=top/2+"px";
+		shadow.css('left',l);
+		shadow.css('top',t); 
+		
+		shadow.css('left',l);
+		shadow.css('top',t);
+		dialogElement.css('left',l);
+		dialogElement.css('top',t);
+	}
+	function importExcelFile(){ 
+			$.ajaxFileUpload(
+              	 	 	{          	
+			                url:'${path}/security/securityStaffBaseinfo.do?verbId=importfile',          
+			                secureuri:false,
+			                fileElementId:'fileToUpload',                        //文件选择框的id属性
+			                dataType: 'json',                                     //服务器返回的格式，可以是json
+					        success: function (data, status)            //相当于java中try语句块的用法
+			                {  
+			                	if(data.result=='error'){
+			                		$.messager.alert("操作提示", "导入文件格式错误!","error");
+			                		dialogMiddle("messager-window");
+			                	}else if(data.result=='success'){
+			                		$.messager.alert("操作提示", "导入数据完成!","info",function(){
+			                			window.location.reload();
+			                		});
+			                		dialogMiddle("messager-window");
+			                	}else if(data.result=='exception'){
+			                		$.messager.alert("操作提示", "导入数据格式有误!","error");
+			                		dialogMiddle("messager-window");
+			                	}else{
+			                		$.messager.alert("操作提示", "导入数据失败!","error");
+			                		dialogMiddle("messager-window");
+			                	}
+			                	 
+			                },
+			                error: function(data, status, e)
+			                {
+			                	$.messager.alert("操作提示", "导入数据失败!","error");
+			                	dialogMiddle("messager-window");
+			                }
+              	 	 	}                  
+		             );  
+			}
+	
+	//选择导入文件
+	function fileSelect() {
+		$.messager.confirm("操作提示", "确定导入数据？", function (data) {
+            if (data) {
+            	document.getElementById("fileToUpload").click();
+            }
+        });	
+   	 }
+   	 
 </script>
 		
 	</head>
@@ -236,6 +316,14 @@
 		           		curPage = 0;
 		           	}
 		           %>
+		           
+ 
+ <form  name="form1" id="form1" method="post" enctype="multipart/form-data" >
+			 <div id='uploadPictureWrapper'  class="crm_input_item" style="margin-top: 3px;margin-left: 10px;float: right;">
+		         	<span class="">导入excel</span>
+			    <input type="file" id="fileToUpload"   class="crm_search_input_text"  name="fileToUpload" onchange="importExcelFile();" />
+		      </div>
+ </form>
 		<!-- Form中的action项的值必须设置-->
 		<form name="form" method="post" action="security/securityStaffBaseinfo.do"　autocomplete=“off”>
 			<!-- Head line -->
@@ -266,15 +354,6 @@
 						<span id="spanOutput" class="spanTextDropdown" style="display: none;"></span>
 					</div>
 					<div class="crm_input_item">
-						<span>卫生机构</span>
-						<input type="text" id="hspConfigBaseinfoName" name="hspConfigBaseinfoName" value="<%=securityStaffBaseinfo.getHspConfigBaseinfoName()%>"
-							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-							class="crm_search_input_text" onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getHspName_00000000004', 'hspConfigBaseinfoId')"
-							onkeydown="huanhang(event)" />
-					    <input type="hidden" name="hspConfigBaseinfoId" id="hspConfigBaseinfoId" value="<%=securityStaffBaseinfo.getHspConfigBaseinfoId()%>" />
-					</div>
-					<div class="crm_input_item">
 						<input type="button" value="查询" class="button_blue1_s0" 
 							onmouseout="this.className='button_blue1_s0'" 
 							onmouseover="this.className='button_blue1_s1'"
@@ -283,6 +362,13 @@
 							onmouseout="this.className='button_blue1_s0'" 
 							onmouseover="this.className='button_blue1_s1'"
 							onclick="addInitForm()" />
+					</div>
+					
+				     <div class="crm_input_item" >
+			 			<div class="download_button_s1 " onclick="exportExcelFile();">
+					     <img alt="" src="${path }/style/img/down.png" style="margin-top: 5px;margin-left: 10px;">
+					     <span style="position: absolute;color: #fff;">导出</span>
+					    </div>
 					</div>
 					<div style="clear: both"></div>
 				</div>
@@ -295,20 +381,17 @@
 								<td>
 									序号
 								</td>
+								<td style="width:10%">
+									员工编号
+								</td>
 								<td>
-									用户名
+									登陆名
 								</td>
 								<td>
 									姓名
 								</td>
 								<td>
-									卫生机构
-								</td>
-								<td>
 									性别
-								</td>
-								<td>
-									激活时间
 								</td>
 								<td>
 									有效截止时间
@@ -338,11 +421,10 @@
 
 							<tr>
 								<td style="text-align: center;"><%=(curPage - 1) * pageSize + i + 1%></td>
+								<td ><%=securityStaffBaseinfo.getIdList()[i]%></td>
 								<td ><%=securityStaffBaseinfo.getStaffCodeList()[i]%></td>
 								<td ><%=securityStaffBaseinfo.getNameList()[i]%></td>
-								<td ><%=securityStaffBaseinfo.getHspConfigBaseinfoNameList()[i]%></td>
 								<td ><%=securityStaffBaseinfo.getCommConfigSexNameList()[i]%></td>
-								<td style="text-align: center;"><%=securityStaffBaseinfo.getRegTimeList()[i]%></td>
 								<td style="text-align: center;"><%=securityStaffBaseinfo.getStopTimeList()[i]%></td>
 								<td style="cursor: pointer;">
 									<input type="button" class="button_grey2_s0" 

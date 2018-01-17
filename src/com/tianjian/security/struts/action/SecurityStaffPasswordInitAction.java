@@ -37,8 +37,9 @@ public class SecurityStaffPasswordInitAction extends BaseAction {
 			return mapping.findForward("noLogin");
 		}
 		String verbId = request.getParameter("verbId");
+
 		if (verbId.equals("init")) {
-			return init(mapping, form, request, response);
+			return query(mapping, form, request, response);
 		} else if (verbId.equals("query")) {
 			return query(mapping, form, request, response);
 		} else if (verbId.equals("update")) {
@@ -92,18 +93,19 @@ public class SecurityStaffPasswordInitAction extends BaseAction {
 			HttpSession session = request.getSession(true);
 			SessionForm sessionForm = (SessionForm)session.getAttribute("sessionForm");
 			ssform.setHspConfigId(sessionForm.getStaffHospitalId());
+			ssform.setTenantId(sessionForm.getTenantId());
 			// ////// page start ////////////////////////
 			ServletContext application = request.getSession().getServletContext();
 			PageBean pb = new PageBean();
 			int count;
 			int page = 0;
-			int recordCount = service.getStaffSelectCount(ssform.getStaffId(), ssform.getName(), ssform.getInputCode(), ssform.getItemCode(),ssform.getStaffHspId(),ssform.getHspConfigId());
+			int recordCount = service.getStaffSelectCount(ssform.getStaffId2(), ssform.getName(), ssform.getInputCode(), ssform.getItemCode(),ssform.getStaffHspId(),ssform.getHspConfigId(),ssform.getTenantId());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			//int pageSize = 10;
-			int pageSize = 10;
+			//int pageSize = 5;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f53464507001346450701f0000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53464507001346450701f0000"));
 			}else{

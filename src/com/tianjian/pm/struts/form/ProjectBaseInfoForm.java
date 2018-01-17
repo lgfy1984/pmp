@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 /**
  * TODO
@@ -31,6 +32,8 @@ public class ProjectBaseInfoForm extends ActionForm {
 	private static final long serialVersionUID = 1L;
 	
     private String id="";
+	private String[] ids;
+	
 	private String projectCode="" ;
 	private String projectName="" ;
 	private String projectClassCode="" ;
@@ -40,8 +43,18 @@ public class ProjectBaseInfoForm extends ActionForm {
 	private String staffName="" ;
 	private String startTime="" ;
 	private String onlineTime="" ;
+	
+
+	private String requireTime="" ;
+	private String designTime="" ;
+	private String codeTime="" ;
+	private String testTime="" ;
 	private String endTime="" ;
 	private String seqNo="" ;
+	private String flag="" ;
+
+	//操作标志 1 新增 0修改
+	private String operFlag="" ;
 
 	private String createDate ="";
 	private String createUserId ="";
@@ -57,13 +70,18 @@ public class ProjectBaseInfoForm extends ActionForm {
 	private String count="";
 	private String page_size="";
 	private String projectClassCodeHidden="" ;
-	private String onlineTimeHidden="" ;
-	private String startTimeHidden="";
-	private String endTimeHidden="";
+	private String onlineStartTimeHidden="" ;
+	private String onlineEndTimeHidden="" ;
+	private String startStartTimeHidden="";
+	private String startEndTimeHidden="";
+	private String endStartTimeHidden="";
+	private String endEndTimeHidden="";
 	private String projectNameHidden="";
 
 	private Map<String , String> projectClass;
-	
+
+
+	private FormFile fileToUpload;// 上传文件
 
 	List<ProjectBaseInfoVo> pbi;
 	
@@ -227,29 +245,11 @@ public class ProjectBaseInfoForm extends ActionForm {
 	public void setPage_size(String page_size) {
 		this.page_size = page_size;
 	}
-	public String getStartTimeHidden() {
-		return startTimeHidden;
-	}
-	public void setStartTimeHidden(String startTimeHidden) {
-		this.startTimeHidden = startTimeHidden;
-	}
-	public String getEndTimeHidden() {
-		return endTimeHidden;
-	}
-	public void setEndTimeHidden(String endTimeHidden) {
-		this.endTimeHidden = endTimeHidden;
-	}
 	public String getProjectClassCodeHidden() {
 		return projectClassCodeHidden;
 	}
 	public void setProjectClassCodeHidden(String projectClassCodeHidden) {
 		this.projectClassCodeHidden = projectClassCodeHidden;
-	}
-	public String getOnlineTimeHidden() {
-		return onlineTimeHidden;
-	}
-	public void setOnlineTimeHidden(String onlineTimeHidden) {
-		this.onlineTimeHidden = onlineTimeHidden;
 	}
 	public String getProjectNameHidden() {
 		return projectNameHidden;
@@ -263,5 +263,88 @@ public class ProjectBaseInfoForm extends ActionForm {
 	public void setTenantId(String tenantId) {
 		this.tenantId = tenantId;
 	}
-	
+	public String getOnlineStartTimeHidden() {
+		return onlineStartTimeHidden;
+	}
+	public void setOnlineStartTimeHidden(String onlineStartTimeHidden) {
+		this.onlineStartTimeHidden = onlineStartTimeHidden;
+	}
+	public String getOnlineEndTimeHidden() {
+		return onlineEndTimeHidden;
+	}
+	public void setOnlineEndTimeHidden(String onlineEndTimeHidden) {
+		this.onlineEndTimeHidden = onlineEndTimeHidden;
+	}
+	public String getStartStartTimeHidden() {
+		return startStartTimeHidden;
+	}
+	public void setStartStartTimeHidden(String startStartTimeHidden) {
+		this.startStartTimeHidden = startStartTimeHidden;
+	}
+	public String getStartEndTimeHidden() {
+		return startEndTimeHidden;
+	}
+	public void setStartEndTimeHidden(String startEndTimeHidden) {
+		this.startEndTimeHidden = startEndTimeHidden;
+	}
+	public String getEndStartTimeHidden() {
+		return endStartTimeHidden;
+	}
+	public void setEndStartTimeHidden(String endStartTimeHidden) {
+		this.endStartTimeHidden = endStartTimeHidden;
+	}
+	public String getEndEndTimeHidden() {
+		return endEndTimeHidden;
+	}
+	public void setEndEndTimeHidden(String endEndTimeHidden) {
+		this.endEndTimeHidden = endEndTimeHidden;
+	}
+	public String[] getIds() {
+		return ids;
+	}
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	public String getOperFlag() {
+		return operFlag;
+	}
+	public void setOperFlag(String operFlag) {
+		this.operFlag = operFlag;
+	}
+	public FormFile getFileToUpload() {
+		return fileToUpload;
+	}
+	public void setFileToUpload(FormFile fileToUpload) {
+		this.fileToUpload = fileToUpload;
+	}
+	public String getRequireTime() {
+		return requireTime;
+	}
+	public void setRequireTime(String requireTime) {
+		this.requireTime = requireTime;
+	}
+	public String getDesignTime() {
+		return designTime;
+	}
+	public void setDesignTime(String designTime) {
+		this.designTime = designTime;
+	}
+	public String getCodeTime() {
+		return codeTime;
+	}
+	public void setCodeTime(String codeTime) {
+		this.codeTime = codeTime;
+	}
+	public String getTestTime() {
+		return testTime;
+	}
+	public void setTestTime(String testTime) {
+		this.testTime = testTime;
+	}
 }

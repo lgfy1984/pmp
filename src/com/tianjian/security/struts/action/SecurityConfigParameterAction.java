@@ -91,7 +91,7 @@ public class SecurityConfigParameterAction extends Action {
 			}
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f53464511d013464511d870000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53464511d013464511d870000"));
 			}else{
@@ -99,7 +99,7 @@ public class SecurityConfigParameterAction extends Action {
 				pageSize = Integer.parseInt((String)application.getAttribute("security.PAGE_SIZE"));
 			}
 			
-			//int pageSize = 10;
+			//int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if (pageString == null || pageString.equals("")
 					|| pageString.equals("0")) {

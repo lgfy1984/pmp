@@ -138,7 +138,7 @@ public class CommConfigLocationGroupAction extends Action{
 		//int pageSize = CommConfigLocationTownInit.getPageSize("PAGE_SIZE");
 		//ServletContext application = request.getSession().getServletContext();
 		//int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
-		int pageSize = 10;
+		int pageSize = 5;
 		if(request.getSession().getAttribute("page_282881f53463902b013463902b221133")!=null){
 			pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463902b013463902b221133"));
 		}else{

@@ -29,6 +29,16 @@ import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
 public interface IProjectWorkTimeRecordDAO  {
 
 	/**
+	    *TODO
+	    * @Title: saveOrUpdate
+	    * @param obj
+	    * @return
+	    * @return Object
+	    * @throws
+	    * @author LengJiong
+	    */
+	    public Object saveOrUpdate(Object obj);
+	/**
 	*TODO 保存ProjectWorktimeRecord
 	* @Title: save
 	* @param data
@@ -88,7 +98,7 @@ public interface IProjectWorkTimeRecordDAO  {
     * @author LengJiong
     */
     public int getProjectWorktimeRecordCount(String projectClass, String classId,
-			String onlineTime, String startTime, String endTime, String userId, String status);
+			String onlineTime, String startTime, String endTime, String userId, String status,String noLimit);
   
     
     
@@ -111,7 +121,48 @@ public interface IProjectWorkTimeRecordDAO  {
     */
     public List<?> getProjectWorktimeRecordData(String projectClass, String classId,
 			String onlineTime, String startTime, String endTime, int curCount,
-			int pageSize,  String userId,String order,String status);
+			int pageSize,  String userId,String order,String status,String noLimit);
+    
+    
+    /**
+     *TODO
+     * @Title: getProjectWorktimeRecordCount
+     * @param projectClass
+     * @param classId
+     * @param onlineTime
+     * @param startTime
+     * @param endTime
+     * @param userId
+     * @return
+     * @return int
+     * @throws
+     * @author LengJiong
+     */
+     public int getProjectWorkTimeUnlockCount(String projectClass, String classId,
+ 			String onlineTime, String startTime, String endTime, String userId, String status);
+   
+     
+     
+     /**
+     *TODO
+     * @Title: getProjectWorktimeRecordData
+     * @param projectClass
+     * @param classId
+     * @param onlineTime
+     * @param startTime
+     * @param endTime
+     * @param curCount
+     * @param pageSize
+     * @param userId
+     * @param order
+     * @return
+     * @return List<?>
+     * @throws
+     * @author LengJiong
+     */
+     public List<?> getProjectWorktimeUnlockData(String projectClass, String classId,
+ 			String onlineTime, String startTime, String endTime, int curCount,
+ 			int pageSize,  String userId,String order,String status);
    
     /**
     *TODO
@@ -190,6 +241,16 @@ public interface IProjectWorkTimeRecordDAO  {
 	 */
 	public Object findObjByHql(String hql, Map<String, Object> map);
 	
+	/**
+	 * 根据hql查询对象
+	 * 
+	 * @param hql
+	 *            hql语句
+	 * @param map
+	 *            参数值 无则传null或者""
+	 * @return
+	 */
+	public List<?> findObjectByHql(String hql, Map<String, Object> map);
 	/**
 	 * 根据sql查询一个对象
 	 * 

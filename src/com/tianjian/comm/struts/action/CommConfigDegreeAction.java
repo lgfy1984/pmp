@@ -102,7 +102,7 @@ public class CommConfigDegreeAction extends BaseAction {
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_2828822639b47c2a0139b47c2aa20000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828822639b47c2a0139b47c2aa20000"));
 			}else{

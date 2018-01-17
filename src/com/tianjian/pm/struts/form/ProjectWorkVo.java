@@ -26,19 +26,25 @@ public class ProjectWorkVo {
 	private String projectCode="" ;
 	private String projectName="" ;
 	private String projectClassName="" ;
+	private String projectStaffName="" ;
 
 	private String staffCode;
 
 	private String workDate;
 
 	private String taskCode;
+	private String taskName;
 
-	private String longTime;
+	private String longTimeCode="";
+	private String longTimeName="";
 
 	private String seqNo;
 
 	private String status;
 	private String statusName;
+	private String lockStatus="";
+	private String days7Flag="";
+	private String lockStatusName="";
 
 	private String createDate;
 
@@ -86,15 +92,21 @@ public class ProjectWorkVo {
 		this.taskCode = taskCode;
 	}
 
-	public String getLongTime() {
-		return longTime;
+	public String getLongTimeCode() {
+		return longTimeCode;
 	}
 
-	public void setLongTime(String longTime) {
-		this.longTime = longTime;
+	public void setLongTimeCode(String longTimeCode) {
+		this.longTimeCode = longTimeCode;
 	}
 
-	
+	public String getLongTimeName() {
+		return longTimeName;
+	}
+
+	public void setLongTimeName(String longTimeName) {
+		this.longTimeName = longTimeName;
+	}
 
 	public String getSeqNo() {
 		return seqNo;
@@ -166,6 +178,46 @@ public class ProjectWorkVo {
 
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
+	}
+
+	public String getLockStatus() {
+		return lockStatus;
+	}
+
+	public void setLockStatus(String lockStatus) {
+		this.lockStatus = lockStatus;
+	}
+
+	public String getLockStatusName() {
+		return lockStatusName;
+	}
+
+	public void setLockStatusName(String lockStatusName) {
+		this.lockStatusName = lockStatusName;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
+	public String getDays7Flag() {
+		return days7Flag;
+	}
+
+	public void setDays7Flag(String days7Flag) {
+		this.days7Flag = days7Flag;
+	}
+
+	public String getProjectStaffName() {
+		return projectStaffName;
+	}
+
+	public void setProjectStaffName(String projectStaffName) {
+		this.projectStaffName = projectStaffName;
 	}
 	
 }

@@ -177,8 +177,8 @@ public class SecurityConfigParamClassAction extends Action {
 			}else{
 				pageString = request.getParameter("page");
 			}
-			//int pageSize = 10;
-			int pageSize = 10;
+			//int pageSize = 5;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f534645a2c0134645a2cd00000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f534645a2c0134645a2cd00000"));
 			}else{

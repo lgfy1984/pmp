@@ -24,18 +24,32 @@
 <script type="text/javascript"	src="${path}/style/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
-	
+	/**列表 */
+function query_List(){
+		window.location.href='${path}/pm/projectbaseinfo.do?verbId=statProjectBaseinfo';
+}
 	$(function() {
 		$("#loadlayer").hide();
 		
 	});
+function query(){
+   var  projectBaseinfoIdCase = $('#projectBaseinfoIdCase').val();
+   if(projectBaseinfoIdCase==""){
+      $.messager.alert('提示',"必须选择项目","info");
+		return false;
+   }
+    $('#verbId').val('stat');
+    document.form.submit(); 
+    $('#loadlayer').show();
+}
+	
 var selectUsersData = new Array(); 	 
 function findProjectList(page){// open a window  	
 	$win = $('#win').window({
 	    title: '选择项目',
 	    width: 820,
-	    height: 450,
-	    top: ($(window).height()-700) * 0.5,
+	    height: 300,
+	    top: ($(window).height()-500) * 0.5,
 	    left: ($(window).width()-800) * 0.5,
 	    shadow: true,
 	    modal: true,
@@ -48,11 +62,11 @@ function findProjectList(page){// open a window
 	$('#win').window('open'); 
 	
 	var projectCodeCase=$('#projectCodeCase').val();
-	var projectNameCase=$('#projectNameCase').val();
+	var projectNameCase=$('#projectNameCase2').val();
 	var timeCase=$('#timeCase').val();
 	var pageIndex = page;
 	var path = '${path}/pm/projectwork.do?verbId=findProjectList&pageIndex='
-			+ pageIndex + '&projectCodeCase=' + projectCodeCase+ '&projectNameCase=' + projectNameCase+ '&timeCase=' + timeCase;
+			+ pageIndex + '&projectCodeCase=' + projectCodeCase+ '&projectNameCase2=' + projectNameCase+ '&timeCase=' + timeCase;
 	$.ajax({
 		type : "post",
 		url : '${path}/pm/projectwork.do?verbId=findProjectPage',
@@ -88,7 +102,7 @@ function findProjectList(page){// open a window
 			align : 'center',
 			width : $(this).width()*0.1
 		}, {
-			field : 'projectClass',
+			field : 'projectClassName',
 			title : '项目类别',
 			align : 'center',
 			width : $(this).width()*0.1
@@ -115,9 +129,10 @@ function findProjectList(page){// open a window
 	        //alert(rowData.projectCode);
 	        $('#projectBaseinfoIdCase').val(rowData.id);
 	        //alert($('#projectBaseinfoIdCase').val());
+	        $('#staffName').val(rowData.staffName);
 	        $('#projectCode').val(rowData.projectCode);
 	        $('#projectName').val(rowData.projectName);
-	        $('#projectClassName').val(rowData.projectClass);
+	        $('#projectClassName').val(rowData.projectClassName);
 	        $('#projectTime').val(rowData.startTime+"-"+rowData.endTime);
 	        $('#win').window('close'); 
 	    },
@@ -187,12 +202,35 @@ function clearSelect() {
 	selectNodeData = new Array();
 }  		
 </script>
+<style> 
+.crm_table_content thead tr{
+	font-weight: bolder;
+	border: 1px solid;
+}
+.crm_table_content thead td{
+	font-weight: bolder;
+	border: 1px solid;
+}
+.crm_table_content tbody td{
+	height:38px;
+	color:#666666;
+	padding:0;
+	text-align:center;
+	border: 1px solid;
+
+/* 	text-align:left; */
+}
+.crm_table_out{
+	overflow-x:scroll;
+}
+</style> 
 </head>
 
 <body>
-	<form action="${path}/pm/projectstat.do?verbId=stat"
-				method="post" >
+	<form action="projectstat.do" id="form" name="form" method="post"  >
 	<input type="hidden"  id="projectBaseinfoIdCase" name="projectBaseinfoIdCase" value='${data.projectBaseinfoIdCase}'/>
+	<input type="hidden"  id="flag" name="flag" value='${data.flag}'/>
+	<input type="hidden"  id="verbId" name="verbId" value=''/>
 	<div class='crm_content_div'>
 	<div class="crm_search_div">
 		<input type="hidden" id="page" name="page">
@@ -210,18 +248,19 @@ function clearSelect() {
 		</div>
 	
 		<div  class="crm_input_item" style="">
-			<span class="">实施类别：</span>
+			<span class="">项目类别：</span>
 			<input type="text" name="projectClassName" id="projectClassName" class="stat_text"   value='${data.projectClassName}' />
 		</div>
-		
+		<c:if test="${data.flag!=1}">
 		<div class="crm_input_item">
 			<input type="button" value="选择项目" class="button_grey1_s0"
 							style="vertical-align: top;"
 							onmousedown="this.className='button_grey1_s1'"
 							onmouseout="this.className='button_grey1_s0'"
 							onclick="findProjectList('1')" />
-		    <input type="submit" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="$('#loadlayer').show();" />
+		    <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="query();" />
 		</div>
+		</c:if>
 		  <div style="clear:both"></div>
 		<div  class="crm_input_item" style="">
 			<span class="">项目经理：</span>
@@ -254,37 +293,87 @@ function clearSelect() {
 		</div>
 		<div class="horizontal_line_2"></div>
 		<div class='crm_table_out'>
-			<table class='crm_table_content' style="table-layout: fixed;">
+			<table class='crm_table_content' style="table-layout: fixed;border: 1px solid;">
+			   <c:if test='${data.psv == null }'>
+						<tr>
+							<td colspan="6">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+				</c:if>
 				<thead>
 					<tr>
-						<td style="width: 3%;">序号</td>
-						<td style="width: 5%;">姓名</td>
-						<td>工作任务</td>
+						<td style="width:50px;" rowspan="3">序号</td>
+						<td style="width:50px;" rowspan="3">姓名</td>
+						<td style="width:50px;" rowspan="3">类别</td>
+						<td  style="width:50px;" rowspan="3">工作任务</td>
 						 <c:forEach items='${data.head1}' var="kd">
 						    <c:choose>
 							   <c:when test="${kd.year eq data.curYear}">  
-									   <td colspan="12">${kd.year}</td>
+									   <td colspan="${fn:length(data.head3)+13}"  style="width:2000px;">${kd.year}年</td>
 							   </c:when>
 							   <c:otherwise> 
-						          <td style="width: 7%;">${kd.year}</td>
+						          <td  rowspan="5" style="width:50px;">${kd.year}年</td>
 							   </c:otherwise>
 							</c:choose>
 						 </c:forEach>
-					<tr>
+						<%--  <c:forEach items='${data.head1}' var="kd">
+						          <c:if test="${kd.year!=data.curYear}">
+						          <td rowspan="5" >${kd.year}年</td>
+						          </c:if>
+						 </c:forEach> --%>
+						<td rowspan="6"  style="width:50px;">合计工时</td>
+						<td rowspan="6"  style="width:50px;">合计成本</td>
+					</tr>
 					<c:if test="${data.head2 != null && fn:length(data.head2) != 0}">
 					  <tr>
-					      <td rowspan="2"></td>
-					      <td rowspan="2" style="width: 2%;"></td>
-					      <td rowspan="2"></td>
+					      
 					      <c:forEach items='${data.head1}' var="kd">
 						    <c:choose>
 							   <c:when test="${kd.year eq data.curYear}">  
 									   <c:forEach  items='${data.head2}' var="km">
-									      <td rowspan="2">${km.month}</td>
+									   <c:choose>
+									   <c:when test="${km.month eq data.curMonth}">  
+											      <td colspan="${fn:length(data.head3)+2}">${km.month}月</td>
+									   </c:when>
+									   <c:otherwise> 
+									      <td>${km.month}月</td>
+									   </c:otherwise>
+							           </c:choose>
 									   </c:forEach>
 							   </c:when>
 							   <c:otherwise> 
-						          <td rowspan="2"> </td>
+						          
+							   </c:otherwise>
+							</c:choose>
+						 </c:forEach>
+					  </tr>
+					</c:if>
+					<c:if test="${data.head3 != null && fn:length(data.head3) != 0}">
+					  <tr>
+					   
+					      <c:forEach items='${data.head1}' var="kd">
+						    <c:choose>
+							   <c:when test="${kd.year eq data.curYear}">  
+									   <c:forEach  items='${data.head2}' var="km">
+									   <c:choose>
+									   <c:when test="${km.month eq data.curMonth}">  
+											   <c:forEach  items='${data.head3}' var="km">
+											      <td  style="width: 2%;white-space:nowrap;">${km.day}</td>
+											   </c:forEach>
+											   <td style="width: 2%">本月合计</td>
+											   <td style="width: 2%">本年合计</td>
+									   </c:when>
+									   <c:otherwise> 
+									      <td ></td>
+									   </c:otherwise>
+							           </c:choose>
+									   </c:forEach>
+							   </c:when>
+							   <c:otherwise> 
 							   </c:otherwise>
 							</c:choose>
 						 </c:forEach>
@@ -296,18 +385,42 @@ function clearSelect() {
 					    <tr>
 						  <td style="width: 3%;">${kd.seqNo}</td>
 						  <td style="width: 5%;">${kd.createUserName}</td>
+						  <td style="width: 5%;">${kd.chargeTypeName}</td>
 						  <td>${kd.projectTaskName}</td>
 						     <c:if test="${data.head1 != null && fn:length(data.head1) != 0 }">
 						         <c:forEach  items='${data.head1}' var="kh">
 						                   <c:choose>
 							                   <c:when test="${kh.year eq data.curYear}">  
 													   <c:forEach  items='${data.head2}' var="km">
-						                                   <c:forEach items="${kd.map}" var="entry"> 
-														       <c:if test="${entry.key==km.month }">
-													                 <td>${entry.value}</td>  
-													            </c:if>
-													       </c:forEach>
-						                                </c:forEach>  
+													              <c:choose>
+														             <c:when test="${data.curMonth==km.month}">
+														                
+													   <c:forEach  items='${data.head3}' var="kmd">
+													         
+												            <c:forEach items="${kd.map}" var="entryday"> 
+												                <c:if test="${kmd.day==entryday.key }">
+														                   <td>${entryday.value}</td>
+														        </c:if>
+														    </c:forEach> 
+													   </c:forEach> 
+													   
+													   
+														      <td>${kd.sumCurMonth}</td>
+													        <c:forEach items="${kd.totalmap}" var="tm"> 
+												                <c:if test="${data.curYear==tm.key }">
+														                   <td>${tm.value}</td>
+														        </c:if>
+														    </c:forEach> 
+											                          </c:when>  
+												                       <c:otherwise> 
+												                          <c:forEach items="${kd.map}" var="entry"> 
+																	             <c:if test="${km.month==entry.key }">
+																	                 <td>${entry.value}</td>  
+																	             </c:if>
+												                            </c:forEach>  
+														                </c:otherwise>
+											                      </c:choose>
+													     </c:forEach>
 											   </c:when>
 											   <c:otherwise> 
 						                           <c:forEach items="${kd.map}" var="entry"> 
@@ -319,13 +432,50 @@ function clearSelect() {
 										   </c:choose>
 						         </c:forEach> 
 						     </c:if>  
+						   <%-- <c:forEach items='${data.head1}' var="ky">
+						          <c:if test="${ky.year!=data.curYear}">
+							          <c:forEach items="${kd.totalmap}" var="entryday"> 
+						                  <c:if test="${ky.year==entryday.key }">
+									         <td>${entryday.value}</td>
+								           </c:if>
+								    </c:forEach> 
+							    </c:if>
+						 </c:forEach> --%>
+						  <td>${kd.totalCount}</td>
+						  <td>${kd.totalProjectValue}</td>
 					  </tr>
 				  </c:forEach>
 
 				</tbody>
+				
+						     <c:if test="${data.flag eq 1 }">
+								<tfoot>
+										<tr>
+											<td colspan="
+					                       <c:if test="${data.head3 != null && fn:length(data.head3) != 0}">
+											${fn:length(data.head3)+fn:length(data.head1)+18}
+											</c:if>
+					                        <c:if test="${data.head1!=null && (fn:length(data.head3) eq 0)}">
+											${fn:length(data.head1)+6}
+											</c:if>
+											<c:if test="${data.head1 == null}">
+											  6
+											</c:if>
+											" class='crm_edit_item_content' style="">
+												<div class='crm_button_sub' id="crm_button_sub">
+													<input type="button" value="返回" class="button_grey1_s0"
+														onmousedown="this.className='button_grey1_s1'"
+														onmouseout="this.className='button_grey1_s0'"
+														onclick="query_List();" />
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+						     </c:if>  
 			</table>
 		</div>
 	</div>
+	
 	<div id="win" class="easyui-window" closed="true" title=""
 				style="overflow: hidden;">
 				<div class='crm_search_div' align="center">
@@ -339,14 +489,7 @@ function clearSelect() {
 					</div>
 					<div class="crm_input_item">
 						<span>项目名称：</span>
-						<input id="projectNameCase" type="text" class="crm_input_text crm_width_3"
-							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-							value=""style="width:80px;height:22px;line-height: 22px;">
-					</div>
-					<div class="crm_input_item">
-						<span>验收时间：</span>
-						<input id="timeCase" type="text" class="crm_input_text crm_width_3"
+						<input id="projectNameCase2" type="text" class="crm_input_text crm_width_3"
 							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 							value=""style="width:80px;height:22px;line-height: 22px;">
@@ -356,12 +499,6 @@ function clearSelect() {
 							onmousedown="this.className='button_blue1_s1'"
 							onmouseout="this.className='button_blue1_s0'"
 							onclick="findProjectList('1')" />
-					</div>
-					<div class="crm_input_item">
-						<input type="button" value="确定" class="button_green1_s0" 
-							onmousedown="this.className='button_green1_s1'"
-							onmouseout="this.className='button_green1_s0'"
-							onclick="selectPhoneUser()" />
 					</div>
 					<div style="clear: both"></div>
 					<div style="height: 10px; widows: 100%"></div>

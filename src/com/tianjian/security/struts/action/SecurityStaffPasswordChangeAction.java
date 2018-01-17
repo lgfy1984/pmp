@@ -28,6 +28,7 @@ public class SecurityStaffPasswordChangeAction extends BaseAction {
 	}
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		path(request);
 		if (checkUser(request, response) == null) {
 			return mapping.findForward("noLogin");
 		}

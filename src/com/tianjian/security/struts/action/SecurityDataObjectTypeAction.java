@@ -107,14 +107,14 @@ public class SecurityDataObjectTypeAction extends Action {
 	    	
 	    	pb.setCount(recordCount);
 	        String pageString = request.getParameter("page");
-	        int pageSize = 10;
+	        int pageSize = 5;
 	        if(request.getSession().getAttribute("page_2828810b39b36c340139b36c347f0000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b39b36c340139b36c347f0000"));
 			}else{
 				ServletContext application = request.getSession().getServletContext();
 				pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));
 			}
-	        //int pageSize = 10;
+	        //int pageSize = 5;
 	        pb.setPageSize(pageSize);
 	        if(pageString == null || pageString.equals("") || pageString.equals("0")){
 	        	page = 1;

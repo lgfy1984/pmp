@@ -487,12 +487,6 @@ function clearSelect() {
 							onmouseout="this.className='button_blue1_s0'"
 							onclick="findProjectList('1')" />
 					</div>
-					<div class="crm_input_item">
-						<input type="button" value="确定" class="button_green1_s0" 
-							onmousedown="this.className='button_green1_s1'"
-							onmouseout="this.className='button_green1_s0'"
-							onclick="selectPhoneUser()" />
-					</div>
 					<div style="clear: both"></div>
 					<div style="height: 10px; widows: 100%"></div>
 					

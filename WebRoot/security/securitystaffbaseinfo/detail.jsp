@@ -84,13 +84,25 @@
 						<bean:message key="security.jsp.commom.staffCode" bundle="security"/>：
 					</td>
 					<td class="td_col3" colspan="3">
-						<%=securityStaffBaseinfo.getStaffCode()%>
 					</td>
 				</tr> -->
 				<tr>
+				       <td class="crm_edit_item_name">
+							<bean:message key="security.jsp.commom.idNo" bundle="security" />
+							
+						</td>
+						<td class="crm_edit_item_content">
+
+							<input type="text" id="email" name="email" class="text" max="100"
+								dataType="LimitB" maxlength="100" readonly="readonly"
+								onkeypress="eventOnKeyPress('commConfigSexId')"
+								value="<%=securityStaffBaseinfo.getIdNo()%>" />
+						</td>
+						
+					</tr>
+				<tr>
 						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.staffCode"
-								bundle="security" />
+							登陆名
 							
 						</td>
 						<td class="crm_edit_item_content" 　style="width: 30%">
@@ -112,18 +124,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.hspConfigBaseinfoName"
-								bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content" >
-							<input type="text" id="displayInputId_1"
-								name="hspConfigBaseinfoName" readonly="readonly"
-								value="<%=securityStaffBaseinfo.getHspConfigBaseinfoName()%>"
-								readonly="true" onkeypress="eventOnKeyPress('nameEn')"
-								class="text" />
-						</td>
 
 
 						<td class="crm_edit_item_name">
@@ -136,6 +136,17 @@
 								class="text" onkeydown="huiche()" max="40" dataType="LimitB"
 								readonly="readonly"
 								value="<%=securityStaffBaseinfo.getNameEn()%>" />
+						</td>
+						<td class="crm_edit_item_name">
+							员工编号
+						</td>
+						<td  class="crm_edit_item_content">
+							<input type="text" id="id" name="id" class="text"
+								name="name" maxlength="20" size="20" onkeyup="value=value.replace(/[^\d\w]/g,'')"   max="40" required="true"
+								dataType="LimitB" msg="姓名输入过长" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" readonly="readonly"
+								value="<%=securityStaffBaseinfo.getId()%>"
+								onkeypress="eventOnKeyPress('name')" />
 						</td>
 					</tr>
 					<tr>
@@ -197,22 +208,10 @@
 								value="<%=securityStaffBaseinfo.getEmail()%>" />
 						</td>
 
-						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.idNo" bundle="security" />
-							
-						</td>
-						<td class="crm_edit_item_content">
-
-							<input type="text" id="email" name="email" class="text" max="100"
-								dataType="LimitB" maxlength="100" readonly="readonly"
-								onkeypress="eventOnKeyPress('commConfigSexId')"
-								value="<%=securityStaffBaseinfo.getIdNo()%>" />
-						</td>
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
-							<bean:message key="security.jsp.commom.commConfigStafftypeId"
-								bundle="security" />
+							员工系列
 							
 						</td>
 						<td class="crm_edit_item_content">
@@ -222,8 +221,20 @@
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getCommConfigStafftypeName()%>" />
 						</td>
-
-						<td class="crm_edit_item_name">
+                        <td class="crm_edit_item_name">
+							员工类别
+						</td>
+						<td class="crm_edit_item_content">
+							<input type="text" id="commConfigStaffChargeTypeName" name="commConfigStaffChargeTypeName"
+								onblur="checkcell()" maxlength="40" class="text" max="40"
+								dataType="LimitB" readonly="readonly"
+								onkeypress="eventOnKeyPress('stopDate')"
+								value="<%=securityStaffBaseinfo.getCommConfigStaffChargeTypeName() %>" />
+						</td>
+						
+					</tr>
+					<tr>
+					  <td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.islocation"
 								bundle="security" />
 							
@@ -235,8 +246,6 @@
 								onkeypress="eventOnKeyPress('stopDate')"
 								value="<%=securityStaffBaseinfo.getIslocationName()%>" />
 						</td>
-					</tr>
-					<tr>
 						<td class="crm_edit_item_name">
 							<bean:message key="security.jsp.commom.mobilecode"
 								bundle="security" />
@@ -250,62 +259,12 @@
 								value="<%=securityStaffBaseinfo.getPhone()%>" />
 						</td>
 
-						<td class="crm_edit_item_name">
-							注册码
-						</td>
-						<td class="crm_edit_item_content">
-
-							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell()" maxlength="40" class="text" max="40"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getRegistCode() %>" />
-						</td>
+						
+						
 					</tr>
 					<tr>
-						<td class="crm_edit_item_name">
-							注册码生成时间
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								readonly="readonly" onblur="checkcell()" maxlength="40"
-								class="text" max="40" dataType="LimitB"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getRegTime() %>" />
-						</td>
-
-						<td class="crm_edit_item_name">
-							激活时间
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell()" maxlength="40" class="text" max="40"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getStartTime() %>" />
-						</td>
-					</tr>
-					<tr>
-						<td class="crm_edit_item_name">
-							有效截止日期
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="mobilecode" name="phone"
-								onblur="checkcell()" maxlength="40" class="text" max="40"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getStopDate() %>" />
-						</td>
-						<td class="crm_edit_item_name">
-							人员费用类别
-						</td>
-						<td class="crm_edit_item_content">
-							<input type="text" id="commConfigStaffChargeTypeName" name="commConfigStaffChargeTypeName"
-								onblur="checkcell()" maxlength="40" class="text" max="40"
-								dataType="LimitB" readonly="readonly"
-								onkeypress="eventOnKeyPress('stopDate')"
-								value="<%=securityStaffBaseinfo.getCommConfigStaffChargeTypeName() %>" />
-						</td>
+						
+						
 					</tr>
 					<tr>
 						<td class="crm_edit_item_name">
@@ -356,20 +315,14 @@
 					key="security.jsp.securitystaffbaseinfo.detail.recordDate"
 					bundle="security" />
 				
-				<%
-					if(securityStaffBaseinfo.getCreateDateYear() != null && securityStaffBaseinfo.getCreateDateYear().length() > 0){
-				 %>
-				<font style="color: #0060BF;"><%=securityStaffBaseinfo.getCreateDateYear()%>-<%=securityStaffBaseinfo.getCreateDateMonth()%>-<%=securityStaffBaseinfo.getCreateDateDay()%></font>&nbsp;&nbsp;
-				<%
-					}
-				 %>
+				<font style="color: #0060BF;"><%=securityStaffBaseinfo.getCreateDate()%></font>&nbsp;&nbsp;
 			</div>
 			<div class="horizontal_line_10"></div>
 			<div class="crm_button_sub" id="btnSave" align="center">
-			 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 300px;">
+			 <%-- <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 300px;">
 					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
 					<span style="color: #fff;">打印</span>
-					</div>
+					</div> --%>
 					<input type="button" name="btnBack"class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'"
 						value="<bean:message key="security.jsp.commom.button2" bundle="security"/>"
 						onclick="goBack();" />

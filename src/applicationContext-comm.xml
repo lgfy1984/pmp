@@ -156,6 +156,14 @@
 			<ref bean="CommConfigInputDictService" />
 		</property>
 	</bean>
+	<bean name="/comm/commConfigStaffCharge" class="com.tianjian.comm.struts.action.CommConfigStaffChargeAction" singleton="false">
+		<property name="commConfigStaffChargeService">
+			<ref bean="CommConfigStaffChargeService" />
+		</property>
+		<property name="commConfigInputDictService">
+			<ref bean="CommConfigInputDictService" />
+		</property>
+	</bean>
 	<bean name="/comm/commConfigUnittype" class="com.tianjian.comm.struts.action.CommConfigUnittypeAction" singleton="false">
 		<property name="commConfigUnittypeService">
 			<ref bean="CommConfigUnittypeService" />
@@ -540,6 +548,15 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="CommConfigStaffChargeService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.comm.business.service.CommConfigStaffChargeServiceImpl">
+				<property name="commConfigStaffChargeDAO">
+					<ref bean="CommConfigStaffChargeDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
 	<bean id="CommConfigUnittypeService" parent="BaseTxService">
 		<property name="target">
 			<bean class="com.tianjian.comm.business.service.CommConfigUnittypeServiceImpl">
@@ -881,6 +898,11 @@
 		</property>
 	</bean>
 	<bean id="CommConfigStafftypeDAO" class="com.tianjian.comm.dao.hibernate.CommConfigStafftypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CommConfigStaffChargeDAO" class="com.tianjian.comm.dao.hibernate.CommConfigStaffChargeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

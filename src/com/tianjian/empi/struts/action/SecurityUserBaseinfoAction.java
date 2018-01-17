@@ -424,7 +424,7 @@ public class SecurityUserBaseinfoAction extends BaseAction {
 	    	int recordCount = service.getcountbymore(hosform,sessionform.getStaffId());
 	        pb.setCount(recordCount);
 	        String pageString = request.getParameter("page");
-			int pageSize = 10;;
+			int pageSize = 5;;
 			//如果session中有pagesize，则使用session的。否则使用参数表的。
 			ServletContext application = request.getSession().getServletContext();
 			String locationLevel = (String)application.getAttribute("empi.LOCATION_LEVEL");

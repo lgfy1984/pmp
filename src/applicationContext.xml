@@ -144,6 +144,8 @@
 				<value>com/tianjian/pm/bean/ProjectTaskDict.hbm.xml</value>
 				<value>com/tianjian/pm/bean/ProjectWorktimeRecord.hbm.xml</value>
 				<value>com/tianjian/pm/bean/ProjectClassDict.hbm.xml</value>
+				<value>com/tianjian/pm/bean/ProjectLongtimeDict.hbm.xml</value>
+				<value>com/tianjian/pm/bean/ProjectFinanceCost.hbm.xml</value>
 			</list>
 		</property>
 	</bean>

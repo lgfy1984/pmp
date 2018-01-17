@@ -38,6 +38,8 @@
 			type="com.tianjian.comm.struts.form.CommConfigEconkindForm" />
 		<form-bean name="commConfigStafftypeForm"
 			type="com.tianjian.comm.struts.form.CommConfigStafftypeForm" />
+		<form-bean name="commConfigStaffChargeForm"
+			type="com.tianjian.comm.struts.form.CommConfigStaffChargeForm" />
 		<form-bean name="commConfigUnittypeForm"
 			type="com.tianjian.comm.struts.form.CommConfigUnittypeForm" />
 		<form-bean name="commConfigUnitgradeForm"
@@ -281,6 +283,15 @@
 			<forward name="add" path="/comm/commconfigstafftype/add.jsp" />
 			<forward name="update" path="/comm/commconfigstafftype/update.jsp" />
 			<forward name="detail" path="/comm/commconfigstafftype/detail.jsp" />
+
+
+		</action>
+		<action path="/comm/commConfigStaffCharge" name="commConfigStaffChargeForm"
+			scope="request" type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="query" path="/comm/commconfigstaffchargetype/list.jsp" />
+			<forward name="add" path="/comm/commconfigstaffchargetype/add.jsp" />
+			<forward name="update" path="/comm/commconfigstaffchargetype/update.jsp" />
+			<forward name="detail" path="/comm/commconfigstaffchargetype/detail.jsp" />
 
 
 		</action>

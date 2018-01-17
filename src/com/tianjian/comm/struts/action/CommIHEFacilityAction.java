@@ -86,7 +86,7 @@ public class CommIHEFacilityAction extends BaseAction {
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basecomm.PAGE_SIZE"));
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_2828810b369604120136960412480000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b369604120136960412480000"));
 			}else{

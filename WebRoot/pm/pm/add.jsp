@@ -43,8 +43,8 @@ function findStaffList(page){// open a window
 	$win = $('#win').window({
 	    title: '选择项目经理',
 	    width: 820,
-	    height: 450,
-	    top: ($(window).height()-650) * 0.5,
+	    height: 350,
+	    top: ($(window).height()-550) * 0.5,
 	    left: ($(window).width()-900) * 0.5,
 	    shadow: true,
 	    modal: true,
@@ -80,7 +80,7 @@ function findStaffList(page){// open a window
 		striped : true,
 		remoteSort : false,
 		fitColumns:true,
-		height:300,
+		height:200,
 		columns : [ [ {
 			idField : 'id',
 			hidden : true

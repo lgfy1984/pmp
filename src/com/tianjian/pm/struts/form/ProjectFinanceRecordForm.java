@@ -33,7 +33,11 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	*/ 
 	private static final long serialVersionUID = 1L;
 	private String id;
-
+	
+	private String[] ids;
+	private String[] longTimes;
+	private String longTimesHidden;
+	
 	private String projectBaseinfoId="";
 	private String projectCode="" ;
 	private String projectName="" ;
@@ -48,13 +52,19 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	private String staffName="" ;
 	private String workStaffCode="" ;
 	private String workStaffName="" ;
+	private String flag="" ;
+	//超时查询标志
+	private String resultFlag="" ;
+
 
 	private String workDate="";
 
 	private String taskCode="";
 	private String taskName="";
 
-	private String longTime="";
+
+	private String longTimeCode="";
+	private String longTimeName="";
 
 	private String costs="";
 
@@ -80,8 +90,14 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	private String projectBaseinfoIdCase="";
 	private String projectClassCodeCase="";
 	private String projectCodeCase="";
+	//弹出框条件用
 	private String projectNameCase="";
+	//list显示用
+	private String projectNameCase2="";
+	private String staffNameHidden="" ;
 	private String projectTaskCodeCase="";
+	private String timeSelect ="";
+	private String timeCase ="";
 	private String timeStartCase="";
 	private String timeEndCase="";
 	private String startTimeHidden="";
@@ -90,8 +106,10 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 	private FormFile fileToUpload;// 上传文件
 	private Map<String , String> taskClass;
 	private Map<String , String> projectClass;
+	private Map<String , String> longTimeDict;
 	
 	List<ProjectFinanceVo> pfv;
+	List<ProjectFinanceVo> pfv2;
 	
 	public String getCreateDate() {
 		return createDate;
@@ -269,12 +287,22 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 		this.taskCode = taskCode;
 	}
 
-	public String getLongTime() {
-		return longTime;
+	
+
+	public String getLongTimeCode() {
+		return longTimeCode;
 	}
 
-	public void setLongTime(String longTime) {
-		this.longTime = longTime;
+	public void setLongTimeCode(String longTimeCode) {
+		this.longTimeCode = longTimeCode;
+	}
+
+	public String getLongTimeName() {
+		return longTimeName;
+	}
+
+	public void setLongTimeName(String longTimeName) {
+		this.longTimeName = longTimeName;
 	}
 
 	public String getCosts() {
@@ -477,7 +505,93 @@ public class ProjectFinanceRecordForm  extends ActionForm  {
 		this.fileToUpload = fileToUpload;
 	}
 
-	
+	public String getStaffNameHidden() {
+		return staffNameHidden;
+	}
+
+	public void setStaffNameHidden(String staffNameHidden) {
+		this.staffNameHidden = staffNameHidden;
+	}
+
+	public String[] getIds() {
+		return ids;
+	}
+
+	public void setIds(String[] ids) {
+		this.ids = ids;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	public String getProjectNameCase2() {
+		return projectNameCase2;
+	}
+
+	public void setProjectNameCase2(String projectNameCase2) {
+		this.projectNameCase2 = projectNameCase2;
+	}
+
+	public String getTimeSelect() {
+		return timeSelect;
+	}
+
+	public void setTimeSelect(String timeSelect) {
+		this.timeSelect = timeSelect;
+	}
+
+	public String getTimeCase() {
+		return timeCase;
+	}
+
+	public void setTimeCase(String timeCase) {
+		this.timeCase = timeCase;
+	}
+
+	public List<ProjectFinanceVo> getPfv2() {
+		return pfv2;
+	}
+
+	public void setPfv2(List<ProjectFinanceVo> pfv2) {
+		this.pfv2 = pfv2;
+	}
+
+	public String getResultFlag() {
+		return resultFlag;
+	}
+
+	public void setResultFlag(String resultFlag) {
+		this.resultFlag = resultFlag;
+	}
+
+	public String[] getLongTimes() {
+		return longTimes;
+	}
+
+	public void setLongTimes(String[] longTimes) {
+		this.longTimes = longTimes;
+	}
+
+	public String getLongTimesHidden() {
+		return longTimesHidden;
+	}
+
+	public void setLongTimesHidden(String longTimesHidden) {
+		this.longTimesHidden = longTimesHidden;
+	}
+
+	public Map<String, String> getLongTimeDict() {
+		return longTimeDict;
+	}
+
+	public void setLongTimeDict(Map<String, String> longTimeDict) {
+		this.longTimeDict = longTimeDict;
+	}
 	 
 	
 }

@@ -10,9 +10,11 @@ package com.tianjian.pm.struts.action;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,7 +51,9 @@ import com.tianjian.util.excel.JxlExcelHelper;
  * 
  */
 public class ProjectFinanceWorkAction extends BaseDispatchAction{
-	
+
+
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private IProjectFinanceRecordService  projectFinanceRecordService;
 
 	public IProjectFinanceRecordService getProjectFinanceRecordService() {
@@ -139,6 +143,27 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 			String message ="修改成功!";
 			hosform.setMessage(message);
 			projectFinanceRecordService.update(hosform);
+			return this.queryFinanceRecordinfo(mapping, hosform, request, response);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return mapping.findForward("fail");
+		}
+	}
+	
+	
+	public ActionForward updateall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+		try {
+			ProjectFinanceRecordForm hosform = (ProjectFinanceRecordForm) form;
+			
+			//String createUserId    =   staff.getStaffId(); 
+			String createUserName  =   staff.getStaffName();
+			//hosform.setCreateUserId(createUserId);
+			hosform.setCreateUserName(createUserName);
+			String message ="修改成功!";
+			hosform.setMessage(message);
+			projectFinanceRecordService.updateall(hosform);
 			return this.queryFinanceRecordinfo(mapping, hosform, request, response);
 		}
 		catch (Exception e) {
@@ -260,19 +285,41 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
 		try {
 			ProjectFinanceRecordForm hosform =(ProjectFinanceRecordForm) form;
-			String createUserId    =   staff.getStaffId(); 
+			String  timeSelect = hosform.getTimeSelect();
+			String  timeCase = hosform.getTimeCase();
+			if(timeSelect.equals("1")){
+				Calendar currentDate = new GregorianCalendar();
+				currentDate.setTime(sdf.parse(timeCase));
+				currentDate.setFirstDayOfWeek(Calendar.MONDAY);
+			    currentDate.set(Calendar.HOUR_OF_DAY,0);
+				currentDate.set(Calendar.MINUTE,0);
+				currentDate.set(Calendar.SECOND,0);
+				currentDate.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+				hosform.setStartTimeHidden(sdf.format((Date)currentDate.getTime().clone()));
+
+				currentDate.setFirstDayOfWeek(Calendar.MONDAY);
+				currentDate.set(Calendar.HOUR_OF_DAY,23);
+				currentDate.set(Calendar.MINUTE,59);
+				currentDate.set(Calendar.SECOND,59);
+				currentDate.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+				hosform.setEndTimeHidden(sdf.format((Date)currentDate.getTime().clone()));
+			}else{
+				hosform.setStartTimeHidden("");
+				hosform.setEndTimeHidden("");
+			}
+			//String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
-			hosform.setCreateUserId(createUserId);
+			//hosform.setCreateUserId(createUserId);
 			hosform.setCreateUserName(createUserName);
 			// ////// page start ////////////////////////
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
-					hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
+			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectNameCase(),hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
+					hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
-			int pageSize = 10;
+			int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if (pageString == null || pageString.equals("") || pageString.equals("0")) {
 				page = 1;
@@ -312,27 +359,11 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 		hosform.setCreateUserId(createUserId);
 		hosform.setCreateUserName(createUserName);
 		// ////// page start ////////////////////////
-		PageBean pb = new PageBean();
 		int count=0;
-		int page = 0;
-		int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
-				hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
-		pb.setCount(recordCount);
-		String pageString = request.getParameter("cur_page");
-		int pageSize = 10;
-		pb.setPageSize(pageSize);
-		if (pageString == null || pageString.equals("") || pageString.equals("0")) {
-			page = 1;
-			pb.setPage(1);
-			count = (page - 1) * pageSize;
-		} else {
-			page = Integer.parseInt(pageString);
-			pb.setPage(page);
-			count = (page - 1) * pageSize;
-		}
-		request.setAttribute("pb", pb);
+		int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectNameCase(),hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
+				hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect());
 		// ////// page end ////////////////////////
-		projectFinanceRecordService.getProjectFinanceRecordSearch(hosform, count, pageSize);
+		projectFinanceRecordService.getProjectFinanceRecordSearch(hosform, count, recordCount);
 		if("1"!=null){	
 			response.setContentType("application/vnd.ms-excel");
 			String fileName="";
@@ -341,8 +372,28 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 					+ Converter.toUtf8String(fileName));
 			
 			HSSFWorkbook workbook = new HSSFWorkbook();
-			String[] titles = new String[]{"序号", "项目编号", "项目名称", "员工姓名", "工时", "实施费用"};
-			String[] fieldNames = new String[]{"seqNo", "projectCode", "projectName", "workStaffName","longTime", "costs"};
+			String[] titles = new String[]{"序号",
+					"员工ID(导入时必须指定)", 
+					"员工姓名", 
+					"项目ID(导入时必须指定)", 
+					"项目编号", 
+					"项目名称", 
+					"工作任务代码(导入时必须指定)",
+					"工作任务",
+					"工作日期", 
+					"工时(必须是工时字典对应的代码)"
+					};
+			String[] fieldNames = new String[]{"seqNo",
+					"staffCode", 
+					"workStaffName", 
+					"projectBaseinfoId", 
+					"projectCode", 
+					"projectName",
+					"taskCode",
+					"taskName",
+					"workDate",
+					"longTimeCode"
+					};
 			try {
 				workbook = HssfExcelHelper.getInstance().writeExcel(workbook, ProjectFinanceVo.class, hosform.getPfv(), fieldNames, titles);
 			}catch(Exception e1) {
@@ -386,7 +437,17 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 	    }   
 	    try {  
 
-			String[] fieldNames = new String[]{"seqNo", "projectCode", "projectName", "workStaffName","longTime", "costs"};
+			String[] fieldNames = new String[]{"seqNo",
+					"staffCode", 
+					"workStaffName", 
+					"projectBaseinfoId", 
+					"projectCode", 
+					"projectName",
+					"taskCode",
+					"taskName",
+					"workDate",
+					"longTimeCode"
+			};
 	    	
     	    System.out.println(uploadFile.getFileName().toString());
     	    //设置保存路径
@@ -427,4 +488,47 @@ public class ProjectFinanceWorkAction extends BaseDispatchAction{
 	  String fileName=file.getFileName();
 	  return fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 	 }
+	 
+
+		public ActionForward queryqs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+			SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+			try {
+				ProjectFinanceRecordForm hosform =(ProjectFinanceRecordForm) form;
+				String createUserId    =   staff.getStaffId(); 
+				String createUserName  =   staff.getStaffName();
+				hosform.setCreateUserId(createUserId);
+				hosform.setCreateUserName(createUserName);
+				// ////// page start ////////////////////////
+				PageBean pb = new PageBean();
+				int count=0;
+				int page = 0;
+				int recordCount = projectFinanceRecordService.getQsCount(hosform.getProjectNameCase(),hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
+						hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect());
+				pb.setCount(recordCount);
+				String pageString = request.getParameter("cur_page");
+				int pageSize = 5;
+				pb.setPageSize(pageSize);
+				if (pageString == null || pageString.equals("") || pageString.equals("0")) {
+					page = 1;
+					pb.setPage(1);
+					count = (page - 1) * pageSize;
+				} else {
+					page = Integer.parseInt(pageString);
+					pb.setPage(page);
+					count = (page - 1) * pageSize;
+				}
+				request.setAttribute("pb", pb);
+				projectFinanceRecordService.initForm(hosform);
+				// ////// page end ////////////////////////
+				
+				projectFinanceRecordService.getQsSearch(hosform, count, pageSize);
+				request.setAttribute("data", hosform);
+				return mapping.findForward("queryqs");	
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				return mapping.findForward("fail");
+			}
+		}
+		
 }

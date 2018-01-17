@@ -1,6 +1,7 @@
 package com.tianjian.security.business.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.Region;
 
 import com.tianjian.comm.bean.CommConfigStaffChargeType;
+import com.tianjian.pm.bean.ProjectBaseinfo;
+import com.tianjian.pm.struts.form.ProjectBaseInfoVo;
 import com.tianjian.security.bean.SecurityLicense;
 import com.tianjian.security.bean.SecurityStaffBaseinfo;
 import com.tianjian.security.bean.SecuritySystemUsers;
@@ -28,6 +31,7 @@ import com.tianjian.security.business.ISecurityStaffBaseinfoService;
 import com.tianjian.security.dao.ISecurityLicenseDAO;
 import com.tianjian.security.dao.ISecurityStaffBaseinfoDAO;
 import com.tianjian.security.struts.form.SecurityStaffBaseinfoForm;
+import com.tianjian.security.struts.form.SecurityStaffBaseinfoVo;
 import com.tianjian.util.Converter;
 import com.tianjian.util.ResourcesUtil;
 import com.tianjian.util.comm.MD5;
@@ -121,16 +125,25 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 		}
 		
 	}
-	public String checkData(String code,HttpServletRequest request) {
+	public String checkData(SecurityStaffBaseinfoForm form,HttpServletRequest request) {
 		String temp = "";
-		if (code != null && code.trim().length() > 0) {
+		String code=form.getStaffCode();
+		String id=form.getId();
+		if ( code!= null && code.trim().length() > 0) {
 			SecurityStaffBaseinfo data = securityStaffBaseinfoDAO.findByCode(code);
 			if (data != null && data.getId() != null) {
-				temp = data.getId();
+				temp = "1";
 			}
-		} else {
-			temp = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.warn6", request);//"数据不存在";
-		}
+		} 
+		if ( id!= null && id.trim().length() > 0) {
+			SecurityStaffBaseinfo data = securityStaffBaseinfoDAO.findById(id);
+			if (data != null && data.getId() != null) {
+				temp = "2";
+			}
+		} 
+//		else {
+//			temp = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.warn6", request);//"数据不存在";
+//		}
 		return temp;
 	}
 
@@ -235,9 +248,9 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 		this.securityLicenseDAO.delete(securityLicense);
 	}
 
-	public int getCount(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String itemName, String inputCode, String staffId) {
+	public int getCount(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String itemName, String inputCode, String staffId, String tenantId) {
 		
-		return securityStaffBaseinfoDAO.getCount(staffCode, hspConfigBaseinfoId, name, commConfigSexId, itemName, inputCode, staffId);
+		return securityStaffBaseinfoDAO.getCount(staffCode, hspConfigBaseinfoId, name, commConfigSexId, itemName, inputCode, staffId,tenantId);
 	}
 
 	public void getSearch(SecurityStaffBaseinfoForm form, int curCount, int pageSize) {
@@ -266,8 +279,10 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 			
 			
 			List<?> list = securityStaffBaseinfoDAO.getData(form.getStaffCode(), form.getHspConfigBaseinfoId(), form.getName(), 
-					form.getCommConfigSexId(), form.getHspConfigBaseinfoName(), form.getInputCode(), form.getStaffId(), order,curCount, pageSize);
+					form.getCommConfigSexId(), form.getHspConfigBaseinfoName(), form.getInputCode(), form.getStaffId(),form.getTenantId(), order,curCount, pageSize);
 			if (list != null && list.size() > 0) {
+
+				List<SecurityStaffBaseinfoVo> ssbvl = new ArrayList<SecurityStaffBaseinfoVo>(list.size());
 				String[] idList = new String[list.size()];
 				String[] staffCodeList = new String[list.size()];
 				String[] hspConfigBaseinfoNameList = new String[list.size()];
@@ -278,15 +293,38 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 				String[] stopTimeList = new String[list.size()];
 				String[] commConfigStaffChargeTypeIdList = new String[list.size()];
 				String[] commConfigStaffChargeTypeNameList = new String[list.size()];
+				String[] commConfigStaffTypeIdList = new String[list.size()];
+				String[] commConfigStaffTypeNameList = new String[list.size()];
+				String[] isLocationList = new String[list.size()];
+				String[] isLocationNameList = new String[list.size()];
 				for (int i = 0; i < list.size(); i++) {
+					SecurityStaffBaseinfoVo ssb = new SecurityStaffBaseinfoVo();
 					idList[i] = this.transNullToString(((Object[]) list.get(i))[0]);
+					ssb.setId(idList[i]);
 					staffCodeList[i] = this.transNullToString(((Object[]) list.get(i))[1]);
-					hspConfigBaseinfoNameList[i] = this.transNullToString(((Object[]) list.get(i))[2]);
-					nameList[i] = this.transNullToString(((Object[]) list.get(i))[3]);
-					commConfigSexIdList[i] = this.transNullToString(((Object[]) list.get(i))[4]);
-					commConfigStaffChargeTypeIdList[i] = this.transNullToString(((Object[]) list.get(i))[7]);
-					Date date = (Date) ((Object[]) list.get(i))[5];
-					Date date1 = (Date) ((Object[]) list.get(i))[6];
+					ssb.setStaffCode(staffCodeList[i]);
+					hspConfigBaseinfoNameList[i] = "";
+					nameList[i] = this.transNullToString(((Object[]) list.get(i))[2]);
+					ssb.setName(nameList[i]);
+					commConfigSexIdList[i] = this.transNullToString(((Object[]) list.get(i))[3]);
+					commConfigStaffChargeTypeIdList[i] = this.transNullToString(((Object[]) list.get(i))[6]);
+					//员工系列
+					commConfigStaffTypeIdList[i] = this.transNullToString(((Object[]) list.get(i))[7]);
+					commConfigStaffTypeNameList[i] = this.transNullToString(this.getNameById("CommConfigStafftype", "itemCode", "itemName", commConfigStaffTypeIdList[i]));
+					ssb.setCommConfigStafftypeId(commConfigStaffTypeIdList[i]);
+					ssb.setCommConfigStafftypeName(commConfigStaffTypeNameList[i]);
+					//在位标志
+					isLocationList[i] = this.transNullToString(((Object[]) list.get(i))[8]);
+					if(isLocationList[i].equals("1")){
+						isLocationNameList[i]="在";
+					}else{
+						isLocationNameList[i]="不在";
+					}
+					ssb.setIslocation(isLocationList[i]);
+					ssb.setIslocationName(isLocationNameList[i]);
+					ssb.setCommConfigStaffChargeTypeId(commConfigStaffChargeTypeIdList[i]);
+					Date date = (Date) ((Object[]) list.get(i))[4];
+					Date date1 = (Date) ((Object[]) list.get(i))[5];
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 					SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); 
 					String dateString = "";
@@ -301,7 +339,8 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 //					dateOfBirthList[i] = this.transNullToString(dateString);
 					stopTimeList[i] = this.transNullToString(dateString1);
 					commConfigSexNameList[i] = this.transNullToString(this.getNameById("CommConfigSex", "itemCode", "itemName", commConfigSexIdList[i]));
-					
+					ssb.setCommConfigSexId(commConfigSexIdList[i]);
+					ssb.setCommConfigSexName(commConfigSexNameList[i]);
 
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("itemCode",commConfigStaffChargeTypeIdList[i]);
@@ -310,6 +349,11 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 					if(cssct!=null){
 					 commConfigStaffChargeTypeNameList[i] = cssct.getItemName()+" ("+cssct.getItemCost()+cssct.getItemUnit()+")";
 					}
+
+					ssb.setCommConfigStaffChargeTypeName( commConfigStaffChargeTypeNameList[i]);
+					ssb.setTenantId(this.transNullToString(((Object[]) list.get(i))[9]));
+					
+					ssbvl.add(ssb);
 				}
 				form.setIdList(idList);
 				form.setStaffCodeList(staffCodeList);
@@ -320,6 +364,7 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 				form.setCommConfigSexNameList(commConfigSexNameList);
 				form.setRegTimeList(regTimeList);
 				form.setStopTimeList(stopTimeList);
+				form.setSsbv(ssbvl);
 			}
 		}
 		catch (Exception e) {
@@ -388,7 +433,8 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 
 	private void setData(SecurityStaffBaseinfoForm form, SecurityStaffBaseinfo data) {
 		try {
-			//data.setStaffCode(this.transNullToString(form.getStaffCode()));
+			data.setId(this.transNullToString(form.getId()));
+			data.setStaffCode(this.transNullToString(form.getStaffCode()));
 			data.setHspStaffBaseinfoId(this.transNullToString(form.getHspStaffBaseinfoId()));
 			data.setHspConfigBaseinfoId(this.transNullToString(form.getHspConfigBaseinfoId()));
 			data.setName(this.transNullToString(form.getName()));
@@ -433,7 +479,7 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 				data.setSeqNo(Long.valueOf("0"));
 			}
 			data.setComments(this.transNullToString(form.getComments()));
-			data.setCreateDate(UtilTrans.transStringToDate(form.getCreateDate(), "yyyy-MM-dd HH:mm:ss"));
+			data.setCreateDate(new Date());
 			data.setCreateUserId(this.transNullToString(form.getCreateUserId()));
 			data.setCreateUserName(this.transNullToString(form.getCreateUserName()));
 			data.setHomePageType(this.transNullToString(form.getHomePageType()));
@@ -501,6 +547,8 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 			securityStaffBaseinfoDAO.findObjByHql("from CommConfigStaffChargeType a where a.itemCode=:itemCode", map);
 			if(cssct!=null){
 			form.setCommConfigStaffChargeTypeName(cssct.getItemName()+" ("+cssct.getItemCost()+cssct.getItemUnit()+")");
+			}else{
+				form.setCommConfigStaffChargeTypeName("");
 			}
 			form.setIdNo(this.transNullToString(data.getIdNo()));
 			form.setPhone(this.transNullToString(data.getPhone()));
@@ -553,14 +601,13 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 	}
 
 	private void setIslocations(HttpServletRequest request) {
-		String[] ids = new String[3];
-		String[] names = new String[3];
-		ids[0] = "2";
-		names[0] = "";
-		ids[1] = "1";
-		names[1] = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.item", request);//"在";
-		ids[2] = "0";
-		names[2] = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.item1", request);
+		String[] ids = new String[2];
+		String[] names = new String[2];
+		
+		ids[0] = "1";
+		names[0] = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.item", request);//"在";
+		ids[1] = "0";
+		names[1] = ResourcesUtil.getValue("conf.security.securityInit", "security.java.commom.item1", request);
 		this.setIds(ids);
 		this.setNames(names);
 	}
@@ -797,5 +844,98 @@ public class SecurityStaffBaseinfoServiceImpl implements ISecurityStaffBaseinfoS
 		}
 		return workbook;
 	}
+
+	@Override
+	public void saveExcelData(SecurityStaffBaseinfoForm form,HttpServletRequest request) {
+
+		ServletContext application = request.getSession().getServletContext();
+		// TODO Auto-generated method stub
+		for (SecurityStaffBaseinfoVo ssbv : form.getSsbv()) {
+			SecurityStaffBaseinfo data = new SecurityStaffBaseinfo();
+			setData(ssbv,form,data);
+			securityStaffBaseinfoDAO.save(data);
+			
+			SecuritySystemUsers sysUser = new SecuritySystemUsers();
+			String passwd = (String)application.getAttribute("security.STAFF_PASSWORD");
+			String passwdMD5 = MD5.toMD5(passwd);
+			sysUser.setSecurityStaffBaseinfoId(data.getId());
+			sysUser.setPasswd(passwdMD5);
+			sysUser.setCreateDate(new Date());
+			securityStaffBaseinfoDAO.save(sysUser);
+			
+
+			SecurityLicense securityLicense = new SecurityLicense();
+			securityLicense.setSecurityStaffBaseinfoId(data.getId());
+			securityLicense.setRegTime(new Date());
+			//String regCode = this.generateRegCode(5, 5);		
+			securityLicense.setRegistCode("");
+			securityLicense.setStopDate(UtilTrans.transStringToDate(form.getStopDate(),"yyyy-MM-dd"));
+			this.securityLicenseDAO.save(securityLicense);
+		}
+	}
 	
+
+	private void setData(SecurityStaffBaseinfoVo ssbv,SecurityStaffBaseinfoForm form, SecurityStaffBaseinfo data) {
+		try {
+			data.setId(this.transNullToString(ssbv.getId()));
+			data.setStaffCode(this.transNullToString(ssbv.getStaffCode()));
+			data.setHspStaffBaseinfoId(this.transNullToString(ssbv.getHspStaffBaseinfoId()));
+			data.setHspConfigBaseinfoId(this.transNullToString(ssbv.getHspConfigBaseinfoId()));
+			data.setName(this.transNullToString(ssbv.getName()));
+			data.setEmail(this.transNullToString(ssbv.getEmail()));
+			data.setNameEn(this.transNullToString(ssbv.getNameEn()));
+			data.setInputCode(this.transNullToString(ssbv.getInputCode()));
+			data.setPinyinInputCode(this.transNullToString(ssbv.getPinyinInputCode()));
+			data.setCommConfigSexId(this.transNullToString(ssbv.getCommConfigSexId()));
+			// 新增部分
+			if (form.getYear() != null && !form.getYear().equals("") && form.getMonth() != null && !form.getMonth().equals("") && form.getDay() != null && !form.getDay().equals("")) {
+				try {
+					String today = form.getYear().trim()+"-"+form.getMonth().trim()+"-"+form.getDay().trim();
+					SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//					int year = Integer.valueOf(form.getYear());
+//					int month = Integer.valueOf(form.getMonth());
+//					int day = Integer.valueOf(form.getDay());
+//					Date date = new Date(year - 1900, month - 1, day);
+					Date date = dateformat.parse(today);
+					data.setDateOfBirth(date);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+					data.setDateOfBirth(null);
+				}
+			}else{
+				data.setDateOfBirth(null);
+			}
+			data.setCommConfigStaffChargetypeId(this.transNullToString(ssbv.getCommConfigStaffChargeTypeId()));
+			data.setCommConfigStafftypeId(this.transNullToString(ssbv.getCommConfigStafftypeId()));
+			data.setIdNo(this.transNullToString(ssbv.getIdNo()));
+			data.setPhone(this.transNullToString(ssbv.getPhone()));
+			String temp = ssbv.getIslocation();
+			if (temp != null && temp.trim().length() > 0) {
+				data.setIslocation(Long.valueOf(temp));
+			} else {
+				data.setIslocation(Long.valueOf("0"));
+			}
+			String temp1 = ssbv.getSeqNo();
+			if (temp1 != null && temp1.trim().length() > 0) {
+				data.setSeqNo(Long.valueOf(temp1));
+			} else {
+				data.setSeqNo(Long.valueOf("0"));
+			}
+			data.setComments(this.transNullToString(ssbv.getComments()));
+			data.setCreateDate(new Date());
+			data.setCreateUserId(this.transNullToString(ssbv.getCreateUserId()));
+			data.setCreateUserName(this.transNullToString(ssbv.getCreateUserName()));
+			String staff = ssbv.getStaffType();
+			if(staff != null && staff.trim().length() > 0){
+				data.setStaffType(Long.valueOf(staff));
+			}else{
+				data.setStaffType(Long.valueOf("0"));
+			}
+		}
+		catch (Exception e) {
+			log.error("setData fail!", e);
+			e.printStackTrace();
+		}
+		}
 }

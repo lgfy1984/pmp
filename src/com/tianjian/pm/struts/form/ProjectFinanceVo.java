@@ -7,6 +7,8 @@
  */
 package com.tianjian.pm.struts.form;
 
+import java.util.List;
+
 /**
  * TODO
  * <p>Title: ProjectFinanceVo.java</p>
@@ -34,8 +36,11 @@ public class ProjectFinanceVo {
 	private String workDate;
 
 	private String taskCode;
+	private String taskName;
 
-	private String longTime;
+
+	private String longTimeCode="";
+	private String longTimeName="";
 
 	private String costs;
 
@@ -48,6 +53,14 @@ public class ProjectFinanceVo {
 	private String createUserId;
 
 	private String createUserName;
+	
+
+	private String timeCase ="";
+	private String timeStartCase="";
+	private String timeEndCase="";
+	
+	List<ProjectFinanceVo> pfv3;
+
 
 	public String getId() {
 		return id;
@@ -89,12 +102,20 @@ public class ProjectFinanceVo {
 		this.taskCode = taskCode;
 	}
 
-	public String getLongTime() {
-		return longTime;
+	public String getLongTimeCode() {
+		return longTimeCode;
 	}
 
-	public void setLongTime(String longTime) {
-		this.longTime = longTime;
+	public void setLongTimeCode(String longTimeCode) {
+		this.longTimeCode = longTimeCode;
+	}
+
+	public String getLongTimeName() {
+		return longTimeName;
+	}
+
+	public void setLongTimeName(String longTimeName) {
+		this.longTimeName = longTimeName;
 	}
 
 	public String getCosts() {
@@ -183,6 +204,46 @@ public class ProjectFinanceVo {
 
 	public void setWorkStaffName(String workStaffName) {
 		this.workStaffName = workStaffName;
+	}
+
+	public String getTimeCase() {
+		return timeCase;
+	}
+
+	public void setTimeCase(String timeCase) {
+		this.timeCase = timeCase;
+	}
+
+	public String getTimeStartCase() {
+		return timeStartCase;
+	}
+
+	public void setTimeStartCase(String timeStartCase) {
+		this.timeStartCase = timeStartCase;
+	}
+
+	public String getTimeEndCase() {
+		return timeEndCase;
+	}
+
+	public void setTimeEndCase(String timeEndCase) {
+		this.timeEndCase = timeEndCase;
+	}
+
+	public List<ProjectFinanceVo> getPfv3() {
+		return pfv3;
+	}
+
+	public void setPfv3(List<ProjectFinanceVo> pfv3) {
+		this.pfv3 = pfv3;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 	
 }

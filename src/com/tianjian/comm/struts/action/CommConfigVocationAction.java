@@ -114,7 +114,7 @@ public class CommConfigVocationAction extends BaseAction {
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			//int pageSize = CommInit.getPageSize("PAGE_SIZE");
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_2828810b39763bf50139763bf5cf0000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b39763bf50139763bf5cf0000"));
 			}else{

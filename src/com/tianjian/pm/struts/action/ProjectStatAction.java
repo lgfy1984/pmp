@@ -16,7 +16,6 @@ import org.apache.struts.action.ActionMapping;
 
 import com.tianjian.pm.business.IProjectStatService;
 import com.tianjian.pm.struts.comm.BaseDispatchAction;
-import com.tianjian.pm.struts.form.ProjectFinanceRecordForm;
 import com.tianjian.pm.struts.form.ProjectStatForm;
 import com.tianjian.security.struts.form.SessionForm;
 
@@ -74,8 +73,10 @@ public class ProjectStatAction extends BaseDispatchAction {
 	*/
 	public ActionForward stat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
-			
+			SessionForm staff=(SessionForm) request.getSession().getAttribute("sessionForm");
+			   
 			ProjectStatForm hosform = (ProjectStatForm) form;
+			hosform.setTenantId(staff.getTenantId());
 			projectStatService.stat(hosform);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("statpr");
@@ -114,9 +115,9 @@ public class ProjectStatAction extends BaseDispatchAction {
 	public ActionForward statep(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			SessionForm staff=(SessionForm) request.getSession().getAttribute("sessionForm");
-			
+		   
 			ProjectStatForm hosform = (ProjectStatForm) form;
-			hosform.setCreateUserId(staff.getStaffCode());
+			hosform.setTenantId(staff.getTenantId());
 			projectStatService.stat(hosform);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("statep");

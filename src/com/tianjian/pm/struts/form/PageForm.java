@@ -22,7 +22,7 @@ public class PageForm {
 	private String count;//总数
 	private String pageIndex;//当前第几页
 	private String pageCount;//总页数
-	private String pageSize="10";//每页显示
+	private String pageSize="5";//每页显示
 	
 	public PageForm() {
 		super();

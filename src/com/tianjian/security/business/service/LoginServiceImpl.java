@@ -30,6 +30,7 @@ import com.tianjian.security.dao.ILoginDAO;
 import com.tianjian.security.dao.ISecurityLicenseDAO;
 import com.tianjian.security.struts.form.LoginForm;
 import com.tianjian.security.struts.form.LoginSecondForm;
+import com.tianjian.util.Converter;
 import com.tianjian.util.ResourcesUtil;
 import com.tianjian.util.comm.DateUtil;
 import com.tianjian.util.comm.MD5;
@@ -139,6 +140,10 @@ public class LoginServiceImpl implements ILoginService {
 					Date dateNow = new Date();
 					//检查用户的使用期限
 					SecurityLicense securityLicense = SecurityLicenseDAO.findBySecurityStaffBaseinfoId(id);
+					if(Converter.toInteger(user.getIslocation())==0){
+						form.setMessage("该用户已离职！");
+						return;
+					}
 					if(securityLicense!=null){
 						if(securityLicense.getStopDate()!=null&&securityLicense.getStopDate().before(dateNow)){
 							form.setMessage("该用户的使用期限已到，请联系管理员！");
@@ -199,6 +204,10 @@ public class LoginServiceImpl implements ILoginService {
 						return;
 					}
 				}else{
+					if(Converter.toInteger(user.getIslocation())==0){
+						form.setMessage("该用户已离职！");
+						return;
+					}
 					String id = user.getId();// ----staff_id
 					form.setStaffId(id);
 					form.setName(this.transNullToString(user.getName()));// ----获取操作员姓名

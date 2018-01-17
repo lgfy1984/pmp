@@ -38,7 +38,16 @@ import com.tianjian.security.bean.SecurityStaffBaseinfo;
  */
 public interface IProjectBaseInfoDAO {
 	    
-	
+	    /**
+	    *TODO
+	    * @Title: saveOrUpdate
+	    * @param obj
+	    * @return
+	    * @return Object
+	    * @throws
+	    * @author LengJiong
+	    */
+	    public Object saveOrUpdate(Object obj);
 		/**
 		*TODO 保存ProjectBaseinfo
 		* @Title: save
@@ -99,7 +108,10 @@ public interface IProjectBaseInfoDAO {
 	    * @author LengJiong
 	    */
 	    public int getProjectBaseinfoCount(String projectClass, String classId,
-				String onlineTime, String startTime, String endTime, String userId);
+				String onlineStartTime, String onlineEndTime, 
+				String startStartTime, String startEndTime, 
+				String endStartTime, String endEndTime, 
+				String userId);
 	  
 	    
 	    
@@ -121,7 +133,10 @@ public interface IProjectBaseInfoDAO {
 	    * @author LengJiong
 	    */
 	    public List<?> getProjectBaseinfoData(String projectClass, String classId,
-				String onlineTime, String startTime, String endTime, int curCount,
+				String onlineStartTime, String onlineEndTime, 
+				String startStartTime, String startEndTime, 
+				String endStartTime, String endEndTime, 
+				int curCount,
 				int pageSize,  String userId,String order);
 	   
 	    /**
@@ -161,6 +176,16 @@ public interface IProjectBaseInfoDAO {
 		
 		public List<SecurityStaffBaseinfo> findStaffList(ProjectBaseInfoForm smForm, PageForm page);
 		
+		/**
+		*TODO
+		* @Title: findObjByHql
+		* @param sql
+		* @param map
+		* @return
+		* @return Object
+		* @throws
+		* @author LengJiong
+		*/
 		public Object findObjByHql(String sql, Map<String, Object> map);
 
 }

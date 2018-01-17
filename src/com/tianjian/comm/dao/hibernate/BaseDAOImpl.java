@@ -121,7 +121,8 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
 		List<T> list = query.list();
 		// Long count=(Long)list.get(0);
 		try {
-			return ((Long) list.get(0)).intValue();
+			Integer oo =Converter.toInteger(list.size());
+			return oo.intValue();
 		} catch (Exception e) {
 			return 0;
 		}

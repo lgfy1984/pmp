@@ -13,7 +13,7 @@ public interface ISecurityStaffBaseinfoService
 	
     public void addInit(SecurityStaffBaseinfoForm form,HttpServletRequest request);
 
-    public String checkData(String s,HttpServletRequest request);
+    public String checkData(SecurityStaffBaseinfoForm form,HttpServletRequest request);
     
     public String checkSecurityLicense(String securityStaffBaseinfoId);
 
@@ -32,7 +32,7 @@ public interface ISecurityStaffBaseinfoService
     public void deleteSecurityLicense(String securityStaffBaseinfoId);
 
     public int getCount(String staffCode, String hspConfigBaseinfoId, String name, 
-    		String commConfigSexId, String dateOfBirth, String inputCode,String staffId);
+    		String commConfigSexId, String dateOfBirth, String inputCode,String staffId, String tenantId);
 
     public void getSearch(SecurityStaffBaseinfoForm form, int i, int j);
 
@@ -50,4 +50,7 @@ public interface ISecurityStaffBaseinfoService
 	
 	/**导出注册码信息*/
 	public HSSFWorkbook getExcel(SecurityStaffBaseinfoForm form, String fileName, HttpServletRequest request);
+	
+
+	public void saveExcelData(SecurityStaffBaseinfoForm form,HttpServletRequest request);
 }

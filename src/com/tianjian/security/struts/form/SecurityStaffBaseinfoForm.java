@@ -2,7 +2,12 @@ package com.tianjian.security.struts.form;
 
 
 import java.io.Serializable;
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
+
+import com.tianjian.pm.struts.form.ProjectBaseInfoVo;
 /**
  * SECURITY_STAFF_BASEINFO医务人员基本信息表用ActionForm<br>
  * MODUFY BY DZENALL 08-3-25 15:07
@@ -36,6 +41,7 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	private String islocationName         ;
 	private String comments               ;
 	private String seqNo             ;
+	private String tenantId           ;
 	private String createDate;
 	private String createUserId;
 	private String createUserName;
@@ -61,7 +67,8 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
     private String regTime;
     private String startTime;
     private String stopDate;
-    
+
+	private FormFile fileToUpload;// 上传文件
     
     
     
@@ -92,6 +99,9 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	private String[] regTimeList;
 	private String[] stopTimeList;
 	private String[] registCodeList;
+
+
+	List<SecurityStaffBaseinfoVo> ssbv;
 	
 	/*Constructor*/
 	public SecurityStaffBaseinfoForm(){
@@ -688,6 +698,30 @@ public class SecurityStaffBaseinfoForm extends ActionForm implements Serializabl
 	public void setCommConfigStaffChargeTypeNameList(
 			String[] commConfigStaffChargeTypeNameList) {
 		this.commConfigStaffChargeTypeNameList = commConfigStaffChargeTypeNameList;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
+	public FormFile getFileToUpload() {
+		return fileToUpload;
+	}
+
+	public void setFileToUpload(FormFile fileToUpload) {
+		this.fileToUpload = fileToUpload;
+	}
+
+	public List<SecurityStaffBaseinfoVo> getSsbv() {
+		return ssbv;
+	}
+
+	public void setSsbv(List<SecurityStaffBaseinfoVo> ssbv) {
+		this.ssbv = ssbv;
 	}
 	
 }

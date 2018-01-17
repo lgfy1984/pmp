@@ -181,27 +181,27 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
      * 根据条件获取指定页面长度的操作员信息列表
      */
     public List<?> getData(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String itemName, 
-    		String inputCode,String staffId, String order,int curCount, int quChuCount) {
+    		String inputCode,String staffId,String tenantId,  String order,int curCount, int quChuCount) {
     	try{
     		List<?> l;
-	    	StringBuilder sql = new StringBuilder("select a.id, a.staffCode,b.itemName,a.name,a.commConfigSexId,c.startTime,c.stopDate,a.commConfigStaffChargetypeId ")
-	        			.append(" from SecurityStaffBaseinfo a , HspConfigBaseinfoLocalBase b ,SecurityLicense c ")
-	        			.append(" where a.id = c.securityStaffBaseinfoId")
-	        			.append(" and b.id = a.hspConfigBaseinfoId");
-	        sql.append(" and (b.id = :hspConfigBaseinfoId");
+	    	StringBuilder sql = new StringBuilder("select a.id, "//0
+	    			+ "a.staffCode,"//1
+	    			+ "a.name,"//2
+	    			+ "a.commConfigSexId,"//3
+	    			+ "c.startTime,"//4
+	    			+ "c.stopDate,"//5
+	    			+ "a.commConfigStaffChargetypeId,"//6
+	    	    	+ "a.commConfigStafftypeId,"//7
+	    			+ "a.islocation, "//8
+	    	    	+ "a.tenantId")//9
+	        			.append(" from SecurityStaffBaseinfo a ,SecurityLicense c ")
+	        			.append(" where a.id = c.securityStaffBaseinfoId");
 	        Map<String, Object> map = new HashMap<String, Object>();
-	        map.put("hspConfigBaseinfoId", hspConfigBaseinfoId);
-	    	List<String> subHspIdList = this.getSubHspIds(hspConfigBaseinfoId);
-	    	if(subHspIdList != null && subHspIdList.size() > 0){
-	    		for(String subHspId : subHspIdList){
-	    			sql.append(" or b.id = '").append(subHspId).append("'");
-	    		}
-	    	}
-	    	sql.append(")");
 	    	
-	        if(itemName.trim().length() > 0){
-	            sql.append(" and b.itemName like :itemName");
-	            map.put("itemName", "%" + itemName.trim() + "%");
+	        
+	        if(tenantId.trim().length() > 0){
+	            sql.append(" and a.tenantId = :tenantId");
+	            map.put("tenantId", tenantId);
 	        }
 	        if(staffCode.trim().length() > 0){
 	            sql.append(" and lower(a.staffCode) like :staffCode");
@@ -248,25 +248,11 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
     public List<?> getDataRegisterCode(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, String itemName, String inputCode,String staffId, String order, int curCount, int quChuCount) {
     	try{
     		List<?> l;
-	    	StringBuilder sql = new StringBuilder("select a.id, a.staffCode,b.itemName,a.name, c.registCode")
-	        					.append(" from SecurityStaffBaseinfo a, HspConfigBaseinfoLocalBase b, SecurityLicense c")
-	        					.append(" where a.id = c.securityStaffBaseinfoId")
-	        					.append(" and b.id = a.hspConfigBaseinfoId");
-	    	sql.append(" and (b.id = :hspConfigBaseinfoId");
+	    	StringBuilder sql = new StringBuilder("select a.id, a.staffCode,a.name, c.registCode")
+	        					.append(" from SecurityStaffBaseinfo a,  SecurityLicense c")
+	        					.append(" where a.id = c.securityStaffBaseinfoId");
 	    	Map<String, Object> map = new HashMap<String, Object>();
-	        map.put("hspConfigBaseinfoId", hspConfigBaseinfoId);
-	    	List<String> subHspIdList = this.getSubHspIds(hspConfigBaseinfoId);
-	    	if(subHspIdList != null && subHspIdList.size() > 0){
-	    		for(String subHspId : subHspIdList){
-	    			sql.append(" or b.id = '").append(subHspId).append("'");
-	    		}
-	    	}
-	    	sql.append(")");
-	        if(itemName.trim().length() > 0){
-	        	sql.append(" and b.itemName like :itemName");
-	            map.put("itemName", "%" + itemName.trim() + "%");
-	        }
-	        
+	       	        
 	        if(staffCode.trim().length() > 0){
 	            sql.append(" and lower(a.staffCode) like :staffCode");
 	            map.put("staffCode", "%" + staffCode.trim().toLowerCase() + "%");
@@ -315,8 +301,8 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
     public List<?> getRegisterExport(String staffCode, String hspConfigBaseinfoId, String name) {
     	try{
     		List<?> l;
-	    	String sql = "select a.id, a.staffCode, b.itemName,a.name, c.registCode";
-	        sql += " from SecurityStaffBaseinfo a , HspConfigBaseinfoLocalBase b ,SecurityLicense c where a.id = c.securityStaffBaseinfoId and b.id = a.hspConfigBaseinfoId"; 
+	    	String sql = "select a.id, a.staffCode, a.name, c.registCode";
+	        sql += " from SecurityStaffBaseinfo a ,SecurityLicense c where a.id = c.securityStaffBaseinfoId "; 
 	        if(staffCode.trim().length() > 0){
 	            sql += " and lower(a.staffCode) like '%" + staffCode.trim().toLowerCase() + "%'";
 	        }
@@ -341,29 +327,19 @@ public class SecurityStaffBaseinfoDAO extends HibernateDaoSupport implements ISe
  * 根据条件获取的操作员的总数量
  */
     public int getCount(String staffCode, String hspConfigBaseinfoId, String name, String commConfigSexId, 
-    		String itemName, String inputCode,String staffId) {
+    		String itemName, String inputCode,String staffId,String tenantId) {
     	try{
     		int count;
 	    	count = 0;
 	        StringBuilder sql = new StringBuilder("select count(*)")
-				        .append(" from SecurityStaffBaseinfo a , HspConfigBaseinfoLocalBase b ,SecurityLicense c ")
-						.append(" where a.id = c.securityStaffBaseinfoId")
-						.append(" and b.id = a.hspConfigBaseinfoId");
-			sql.append(" and (b.id = :hspConfigBaseinfoId");
+				        .append(" from SecurityStaffBaseinfo a , SecurityLicense c ")
+						.append(" where a.id = c.securityStaffBaseinfoId ");
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("hspConfigBaseinfoId", hspConfigBaseinfoId);
-			List<String> subHspIdList = this.getSubHspIds(hspConfigBaseinfoId);
-			if(subHspIdList != null && subHspIdList.size() > 0){
-				for(String subHspId : subHspIdList){
-					sql.append(" or b.id = '").append(subHspId).append("'");
-				}
-			}
-			sql.append(")");
 			
-			if(itemName.trim().length() > 0){
-			    sql.append(" and b.itemName like :itemName");
-			    map.put("itemName", "%" + itemName.trim() + "%");
-			}
+			if(tenantId.trim().length() > 0){
+	            sql.append(" and a.tenantId = :tenantId");
+	            map.put("tenantId", tenantId);
+	        }
 			if(staffCode.trim().length() > 0){
 			    sql.append(" and lower(a.staffCode) like :staffCode");
 			    map.put("staffCode", "%" + staffCode.trim().toLowerCase() + "%");

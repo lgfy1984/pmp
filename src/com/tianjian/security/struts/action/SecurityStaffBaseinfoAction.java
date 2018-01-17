@@ -1,8 +1,13 @@
 package com.tianjian.security.struts.action;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -15,17 +20,23 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 
 import com.tianjian.comm.business.ICommConfigInputDictService;
 import com.tianjian.security.business.ISecurityStaffBaseinfoService;
 import com.tianjian.security.struts.form.SecurityStaffBaseinfoForm;
+import com.tianjian.security.struts.form.SecurityStaffBaseinfoVo;
 import com.tianjian.security.struts.form.SessionForm;
 import com.tianjian.util.ChineseSpelling;
+import com.tianjian.util.Converter;
 import com.tianjian.util.PinyinUtil;
 import com.tianjian.util.ResourcesUtil;
 import com.tianjian.util.comm.Mail;
 import com.tianjian.util.comm.PageBean;
 import com.tianjian.util.comm.UtilTrans;
+import com.tianjian.util.excel.ExcelHelper;
+import com.tianjian.util.excel.HssfExcelHelper;
+import com.tianjian.util.excel.JxlExcelHelper;
 
 
 public class SecurityStaffBaseinfoAction extends BaseAction {
@@ -58,6 +69,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 	}
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){        
+		path(request);
 		if (checkUser(request, response) == null) {
 			return mapping.findForward("noLogin");
 		}
@@ -93,12 +105,18 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 		}else if(verbId.equals("elsExport")){
 			return this.elsExport(mapping, form, request, response);
 		}else if(verbId.equals("init")){
-			return this.init(mapping, form, request, response);
+			return this.query(mapping, form, request, response);
+		}else if(verbId.equals("statInit")){
+			return this.statInit(mapping, form, request, response);
 		}else if(verbId.equals("registerCode")){
 			return this.queryRegisterCode(mapping, form, request, response);
 		}else if(verbId.equals("getPY")){
 			return this.getPY(mapping, form, request, response);
-		} else {
+		}else if(verbId.equals("importfile")){
+			return this.importfile(mapping, form, request, response);
+		}else if(verbId.equals("exportFile")){
+			return this.exportFile(mapping, form, request, response);
+		}  else {
 			return mapping.findForward("fail");
 		}
 	}
@@ -203,8 +221,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 			return mapping.findForward("add");
 		}	
 	}
-
-	public ActionForward query(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward statInit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			String verbId = request.getParameter("verbId");
 			SecurityStaffBaseinfoForm hosform = (SecurityStaffBaseinfoForm)form;
@@ -214,6 +231,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 				if(sessionForm.getStaffId()!=null && !"".equals(sessionForm.getStaffId())){
 					hosform.setStaffId(sessionForm.getStaffId());
 					hosform.setHspConfigBaseinfoId(sessionForm.getStaffHospitalId());
+					hosform.setTenantId(sessionForm.getTenantId());
 				}
 			}
 			////////	page start   ////////////////////////
@@ -227,6 +245,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 					, hosform.getHspConfigBaseinfoName()
 					, hosform.getInputCode()
 					, hosform.getStaffId()
+					, hosform.getTenantId()
 			);
 			if(recordCount == 0){
 				//查询条件有误，未查询到结果
@@ -237,8 +256,80 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 			String pageString = request.getParameter("page");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			//int pageSize = 10;
-			int pageSize = 10;
+			//int pageSize = 5;
+			int pageSize = 5;
+			if(request.getSession().getAttribute("page_282881f5346450530134645053210000")!=null){
+				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f5346450530134645053210000"));
+			}else{
+				ServletContext application = request.getSession().getServletContext();
+				pageSize = Integer.parseInt((String)application.getAttribute("security.PAGE_SIZE"));
+			}
+			
+			pb.setPageSize(pageSize);
+			if(pageString == null || pageString.equals("") || pageString.equals("0")){
+				page = 1;
+				pb.setPage(1);
+				count = (page - 1) * pageSize;
+			}else{	        	
+				page = Integer.parseInt(pageString);
+				pb.setPage(page);
+				count = (page - 1) * pageSize  ;
+			}
+
+			request.setAttribute("pb",pb );
+			////////	page end   ////////////////////////
+
+			service.getSearch(hosform, count, pageSize);
+			service.searchInit(hosform, request);
+			request.setAttribute("securityStaffBaseinfo", hosform);		        
+			if(verbId.equals("queryDetail")){
+				return mapping.findForward("queryDetail");
+			}else{
+				return mapping.findForward("statlist");
+			}
+			
+		} catch(Exception e) {
+			return mapping.findForward("fail");
+		}
+	}
+	
+	public ActionForward query(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String verbId = request.getParameter("verbId");
+			SecurityStaffBaseinfoForm hosform = (SecurityStaffBaseinfoForm)form;
+			HttpSession session = request.getSession(true);
+			SessionForm sessionForm = (SessionForm) session.getAttribute("sessionForm");
+			if(sessionForm!=null && !"".equals(sessionForm)){
+				if(sessionForm.getStaffId()!=null && !"".equals(sessionForm.getStaffId())){
+					hosform.setStaffId(sessionForm.getStaffId());
+					hosform.setHspConfigBaseinfoId(sessionForm.getStaffHospitalId());
+					hosform.setTenantId(sessionForm.getTenantId());
+				}
+			}
+			////////	page start   ////////////////////////
+			PageBean pb = new PageBean();
+			int count;
+			int page = 0;
+			int recordCount = service.getCount(hosform.getStaffCode()
+					, hosform.getHspConfigBaseinfoId()
+					, hosform.getName()
+					, hosform.getCommConfigSexId()
+					, hosform.getHspConfigBaseinfoName()
+					, hosform.getInputCode()
+					, hosform.getStaffId()
+					, hosform.getTenantId()
+			);
+			if(recordCount == 0){
+				//查询条件有误，未查询到结果
+				String str = ResourcesUtil.getValue("conf.security.securityInit", "comm.java.security.warn1", request);
+				hosform.setMessage(str);
+			}
+			pb.setCount(recordCount);
+			String pageString = request.getParameter("page");
+			//ServletContext application = request.getSession().getServletContext();
+			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
+			//int pageSize = 5;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f5346450530134645053210000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f5346450530134645053210000"));
 			}else{
@@ -284,6 +375,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 				if(sessionForm.getStaffId()!=null && !"".equals(sessionForm.getStaffId())){
 					hosform.setStaffId(sessionForm.getStaffId());
 					hosform.setHspConfigBaseinfoId(sessionForm.getStaffHospitalId());
+					hosform.setTenantId(sessionForm.getTenantId());
 				}
 			}
 			////////	page start   ////////////////////////
@@ -297,6 +389,7 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 					, hosform.getHspConfigBaseinfoName()
 					, hosform.getInputCode()
 					, hosform.getStaffId()
+					, hosform.getTenantId()
 			);
 			if(recordCount == 0){
 				//查询条件有误，未查询到结果
@@ -307,8 +400,8 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 			String pageString = request.getParameter("page");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			//int pageSize = 10;
-			int pageSize = 10;
+			//int pageSize = 5;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f5346450530134645053210000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f5346450530134645053210000"));
 			}else{
@@ -380,6 +473,8 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 			SecurityStaffBaseinfoForm hosform = (SecurityStaffBaseinfoForm)form;
 			HttpSession session = request.getSession(true);
 			SessionForm sessionForm = (SessionForm)session.getAttribute("sessionForm");
+
+			hosform.setTenantId(sessionForm.getTenantId());
 			hosform.setHspConfigBaseinfoId(sessionForm.getStaffHospitalId());
 			////////	page start   ////////////////////////
 			PageBean pb = new PageBean();
@@ -392,13 +487,14 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 					, ""
 					, hosform.getInputCode()
 					, hosform.getStaffId()
+					, hosform.getTenantId()
 			);
 
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			ServletContext application = request.getSession().getServletContext();
 			int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
-			//int pageSize = 10;
+			//int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if(pageString == null || pageString.equals("") || pageString.equals("0")){
 				page = 1;
@@ -440,11 +536,12 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 					, ""
 					, hosform.getInputCode()
 					, hosform.getStaffId()
+					, hosform.getTenantId()
 			);
 
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
-			int pageSize = 10;
+			int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if(pageString == null || pageString.equals("") || pageString.equals("0")){
 				page = 1;
@@ -587,12 +684,13 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 			 request.setCharacterEncoding("UTF-8");
 			 response.setContentType("text/html;charset=utf-8");
 			 PrintWriter out = response.getWriter();
-			 String checkData = service.checkData(hosForm.getStaffCode(), request);		 
-			 if(checkData != null && checkData.trim().length() > 0){
+			 String checkData = service.checkData(hosForm, request);		 
+			 if(checkData != null && checkData.equals("1")){
 				   out.println(ResourcesUtil.getValue("conf.security.securityInit", "security.java.struts.action.SecuritySecurityStaffBaseinfoAction.warn1", request));
-			 }else{
-				   out.println(ResourcesUtil.getValue("conf.security.securityInit", "security.java.struts.action.SecuritySecurityStaffBaseinfoAction.warn2", request));
-			 } 
+			 }
+			 if(checkData != null && checkData.equals("2")){
+				   out.println("id不能重复,请检查！");
+			 }
 			out.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -684,4 +782,162 @@ public class SecurityStaffBaseinfoAction extends BaseAction {
 		
 		return xmlString;
 	}
+	
+
+	public ActionForward exportFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
+		SecurityStaffBaseinfoForm hosform =(SecurityStaffBaseinfoForm) form;
+		try {
+
+			request.setCharacterEncoding("utf-8");
+			
+		} catch (UnsupportedEncodingException e1) {			
+			e1.printStackTrace();
+		}
+		HttpSession session = request.getSession(true);
+		SessionForm sessionForm = (SessionForm) session.getAttribute("sessionForm");
+		if(sessionForm!=null && !"".equals(sessionForm)){
+			if(sessionForm.getStaffId()!=null && !"".equals(sessionForm.getStaffId())){
+				hosform.setStaffId(sessionForm.getStaffId());
+				hosform.setHspConfigBaseinfoId(sessionForm.getStaffHospitalId());
+				hosform.setTenantId(sessionForm.getTenantId());
+			}
+		}
+		// ////// page start ////////////////////////
+		int count=0;
+		int recordCount = service.getCount(hosform.getStaffCode()
+				, hosform.getHspConfigBaseinfoId()
+				, hosform.getName()
+				, hosform.getCommConfigSexId()
+				, hosform.getHspConfigBaseinfoName()
+				, hosform.getInputCode()
+				, hosform.getStaffId()
+				, hosform.getTenantId()
+		);
+		
+		// ////// page end ////////////////////////
+
+		service.getSearch(hosform, count, recordCount);
+		if("1"!=null){	
+			response.setContentType("application/vnd.ms-excel");
+			String fileName="";
+			//iObjectiveExcelFile.getDownloadFileName();
+			response.setHeader("Content-Disposition", "attachment;filename="
+					+ Converter.toUtf8String(fileName));
+			
+			HSSFWorkbook workbook = new HSSFWorkbook();
+			String[] titles = new String[]{"租户ID(必填)", 
+					"员工编号(必填)",  
+					"登陆名(必填)", 
+					"姓名(必填)", 
+					"身份证号(必填)",
+					"英文名",
+					"员工系列代码(必填)",
+					"员工系列名称",
+					"员工费别代码(必填)",
+					"员工费别名称",
+					"在位代码(必填)", 
+					"在位"};
+			String[] fieldNames = new String[]{"tenantId", 
+					"id",  
+					"staffCode", 
+					"name", 
+					"idNo", 
+					"nameEn", 
+					"commConfigStafftypeId",
+					"commConfigStafftypeName",
+					"commConfigStaffChargeTypeId",
+					"commConfigStaffChargeTypeName",
+					"islocation",
+					"islocationName"};
+			try {
+				workbook = HssfExcelHelper.getInstance().writeExcel(workbook, SecurityStaffBaseinfoVo.class, hosform.getSsbv(), fieldNames, titles);
+			}catch(Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (workbook == null) {
+				return mapping.findForward("error");
+			} else {
+				// 新建一输出文件流
+				ServletOutputStream fOut;
+				try {
+					// 把相应的Excel 工作簿存盘
+					fOut = response.getOutputStream();
+					workbook.write(fOut);
+					fOut.flush();
+					fOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return mapping.findForward(null);
+	}
+	public ActionForward importfile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
+		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
+		ServletContext application = request.getSession().getServletContext();
+		SecurityStaffBaseinfoForm ssform = (SecurityStaffBaseinfoForm) form;
+	    FormFile uploadFile = ssform.getFileToUpload();
+	    response.setCharacterEncoding("utf-8");
+	    //判断是否是excel文件
+	    if(uploadFile==null || !uploadFile.getFileName().toLowerCase().endsWith("xls")){  
+			try {
+				response.getWriter().write("{\"result\":\""+"error"+"\"}");
+			} catch (IOException e) {			
+				e.printStackTrace();
+			}
+	    	return mapping.findForward(null);
+	    }   
+	    try {  
+
+			String[] fieldNames = new String[]{"tenantId", 
+					"id",  
+					"staffCode", 
+					"name", 
+					"idNo", 
+					"nameEn", 
+					"commConfigStafftypeId",
+					"commConfigStafftypeName",
+					"commConfigStaffChargeTypeId",
+					"commConfigStaffChargeTypeName",
+					"islocation",
+					"islocationName"};
+	    	
+    	    System.out.println(uploadFile.getFileName().toString());
+    	    //设置保存路径
+    	    String path="/pm/excel";
+    	    String realPath=request.getSession().getServletContext().getRealPath(path);
+    	    File dir=new File(realPath);
+    	    if(!dir.exists()) dir.mkdir();//判断该目录是否存在，不存在则创建
+    	    
+    	    //设置要进行保存的文件名称，防止出现重复文件名称，通过uuid确定其文件名的唯一性
+    	    String fileName=UUID.randomUUID().toString()+"."+getFileExt(uploadFile);//uuid+源文件后缀
+    	    File saveFile=new File(dir,fileName);//创建文件对象，在dir目录下的fileName这个文件
+    	    FileOutputStream fos=new FileOutputStream(saveFile);//创建一个到saveFile中的输出流
+    	    fos.write(uploadFile.getFileData());
+    	    fos.close();
+	    	ExcelHelper eh1 = JxlExcelHelper.getInstance(saveFile);
+			List<SecurityStaffBaseinfoVo> list1 = eh1.readExcel(SecurityStaffBaseinfoVo.class, fieldNames,true);
+			ssform.setSsbv(list1);
+			service.saveExcelData(ssform,request);
+	        uploadFile.destroy(); 
+	        response.getWriter().write("{\"result\":\""+"success"+"\"}");
+	    } catch (Exception e) { 
+	    	try {
+				response.getWriter().write("{\"result\":\""+"exception"+"\"}");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        e.printStackTrace();  
+	    }  
+        return mapping.findForward(null);
+	}
+	
+	 public static String getFileExt(FormFile file)
+	 {
+	  String fileName=file.getFileName();
+	  return fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+	 }
 }

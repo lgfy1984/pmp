@@ -8,7 +8,7 @@ public interface ISecurityStaffPasswordInitService {
 
 	public void update(SecurityStaffPasswordInitForm form);
 
-	public int getStaffSelectCount(String staffId, String name, String inputCode, String itemCode,String staffHspId,String hspConfigId);
+	public int getStaffSelectCount(String staffId, String name, String inputCode, String itemCode,String staffHspId,String hspConfigId, String tenantId);
 
 	public void getSearch(SecurityStaffPasswordInitForm form, int from, int length);
 

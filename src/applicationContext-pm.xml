@@ -41,6 +41,29 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	<!--***********************projectfinanceCost*******************************************-->
+	<bean name="/pm/projectcost" class="com.tianjian.pm.struts.action.ProjectFinanceCostAction" singleton="false">
+		<property name="projectFinanceCostService">
+			<ref bean="projectFinanceCostService" />
+		</property>
+	</bean>
+	<bean id="projectFinanceCostService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectFinanceCostServiceImpl">
+				<property name="projectFinanceCostDAO">
+					<ref bean="projectFinanceCostDAO" />
+				</property>
+				<property name="projectWorkTimeRecordDAO">
+					<ref bean="projectWorkTimeRecordDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="projectFinanceCostDAO" class="com.tianjian.pm.dao.hibernate.ProjectFinanceCostDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
 	<!--***********************projectfinancerecord*******************************************-->
 	<bean name="/pm/projectfinance" class="com.tianjian.pm.struts.action.ProjectFinanceRecordAction" singleton="false">
 		<property name="projectFinanceRecordService">
@@ -85,6 +108,47 @@
 		</property>
 	</bean>
 	<bean id="projectStatDAO" class="com.tianjian.pm.dao.hibernate.ProjectStatDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!--***********************projectclass*******************************************-->
+	<bean name="/pm/projectclass" class="com.tianjian.pm.struts.action.ProjectClassAction" singleton="false">
+		<property name="projectClassService">
+			<ref bean="projectClassService" />
+		</property>
+		<property name="commConfigInputDictService">
+			<ref bean="CommConfigInputDictService" />
+		</property>
+	</bean>
+	<bean id="projectClassService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectClassServiceImpl">
+				<property name="baseDAO">
+					<ref bean="baseDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!--***********************projecttask*******************************************-->
+	<bean name="/pm/projecttask" class="com.tianjian.pm.struts.action.ProjectTaskAction" singleton="false">
+		<property name="projectTaskService">
+			<ref bean="projectTaskService" />
+		</property>
+		<property name="commConfigInputDictService">
+			<ref bean="CommConfigInputDictService" />
+		</property>
+	</bean>
+	<bean id="projectTaskService" parent="BaseTxService">
+		<property name="target">
+			<bean class="com.tianjian.pm.business.service.ProjectTaskServiceImpl">
+				<property name="baseDAO">
+					<ref bean="baseDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="baseDAO" class="com.tianjian.comm.dao.hibernate.BaseDAOImpl">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

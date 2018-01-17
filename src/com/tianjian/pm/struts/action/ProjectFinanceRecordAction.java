@@ -217,7 +217,7 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			projectFinanceRecordService.addInit(hosform);
 			hosform.setMessage(msg);
 			request.setAttribute("data", hosform);
-			return mapping.findForward("add");	
+			return this.queryFinanceRecordinfo(mapping, hosform, request, response);	
 			
 		}
 		catch (Exception e) {
@@ -243,10 +243,6 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 		SessionForm staff      =  (SessionForm) request.getSession().getAttribute("sessionForm");
 		try {
 			ProjectFinanceRecordForm hosform =(ProjectFinanceRecordForm) form;
-			String statues =request.getParameter("executedFlag");
-			if(statues!=null&&statues.equals("1")){
-				//hosform.setExecutedFlagIdHidden("1");
-			}
 			String createUserId    =   staff.getStaffId(); 
 			String createUserName  =   staff.getStaffName();
 			hosform.setCreateUserId(createUserId);
@@ -255,11 +251,11 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			PageBean pb = new PageBean();
 			int count=0;
 			int page = 0;
-			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
-					hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId());
+			int recordCount = projectFinanceRecordService.getProjectFinanceRecordCount(hosform.getProjectNameCase(),hosform.getProjectBaseinfoIdCase(), hosform.getProjectClassCodeCase(),
+					hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(),hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
-			int pageSize = 10;
+			int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if (pageString == null || pageString.equals("") || pageString.equals("0")) {
 				page = 1;
@@ -273,6 +269,10 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			request.setAttribute("pb", pb);
 			// ////// page end ////////////////////////
 			projectFinanceRecordService.initForm(hosform);
+			//js detail设定flag为1,查询详细
+			if(hosform.getFlag().equals("1")){
+				projectFinanceRecordService.updateInit(hosform);
+			}
 			projectFinanceRecordService.getProjectFinanceRecordSearch(hosform, count, pageSize);
 			request.setAttribute("data", hosform);
 			return mapping.findForward("query");	
@@ -282,4 +282,5 @@ public class ProjectFinanceRecordAction extends BaseDispatchAction{
 			return mapping.findForward("fail");
 		}
 	}
+	
 }

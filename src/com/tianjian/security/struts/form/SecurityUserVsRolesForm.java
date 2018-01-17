@@ -14,6 +14,7 @@ public class SecurityUserVsRolesForm extends ActionForm {
 	private String pageNow = "";
 	private String message = "";
 	private String orderNo = "";
+	private String tenantId = "" ;
 	private String asc = "";
 	private String hspConfigBaseinfoName = "";
 	private String hspConfigBaseinfoId = "";
@@ -180,6 +181,14 @@ public class SecurityUserVsRolesForm extends ActionForm {
 
 	public void setAsc(String asc) {
 		this.asc = asc;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
 	
 	

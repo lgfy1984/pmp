@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.tianjian.pm.bean.ProjectBaseinfo;
+import com.tianjian.pm.bean.ProjectClassDict;
 import com.tianjian.pm.bean.ProjectFinanceRecord;
+import com.tianjian.pm.bean.ProjectLongtimeDict;
 import com.tianjian.pm.business.IProjectFinanceRecordService;
 import com.tianjian.pm.dao.IProjectFinanceRecordDAO;
 import com.tianjian.pm.dao.IProjectWorkTimeRecordDAO;
@@ -80,13 +82,39 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 		List<?> list1 = projectFinanceRecordDAO.getTaskClassDict(form.getProjectClassCode());
 		if (list1 != null && list1.size() > 0) {
 			Map<String, String> temp = new LinkedHashMap<String, String>();
-
+            temp.put("", "");
 			for (int i = 0; i < list1.size(); i++) {
 				temp.put(String.valueOf(Converter.toBlank(((Object[]) list1
 						.get(i))[0])), String.valueOf(Converter
 						.toBlank(((Object[]) list1.get(i))[1])));
 			}
 			form.setTaskClass(temp);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		StringBuffer hql = new StringBuffer("from ProjectLongtimeDict a where 1=1 ");
+		List<?> list2 = projectWorkTimeRecordDAO.findObjectByHql(hql.toString(), map);
+		if (list2 != null && list2.size() > 0) {
+			Map<String, String> temp = new LinkedHashMap<String, String>();
+			for (int i = 0; i < list2.size(); i++) {
+				ProjectLongtimeDict pcd = (ProjectLongtimeDict)list2.get(i);
+				String tempItemCode =Converter.toBlank(pcd.getItemCode());
+				String tempItemName =Converter.toBlank(pcd.getItemName());
+				temp.put(tempItemCode, tempItemName);
+			}
+			form.setLongTimeDict(temp);
+		}
+		StringBuffer hql2 = new StringBuffer("from ProjectClassDict a where 1=1 ");
+		List<?> list3 = projectWorkTimeRecordDAO.findObjectByHql(hql2.toString(), map);
+		if (list3 != null && list3.size() > 0) {
+			Map<String, String> temp = new LinkedHashMap<String, String>();
+
+			for (int i = 0; i < list3.size(); i++) {
+				ProjectClassDict pcd = (ProjectClassDict)list3.get(i);
+				String tempItemCode =Converter.toBlank(pcd.getItemCode());
+				String tempItemName =Converter.toBlank(pcd.getItemName());
+				temp.put(tempItemCode, tempItemName);
+			}
+			form.setProjectClass(temp);
 		}
 	}
 	/**
@@ -99,17 +127,26 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	* @author lengj
 	 */
 	public void save(ProjectFinanceRecordForm form){
-		ProjectFinanceRecord data = new ProjectFinanceRecord();
-		String sql = "select a.item_name,a.item_cost,a.item_unit from"
-					+" security.security_staff_baseinfo t "
-					+" left join  comm.comm_config_staff_charge_type a"
-					+" on t.comm_config_staff_charge_id = a.item_code"
-					+" where t.id=:id ";
-		Object[] obs = (Object[]) getObjectBySqlCode(sql,form.getCreateUserId(),"id");
-		form.setChargeType(Converter.toBlank(obs[1]));
-		data.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
-		setData(form, data);
-		projectFinanceRecordDAO.save(data);
+		ProjectFinanceRecord data = projectFinanceRecordDAO.findById(form.getIdHidden());
+		if(data!=null){
+			data.setSeqNo(Converter.toInteger(form.getSeqNo()));
+			this.setData(form, data);
+			projectFinanceRecordDAO.update(data);
+		}else{
+		
+			data = new ProjectFinanceRecord();
+			String sql = "select a.item_name,a.item_cost,a.item_unit from"
+						+" security.security_staff_baseinfo t "
+						+" left join  comm.comm_config_staff_charge_type a"
+						+" on t.comm_config_staff_charge_id = a.item_code"
+						+" where t.id=:id ";
+			Object[] obs = (Object[]) getObjectBySqlCode(sql,form.getCreateUserId(),"id");
+			form.setChargeType(Converter.toBlank(obs[1]));
+			data.setSeqNo(Converter.toInteger(projectWorkTimeRecordDAO.getSequenceNo("PM.PROJECT_FINANCE_RECORD", "SEQ_NO")));
+			setData(form, data);
+			projectFinanceRecordDAO.save(data);
+			form.setIdHidden(data.getId());
+		}
 	}
 	/**
 	 * 保存
@@ -179,10 +216,25 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	* @author lengj
 	 */
 	public void delete(ProjectFinanceRecordForm form){
-		  
-		ProjectFinanceRecord data = projectFinanceRecordDAO.findById(form.getIdHidden());
-		projectFinanceRecordDAO.delete(data);// 删除数据库记录
+		String[] objs = form.getIds();
+		if(objs!=null && objs.length>0){
+			for(int i=0;i<objs.length;i++){
+				ProjectFinanceRecord data = projectFinanceRecordDAO.findById(objs[i]);
+				projectFinanceRecordDAO.delete(data);
+			}
+		}
 
+	}
+    public void updateall(ProjectFinanceRecordForm form){
+    	String[] objs = form.getIds();
+    	String[] longTimes = form.getLongTimesHidden().split(",");
+		if(objs!=null && objs.length>0){
+			for(int i=0;i<objs.length;i++){
+				ProjectFinanceRecord data = projectFinanceRecordDAO.findById(objs[i]);
+				data.setLongTime(Converter.toDouble(longTimes[i]));
+				projectFinanceRecordDAO.update(data);
+			}
+		}
 	}
 	/**
 	 * 条件查询咨询信息条数
@@ -201,10 +253,86 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	* @throws
 	* @author lengj
 	 */
-	public int getProjectFinanceRecordCount(String projectClass, String classId,
-			String onlineTime, String startTime, String endTime, String userId){
-		return projectFinanceRecordDAO.getProjectFinanceRecordCount(projectClass, classId, onlineTime, startTime, endTime, userId);
+	public int getProjectFinanceRecordCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect){
+		return projectFinanceRecordDAO.getProjectFinanceRecordCount(projectNameCase,projectBaseinfoId, projectClassCode, staffName, startTime, endTime, userId,timeCase,timeSelect);
 	}
+	
+	public int getQsCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect){
+		return projectFinanceRecordDAO.getQsCount(projectNameCase,projectBaseinfoId, projectClassCode, staffName, startTime, endTime, userId,timeCase,timeSelect);
+	}
+	
+	public void getQsSearch(ProjectFinanceRecordForm hosform, int curCount,int pageSize){
+		
+		String order ="";
+
+		if(hosform.getOrderNo() !=null && !hosform.getOrderNo().trim().equals("")){
+			if (hosform.getOrderNo().equals("0")) {
+				order += " a.seq_no";
+			} else if (hosform.getOrderNo().equals("1")) {
+				order += " t.project_class";
+			} 
+			
+		} else {
+			order += "  a.work_date DESC ";
+		}
+		
+		if(hosform.getSort() == null || hosform.getSort().trim().equals("0")){
+			  order +=" ASC";
+		}
+		if(hosform.getSort() != null && hosform.getSort().trim().equals("1")){
+			  order +=" DESC";
+		}
+		
+		hosform.setOrder(order);
+		List<?> list = projectFinanceRecordDAO
+				.getQsData(hosform.getProjectNameCase(), hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
+						hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect(),hosform.getOrder());
+	    if (list != null && list.size() > 0) {
+			List<ProjectFinanceVo> crd = new ArrayList<ProjectFinanceVo>(list.size());
+
+			for (int i = 0; i < list.size(); i++) {
+				ProjectFinanceVo temp = new ProjectFinanceVo();
+				Object[] obs = (Object[]) list.get(i);
+				temp.setId(Converter.toBlank(obs[0]));
+				temp.setLongTimeCode(Converter.toBlank(obs[2]));
+				temp.setProjectBaseinfoId(Converter.toBlank(obs[1]));
+				ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs[1]));
+				if(pbi!=null){
+					temp.setProjectCode(pbi.getProjectCode());
+					temp.setProjectName(pbi.getProjectName());
+					temp.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+				}
+				temp.setTaskCode(Converter.toBlank(obs[8]));
+				temp.setTaskName(this.changeClassId(Converter.toBlank(obs[8]), hosform));
+				temp.setSeqNo(Converter.toBlank(obs[7]));
+				temp.setCosts(Converter.toBlank(obs[10]));
+				if(obs[9]!=null && !obs[9].equals("")){
+					temp.setWorkDate(sdf.format(obs[9]));
+				}
+				temp.setStaffCode(Converter.toBlank(obs[12]));
+				temp.setWorkStaffName(Converter.toBlank(obs[11]));
+				temp.setCreateUserId(Converter.toBlank(obs[4]));
+				temp.setCreateUserName(Converter.toBlank(Converter.toBlank(obs[5])));
+				crd.add(temp);
+			}
+			hosform.setPfv(crd);
+		}
+	    List<?> list1 = projectWorkTimeRecordDAO.getProjectClassDict();
+		if (list1 != null && list1.size() > 0) {
+			Map<String, String> temp = new LinkedHashMap<String, String>();
+
+			for (int i = 0; i < list1.size(); i++) {
+				temp.put(String.valueOf(Converter.toBlank(((Object[]) list1
+						.get(i))[0])), String.valueOf(Converter
+						.toBlank(((Object[]) list1.get(i))[1])));
+			}
+			hosform.setProjectClass(temp);
+		}
+
+	
+}
 	/**
 	 * 修改初始化
 	*
@@ -234,7 +362,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 	public void addInit(ProjectFinanceRecordForm form){
 		
 		initForm(form);
-		form.setWorkDate(sdf.format(new Date()));
+		//form.setWorkDate(sdf.format(new Date()));
 	}
 	/**
 	 * 知识库列表
@@ -273,7 +401,7 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 				} 
 				
 			} else {
-				order += "  a.work_date ";
+				order += "  a.work_date DESC ";
 			}
 			
 			if(hosform.getSort() == null || hosform.getSort().trim().equals("0")){
@@ -284,10 +412,10 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 			}
 			
 			hosform.setOrder(order);
-			
+			initForm(hosform);
 			List<?> list = projectFinanceRecordDAO
-					.getProjectFinanceRecordData(hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
-							hosform.getStaffName(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(), hosform.getOrder());
+					.getProjectFinanceRecordData(hosform.getProjectNameCase(), hosform.getProjectBaseinfoIdCase(),  hosform.getProjectClassCodeCase(),
+							hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), curCount, pageSize, hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect(),hosform.getOrder());
 		    if (list != null && list.size() > 0) {
 				List<ProjectFinanceVo> crd = new ArrayList<ProjectFinanceVo>(list.size());
 
@@ -295,19 +423,22 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 					ProjectFinanceVo temp = new ProjectFinanceVo();
 					Object[] obs = (Object[]) list.get(i);
 					temp.setId(Converter.toBlank(obs[0]));
-					temp.setLongTime(Converter.toBlank(obs[2]));
+					temp.setLongTimeCode(Converter.toBlank(obs[2]));
 					temp.setProjectBaseinfoId(Converter.toBlank(obs[1]));
 					ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs[1]));
 					if(pbi!=null){
 						temp.setProjectCode(pbi.getProjectCode());
 						temp.setProjectName(pbi.getProjectName());
+						temp.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
 					}
-					temp.setTaskCode(this.changeClassId(Converter.toBlank(obs[8]), hosform));
+					temp.setTaskCode(Converter.toBlank(obs[8]));
+					temp.setTaskName(this.changeClassId(Converter.toBlank(obs[8]), hosform));
 					temp.setSeqNo(Converter.toBlank(obs[7]));
 					temp.setCosts(Converter.toBlank(obs[10]));
 					if(obs[9]!=null && !obs[9].equals("")){
 						temp.setWorkDate(sdf.format(obs[9]));
 					}
+					temp.setStaffCode(Converter.toBlank(obs[12]));
 					temp.setWorkStaffName(Converter.toBlank(obs[11]));
 					temp.setCreateUserId(Converter.toBlank(obs[4]));
 					temp.setCreateUserName(Converter.toBlank(Converter.toBlank(obs[5])));
@@ -315,6 +446,53 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 				}
 				hosform.setPfv(crd);
 			}
+		         String timeSelect = hosform.getTimeSelect();
+		    	//筛选不重复的员工
+		        
+		    	List<?> listselect = projectFinanceRecordDAO
+						.getProjectFwSelectData(hosform.getProjectBaseinfoId(),  hosform.getProjectClassCodeCase(),
+								hosform.getStaffNameHidden(), hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), hosform.getCreateUserId(),hosform.getTimeCase(),hosform.getTimeSelect(), hosform.getOrder());
+
+			    if(listselect!=null && listselect.size()>0){
+	    			 List<ProjectFinanceVo> crd = new ArrayList<ProjectFinanceVo>(listselect.size());
+			    		for(Object obj:listselect){
+			    		    String tempStaffCode = Converter.toBlank(((Object[])obj)[0]);
+			    		    String tempStaffName = Converter.toBlank(((Object[])obj)[1]);
+			    			 ProjectFinanceVo pfv = new ProjectFinanceVo();
+			    			 pfv.setTimeCase(hosform.getTimeCase());
+			    			 pfv.setTimeStartCase(hosform.getStartTimeHidden());
+			    			 pfv.setTimeEndCase(hosform.getEndTimeHidden());
+			    			 pfv.setWorkStaffName(tempStaffName);
+			    			 crd.add(pfv);
+						    if(timeSelect.equals("1")){	
+				    			  if(!tempStaffCode.equals("")){
+				    				  //查找一周工时大于40的员工
+				    				  List<?> listWeek =  projectFinanceRecordDAO.getProjectFwWeekData(tempStaffCode, hosform.getStartTimeHidden(), hosform.getEndTimeHidden());	
+				    				  if(listWeek!=null && listWeek.size()>0){
+				    					  List<?> listData =  projectFinanceRecordDAO.getProjectFwData(hosform.getProjectBaseinfoId(),  hosform.getProjectClassCodeCase(),
+				  								hosform.getStaffNameHidden(),tempStaffCode, hosform.getStartTimeHidden(), hosform.getEndTimeHidden(), hosform.getCreateUserId(), hosform.getOrder());
+
+				    					  pfv.setPfv3(setPfvToForm(listData,hosform));
+				    					  hosform.setResultFlag("1");
+				    				  }
+				    			  }
+						    }else{
+						    	if(!tempStaffCode.equals("")){
+				    				  //查找一周工时大于8的员工
+				    				  List<?> listday =  projectFinanceRecordDAO.getProjectFwDayData(hosform.getTimeCase(),hosform.getTimeSelect(),tempStaffCode);	
+				    				  if(listday!=null && listday.size()>0){
+				    					  pfv.setPfv3(setPfvToForm(listday,hosform));
+				    					  hosform.setResultFlag("2");
+				    				  }
+				    			  }
+						    }
+			    		}
+			    		hosform.setPfv2(crd);
+		    	}
+
+		    	
+		   
+		    
 		    List<?> list1 = projectWorkTimeRecordDAO.getProjectClassDict();
 			if (list1 != null && list1.size() > 0) {
 				Map<String, String> temp = new LinkedHashMap<String, String>();
@@ -329,6 +507,34 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 
 		
 	}
+	private List<ProjectFinanceVo> setPfvToForm(List<?> listday,ProjectFinanceRecordForm hosform){
+	 List<ProjectFinanceVo> crd = new ArrayList<ProjectFinanceVo>(listday.size());
+		for (int i = 0; i < listday.size(); i++) {
+			ProjectFinanceVo temp = new ProjectFinanceVo();
+			Object[] obs = (Object[]) listday.get(i);
+			temp.setId(Converter.toBlank(obs[0]));
+			temp.setLongTimeCode(Converter.toBlank(obs[2]));
+			temp.setProjectBaseinfoId(Converter.toBlank(obs[1]));
+			ProjectBaseinfo  pbi =  projectWorkTimeRecordDAO.findObjectById(Converter.toBlank(obs[1]));
+			if(pbi!=null){
+				temp.setProjectCode(pbi.getProjectCode());
+				temp.setProjectName(pbi.getProjectName());
+				temp.setProjectClassName(projectWorkTimeRecordDAO.findNameByCode(pbi.getProjectClass()));
+			}
+			temp.setTaskCode(this.changeClassId(Converter.toBlank(obs[8]), hosform));
+			temp.setSeqNo(Converter.toBlank(obs[7]));
+			temp.setCosts(Converter.toBlank(obs[10]));
+			if(obs[9]!=null && !obs[9].equals("")){
+				temp.setWorkDate(sdf.format(obs[9]));
+			}
+			temp.setStaffCode(Converter.toBlank(obs[12]));
+			temp.setWorkStaffName(Converter.toBlank(obs[11]));
+			temp.setCreateUserId(Converter.toBlank(obs[4]));
+			temp.setCreateUserName(Converter.toBlank(Converter.toBlank(obs[5])));
+			crd.add(temp);
+		}
+		return crd;
+	}
 	/** 构造exceldata */
 	private void setData(ProjectFinanceVo pfv,ProjectFinanceRecord data,ProjectFinanceRecordForm form) {
 		
@@ -342,10 +548,12 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 //		data.setChargeType(Converter.toBlank(obs[1]));
 
 		data.setProjectBaseinfoId(Converter.toBlank(pfv.getProjectBaseinfoId()));
-		data.setStaffCode(Converter.toBlank(pfv.getWorkStaffCode()));
-		data.setLongTime(Converter.toInteger(pfv.getLongTime()));
+		data.setStaffCode(Converter.toBlank(pfv.getStaffCode()));
+		data.setTaskCode(Converter.toBlank(pfv.getTaskCode()));
+		data.setLongTime(Converter.toDouble(pfv.getLongTimeCode()));
 		data.setCosts(Converter.toDouble(pfv.getCosts()));
 		data.setSeqNo(Converter.toInteger(pfv.getSeqNo()));
+		data.setWorkDate(new Timestamp(Converter.toDate(pfv.getWorkDate()).getTime()));
 			String newDatess = sdss.format( new Date());
 			data.setCreateDate(new Timestamp(Converter.toDate(newDatess).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
@@ -359,12 +567,16 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 
 		data.setProjectBaseinfoId(Converter.toBlank(form.getProjectBaseinfoId()));
 		data.setStaffCode(Converter.toBlank(form.getWorkStaffCode()));
-		data.setLongTime(Converter.toInteger(form.getLongTime()));
+		data.setLongTime(Converter.toDouble(form.getLongTimeCode()));
 		data.setTaskCode(Converter.toBlank(form.getTaskCode()));
 		data.setCosts(Converter.toDouble(form.getCosts()));
 		data.setChargeType(Converter.toBlank(form.getChargeType()));
 		          String newDatess = sdss.format( new Date());
-			data.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
+		          if(!form.getWorkDate().equals("")){
+			          data.setWorkDate(new Timestamp(Converter.toDate(form.getWorkDate()).getTime()));
+		          }else{
+		        	  data.setWorkDate(null);
+		          }
 			data.setCreateDate(new Timestamp(Converter.toDate(newDatess).getTime()));
 			data.setCreateUserName(Converter.toBlank(form.getCreateUserName()));
 			data.setCreateUserId(Converter.toBlank(form.getCreateUserId()));
@@ -384,10 +596,14 @@ public class ProjectFinanceRecordServiceImpl implements IProjectFinanceRecordSer
 			}
 			form.setChargeType(data.getChargeType());
 		    form.setSeqNo(Converter.toBlank(data.getSeqNo()));
-		    form.setLongTime(Converter.toBlank(data.getLongTime()));
+		    form.setLongTimeCode(Converter.toBlank(data.getLongTime()));
 		    form.setTaskCode(Converter.toBlank(data.getTaskCode()));
 			form.setTaskName(this.changeClassId(Converter.toBlank(data.getTaskCode()), form));
-		    form.setWorkDate(sdf.format(data.getWorkDate()));
+			if(data.getWorkDate()!=null){
+		      form.setWorkDate(sdf.format(data.getWorkDate()));
+			}else{
+				form.setWorkDate("");
+			}
 		    form.setCosts(Converter.toBlank(data.getCosts()));
 		    //取得人员姓名，并不是财务创建人员
 		    

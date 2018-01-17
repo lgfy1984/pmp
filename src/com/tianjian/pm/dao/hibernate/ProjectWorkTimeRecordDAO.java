@@ -43,36 +43,29 @@ public class ProjectWorkTimeRecordDAO extends BaseDAOImpl<ProjectWorktimeRecord>
 	private static final Logger log = LogManager
 			.getLogger(ProjectWorkTimeRecordDAO.class);
 	
-	
 
-	public List<?> getProjectWorktimeRecordData(String projectBaseinfoId, String projectClassCode,
-			String staffName, String startTime, String endTime, int curCount,
-			int pageSize,  String userId,String order,String status) {
+	@Override
+	public int getProjectWorktimeRecordCount(String projectNameCase, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId, String status,String noLimit) {
+		// TODO Auto-generated method stub
 		List<Object> params = new ArrayList<Object>();
-		StringBuffer sql = new StringBuffer("select "
-				+ "a.id," //0
-				+ "a.PROJECT_BASEINFO_ID," //1
-				+ "a.LONG_TIME,"//2
-				+ "a.STATUS,"//3
-				+ "a.CREATE_USER_ID,"//4
-				+ "a.CREATE_USER_NAME,"//5
-				+ "a.CREATE_DATE,"//6
-				+ "a.SEQ_NO,"//7
-				+ "a.TASK_CODE,"//8
-				+ "a.WORK_DATE "//9
-				+ " from PM.PROJECT_WORKTIME_RECORD a "
+		StringBuffer sql = new StringBuffer("select a.* from PM.PROJECT_WORKTIME_RECORD a "
 			+"left join pm.project_baseinfo t "
 			+" on  a.project_baseinfo_id = t.id "
 			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
 			+" on a.create_user_id = s.id ");
-		if (userId.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.create_user_id = ? ");
-			params.add(userId.trim());
+		if(noLimit.equals("")){
+		  if (userId.trim().length() > 0) {
+				sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " ( a.create_user_id = ? ");
+				params.add(userId.trim());
+				sql.append("  or t.staff_code = ? )");
+				params.add(userId.trim());
+			}
 		}
-		if (projectBaseinfoId.trim().length() > 0) {
+		if (projectNameCase.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " a.PROJECT_BASEINFO_ID = ? ");
-			params.add(projectBaseinfoId.trim());
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
 		}
 		if (projectClassCode.trim().length() > 0) {
 			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
@@ -97,7 +90,80 @@ public class ProjectWorkTimeRecordDAO extends BaseDAOImpl<ProjectWorktimeRecord>
 		if (status.equals("0")){
 			sql.append(" and a.status is null ");
 		}
-		sql.append(" order by " + order);
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		int count = 0;
+		List<?> list = q.list();
+		if (list != null && list.size() > 0) {
+			count = Integer.valueOf(list.size()).intValue();
+		}
+		log.debug("getCount success!");
+		return count;
+	}
+
+	public List<?> getProjectWorktimeRecordData(String projectNameCase, String projectClassCode,
+			String staffName, String startTime, String endTime, int curCount,
+			int pageSize,  String userId,String order,String status,String noLimit) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "a.id," //0
+				+ "a.PROJECT_BASEINFO_ID," //1
+				+ "a.LONG_TIME,"//2
+				+ "a.STATUS,"//3
+				+ "a.CREATE_USER_ID,"//4
+				+ "a.CREATE_USER_NAME,"//5
+				+ "a.CREATE_DATE,"//6
+				+ "a.SEQ_NO,"//7
+				+ "a.TASK_CODE,"//8
+				+ "a.WORK_DATE,"//9
+				+ "a.LOCK_STATUS "//10
+				+ " from PM.PROJECT_WORKTIME_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.create_user_id = s.id ");
+		if(noLimit.equals("")){
+			  if (userId.trim().length() > 0) {
+					sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " ( a.create_user_id = ? ");
+					params.add(userId.trim());
+					sql.append("  or t.staff_code = ? )");
+					params.add(userId.trim());
+				}
+		}
+		if (projectNameCase.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_NAME like ? ");
+			params.add("%"+projectNameCase.trim()+"%".trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
+					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		if (status.equals("0")){
+			sql.append(" and a.status is null ");
+		}
+		//sql.append(" order by " + order);
+		sql.append(" order by a.status DESC,a.SEQ_NO DESC");
 
 		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
 		for (int i = 0; i < params.size(); i++) {
@@ -112,6 +178,109 @@ public class ProjectWorkTimeRecordDAO extends BaseDAOImpl<ProjectWorktimeRecord>
 		return l;
 	}
 	
+
+	@Override
+	public int getProjectWorkTimeUnlockCount(String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId, String status) {
+		// TODO Auto-generated method stub
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select "
+				+ "count(*) "
+				+ " from PM.PROJECT_WORKTIME_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.create_user_id = s.id where a.status='1'  ");
+		if (userId.trim().length() > 0) {
+			sql.append("  and  a.create_user_id = ? ");
+			params.add(userId.trim());
+		}
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" and a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" and t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" and s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" and to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" and to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+		
+			sql.append(" group by a.project_baseinfo_id,a.create_user_id,a.create_user_name ");
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		
+		int count = 0;
+		List<?> list = q.list();
+		if (list != null && list.size() > 0) {
+			count = Integer.valueOf(list.size()).intValue();
+		}
+		log.debug("getCount success!");
+		return count;
+	}
+
+	public List<?> getProjectWorktimeUnlockData(String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, int curCount,
+			int pageSize,  String userId,String order,String status) {
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select  "
+				+ "a.project_baseinfo_id,a.create_user_id,a.create_user_name "
+				+ " from PM.PROJECT_WORKTIME_RECORD a "
+			+"left join pm.project_baseinfo t "
+			+" on  a.project_baseinfo_id = t.id "
+			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
+			+" on a.create_user_id = s.id  where a.status='1'  ");
+		if (userId.trim().length() > 0) {
+			sql.append("  and  a.create_user_id = ? ");
+			params.add(userId.trim());
+		}
+		if (projectBaseinfoId.trim().length() > 0) {
+			sql.append(" and a.PROJECT_BASEINFO_ID = ? ");
+			params.add(projectBaseinfoId.trim());
+		}
+		if (projectClassCode.trim().length() > 0) {
+			sql.append(" and t.PROJECT_CLASS = ? ");
+			params.add(projectClassCode.trim());
+		}
+		if (staffName.trim().length() > 0) {
+			sql.append(" and s.name like  ? ");
+			params.add("%"+staffName.trim()+"%");
+		}
+		if (startTime.trim().length() > 0) {
+			sql.append(" and to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
+			params.add(startTime.trim());
+		}
+		if (endTime.trim().length() > 0) {
+			sql.append(" and to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
+			params.add(endTime.trim());
+		}
+			sql.append(" group by a.project_baseinfo_id,a.create_user_id,a.create_user_name ");
+
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
+		for (int i = 0; i < params.size(); i++) {
+			q.setParameter(i, params.get(i));
+		}
+		if (pageSize != 0 && curCount != -1) {
+			q.setFirstResult(curCount);
+			q.setMaxResults(pageSize);
+		}
+		List<?> l = q.list();
+		log.debug("getData success!");
+		return l;
+	}
 	@Override
 	public List<ProjectBaseinfo> findProjectList(ProjectWorkTimeRecordForm smForm, PageForm page) {
 		List<Object> params = new ArrayList<Object>();
@@ -149,7 +318,7 @@ public class ProjectWorkTimeRecordDAO extends BaseDAOImpl<ProjectWorktimeRecord>
 					"yyyy-MM-dd"));
 		}
 
-		builder.append(" order by t.createDate desc ");
+		builder.append(" order by t.seqNo desc ");
 		Query query = getSessionFactory().getCurrentSession().createQuery(
 				builder.toString());
 		if (page != null) {
@@ -206,62 +375,6 @@ public class ProjectWorkTimeRecordDAO extends BaseDAOImpl<ProjectWorktimeRecord>
 	}
 
 
-	@Override
-	public int getProjectWorktimeRecordCount(String projectBaseinfoId, String projectClassCode,
-			String staffName, String startTime, String endTime, String userId, String status) {
-		// TODO Auto-generated method stub
-		List<Object> params = new ArrayList<Object>();
-		StringBuffer sql = new StringBuffer("select a.* from PM.PROJECT_WORKTIME_RECORD a "
-			+"left join pm.project_baseinfo t "
-			+" on  a.project_baseinfo_id = t.id "
-			+"  left join  SECURITY.SECURITY_STAFF_BASEINFO s "
-			+" on a.create_user_id = s.id ");
-		if (userId.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params) + " a.create_user_id = ? ");
-			params.add(userId.trim());
-		}
-		if (projectBaseinfoId.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " a.PROJECT_BASEINFO_ID = ? ");
-			params.add(projectBaseinfoId.trim());
-		}
-		if (projectClassCode.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " t.PROJECT_CLASS = ? ");
-			params.add(projectClassCode.trim());
-		}
-		if (staffName.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " s.name like  ? ");
-			params.add("%"+staffName.trim()+"%");
-		}
-		if (startTime.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') >= ? ");
-			params.add(startTime.trim());
-		}
-		if (endTime.trim().length() > 0) {
-			sql.append(" " + HqlUtil.getWhereOrAndClause(params)
-					+ " to_char(a.WORK_DATE,'yyyy-MM-dd') <= ? ");
-			params.add(endTime.trim());
-		}
-		if (status.equals("0")){
-			sql.append(" and a.status is null ");
-		}
-
-		Query q = getSessionFactory().getCurrentSession().createSQLQuery(sql.toString());
-		for (int i = 0; i < params.size(); i++) {
-			q.setParameter(i, params.get(i));
-		}
-		
-		int count = 0;
-		List<?> list = q.list();
-		if (list != null && list.size() > 0) {
-			count = Integer.valueOf(list.size()).intValue();
-		}
-		log.debug("getCount success!");
-		return count;
-	}
 	
 	public String findNameByCode(String code){
 		String name="";

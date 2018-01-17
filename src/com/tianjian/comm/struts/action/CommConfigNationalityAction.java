@@ -123,7 +123,7 @@ public class CommConfigNationalityAction extends BaseAction {
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basecomm.PAGE_SIZE"));
-			int pageSize = 10;
+			int pageSize = 5;
 						if(request.getSession().getAttribute("page_282881f53463905801346390589c0000")!=null){
 							pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f53463905801346390589c0000"));
 						}else{

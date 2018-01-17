@@ -45,8 +45,8 @@ public class SecurityStaffPasswordInitServiceImpl implements ISecurityStaffPassw
 		this.init(form);
 	}
 
-	public int getStaffSelectCount(String staffId, String name, String inputCode, String itemCode,String staffHspId,String hspConfigId) {
-		return dao.getStaffsCount(staffId, name, inputCode, itemCode,staffHspId,hspConfigId);
+	public int getStaffSelectCount(String staffId, String name, String inputCode, String itemCode,String staffHspId,String hspConfigId, String tenantId) {
+		return dao.getStaffsCount(staffId, name, inputCode, itemCode,staffHspId,hspConfigId,tenantId);
 		
 	}
 
@@ -72,8 +72,8 @@ public class SecurityStaffPasswordInitServiceImpl implements ISecurityStaffPassw
 		} else {
 			order += " asc";
 		}
-		List<?> list = dao.getStaffs(form.getStaffId(), form.getName(), form.getInputCode(), form.getItemCode(), 
-				form.getStaffHspId(),form.getHspConfigId(), order, from, length);
+		List<?> list = dao.getStaffs(form.getStaffId2(), form.getName(), form.getInputCode(), form.getItemCode(), 
+				form.getStaffHspId(),form.getHspConfigId(),form.getTenantId(), order, from, length);
 		
 		if (list != null && list.size() > 0) {
 			String[] ids = new String[list.size()];
@@ -87,11 +87,11 @@ public class SecurityStaffPasswordInitServiceImpl implements ISecurityStaffPassw
 			for (int i = 0; i < list.size(); i++) {
 				ids[i] = this.transNullToString(((Object[]) list.get(i))[0]);
 				staffIds[i] = this.transNullToString(((Object[]) list.get(i))[1]);
-				itemNames[i] = this.transNullToString(((Object[]) list.get(i))[2]);
-				names[i] = this.transNullToString(((Object[]) list.get(i))[3]);
-				sexIds[i] = this.transNullToString(((Object[]) list.get(i))[4]);
-				Date date = (Date) ((Object[]) list.get(i))[5];
-				Date date1 = (Date) ((Object[]) list.get(i))[6];
+				itemNames[i] = "";
+				names[i] = this.transNullToString(((Object[]) list.get(i))[2]);
+				sexIds[i] = this.transNullToString(((Object[]) list.get(i))[3]);
+				Date date = (Date) ((Object[]) list.get(i))[4];
+				Date date1 = (Date) ((Object[]) list.get(i))[5];
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd mm:ss"); 
 				String dateString = "";
 				String dateString1 = "";

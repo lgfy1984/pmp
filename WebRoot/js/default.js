@@ -46,7 +46,6 @@ $(function(){
 	  input_select();
 	//设置text需要验证
 	    $('input[type=text]').validatebox();
-	    $('select').validatebox();
 	    $('textarea').validatebox();
 	  });
 
@@ -134,6 +133,51 @@ $.extend($.fn.validatebox.defaults.rules, {
     		  }
          },
          message: '年龄请输入正确的数字.'
+    },
+    date: {// 验证姓名，可以是中文或英文
+	                validator: function (value) {
+	                    //格式yyyy-MM-dd或yyyy-M-d
+	                    return /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29))$/i.test(value);
+	                },  
+	    message: '请输入合适的日期格式'
+    },
+    integer: {// 验证整数 可正负数
+    	                validator: function (value) {
+    	                    //return /^[+]?[1-9]+\d*$/i.test(value);
+    	                    return /^([+]?[0-9])|([-]?[0-9])+\d*$/i.test(value);
+    	                },
+    	                message: '请输入整数'
+    },
+    VerifyMoney: {
+        validator: function (value, param) {
+            var reg = /^(|[+-]?(0|([1-9]\d*)|((0|([1-9]\d*))?\.\d{1,2})){1,1})$/;
+            value = $.trim(value);
+            if (reg.test(value)) {
+                var maxVal = param[0]['maxVal'];
+                var minVal = param[0]['minVal'];
+                if (maxVal != null) {
+                    if (reg.test(maxVal)) {
+                        if (value > maxVal) {
+                            $.fn.validatebox.defaults.rules.VerifyMoney.message = "超出范围";
+                            return false;
+                        }
+                    }
+                }
+                if (minVal != null) {
+                    if (reg.test(minVal)) {
+                        if (value < minVal) {
+                            $.fn.validatebox.defaults.rules.VerifyMoney.message = "超出范围";
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else {
+                $.fn.validatebox.defaults.rules.VerifyMoney.message = param[1];
+                return false;
+            }
+        },
+        message: ''
     },
     eqPassword:{ 
     	 validator : function(value, param) { 
@@ -318,4 +362,31 @@ function attachmentType(fileUrl){
 	return type;
 }
 
-
+//处理键盘事件 禁止后退键（Backspace）密码或单行、多行文本框除外   
+function banBackSpace(e){   
+	var ev = e || window.event;//获取event对象   
+	var obj = ev.target || ev.srcElement;//获取事件源   
+	var t = obj.type || obj.getAttribute('type');//获取事件源类型   
+	//获取作为判断条件的事件类型   
+	var vReadOnly = obj.getAttribute('readonly');   
+	var vEnabled = obj.getAttribute('enabled');   
+	//处理null值情况   
+	vReadOnly = (vReadOnly == null) ? false : vReadOnly;   
+	vEnabled = (vEnabled == null) ? true : vEnabled;   
+	
+	//当敲Backspace键时，事件源类型为密码或单行、多行文本的，   
+	//并且readonly属性为true或enabled属性为false的，则退格键失效   
+	var flag1=(ev.keyCode == 8 && (t=="password" || t=="text" || t=="textarea")   
+	&& (vReadOnly==true || vEnabled!=true))?true:false;   
+	
+	//当敲Backspace键时，事件源类型非密码或单行、多行文本的，则退格键失效   
+	var flag2=(ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea")   
+	?true:false;   
+	//判断   
+	if(flag2){   
+	return false;   
+	}   
+	if(flag1){   
+	return false;   
+	}   
+}   

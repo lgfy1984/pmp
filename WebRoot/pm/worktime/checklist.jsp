@@ -16,7 +16,6 @@
   <link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
   <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
   <script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
-  <script type="text/javascript" src="${path}/js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"	src="${path}/style/easyui/locale/easyui-lang-zh_CN.js"></script>
   <script type="text/javascript" src="${path}/js/pager.js"></script>
@@ -25,7 +24,65 @@
   <script type="text/javascript" src="${path}/js/jscal2.js"></script>
   <script type="text/javascript" src="${path}/js/lang/cn.js"></script>
   <script type="text/javascript">
+  var array= new Array();
 	
+	$(document).ready(function(){
+		   $("#checkedAll").click(function(){
+			   if($(this).attr('checked')){
+			     $("input[name='ids']").each(function(){
+			       if(!$(this).attr('checked')){
+			         $("input[name='ids']").prop("checked", true);
+			       }
+			     });
+			    }else{
+			        $("input[name='ids']").removeAttr("checked"); 
+			    }
+		   });
+		  $("input[name='ids']").change(function(){
+		    if($("input[name='ids']").not("input:checked").size() <= 0){
+		        //如果其它的复选框全部被勾选了，那么全选勾中
+			       $("#checkedAll").prop("checked", true);
+		    }else{        
+			       $("#checkedAll").prop("checked", false);
+		    }
+		   });
+	 });
+	 
+	 
+   function checkall_button(){
+	$("input[name='ids']:checked").each(function(){
+		if (true == $(this).prop("checked")) {
+              array.push($(this).val());
+		}
+		});
+	if(array==""){
+		$.messager.alert('提示',"请选择记录。","info"); 
+		return;
+	}
+    document.form.status.value = "1"; 
+	document.form.verbId.value = "check"; 
+	document.form.message.value = ""; 
+	document.form.cur_page.value="1";
+	document.form.submit();
+   }
+   function paging(page){
+	$("#cur_page").val(page);
+	document.form.verbId.value = "checkList"; 
+	document.form.submit();
+}
+function check_button(){
+	var start = $('#startTimeHidden').val();
+	var end = $('#endTimeHidden').val();
+	if(start!=''&&end!=''&&end<start){
+		$.messager.alert('提示',"结束时间必须晚于开始时间。","info"); 
+		return;
+	}
+	document.form.verbId.value = "checkList"; 
+	document.form.message.value = ""; 
+	document.form.cur_page.value="1";
+	document.form.submit();
+}
+   document.onkeydown=banBackSpace;   
   </script>
 
  </head>
@@ -46,7 +103,11 @@
 			      	</c:forEach>
 			      </select>
 		  </div>
-		 <div class="crm_input_item" style="">
+		  <div class="crm_input_item" >
+		  	<span class="">项目名称</span>
+		  		 <input type="text" style="width: 112px;height:20px;" name="projectNameCase" id="projectNameCase" class="crm_input_text" value='${data.projectNameCase}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  </div>
+		 <%-- <div class="crm_input_item" style="">
 		  	<span class="">排序方式</span>
 		  	<select class="easyui-combobox" style="height:24px;width: 120px;" name="orderNo" id="orderNo" panelHeight="80px">
 		  		<option value="0" <c:if test="${data.orderNo eq '0'}">selected="selected"</c:if> >序号</option>
@@ -62,25 +123,28 @@
 		  </div>
 		   <div class="crm_input_item" >
 		      <input type="radio" name="sort" id="sort" value="0" <c:if test="${data.sort eq '0' || data.sort == null}">checked="checked"</c:if>>升序</input>
+		    </div> --%>
+		    <div class="crm_input_item" >
+		      <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="clearSelect();check_button();" />
 		    </div>
 		    <div class="crm_input_item" >
-		      <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="查询" onclick="clearSelect();query_button();" />
+		      <input type="button" class="button_blue1_s0" onmousedown="this.className='button_blue1_s1'" onmouseout="this.className='button_blue1_s0'" value="审核" onclick="checkall_button();" />
 		    </div>
 		    
 		 </div> 
 		 <div class="crm_input_item" >
-		  	<span class="">项目名称</span>
-		  		 <input type="text" style="width: 112px;height:20px;" name="staffName" id="staffName" class="crm_input_text" value='${data.staffName}'  panelHeight="168" style="width: 120px;height:24px;" />
+		  	<span class="">员工姓名</span>
+		  		 <input type="text" style="width: 112px;height:20px;" name="staffNameHidden" id="staffNameHidden" class="crm_input_text" value='${data.staffNameHidden}'  panelHeight="168" style="width: 120px;height:24px;" />
 		  </div>
 		 <div class="crm_input_item" >
 		  	<span class="">时间条件</span>
 		  			<span  class="calendarspan">
 		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="startTimeHidden" name="startTimeHidden" value="${data.startTimeHidden}" readonly/>
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="startTimeHidden" name="startTimeHidden" value="${data.startTimeHidden}" />
 		  			<img id="date_input1" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>-
 		  			<span  class="calendarspan">
 		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" readonly/>
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" />
 		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 		  </div>
 		  
@@ -91,6 +155,7 @@
 		  <table style="table-layout: fixed;" class='crm_table_content' >
 		  <thead>
 		  <tr>
+		  <td style="width:15%"><input type="checkbox" name="checkedAll" id="checkedAll"/>全选</td>
 		  <td style="width:15%">序号</td>
 		  <td style="width:25%;text-align: left;padding-left: 30px;">项目编号</td>
 		  <td style="width:10%">项目名称</td>
@@ -99,7 +164,6 @@
 		  <td style="width:10%">工作日期</td>
 		  <td style="width:10%">工时</td>
 		  <td style="width:10%">审核状态</td>
-		  <td colspan="3" style="width:220px">操作</td>
 		  
 		  </tr>
 		  </thead>
@@ -114,17 +178,21 @@
 							</td>
 						</tr>
 					</c:if>
-			  	 <c:forEach items='${data.pwv}' var="kd">
+			  	 <c:forEach items='${data.pwv}' var="kd" step="1" varStatus="status">
 				  <tr>
+					  <td>
+					  <c:if test='${kd.status!=1}'>
+					  <input type="checkbox" name="ids" id="ids${status.index}" value="${kd.id}"/>
+					  </c:if>
+					  </td>
 					  <td>${kd.seqNo}</td>
 					  <td  style="width:25%;text-align: left;padding-left: 30px;">${kd.projectCode}</td>
 					  <td>${kd.projectName}</td>
 					  <td>${kd.createUserName}</td>
-					  <td>${kd.taskCode}</td>
+					  <td>${kd.taskName}</td>
 					  <td>${kd.workDate}</td>
-					  <td>${kd.longTime}</td>
+					  <td>${kd.longTimeCode}</td>
 					  <td>${kd.statusName}</td> 
-					  <td style="cursor:pointer;"  onclick="checkcc('${kd.id}')"><input type="button" class="button_grey2_s0" onmousedown="this.className='button_grey2_s1'" onmouseout="this.className='button_grey2_s0'" value="审核"  /></td>
 				  </tr>
 				  </c:forEach>
 			  </tbody>

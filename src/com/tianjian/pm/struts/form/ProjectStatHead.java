@@ -23,6 +23,7 @@ public class ProjectStatHead {
 
 	private String year="";
 	private String month="";
+	private String day="";
 	public String getYear() {
 		return year;
 	}
@@ -34,6 +35,12 @@ public class ProjectStatHead {
 	}
 	public void setMonth(String month) {
 		this.month = month;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
 	}
 	
 	

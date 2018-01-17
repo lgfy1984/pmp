@@ -30,6 +30,9 @@ public class ProjectStatForm extends ActionForm {
 	private String startTimeHidden="";
 	private String endTimeHidden="";
 	private String curYear="";
+	private String curMonth="";
+	//返回标志
+	private String flag="";
 
 	private String projectCode="";
 	private String projectName="";
@@ -38,11 +41,13 @@ public class ProjectStatForm extends ActionForm {
 	private String createUserId="";
 	private String createUserName="";
 	private String projectTime="";
+	private String tenantId="";
 	private Map<String, String> map ;
 
 	List<ProjectStatVo> psv;
 	List<ProjectStatHead> head1;
 	List<ProjectStatHead> head2;
+	List<ProjectStatHead> head3;
 
 	public String getProjectBaseinfoIdCase() {
 		return projectBaseinfoIdCase;
@@ -191,6 +196,46 @@ public class ProjectStatForm extends ActionForm {
 
 	public void setMap(Map<String, String> map) {
 		this.map = map;
+	}
+
+
+	public String getFlag() {
+		return flag;
+	}
+
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
+
+	public String getCurMonth() {
+		return curMonth;
+	}
+
+
+	public void setCurMonth(String curMonth) {
+		this.curMonth = curMonth;
+	}
+
+
+	public List<ProjectStatHead> getHead3() {
+		return head3;
+	}
+
+
+	public void setHead3(List<ProjectStatHead> head3) {
+		this.head3 = head3;
 	}
 	
 }

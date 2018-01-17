@@ -116,7 +116,7 @@ public class CommConfigNormalAction extends BaseAction {
 			//int pageSize = CommInit.getPageSize("PAGE_SIZE");
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basecomm.PAGE_SIZE"));
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f5346390070134639007120000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f5346390070134639007120000"));
 			}else{

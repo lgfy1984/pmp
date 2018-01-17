@@ -56,59 +56,59 @@
   		}
   		}
   	else if(pagecount > 9)
-  	{
-  	if(pageindex <= 4)
-  	{
-  		for(var i = 1;i <= 4;i++)
-  		{
-  			if(i == pageindex)
-  			{
-  				page_str += "<input type='button' class='cur' value='"+i+"'>";
-  			}
-  			else
-  			{
-  				page_str += "<input type='button' onclick='paging("+i+")' value='"+i+"'>";
-  			}
-  		}
-   		var midd = parseInt(pagecount / 2);
- 		page_str += "<input type='button' onclick='paging("+parseInt((midd - 4) / 2+4)+")' value='...'>";
-  		page_str += "<input type='button' onclick='paging("+midd+")' value='"+midd+"'>";
-  		page_str += "<input type='button' onclick='paging("+parseInt((pagecount - midd) / 2+midd)+")' value='...'>";
-  		page_str += "<input type='button' onclick='paging("+(pagecount - 1)+")' value='"+(pagecount - 1)+"'>";
-  		page_str += "<input type='button' onclick='paging("+pagecount+")' value='"+pagecount+"'>";
-  	}
-  	else if(pageindex > pagecount - 4)
-  	{
-  		page_str += "<input type='button' onclick='paging(1)' value='1'>";
-  		page_str += "<input type='button' onclick='paging(2)' value='2'>";
-   		var midd = parseInt(pagecount / 2);
- 		page_str += "<input type='button' onclick='paging("+parseInt((midd - 4) / 2+4)+")' value='...'>";
-  		page_str += "<input type='button' onclick='paging("+midd+")' value='"+midd+"'>";
-  		page_str += "<input type='button' onclick='paging("+parseInt((pagecount - midd) / 2+midd)+")' value='...'>";
- 		for(var i = pagecount - 3;i <= pagecount;i++)
-  		{
-  			if(i == pageindex)
-  			{
-  				page_str += "<input type='button' class='cur' value='"+i+"'>";
-  			}
-  			else
-  			{
-  				page_str += "<input type='button' onclick='paging("+i+")' value='"+i+"'>";
-  			}
-  		}
-  	}
-  	else
-  	{
-  		page_str += "<input type='button' onclick='paging(1)' value='1'>";
-  		page_str += "<input type='button' onclick='paging(2)' value='2'>";
-  		page_str += "<input type='button' onclick='paging("+ parseInt((pageindex - 2) / 2+2)+")' value='...'>";
-  		page_str += "<input type='button' onclick='paging("+(pageindex - 1)+")' value='"+(pageindex - 1)+"'>";
-  		page_str += "<input type='button' class='cur' value='"+pageindex+"'>";
-  		page_str += "<input type='button' onclick='paging("+(pageindex + 1)+")' value='"+(pageindex + 1)+"'>";
-   		page_str += "<input type='button' onclick='paging("+parseInt(pageindex + (pagecount - pageindex) / 2)+")' value='...'>";
-  		page_str += "<input type='button' onclick='paging("+(pagecount - 1)+")' value='"+(pagecount - 1)+"'>";
-  		page_str += "<input type='button' onclick='paging("+pagecount+")' value='"+pagecount+"'>";
- 	}
+	 {
+	  	if(pageindex <= 4)
+	  	{
+	  		for(var i = 1;i <= 4;i++)
+	  		{
+	  			if(i == pageindex)
+	  			{
+	  				page_str += "<input type='button' class='cur' value='"+i+"'>";
+	  			}
+	  			else
+	  			{
+	  				page_str += "<input type='button' onclick='paging("+i+")' value='"+i+"'>";
+	  			}
+	  		}
+	   		var midd = parseInt(pagecount / 2);
+	 		page_str += "<input type='button' onclick='paging("+parseInt((midd - 4) / 2+4)+")' value='...'>";
+	  		page_str += "<input type='button' onclick='paging("+midd+")' value='"+midd+"'>";
+	  		page_str += "<input type='button' onclick='paging("+parseInt((pagecount - midd) / 2+midd)+")' value='...'>";
+	  		page_str += "<input type='button' onclick='paging("+(pagecount - 1)+")' value='"+(pagecount - 1)+"'>";
+	  		page_str += "<input type='button' onclick='paging("+pagecount+")' value='"+pagecount+"'>";
+	  	}
+	  	else if(pageindex > pagecount - 4)
+	  	{
+	  		page_str += "<input type='button' onclick='paging(1)' value='1'>";
+	  		page_str += "<input type='button' onclick='paging(2)' value='2'>";
+	   		var midd = parseInt(pagecount / 2);
+	 		page_str += "<input type='button' onclick='paging("+parseInt((midd - 4) / 2+4)+")' value='...'>";
+	  		page_str += "<input type='button' onclick='paging("+midd+")' value='"+midd+"'>";
+	  		page_str += "<input type='button' onclick='paging("+parseInt((pagecount - midd) / 2+midd)+")' value='...'>";
+	 		for(var i = pagecount - 3;i <= pagecount;i++)
+	  		{
+	  			if(i == pageindex)
+	  			{
+	  				page_str += "<input type='button' class='cur' value='"+i+"'>";
+	  			}
+	  			else
+	  			{
+	  				page_str += "<input type='button' onclick='paging("+i+")' value='"+i+"'>";
+	  			}
+	  		}
+	  	}
+	  	else
+	  	{
+	  		page_str += "<input type='button' onclick='paging(1)' value='1'>";
+	  		page_str += "<input type='button' onclick='paging(2)' value='2'>";
+	  		page_str += "<input type='button' onclick='paging("+ parseInt((pageindex - 2) / 2+2)+")' value='...'>";
+	  		page_str += "<input type='button' onclick='paging("+(pageindex - 1)+")' value='"+(pageindex - 1)+"'>";
+	  		page_str += "<input type='button' class='cur' value='"+pageindex+"'>";
+	  		page_str += "<input type='button' onclick='paging("+(pageindex + 1)+")' value='"+(pageindex + 1)+"'>";
+	   		page_str += "<input type='button' onclick='paging("+parseInt(pageindex + (pagecount - pageindex) / 2)+")' value='...'>";
+	  		page_str += "<input type='button' onclick='paging("+(pagecount - 1)+")' value='"+(pagecount - 1)+"'>";
+	  		page_str += "<input type='button' onclick='paging("+pagecount+")' value='"+pagecount+"'>";
+	 	}
   	}
   	if(pageindex != 1)
   	{
@@ -136,7 +136,7 @@
   	page_str += "</div>";
   	
   	$(".pager_num").html(page_str);
-  	$(".pager_text").html("共"+pagecount+"页,"+count+"条数据");
+  	//$(".pager_text").html("共"+pagecount+"页,"+count+"条数据");
   	 $("#toPageIndex").val(pageindex);
   	 $("input[name='toPageIndex']").each(function(){
   		 this.value = pageindex;

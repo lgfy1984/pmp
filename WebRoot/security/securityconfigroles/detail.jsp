@@ -103,11 +103,7 @@
   </div>
   <div class="horizontal_line_2"></div>
  	<div class='crm_button_sub'  id="btnSave" align="center">       
- 	 <div  class=" download_button_s1 left" onclick="QWPrint();" id="downprintarea" style="margin-left: 130px;">
-					<img alt="" src="${path }/style/img/print.png" style="margin-top: 5px;margin-left: 10px;">
-					<span style="position: fixed;color: #fff;">打印</span>
-					</div>
-        <input type="button" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" name="btnBack" value="返回" onClick="history.go(-1);" />
+ 	        <input type="button" class="button_grey1_s0" onmouseout="this.className='button_grey1_s0'" onmousedown="this.className='button_grey1_s1'" name="btnBack" value="返回" onClick="history.go(-1);" />
     </div>
 </form>
 </body>

@@ -25,6 +25,16 @@ import com.tianjian.pm.bean.ProjectFinanceRecord;
 public interface IProjectFinanceRecordDAO {
 
 	/**
+	    *TODO
+	    * @Title: saveOrUpdate
+	    * @param obj
+	    * @return
+	    * @return Object
+	    * @throws
+	    * @author LengJiong
+	    */
+	    public Object saveOrUpdate(Object obj);
+	/**
 	*TODO 保存ProjectFinanceRecord
 	* @Title: save
 	* @param data
@@ -83,8 +93,8 @@ public interface IProjectFinanceRecordDAO {
     * @throws
     * @author LengJiong
     */
-    public int getProjectFinanceRecordCount(String projectClass, String classId,
-			String onlineTime, String startTime, String endTime, String userId);
+    public int getProjectFinanceRecordCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect);
   
     
     
@@ -105,9 +115,9 @@ public interface IProjectFinanceRecordDAO {
     * @throws
     * @author LengJiong
     */
-    public List<?> getProjectFinanceRecordData(String projectClass, String classId,
+    public List<?> getProjectFinanceRecordData(String projectNameCase,String projectClass, String classId,
 			String onlineTime, String startTime, String endTime, int curCount,
-			int pageSize,  String userId,String order);
+			int pageSize,  String userId,String timeCase,String timeSelect,String order);
    
     /**
     *TODO
@@ -118,4 +128,17 @@ public interface IProjectFinanceRecordDAO {
     * @author LengJiong
     */
     public List<?> getTaskClassDict(String projectClassCode) ;
+
+    public List<?> getProjectFwSelectData(String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect,String order);
+    public List<?> getProjectFwData(String projectBaseinfoId, String projectClassCode,
+			String staffName,String staffCode, String startTime, String endTime, String userId,String order);
+    public List<?> getProjectFwWeekData(String staffCode,String startTime, String endTime);
+    public List<?> getProjectFwDayData(String  timeCase,String timeSelect,String staffCode);
+
+    public int getQsCount(String projectNameCase,String projectBaseinfoId, String projectClassCode,
+			String staffName, String startTime, String endTime, String userId,String timeCase,String timeSelect);
+    public List<?> getQsData(String projectNameCase,String projectClass, String classId,
+			String onlineTime, String startTime, String endTime, int curCount,
+			int pageSize,  String userId,String timeCase,String timeSelect,String order);
 }

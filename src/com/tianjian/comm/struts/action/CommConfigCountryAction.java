@@ -119,7 +119,7 @@ public class CommConfigCountryAction extends BaseAction {
 			String pageString = request.getParameter("page");
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
 			
-			int pageSize = 10;;
+			int pageSize = 5;;
 			//如果session中有pagesize，则使用session的。否则使用参数表的。
 			if(request.getSession().getAttribute("page_28288104346043470134604347c60000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_28288104346043470134604347c60000"));

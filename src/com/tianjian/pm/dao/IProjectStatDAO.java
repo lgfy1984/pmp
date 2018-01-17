@@ -77,6 +77,19 @@ public interface IProjectStatDAO{
 	*/
 	public List<?> getGroupData(String projectBaseinfoId, String creatUserId);
 	/**
+	*TODO
+	* @Title: getGroupData
+	* @param projectBaseinfoId
+	* @param creatUserId
+	* @return
+	* @return List<?>
+	* @throws
+	* @author LengJiong
+	*/
+	public List<?> getMonthData(String taskCode,String projectBaseinfoId, String creatUserId);
+	
+	public List<?> getYearData(String taskCode,String projectBaseinfoId, String creatUserId);
+	/**
 	*TODO财务统计
 	* @Title: getGroupFrpData
 	* @param projectBaseinfoId

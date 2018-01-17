@@ -31,20 +31,17 @@
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="0" />
 
-<link type="text/css" rev="stylesheet" rel="stylesheet"
-	href="include/css/form.css" />
+
+<script type="text/javascript"	src="include/javascript/jquery-1.4.4.min.js"></script>
+<script type="text/javascript"	src="include/javascript/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript"	src="include/javascript/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript"	src="style/easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style/easyui/themes/default/easyui.css"/>
+ <link rel="stylesheet" type="text/css" href="style/easyuiUpdate.css">
+<link type="text/css" rev="stylesheet" rel="stylesheet"	href="include/css/form.css" />
 <link rel="stylesheet" href="include/css/demo.css" type="text/css">
-<link rel="stylesheet" href="include/css/zTreeStyle/zTreeStyle.css"
-	type="text/css">
-<script type="text/javascript"
-	src="include/javascript/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript"	src="${path }/style/easyui/jquery.easyui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
-  <link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
-<script type="text/javascript"
-	src="include/javascript/jquery.ztree.core-3.5.js"></script>
-<script type="text/javascript"
-	src="include/javascript/jquery.ztree.excheck-3.5.js"></script>
+<link rel="stylesheet" href="include/css/zTreeStyle/zTreeStyle.css"	type="text/css">
+
 <script language="javascript"
 	src="<bean:message key="include.js.treeView.MzTreeView10_addradio_rmdaohang.path" bundle="security"/>"></script>
 <script language="javascript"
@@ -183,7 +180,6 @@
 				$.messager.alert('提示','<bean:message key="security.jsp.role.commom.warn" bundle="security"/>');
 				return;
 			}
-			
 			$.messager.confirm('确认', '确定要保存吗？', function(r){
     			if (r){
 					var selectedMenuNodes = menuTree.getCheckedNodes(true);

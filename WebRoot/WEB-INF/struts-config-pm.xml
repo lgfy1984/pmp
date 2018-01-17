@@ -5,8 +5,11 @@
   <form-beans>
 		<form-bean name="ProjectBaseInfoForm" type="com.tianjian.pm.struts.form.ProjectBaseInfoForm" />
 		<form-bean name="ProjectFinanceRecordForm" type="com.tianjian.pm.struts.form.ProjectFinanceRecordForm" />
+		<form-bean name="ProjectFinanceCostForm" type="com.tianjian.pm.struts.form.ProjectFinanceCostForm" />
 		<form-bean name="ProjectWorkTimeRecordForm" type="com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm" />
 		<form-bean name="ProjectStatForm" type="com.tianjian.pm.struts.form.ProjectStatForm" />
+		<form-bean name="ProjectClassForm" type="com.tianjian.pm.struts.form.ProjectClassForm" />
+		<form-bean name="ProjectTaskForm" type="com.tianjian.pm.struts.form.ProjectTaskForm" />
   </form-beans>
   <global-exceptions />
   <global-forwards />
@@ -16,14 +19,16 @@
 			<forward name="query" path="/pm/pm/list.jsp" />
 			<forward name="update" path="/pm/pm/update.jsp" />
 			<forward name="detail" path="/pm/pm/detail.jsp" />
+			<forward name="statlist" path="/pm/stat/statprlist.jsp" />
 		</action>
 	  <action path="/pm/projectfinancew" name="ProjectFinanceRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
 			<forward name="add" path="/pm/chargework/add.jsp" />
 			<forward name="query" path="/pm/chargework/list.jsp" />
+			<forward name="queryqs" path="/pm/chargework/listqs.jsp" />
 			<forward name="update" path="/pm/chargework/update.jsp" />
 			<forward name="detail" path="/pm/chargework/detail.jsp" />
 		</action>
-	  <action path="/pm/projectfinance" name="ProjectFinanceRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+	  <action path="/pm/projectcost" name="ProjectFinanceCostForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
 			<forward name="add" path="/pm/charge/add.jsp" />
 			<forward name="query" path="/pm/charge/list.jsp" />
 			<forward name="update" path="/pm/charge/update.jsp" />
@@ -32,7 +37,9 @@
 	  <action path="/pm/projectwork" name="ProjectWorkTimeRecordForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
 			<forward name="add" path="/pm/worktime/add.jsp" />
 			<forward name="query" path="/pm/worktime/list.jsp" />
+			<forward name="listnocheck" path="/pm/worktime/listnocheck.jsp" />
 			<forward name="check" path="/pm/worktime/checklist.jsp" />
+			<forward name="lock" path="/pm/worktime/lock.jsp" />
 			<forward name="update" path="/pm/worktime/update.jsp" />
 			<forward name="detail" path="/pm/worktime/detail.jsp" />
 		</action>
@@ -40,6 +47,18 @@
 			<forward name="statpr" path="/pm/stat/statpr.jsp" />
 			<forward name="statep" path="/pm/stat/statep.jsp" />
 			<forward name="statfrp" path="/pm/stat/statfrp.jsp" />
+		</action>
+	  <action path="/pm/projectclass" name="ProjectClassForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/dict/projectclass/add.jsp" />
+			<forward name="query" path="/pm/dict/projectclass/list.jsp" />
+			<forward name="update" path="/pm/dict/projectclass/update.jsp" />
+			<forward name="detail" path="/pm/dict/projectclass/detail.jsp" />
+		</action>
+	  <action path="/pm/projecttask" name="ProjectTaskForm" scope="request" type="org.springframework.web.struts.DelegatingActionProxy" parameter="verbId">
+			<forward name="add" path="/pm/dict/projecttask/add.jsp" />
+			<forward name="query" path="/pm/dict/projecttask/list.jsp" />
+			<forward name="update" path="/pm/dict/projecttask/update.jsp" />
+			<forward name="detail" path="/pm/dict/projecttask/detail.jsp" />
 		</action>
 		
   </action-mappings>

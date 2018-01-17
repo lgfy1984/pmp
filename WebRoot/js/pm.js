@@ -41,21 +41,72 @@ function changeRadio2(){
 
 /**添加保存 */
 var saved = true;
-function saveForm(flog){
+function saveForm(path,flag){
+	
+	var projectCode = $('#projectCode').val();
+	var idHidden = $('#idHidden').val();
+	
 	if(!$("#form").form('validate')){
 		return false;
 	}
-	$.messager.defaults = { ok: "是", cancel: "否" };
-	$.messager.confirm("操作提示", "确认保存记录内容吗？", function (data) {
-		
-       if (data) {
-	   			document.form.verbId.value = "add";  
-	   		    document.form.submit(); 
-       }
-       else {
-           return;
-       }
-   });
+	if($('#projectCode').val()==""){
+		$.messager.alert('提示',"请输入项目代码","info"); 
+		$('#projectCode').focus();
+		return;
+	}
+
+	if($('#projectName').val()==""){
+		$.messager.alert('提示',"请输入项目名称","info"); 
+		$('#projectName').focus();
+		return;
+	}
+	if(idHidden==""){
+		$.ajax({
+			type : "post",
+			url : path+'/pm/projectbaseinfo.do?verbId=checkProjectCode',
+			data : {
+				projectCode:projectCode
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data.result!=""){
+					$.messager.alert('提示',"项目编号重复，请检查！","info"); 
+					return false;
+				}else{
+					$.messager.defaults = { ok: "是", cancel: "否" };
+					$.messager.confirm("操作提示", "确认保存记录内容吗？", function (data) {
+						
+				       if (data) {
+				    	        document.form.idHidden.value=idHidden;
+					   			document.form.verbId.value = "add";  
+					   		    document.form.submit(); 
+				       }
+				       else {
+				           return;
+				       }
+				   });
+				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+	             alert(XMLHttpRequest.status);
+	             alert(XMLHttpRequest.readyState);
+	             alert(textStatus);
+	     }
+		});
+	}else{
+		$.messager.defaults = { ok: "是", cancel: "否" };
+		$.messager.confirm("操作提示", "确认保存记录内容吗？", function (data) {
+			
+	       if (data) {
+	    	        	document.form.idHidden.value=idHidden;
+		   			document.form.verbId.value = "add";  
+		   		    document.form.submit(); 
+	       }
+	       else {
+	           return;
+	       }
+	   });
+	}
 }
 
 /**修改 */
@@ -64,7 +115,15 @@ function update_Form(){
 	if(!$("#form").form('validate')){
 		return false;
 	}
-	
+	if($('#projectCode').val()==""){
+		$.messager.alert('提示',"请输入项目代码","info"); 
+		return;
+	}
+
+	if($('#projectName').val()==""){
+		$.messager.alert('提示',"请输入项目名称","info"); 
+		return;
+	}
 	$.messager.defaults = { ok: "是", cancel: "否" };
 	$.messager.confirm("操作提示", "确认修改记录内容吗？", function (data) {
 		
@@ -136,7 +195,9 @@ function showHspMessage(message){
 }
 /**详细*/
 function showDetail(idHidden){
-	document.form.verbId.value = "detail"; 
+
+	document.form.flag.value ="1";
+	document.form.verbId.value = "queryProjectBaseinfo"; 
 	document.form.idHidden.value = idHidden; 
 	document.form.submit();
 }

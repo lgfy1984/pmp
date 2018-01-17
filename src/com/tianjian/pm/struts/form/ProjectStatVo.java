@@ -32,21 +32,26 @@ public class ProjectStatVo {
 	private String projectClassName="" ;
 	private String projectTaskCode="" ;
 	private String projectTaskName="" ;
+	private String chargeTypeName="" ;
 	private String curYear="";
 	private String actLongTime="";
 	private String actCosts="";
 	private String projectCosts="";
 	private String projectValue="";
 	private String totalCount="";
-
+	private String sumCurMonth="";
 	private String totalLongTime="";
 	private String totalcosts="";
 	private String totalProjectCosts="";
 	private String totalProjectValue="";
+	private String totalAllCount="";
+	private String totalFlag="";
+	
 	private String status="";
 	private String createDate="";
 	private String createUserId="";
 	private Map<String, String> map ;
+	private Map<String, String> totalmap ;
 	public String getSeqNo() {
 		return seqNo;
 	}
@@ -172,6 +177,36 @@ public class ProjectStatVo {
 	}
 	public void setTotalProjectValue(String totalProjectValue) {
 		this.totalProjectValue = totalProjectValue;
+	}
+	public String getChargeTypeName() {
+		return chargeTypeName;
+	}
+	public void setChargeTypeName(String chargeTypeName) {
+		this.chargeTypeName = chargeTypeName;
+	}
+	public String getTotalAllCount() {
+		return totalAllCount;
+	}
+	public void setTotalAllCount(String totalAllCount) {
+		this.totalAllCount = totalAllCount;
+	}
+	public String getTotalFlag() {
+		return totalFlag;
+	}
+	public void setTotalFlag(String totalFlag) {
+		this.totalFlag = totalFlag;
+	}
+	public Map<String, String> getTotalmap() {
+		return totalmap;
+	}
+	public void setTotalmap(Map<String, String> totalmap) {
+		this.totalmap = totalmap;
+	}
+	public String getSumCurMonth() {
+		return sumCurMonth;
+	}
+	public void setSumCurMonth(String sumCurMonth) {
+		this.sumCurMonth = sumCurMonth;
 	}
 	
 }

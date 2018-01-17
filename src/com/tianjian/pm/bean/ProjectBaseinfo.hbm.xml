@@ -46,5 +46,17 @@
         <property name="createUserName" type="java.lang.String">
             <column name="CREATE_USER_NAME" length="40" />
         </property>
+        <property name="requireTime" type="java.sql.Timestamp">
+            <column name="REQUIRE_TIME" length="7" />
+        </property>
+        <property name="designTime" type="java.sql.Timestamp">
+            <column name="DESIGN_TIME" length="7" />
+        </property>
+        <property name="codeTime" type="java.sql.Timestamp">
+            <column name="CODE_TIME" length="7" />
+        </property>
+        <property name="testTime" type="java.sql.Timestamp">
+            <column name="TEST_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

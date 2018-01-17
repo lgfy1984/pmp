@@ -153,7 +153,7 @@
 		}
 		.right_black {
 			width: 225px;
-			height: 500px;
+			height: 700px;
 			font-size: 10pt;;
 			background-color: #FFFFFF;
 			margin-left:14px;
@@ -642,6 +642,7 @@
 							}
 						}		
 					);
+			
 			}
 		);
 		
@@ -1528,8 +1529,8 @@ function changeRadio2(){
 
 				</div>
 			</div>
-<div class='displayDiv'>
-		<div
+		     <div class='displayDiv'>
+				<div
 					style="margin: 0 auto; margin-left: 10px; margin-right: 10px; border: 1px rgb(210, 210, 210) solid; background-color: #FFFFFF">
 					<div class="multi_pages">
 						<ul class="tabs">

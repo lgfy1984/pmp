@@ -10,7 +10,7 @@ public class PageBean {
 	
 	private int count = 0; // 记录总数
 
-	private int pageSize = 10; // 每页显示记录�?
+	private int pageSize = 5; // 每页显示记录�?
 
 	private int pageCount = 0; // 总页�?
 

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ISecurityUserVsRolesDAO {
     
-	public List<?> getUsers(String userId, String userName, String hspConfigBaseinfoId, String userInput,String staffType,String hspConfigId,int count, int pageSize);
+	public List<?> getUsers(String userId, String userName, String hspConfigBaseinfoId, String userInput,String staffType,String hspConfigId, String tenantId,int count, int pageSize);
 	
-	public int count(String userId, String userName, String hspConfigBaseinfoId, String userInput,String staffType,String hspConfigId);
+	public int count(String userId, String userName, String hspConfigBaseinfoId, String userInput,String staffType,String hspConfigId, String tenantId);
     
 	public List<?> getRoles(String staffType);
     

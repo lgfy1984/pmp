@@ -50,8 +50,8 @@ function findProjectList(page){// open a window
 	$win = $('#win').window({
 	    title: '选择项目',
 	    width: 820,
-	    height: 450,
-	    top: ($(window).height()-700) * 0.5,
+	    height: 350,
+	    top: ($(window).height()-500) * 0.5,
 	    left: ($(window).width()-800) * 0.5,
 	    shadow: true,
 	    modal: true,
@@ -64,11 +64,11 @@ function findProjectList(page){// open a window
 	$('#win').window('open'); 
 	
 	var projectCodeCase=$('#projectCodeCase').val();
-	var projectNameCase=$('#projectNameCase').val();
+	var projectNameCase=$('#projectNameCase2').val();
 	var timeCase=$('#timeCase').val();
 	var pageIndex = page;
 	var path = '${path}/pm/projectwork.do?verbId=findProjectList&pageIndex='
-			+ pageIndex + '&projectCodeCase=' + projectCodeCase+ '&projectNameCase=' + projectNameCase+ '&timeCase=' + timeCase;
+			+ pageIndex + '&projectCodeCase=' + projectCodeCase+ '&projectNameCase2=' + projectNameCase+ '&timeCase=' + timeCase;
 	$.ajax({
 		type : "post",
 		url : '${path}/pm/projectwork.do?verbId=findProjectPage',
@@ -89,7 +89,7 @@ function findProjectList(page){// open a window
 		striped : true,
 		remoteSort : false,
 		fitColumns:true,
-		height:300,
+		height:200,
 		columns : [ [ {
 			idField : 'id',
 			hidden : true
@@ -104,7 +104,7 @@ function findProjectList(page){// open a window
 			align : 'center',
 			width : $(this).width()*0.1
 		}, {
-			field : 'projectClass',
+			field : 'projectClassName',
 			title : '项目类别',
 			align : 'center',
 			width : $(this).width()*0.1
@@ -135,7 +135,7 @@ function findProjectList(page){// open a window
 	        $('#projectCode').val(rowData.projectCode);
 	        $('#projectName').val(rowData.projectName);
 	        $('#projectClassName').val(rowData.projectClassName);
-	        $('#projectTime').val(rowData.startTime+"-"+rowData.endTime);
+	        $('#projectTime').val(rowData.startTime+" 至 "+rowData.endTime);
 	        $('#win').window('close'); 
 	    },
 		onLoadSuccess : function(data) {
@@ -204,6 +204,25 @@ function clearSelect() {
 	selectNodeData = new Array();
 }  		
 </script>
+<style> 
+.crm_table_content thead tr{
+	font-weight: bolder;
+	border: 1px solid;
+}
+.crm_table_content thead td{
+	font-weight: bolder;
+	border: 1px solid;
+}
+.crm_table_content tbody td{
+	height:38px;
+	color:#666666;
+	padding:0;
+	text-align:center;
+	border: 1px solid;
+
+/* 	text-align:left; */
+}
+</style> 
 </head>
 
 <body>
@@ -227,7 +246,7 @@ function clearSelect() {
 		</div>
 	
 		<div  class="crm_input_item" style="">
-			<span class="">实施类别：</span>
+			<span class="">项目类别：</span>
 			<input type="text" name="projectClassName" id="projectClassName" class="stat_text"   value='${data.projectClassName}' />
 		</div>
 		
@@ -256,11 +275,11 @@ function clearSelect() {
 		  	<span class="">时间条件</span>
 		  			<span  class="calendarspan">
 		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="startTimeHidden" name="startTimeHidden" value="${data.startTimeHidden}" readonly/>
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="startTimeHidden" name="startTimeHidden" value="${data.startTimeHidden}"/>
 		  			<img id="date_input1" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>-
 		  			<span  class="calendarspan">
 		  			<input type="text" class="crm_search_input_text crm_width_3" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" readonly/>
+								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" id="endTimeHidden" name="endTimeHidden" value="${data.endTimeHidden}" />
 		  			<img id="date_input2" src="${path}/style/img/calendar_button.gif" class="calendarimg"/></span>
 		  </div>
 	  </div>
@@ -271,50 +290,60 @@ function clearSelect() {
 		<div class="horizontal_line_2"></div>
 		<div class='crm_table_out'>
 			<table class='crm_table_content' style="table-layout: fixed;">
+			 <c:if test='${fn:length(data.psv) == 0 }'>
+						<tr>
+							<td colspan="10">
+								<div>
+									<img alt="" src="${path }/style/img/nodate.png">
+									<p>主人，没有找到相关数据哦！</p>
+								</div>
+							</td>
+						</tr>
+				</c:if>
 				<thead>
 					<tr>
 						<td style="width: 10%;">序号</td>
 						<td style="width: 8%;">项目编号</td>
 						<td style="width: 8%;">项目名称</td>
-						<td style="width: 8%;">员工姓名</td>
+						<td style="width: 8%;" >员工姓名</td>
+						<td>类别</td>
 						<td>项目阶段</td>
 						<td>实际工时(小时)</td>
-						<td>人工成本(小时)</td>
-						<td>实施费用</td>
-						<td>实施成本</td>
+						<td>人工成本(元)</td>
+						<td>实施费用(元)</td>
+						<td>实施成本(元)</td>
 						 
 					<tr>
 				</thead>
 				<tbody >
 					 <c:forEach items='${data.psv}' var="kd">
 					    <tr>
-						   <c:choose>
-			                   <c:when test="${kd.totalCount eq 1 }">  
-			                             <td colspan="6"  style="padding-left:20px;text-align: left;">${kd.projectTaskName}</td>
-							   </c:when>
-							   <c:otherwise> 
-								   <td>${kd.seqNo}</td>
-								   <td>${kd.projectCode}</td>
-								   <td>${kd.projectName}</td>
-								   <td>${kd.createUserName}</td>
-		                           <td>${kd.projectTaskName}</td>
-		                           <c:choose>
-				                   <c:when test="${kd.totalCount eq 2 }">  
-				                             <td>${kd.totalLongTime}</td>
-				                             <td>${kd.totalcosts}</td>
-				                             <td>${kd.totalProjectCosts}</td>
-				                             <td>${kd.totalProjectValue}</td>
-								   </c:when>
-								   <c:otherwise> 
-			                           <td>${kd.actLongTime}</td>
-			                           <td>${kd.actCosts}</td>
-			                           <td>${kd.projectCosts}</td>
-			                           <td>${kd.projectValue}</td>
-					 			   </c:otherwise>
-			                     </c:choose>      
-				 			   </c:otherwise>
-			                  </c:choose> 
-					            
+						           <c:if test="${empty kd.seqNo}"> 
+		                              <td colspan="10" style="text-align: left;padding-left: 10px;">${kd.projectTaskName}</td>
+		                           </c:if>
+		                           <c:if test="${not empty kd.seqNo}"> 
+									   <td>${kd.seqNo}</td>
+									   <td>${kd.projectCode}</td>
+									   <td>${kd.projectName}</td>
+									   <td>${kd.createUserName}</td>
+			                           <td>${kd.chargeTypeName}</td>
+			                           <td>${kd.projectTaskName}</td>  
+			                              
+			                           <c:choose>
+					                   <c:when test="${kd.totalFlag eq 2 }">  
+					                             <td>${kd.totalLongTime}</td>
+					                             <td>${kd.totalcosts}</td>
+					                             <td>${kd.totalProjectValue}</td>
+					                             <td>${kd.totalProjectCosts}</td>
+									   </c:when>
+									   <c:otherwise> 
+				                           <td>${kd.actLongTime}</td>
+				                           <td>${kd.actCosts}</td>
+				                           <td>${kd.projectValue}</td>
+				                           <td>${kd.projectCosts}</td>
+						 			   </c:otherwise>
+				                     </c:choose> 
+			                      </c:if>     
 					    </tr>
 				  </c:forEach>
 
@@ -335,14 +364,7 @@ function clearSelect() {
 					</div>
 					<div class="crm_input_item">
 						<span>项目名称：</span>
-						<input id="projectNameCase" type="text" class="crm_input_text crm_width_3"
-							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-							value=""style="width:80px;height:22px;line-height: 22px;">
-					</div>
-					<div class="crm_input_item">
-						<span>验收时间：</span>
-						<input id="timeCase" type="text" class="crm_input_text crm_width_3"
+						<input id="projectNameCase2" type="text" class="crm_input_text crm_width_3"
 							onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 							onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
 							value=""style="width:80px;height:22px;line-height: 22px;">
@@ -353,14 +375,8 @@ function clearSelect() {
 							onmouseout="this.className='button_blue1_s0'"
 							onclick="findProjectList('1')" />
 					</div>
-					<div class="crm_input_item">
-						<input type="button" value="确定" class="button_green1_s0" 
-							onmousedown="this.className='button_green1_s1'"
-							onmouseout="this.className='button_green1_s0'"
-							onclick="selectPhoneUser()" />
-					</div>
 					<div style="clear: both"></div>
-					<div style="height: 10px; widows: 100%"></div>
+					<div style="height: 2px; widows: 100%"></div>
 					
 				<table id="dg"></table>
 				<tfoot>

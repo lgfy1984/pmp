@@ -26,6 +26,30 @@ import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
  * 
  */
 public interface IProjectWorkTimeRecordService  {
+	
+	
+	/**
+	*TODO
+	* @Title: checkTime
+	* @param form
+	* @return void
+	* @throws
+	* @author LengJiong
+	*/
+	public String checkTime(ProjectWorkTimeRecordForm form);
+	
+
+	public String checkLock(ProjectWorkTimeRecordForm form);
+	
+	/**
+	*TODO
+	* @Title: saveExcelData
+	* @param form
+	* @return void
+	* @throws
+	* @author LengJiong
+	*/
+	public void saveExcelData(ProjectWorkTimeRecordForm form);
 	/**
 	 * 初始化form
 	*
@@ -56,6 +80,16 @@ public interface IProjectWorkTimeRecordService  {
 	* @author lengj
 	 */
 	public void update(ProjectWorkTimeRecordForm form);
+	/**
+	 * 锁定
+	*
+	* @Title: update
+	* @param form
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void lock(ProjectWorkTimeRecordForm form);
 	/**
 	 * 审核
 	*
@@ -105,7 +139,35 @@ public interface IProjectWorkTimeRecordService  {
 	* @author lengj
 	 */
 	public int getProjectWorkTimeRecordCount(String projectClass, String classId,
+			String onlineTime, String startTime, String endTime, String userId,String statusCase,String noLimit);
+	/**
+	 * 信息列表
+	*
+	* @Title: getProjectBaseInfoSearch
+	* @param hosform
+	* @param curCount
+	* @param pageSize
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void getProjectWorkTimeRecordSearch(ProjectWorkTimeRecordForm hosform, int curCount,int pageSize);
+	
+	
+	public int getProjectWorkTimeUnlockCount(String projectClass, String classId,
 			String onlineTime, String startTime, String endTime, String userId,String statusCase);
+	/**
+	 * 信息列表
+	*
+	* @Title: getProjectBaseInfoSearch
+	* @param hosform
+	* @param curCount
+	* @param pageSize
+	* @return void
+	* @throws
+	* @author lengj
+	 */
+	public void getProjectWorkTimeUnlockSearch(ProjectWorkTimeRecordForm hosform, int curCount,int pageSize);
 	/**
 	 * 修改初始化
 	*
@@ -138,18 +200,7 @@ public interface IProjectWorkTimeRecordService  {
 	* @author lengj
 	 */
 	public void getSearch(ProjectWorkTimeRecordForm hosform, int curCount, int pageSize);
-	/**
-	 * 咨询信息列表
-	*
-	* @Title: getProjectBaseInfoSearch
-	* @param hosform
-	* @param curCount
-	* @param pageSize
-	* @return void
-	* @throws
-	* @author lengj
-	 */
-	public void getProjectWorkTimeRecordSearch(ProjectWorkTimeRecordForm hosform, int curCount,int pageSize);
+	
 	
 	public List<ProjectBaseInfoVo> findProjectList(ProjectWorkTimeRecordForm smForm, PageForm page);
 

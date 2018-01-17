@@ -38,8 +38,12 @@
 			<input type="hidden" name="verbId" value="queryProjectBaseinfo" />
 			<input type="hidden" name="message" id="messageId" value="" />
   	  <input type="hidden" name="projectClassCodeHidden" id="projectClassCodeHidden" value="${data.projectClassCodeHidden}"/>
-  	  <input type="hidden" name="startTimeHidden" id="startTimeHidden" value="${data.startTimeHidden}"/>
-  	  <input type="hidden" name="endTimeHidden" id="endTimeHidden" value="${data.endTimeHidden}"/>
+  	  <input type="hidden" name="onlineStartTimeHidden" id="onlineStartTimeHidden" value="${data.onlineStartTimeHidden}"/>
+  	  <input type="hidden" name="onlineEndTimeHidden" id="onlineEndTimeHidden" value="${data.onlineEndTimeHidden}"/>
+  	  <input type="hidden" name="startStartTimeHidden" id="startStartTimeHidden" value="${data.startStartTimeHidden}"/>
+  	  <input type="hidden" name="startEndTimeHidden" id="startEndTimeHidden" value="${data.startEndTimeHidden}"/>
+  	  <input type="hidden" name="endStartTimeHidden" id="endStartTimeHidden" value="${data.endStartTimeHidden}"/>
+  	  <input type="hidden" name="endEndTimeHidden" id="endEndTimeHidden" value="${data.endEndTimeHidden}"/>
   	  <input type="hidden" name="projectNameHidden" id="projectNameHidden" value="${data.projectNameHidden}"/>
 			<div class='crm_edit_panel'>
 				<table class='crm_panel_table'>
@@ -87,7 +91,7 @@
 						</td>
 						<td colspan="3"  class='crm_edit_item_content'>
 							<input type="text" class="text readonly" readonly
-								value="${data.createUserName}"  />
+								value="${data.staffName}"  />
 						</td>
 					</tr>
 					<tr>
@@ -131,12 +135,6 @@
 							<td class="crm_edit_item_name"></td>
 							<td colspan="3" class='crm_edit_item_content'>
 								<div class='crm_button_sub' id="crm_button_sub">
-									<div class=" download_button_s1 left" onclick="QWPrint();"
-										id="downprintarea" style="margin-left: 130px;">
-										<img alt="" src="${path }/style/img/print.png"
-											style="margin-top: 5px; margin-left: 10px;">
-											<span style="position: absolute; color: #fff;">打印</span>
-									</div>
 									<input type="button" value="返回" class="button_grey1_s0"
 										onmousedown="this.className='button_grey1_s1'"
 										onmouseout="this.className='button_grey1_s0'"

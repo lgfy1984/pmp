@@ -159,7 +159,7 @@ public class SecurityConfigMenusAction extends BaseAction {
 			//ServletContext application = request.getSession().getServletContext();
 			//int pageSize = Integer.parseInt((String)application.getAttribute("EHRPProject_basesecurity.PAGE_SIZE"));
 			//int pageSize = BaseSecurityInit.getPageSize("PAGE_SIZE");
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_282881f5346450f401346450f4610000")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_282881f5346450f401346450f4610000"));
 			}else{

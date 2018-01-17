@@ -171,9 +171,7 @@
 		},
 		showTime : true
 	});
-	cal.manageFields("date_input1", "startTime", "%Y-%m-%d");
-	cal.manageFields("date_input2", "onlineTime", "%Y-%m-%d");
-	cal.manageFields("date_input3", "endTime", "%Y-%m-%d");
+	cal.manageFields("date_input2", "workDate", "%Y-%m-%d");
   </script>
   </body>
 </html>

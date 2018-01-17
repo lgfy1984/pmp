@@ -1,1 +1,13 @@
+/applicationContext-basehsp.xml
+/applicationContext-comm.xml
+/applicationContext-empi.xml
+/applicationContext-localbasecomm.xml
+/applicationContext-localbasehsp.xml
+/applicationContext-localbasesecurity.xml
+/applicationContext-localbaseutil.xml
+/applicationContext-pm.xml
+/applicationContext.xml
 /com/
+/conf/
+/log4j.properties
+/proxool.xml

@@ -164,7 +164,7 @@ public class HspStaffLogoutRecordAction extends Action{
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
 			
-			int pageSize = 10;
+			int pageSize = 5;
 			if(request.getSession().getAttribute("page_2828810b369603cc01369603cc481234")!=null){
 				pageSize = Integer.parseInt((String)request.getSession().getAttribute("page_2828810b369603cc01369603cc481234"));
 			}else{

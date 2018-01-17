@@ -22,8 +22,8 @@
         <property name="taskCode" type="java.lang.String">
             <column name="TASK_CODE" length="100" />
         </property>
-        <property name="longTime" type="java.lang.Integer">
-            <column name="LONG_TIME" precision="6" scale="0" />
+        <property name="longTime" type="java.lang.Double">
+            <column name="LONG_TIME" precision="6" scale="1" />
         </property>
         <property name="seqNo" type="java.lang.Integer">
             <column name="SEQ_NO" precision="6" scale="0" />
@@ -42,6 +42,9 @@
         </property>
         <property name="chargeType" type="java.lang.String">
             <column name="CHARGE_TYPE" length="40" />
+        </property>
+        <property name="lockStatus" type="java.lang.String">
+            <column name="LOCK_STATUS" length="1" />
         </property>
     </class>
 </hibernate-mapping>

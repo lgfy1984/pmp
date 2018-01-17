@@ -26,10 +26,8 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
-		<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="${path}/style/easyui/jquery.min.js"></script>
 		<script type="text/javascript" src="${path}/style/easyui/jquery.easyui.min.js"></script>
-		
 		<script type="text/javascript" src="${path}/js/default.js"></script>
 		<link rel="stylesheet" type="text/css" href="${path}/style/easyui/themes/default/easyui.css"/>
   		<link rel="stylesheet" type="text/css" href="${path}/style/easyuiUpdate.css">
@@ -40,8 +38,8 @@
 		<script type="text/javascript" src="security/include/javascript/jianbian.js"></script>
 		<link rel="stylesheet" href="include/css/open.css" />
 		<link type="text/css" rev="stylesheet" rel="stylesheet" href="include/css/form.css" />
-		<script language="javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="http://<%=request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/style/default.css">
+		<script type="text/javascript" src="include/javascript/jquery-1.4.4.min.js"></script>
 		<script language="javascript">
 		function updatePara(){
 				if(!Validator.Validate(document.forms.form,3)){
@@ -124,7 +122,7 @@
 						<label><label class="redlable">*</label>模块</label>
 					</td>
 					<td class="crm_edit_item_content" colspan="3">
-						<select name="data.securityConfigPublicId" id="securityConfigPublicId" 
+						<select name="data.securityConfigPublicId" id="securityConfigPublicId"  readonly
 						style="width: 445px;height: 26px;border:1px solid rgb(218,218,218);" class="easyui-combobox"
 						onkeypress="eventOnKeyPress('menuCode')" onkeydown="if(event.keyCode==13){event.keyCode=9}" require="true" msg="模块不能为空">
 							<%

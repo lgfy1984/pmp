@@ -102,7 +102,7 @@ public class CommConfigStafftypeAction extends BaseAction {
 			int recordCount = commConfigStafftypeService.getCount(hosform.getItemCode(), hosform.getItemName(), hosform.getInputCode(), hosform.getSeqNo());
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("cur_page");
-			int pageSize = 10;
+			int pageSize = 5;
 			//int pageSize = BaseCommInit.getPageSize("PAGE_SIZE");
 //			ServletContext application = request.getSession().getServletContext();
 //			int pageSize = Integer.parseInt((String)application.getAttribute("comm.PAGE_SIZE"));

@@ -12,6 +12,7 @@ import java.util.List;
 import com.tianjian.pm.bean.ProjectBaseinfo;
 import com.tianjian.pm.struts.form.PageForm;
 import com.tianjian.pm.struts.form.ProjectBaseInfoForm;
+import com.tianjian.pm.struts.form.ProjectWorkTimeRecordForm;
 import com.tianjian.pm.struts.form.SecurityStaffBaseinfoVo;
 
 /**
@@ -27,6 +28,17 @@ import com.tianjian.pm.struts.form.SecurityStaffBaseinfoVo;
  */
 public interface IProjectBaseinfoService  {
 	
+	
+	/**
+	*TODO
+	* @Title: checkProjectCode
+	* @param form
+	* @return
+	* @return String
+	* @throws
+	* @author LengJiong
+	*/
+	public String checkProjectCode(ProjectBaseInfoForm form);
 	/**
 	 * 初始化form
 	*
@@ -77,7 +89,7 @@ public interface IProjectBaseinfoService  {
 	* @throws
 	* @author zhoum
 	 */
-	public void delete(ProjectBaseInfoForm form);
+	public String delete(ProjectBaseInfoForm form);
 	/**
 	 * 条件查询咨询信息条数
 	*
@@ -96,7 +108,10 @@ public interface IProjectBaseinfoService  {
 	* @author lengj
 	 */
 	public int getProjectBaseInfoCount(String projectClass, String classId,
-			String onlineTime, String startTime, String endTime, String userId);
+			String onlineStartTime, String onlineEndTime, 
+			String startStartTime, String startEndTime, 
+			String endStartTime, String endEndTime, 
+			String userId);
 	/**
 	 * 修改初始化
 	*
@@ -153,4 +168,5 @@ public interface IProjectBaseinfoService  {
 	    */
 	    public List<SecurityStaffBaseinfoVo> findStaffList(ProjectBaseInfoForm smForm, PageForm page);
 		public int findStaffCount(ProjectBaseInfoForm form, PageForm page);
+		public void saveExcelData(ProjectBaseInfoForm form);
 }

@@ -163,7 +163,7 @@ public class CommConfigGbDrugclassAction extends Action{
 
 			pb.setCount(recordCount);
 			String pageString = request.getParameter("page");
-			int pageSize = 10;
+			int pageSize = 5;
 			pb.setPageSize(pageSize);
 			if(pageString == null || pageString.equals("") || pageString.equals("0")){
 				page = 1;

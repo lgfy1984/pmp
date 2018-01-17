@@ -23,7 +23,7 @@ public class SearchSuggestServiceImpl implements ISearchSuggestService {
 			List<Object[]> datalist = null;
 			String queryStr = SearchSuggestInit.getProperty(ssid);
 			String pageSizeStr = SearchSuggestInit.getProperty("PAGE_SIZE");
-			int pageSize = 10;
+			int pageSize = 5;
 			if (pageSizeStr != null) {
 				pageSize = Integer.valueOf(pageSizeStr);
 			}

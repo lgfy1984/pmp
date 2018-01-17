@@ -17,7 +17,7 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 
 	private String taskCode;
 
-	private Integer longTime;
+	private Double longTime;
 
 	private Double costs;
 
@@ -39,7 +39,7 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 
 	/** full constructor */
 	public ProjectFinanceRecord(String projectBaseinfoId, String staffCode,
-			Timestamp workDate, String taskCode, Integer longTime, Double costs,
+			Timestamp workDate, String taskCode, Double longTime, Double costs,
 			Integer seqNo, Boolean status, Timestamp createDate,
 			String createUserId, String createUserName, String chargeType) {
 		this.projectBaseinfoId = projectBaseinfoId;
@@ -97,11 +97,11 @@ public class ProjectFinanceRecord implements java.io.Serializable {
 		this.taskCode = taskCode;
 	}
 
-	public Integer getLongTime() {
+	public Double getLongTime() {
 		return this.longTime;
 	}
 
-	public void setLongTime(Integer longTime) {
+	public void setLongTime(Double longTime) {
 		this.longTime = longTime;
 	}
 

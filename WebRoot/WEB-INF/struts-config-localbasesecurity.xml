@@ -165,6 +165,7 @@
 			<forward name="queryDetail" path="/security/securitystaffbaseinfo/listdetail.jsp" />
 			<forward name="queryRegisterCode" path="/security/securitystaffbaseinfo/listregisterCode.jsp" />
 			<forward name="loginDetail" path="/security/securitystaffbaseinfo/logindetail.jsp" />
+			<forward name="statlist" path="/pm/stat/stateplist.jsp" />
 		</action>
 		
 		<!-- 密码修改 -->

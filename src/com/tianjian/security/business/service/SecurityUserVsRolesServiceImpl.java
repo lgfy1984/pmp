@@ -21,12 +21,12 @@ public class SecurityUserVsRolesServiceImpl implements ISecurityUserVsRolesServi
 	}
 	
 
-	public int count(SecurityUserVsRolesForm form,String staffType,String hspConfigBaseinfoId) {
-		return dao.count(form.getUserId(), form.getUserName(), form.getHspConfigBaseinfoId(),form.getUserInput(),staffType,hspConfigBaseinfoId);
+	public int count(SecurityUserVsRolesForm form,String staffType,String hspConfigBaseinfoId, String tenantId) {
+		return dao.count(form.getUserId(), form.getUserName(), form.getHspConfigBaseinfoId(),form.getUserInput(),staffType,hspConfigBaseinfoId,tenantId);
 	}
 	
 	public void getInitData(SecurityUserVsRolesForm form,String staffType,String hspConfigBaseinfoId,int count, int pageSize){
-		List<?> userList = dao.getUsers(form.getUserId(), form.getUserName(), form.getHspConfigBaseinfoId(),form.getUserInput(),staffType,hspConfigBaseinfoId,count,pageSize);
+		List<?> userList = dao.getUsers(form.getUserId(), form.getUserName(), form.getHspConfigBaseinfoId(),form.getUserInput(),staffType,hspConfigBaseinfoId,form.getTenantId(),count,pageSize);
 		if(userList != null){
 			String[]  userIds  = new String[userList.size()];
 			String[] userNames = new String[userList.size()];
@@ -36,7 +36,7 @@ public class SecurityUserVsRolesServiceImpl implements ISecurityUserVsRolesServi
 				userIds[i] = this.transNullToString(((Object[]) userList.get(i))[0]);
 				userNames[i] = this.transNullToString(((Object[]) userList.get(i))[1]);
 				users[i] = this.transNullToString(((Object[]) userList.get(i))[2]);
-				hspConfigs[i] = this.transNullToString(((Object[]) userList.get(i))[3]);
+				hspConfigs[i] = "";
 			}
 			form.setUserIds(userIds);
 			form.setUserNames(userNames);

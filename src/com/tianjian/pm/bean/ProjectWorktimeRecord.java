@@ -17,7 +17,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	private String taskCode;
 
-	private Integer longTime;
+	private Double longTime;
 
 	private Integer seqNo;
 
@@ -31,15 +31,17 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	private String chargeType;
 
+	private String lockStatus;
+
 	// Constructors
 	/** default constructor */
 	public ProjectWorktimeRecord() {}
 
 	/** full constructor */
 	public ProjectWorktimeRecord(String projectBaseinfoId, String staffCode,
-			Timestamp workDate, String taskCode, Integer longTime,
-			Integer seqNo, String status, Timestamp createDate,
-			String createUserId, String createUserName, String chargeType) {
+			Timestamp workDate, String taskCode, Double longTime, Integer seqNo,
+			String status, Timestamp createDate, String createUserId,
+			String createUserName, String chargeType, String lockStatus) {
 		this.projectBaseinfoId = projectBaseinfoId;
 		this.staffCode = staffCode;
 		this.workDate = workDate;
@@ -51,6 +53,7 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 		this.createUserId = createUserId;
 		this.createUserName = createUserName;
 		this.chargeType = chargeType;
+		this.lockStatus = lockStatus;
 	}
 
 	// Property accessors
@@ -94,11 +97,11 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 		this.taskCode = taskCode;
 	}
 
-	public Integer getLongTime() {
+	public Double getLongTime() {
 		return this.longTime;
 	}
 
-	public void setLongTime(Integer longTime) {
+	public void setLongTime(Double longTime) {
 		this.longTime = longTime;
 	}
 
@@ -148,5 +151,13 @@ public class ProjectWorktimeRecord implements java.io.Serializable {
 
 	public void setChargeType(String chargeType) {
 		this.chargeType = chargeType;
+	}
+
+	public String getLockStatus() {
+		return this.lockStatus;
+	}
+
+	public void setLockStatus(String lockStatus) {
+		this.lockStatus = lockStatus;
 	}
 }

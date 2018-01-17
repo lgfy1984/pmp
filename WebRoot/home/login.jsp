@@ -178,12 +178,12 @@
 		                               	</div>
 		                               	<div  class="td_input ">
 		                               		<div style="float: left;"><input name="enter.x2" type="button" class="inp_L1" id="enter.x" tabindex="4" onclick="checkUser()" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body3" bundle="conf.home.Message"/>' /></div>
-											<div style="float: right;"><input name="enter.x3" type="button" class="inp_L1" id="enter.x2" tabindex="4" onclick="window.location='<%=request.getContextPath()%>/security/SecuritySystemUsersRegist.do?verbId=registInit'" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body5" bundle="conf.home.Message"/>' /></div>		
+<%-- 											<div style="float: right;"><input name="enter.x3" type="button" class="inp_L1" id="enter.x2" tabindex="4" onclick="window.location='<%=request.getContextPath()%>/security/SecuritySystemUsersRegist.do?verbId=registInit'" onmousedown="this.className='inp_L3'" onmouseover="this.className='inp_L2'" onmouseout="this.className='inp_L1'" value='<bean:message key="home.jsp.login.body5" bundle="conf.home.Message"/>' /></div>		 --%>
 		                               	</div>
 	                               	</div>
-	                               	 <div class="newfpsw" >
+	                               	 <!-- <div class="newfpsw" >
 													<a href="security/securitysystemusers/find_password.jsp">忘记密码了?</a>
-                                             </div>
+                                             </div> -->
                                </div>
 										<%-- <table width="236" height="102" class="newtable" border="0" cellpadding="0" cellspacing="0" align="left" >
 										    <tr >

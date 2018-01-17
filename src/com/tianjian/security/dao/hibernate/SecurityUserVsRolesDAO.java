@@ -22,21 +22,16 @@ public class SecurityUserVsRolesDAO extends HibernateDaoSupport implements ISecu
 	
 	private static final Log log = LogFactory.getLog(SecurityUserVsRolesDAO.class);
 	
-	public List<?> getUsers(String userId,String userName, String hspConfigBaseinfoId, String userInput, String staffType, String staffHspId, int count, int pageSize){
+	public List<?> getUsers(String userId,String userName, String hspConfigBaseinfoId, String userInput, String staffType, String staffHspId, String tenantId, int count, int pageSize){
 		try {
-        	StringBuilder sql = new StringBuilder(" select a.id, a.staffCode, a.name, c.itemName")
-			        	.append(" from SecurityStaffBaseinfo a ,HspConfigBaseinfoLocalBase c")
-						.append(" where c.id = a.hspConfigBaseinfoId");
-			sql.append(" and (c.id = :staffHspId");
+        	StringBuilder sql = new StringBuilder(" select a.id, a.staffCode, a.name")
+			        	.append(" from SecurityStaffBaseinfo a where 1=1 ");
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("staffHspId", staffHspId);
-			List<String> subHspIdList = this.getSubHspIds(staffHspId);
-			if(subHspIdList != null && subHspIdList.size() > 0){
-				for(String subHspId : subHspIdList){
-					sql.append(" or c.id = '").append(subHspId).append("'");
-				}
-			}
-			sql.append(")");
+			
+			if(tenantId.trim().length() > 0){
+	            sql.append(" and a.tenantId = :tenantId");
+	            map.put("tenantId", tenantId);
+	        }
 			if(userId.trim().length() > 0){
 			sql.append(" and lower(a.staffCode) like :staffCode");
 			map.put("staffCode", "%" + userId.trim().toLowerCase() + "%");
@@ -49,15 +44,10 @@ public class SecurityUserVsRolesDAO extends HibernateDaoSupport implements ISecu
 			sql.append(" and lower(a.inputCode) like :inputCode");
 			map.put("inputCode", "%" + userInput.trim().toLowerCase() + "%");
 			}
-			
-			if(hspConfigBaseinfoId.trim().length() > 0){
-			sql.append(" and a.hspConfigBaseinfoId = :hspConfigBaseinfoId");
-			map.put("hspConfigBaseinfoId", hspConfigBaseinfoId.trim());
-			}
 			//如果是普通人员 则只显示普通操作人员，屏蔽掉超级管理员
-			if(staffType!=null&&staffType.trim().equals("0")){
-			sql.append(" and a.staffType=0");
-			}
+//			if(staffType!=null&&staffType.trim().equals("0")){
+//			sql.append(" and a.staffType=0");
+//			}
 			sql.append(" order by a.name");
 			Query q = this.getSession().createQuery(sql.toString());
 			for(Map.Entry<String, Object> entry : map.entrySet()){
@@ -72,21 +62,16 @@ public class SecurityUserVsRolesDAO extends HibernateDaoSupport implements ISecu
         }
 	}
     
-	public int count(String userId, String userName, String hspConfigBaseinfoId,String userInput,String staffType,String staffHspId)  {
+	public int count(String userId, String userName, String hspConfigBaseinfoId,String userInput,String staffType,String staffHspId, String tenantId)  {
 		try{
 			StringBuilder sql = new StringBuilder("select count(*)")
-								.append(" from SecurityStaffBaseinfo a ,HspConfigBaseinfoLocalBase c")
-								.append(" where c.id = a.hspConfigBaseinfoId");
-			sql.append(" and (c.id = :staffHspId");
+								.append(" from SecurityStaffBaseinfo a where 1=1 ");
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("staffHspId", staffHspId);
-			List<String> subHspIdList = this.getSubHspIds(staffHspId);
-			if(subHspIdList != null && subHspIdList.size() > 0){
-				for(String subHspId : subHspIdList){
-					sql.append(" or c.id = '").append(subHspId).append("'");
-				}
-			}
-			sql.append(")");
+			
+			if(tenantId.trim().length() > 0){
+	            sql.append(" and a.tenantId = :tenantId");
+	            map.put("tenantId", tenantId);
+	        }
 	    	if(userId.trim().length() > 0){
 	    		sql.append(" and lower(a.staffCode) like :staffCode");
 	    		map.put("staffCode", "%" + userId.trim().toLowerCase() + "%");
@@ -100,14 +85,10 @@ public class SecurityUserVsRolesDAO extends HibernateDaoSupport implements ISecu
 	    		map.put("inputCode", "%" + userInput.trim().toLowerCase() + "%");
 	    	}
 	    	
-	    	if(hspConfigBaseinfoId.trim().length() > 0){
-	    		sql.append(" and a.hspConfigBaseinfoId = :hspConfigBaseinfoId");
-	    		map.put("hspConfigBaseinfoId", hspConfigBaseinfoId.trim());
-	    	}
 	    	//如果是普通人员 则只显示普通操作人员，屏蔽掉超级管理员
-	    	if(staffType!=null&&staffType.trim().equals("0")){
-				sql.append(" and a.staffType=0");
-			}
+//	    	if(staffType!=null&&staffType.trim().equals("0")){
+//				sql.append(" and a.staffType=0");
+//			}
 	    	sql.append(" order by a.name");
 	    	Query q = this.getSession().createQuery(sql.toString());
 	    	for(Map.Entry<String, Object> entry : map.entrySet()){

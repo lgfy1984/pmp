@@ -116,13 +116,13 @@ public class CommConfigStafftypeDAO extends HibernateDaoSupport implements  ICom
 	       
 	    
 	    	if(itemCode.trim().length() > 0){
-	    		sql += " and a.itemCode = '" + itemCode.trim() + "' ";
+	    		sql += " and a.itemCode like '%" + itemCode.trim()+ "%' ";
 	    	}
 	    	if(itemName.trim().length() > 0){
-	    		sql += " and lower(a.itemName) like '%" + itemName.trim().toLowerCase() + "%' ";
+	    		sql += " and a.itemName like '%" + itemName.trim()+ "%' ";
 	    	}
 	    	if(inputCode.trim().length() > 0){
-	    		sql += " and a.inputCode like '" + inputCode.trim().toUpperCase() + "%' ";
+	    		sql += " and a.inputCode like '" + inputCode.trim() + "%' ";
 	    	}
 	    	if(seqNo.trim().length() > 0){
 	    		sql += " and a.seqNo = '" + seqNo.trim() + "' ";
@@ -151,13 +151,14 @@ public class CommConfigStafftypeDAO extends HibernateDaoSupport implements  ICom
 	    	sql += " from CommConfigStafftype a  where 1=1  ";
 	    	
 	    	if(itemCode.trim().length() > 0){
-	    		sql += " and a.itemCode = '" + itemCode.trim() + "' ";
+	    		sql += " and a.itemCode like '%" + itemCode.trim()+ "%' ";
 	    	}
+
 	    	if(itemName.trim().length() > 0){
-	    		sql += " and a.itemName like '%" + itemName.trim() + "%' ";
+	    		sql += " and a.itemName like '%" + itemName.trim()+ "%' ";
 	    	}
 	    	if(inputCode.trim().length() > 0){
-	    		sql += " and a.inputCode like '" + inputCode.trim().toUpperCase() + "%' ";
+	    		sql += " and a.inputCode like '" + inputCode + "%' ";
 	    	}
 	    	if(seqNo.trim().length() > 0){
 	    		sql += " and a.seqNo = '" + seqNo.trim() + "' ";

@@ -228,19 +228,11 @@ function showMessage(message){
 			<div class='crm_content_div'>
 
 				<div class='crm_search_div'>
-					<div class="crm_input_item">
-						<span><bean:message key="security.jsp.commom.hspConfigBaseinfoName" bundle="security"/>：</span>
-						<input type="text"  id="itemName" name="itemName" class="crm_search_input_text"
-						value="<%=securityStaffPasswordInit.getItemName()%>"  onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)"
-						onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getHspName_00000000004')"
-						onkeydown="huanhang(event)"/>
-					</div>
 					<div class="crm_input_item">	
 						<span><bean:message key="security.jsp.commom.staffCode" bundle="security"/>：</span>
-						<input name="staffId" id="staffId" onKeyDown="huiche()" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
+						<input name="staffId2" id="staffId2" onKeyDown="huiche()" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
 								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" class="crm_search_input_text"
-							type="text" value="<%=securityStaffPasswordInit.getStaffId()%>" /> 
+							type="text" value="<%=securityStaffPasswordInit.getStaffId2()%>" /> 
 					</div>
 					<div class="crm_input_item">	
 						<span><bean:message key="security.jsp.commom.name" bundle="security"/>：</span>
@@ -268,9 +260,6 @@ function showMessage(message){
 									序号
 								</td>
 								<td>
-									卫生机构
-								</td>
-								<td>
 									用户名
 								</td>
 								<td>
@@ -278,9 +267,6 @@ function showMessage(message){
 								</td>
 								<td>
 									性别
-								</td>
-								<td>
-									激活时间
 								</td>
 								<td>
 									有效时间
@@ -297,11 +283,9 @@ function showMessage(message){
 							for (int i = 0; i < securityStaffPasswordInit.getIdList().length; i++) {
 					%><tr >
 						<td style="text-align:center;"><%=(curPage-1)*pageSize+i+1%></td>
-						<td ><%=securityStaffPasswordInit.getItemNameList()[i]%></td>
 						<td><%=securityStaffPasswordInit.getStaffIdList()[i]%></td>
 						<td ><%=securityStaffPasswordInit.getNameList()[i]%></td>
 						<td ><%=securityStaffPasswordInit.getSexList()[i]%></td>
-						<td ><%=securityStaffPasswordInit.getRegTimes()[i]%></td>
 						<td ><%=securityStaffPasswordInit.getStopTimes()[i]%></td>
 						<td style="cursor: pointer;">
 									<input type="button" class="button_green1_s1"  value="重置密码"

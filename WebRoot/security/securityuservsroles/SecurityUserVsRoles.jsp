@@ -265,10 +265,9 @@ function securityUserVsRoles_pageSearch(){
 	document.form.submit();
 }
 
-
 </script>
 	</head>
-	<body>
+	<body >
 		<form name="form" method="post" action="security/security_securityUserVsRoles.do">
 			<input type="hidden" name="verbId" value="<%=securityUserVsRolesForm.getVerbId()%>" />
 			<input type="hidden" name="totalRows" value="<%=securityUserVsRolesForm.getRoleId() != null ? securityUserVsRolesForm.getRoleId().length : 0%>" />
@@ -290,12 +289,7 @@ function securityUserVsRoles_pageSearch(){
 						<span id="spanOutput" class="spanTextDropdown" style="display: none;"></span>
 				</div>
 				<div class="crm_input_item">
-					<span><bean:message key="security.jsp.commom.hspConfigBaseinfoName" bundle="security"/></span>
-					<input type="text" class="crm_search_input_text" id="hspConfigBaseinfoName" onblur="fEvent('blur',this)" onmouseover="fEvent('mouseover',this)" 
-								onfocus="fEvent('focus',this)" onmouseout="fEvent('mouseout',this)" name="hspConfigBaseinfoName" value="<%=securityUserVsRolesForm.getHspConfigBaseinfoName()%>"
-							onkeyup="GiveOptions(event, '<%=request.getContextPath()%>/searchSuggest.do', 'getHspName_00000000004', 'hspConfigBaseinfoId')"
-							onkeydown="huanhang(event)" />
-					<input type="hidden" name="hspConfigBaseinfoId" id="hspConfigBaseinfoId" value="<%=securityUserVsRolesForm.getHspConfigBaseinfoId()%>" />
+					
 					<input type="button" class="button_blue1_s0" onmouseout="this.className='button_blue1_s0'" onmousedown="this.className='button_blue1_s1'" value="<bean:message key="security.jsp.securityConfigParamClass.query.button1" bundle="security"/>" name="btnsubmit" onclick="securityUserVsRoles_pageSearch()" />
 					<%
 				if (securityUserVsRolesForm.getRoleId() != null && securityUserVsRolesForm.getRoleId().length > 0 && securityUserVsRolesForm.getUserIds() != null && securityUserVsRolesForm.getUserIds().length > 0) {
